@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using INMETRO.CIPP.WEB.Models;
+using INMETRO.CIPP.WEB.ServiceReference1;
+using System.Linq;
 
 namespace INMETRO.CIPP.WEB.Controllers
 {
@@ -14,42 +16,42 @@ namespace INMETRO.CIPP.WEB.Controllers
         // GET: Login
         public ActionResult Login()
         {
-            ViewBag.Title = "Login Page";
+          
             return View();
             
         }
 
         [HttpPost]
-        public ActionResult LogOn(LogonModel model, String returnUrl)
+        public ActionResult Login(LogonModel model, String returnUrl)
         {
             String UsuarioCorrente = "";
             if (ModelState.IsValid)
             {
 
-                //var autenticacao = new AutenticacaoServicoClient("BasicHttpBinding_IAutenticacaoServico");
+                var autenticacao = new AutenticacaoServicoClient("BasicHttpBinding_IAutenticacaoServico");
                 var token = ConfigurationManager.AppSettings["accessToken"];
 
                 try
                 {
 
 
-                    //var usuario = autenticacao.AutenticarUsuario(token,
-                    //    new Login { UserName = model.Usuario, Senha = model.Senha });
+                    var usuario = autenticacao.AutenticarUsuario(token,
+                        new Login { UserName = model.Usuario, Senha = model.Senha });
 
-                    //if (usuario != null)
-                    //{
-                    //    CriarCookie(usuario.Nome.Substring(0, usuario.Nome.IndexOf(" ")),
-                    //        usuario.Perfis.Select(p => p.CodigoPerfil.Trim()).ToList());
-                    //    Session["userLogin"] = model.Usuario;
-                    //    Session["Usuario"] = usuario;
-                    //    UsuarioCorrente = usuario.Nome;
+                    if (usuario != null)
+                    {
+                        CriarCookie(usuario.Nome.Substring(0, usuario.Nome.IndexOf(" ")),
+                            usuario.Perfis.Select(p => p.CodigoPerfil.Trim()).ToList());
+                        Session["userLogin"] = model.Usuario;
+                        Session["Usuario"] = usuario;
+                        UsuarioCorrente = usuario.Nome;
 
-                    //    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/") &&
-                    //        !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
-                    //    {
-                    //        return RedirectToAction(returnUrl);
-                    //    }
-                    //}
+                        if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/") &&
+                            !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                        {
+                            return RedirectToAction(returnUrl);
+                        }
+                    }
                     return RedirectToAction("Download", "Download", UsuarioCorrente);
                 }
                 catch (Exception ex)
@@ -60,6 +62,11 @@ namespace INMETRO.CIPP.WEB.Controllers
             }
 
             return View("Login", UsuarioCorrente);
+        }
+
+        private void CriarCookie(string v, object p)
+        {
+            throw new NotImplementedException();
         }
 
         private void CriarCookie(String nomeUsuario, List<string> perfis)

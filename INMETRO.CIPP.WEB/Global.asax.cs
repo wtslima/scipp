@@ -14,6 +14,7 @@ using INMETRO.DIOIS.INSPECAO.WEB;
 using SimpleInjector;
 using SimpleInjector.Integration.Web;
 using SimpleInjector.Integration.Web.Mvc;
+using INMETRO.CIPP.WEB.Agendamento;
 
 namespace INMETRO.CIPP.WEB
 {
@@ -25,6 +26,8 @@ namespace INMETRO.CIPP.WEB
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            JobScheduler.Start();
 
             var container = new Container();
             container.Options.DefaultScopedLifestyle = new WebRequestLifestyle();

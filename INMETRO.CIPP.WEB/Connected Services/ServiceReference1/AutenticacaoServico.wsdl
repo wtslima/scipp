@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://inmetro.gov.br/ControleAcesso" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://inmetro.gov.br/ControleAcesso" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://inmetro.gov.br/ControleAcesso/Imports">
+      <xsd:import schemaLocation="http://controleacesso-d.inmetro.local/AutenticacaoServico.svc?xsd=xsd0" namespace="http://inmetro.gov.br/ControleAcesso" />
+      <xsd:import schemaLocation="http://controleacesso-d.inmetro.local/AutenticacaoServico.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://controleacesso-d.inmetro.local/AutenticacaoServico.svc?xsd=xsd2" namespace="http://inmetro.gov.br/ControleAcesso/DataContracts" />
+      <xsd:import schemaLocation="http://controleacesso-d.inmetro.local/AutenticacaoServico.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/ControleAcessoService.DataContracts" />
+      <xsd:import schemaLocation="http://controleacesso-d.inmetro.local/AutenticacaoServico.svc?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://controleacesso-d.inmetro.local/AutenticacaoServico.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/ControleAcessoService.Elemento" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IAutenticacaoServico_TodosUsuarios_InputMessage">
+    <wsdl:part name="parameters" element="tns:TodosUsuarios" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_TodosUsuarios_OutputMessage">
+    <wsdl:part name="parameters" element="tns:TodosUsuariosResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_ObterUsuario_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObterUsuario" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_ObterUsuario_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObterUsuarioResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_ObterTodosUsuarios_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObterTodosUsuarios" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_ObterTodosUsuarios_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObterTodosUsuariosResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_ObterTodosUsuarios_TokenInvalidoFaultFault_FaultMessage">
+    <wsdl:part xmlns:q1="http://schemas.datacontract.org/2004/07/ControleAcessoService.DataContracts" name="detail" element="q1:TokenInvalidoFault" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_AutenticarUsuario_InputMessage">
+    <wsdl:part name="parameters" element="tns:AutenticarUsuario" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_AutenticarUsuario_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AutenticarUsuarioResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_AutenticarUsuarioAnonimo_InputMessage">
+    <wsdl:part name="parameters" element="tns:AutenticarUsuarioAnonimo" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_AutenticarUsuarioAnonimo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AutenticarUsuarioAnonimoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_AutenticarUsuarioExterno_InputMessage">
+    <wsdl:part name="parameters" element="tns:AutenticarUsuarioExterno" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_AutenticarUsuarioExterno_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AutenticarUsuarioExternoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_Autenticar_InputMessage">
+    <wsdl:part name="parameters" element="tns:Autenticar" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_Autenticar_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AutenticarResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_SolicitarSenhaTemporaria_InputMessage">
+    <wsdl:part name="parameters" element="tns:SolicitarSenhaTemporaria" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_SolicitarSenhaTemporaria_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SolicitarSenhaTemporariaResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_AtualizarPerfis_InputMessage">
+    <wsdl:part name="parameters" element="tns:AtualizarPerfis" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_AtualizarPerfis_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AtualizarPerfisResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_AlterarSenhaUsuarioExterno_InputMessage">
+    <wsdl:part name="parameters" element="tns:AlterarSenhaUsuarioExterno" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_AlterarSenhaUsuarioExterno_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AlterarSenhaUsuarioExternoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_PerfisSistema_InputMessage">
+    <wsdl:part name="parameters" element="tns:PerfisSistema" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_PerfisSistema_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PerfisSistemaResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_ObterListaPerfisUsuarioExterno_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObterListaPerfisUsuarioExterno" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_ObterListaPerfisUsuarioExterno_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObterListaPerfisUsuarioExternoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_VerificacaoPeriodicaServico_InputMessage">
+    <wsdl:part name="parameters" element="tns:VerificacaoPeriodicaServico" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_VerificacaoPeriodicaServico_OutputMessage">
+    <wsdl:part name="parameters" element="tns:VerificacaoPeriodicaServicoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_CriarUsuarioExterno_InputMessage">
+    <wsdl:part name="parameters" element="tns:CriarUsuarioExterno" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_CriarUsuarioExterno_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CriarUsuarioExternoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_CriarUsuario_InputMessage">
+    <wsdl:part name="parameters" element="tns:CriarUsuario" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_CriarUsuario_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CriarUsuarioResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_AssociarUsuarioAoSistemaPerfil_InputMessage">
+    <wsdl:part name="parameters" element="tns:AssociarUsuarioAoSistemaPerfil" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_AssociarUsuarioAoSistemaPerfil_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AssociarUsuarioAoSistemaPerfilResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_AssociarUsuarioAoSistemaPerfil_UsuarioInexistenteFaultFault_FaultMessage">
+    <wsdl:part xmlns:q2="http://schemas.datacontract.org/2004/07/ControleAcessoService.DataContracts" name="detail" element="q2:UsuarioInexistenteFault" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_AssociarUsuarioAoSistemaPerfil_TokenInvalidoFaultFault_FaultMessage">
+    <wsdl:part xmlns:q3="http://schemas.datacontract.org/2004/07/ControleAcessoService.DataContracts" name="detail" element="q3:TokenInvalidoFault" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_BuscarUsuarioExterno_InputMessage">
+    <wsdl:part name="parameters" element="tns:BuscarUsuarioExterno" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_BuscarUsuarioExterno_OutputMessage">
+    <wsdl:part name="parameters" element="tns:BuscarUsuarioExternoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_AtivarDesativarUsuarioExterno_InputMessage">
+    <wsdl:part name="parameters" element="tns:AtivarDesativarUsuarioExterno" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_AtivarDesativarUsuarioExterno_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AtivarDesativarUsuarioExternoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_AtivarDesativarUsuarioInterno_InputMessage">
+    <wsdl:part name="parameters" element="tns:AtivarDesativarUsuarioInterno" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_AtivarDesativarUsuarioInterno_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AtivarDesativarUsuarioInternoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_ObterPerfisSistema_InputMessage">
+    <wsdl:part name="parameters" element="tns:ObterPerfisSistema" />
+  </wsdl:message>
+  <wsdl:message name="IAutenticacaoServico_ObterPerfisSistema_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ObterPerfisSistemaResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IAutenticacaoServico">
+    <wsdl:operation name="TodosUsuarios">
+      <wsdl:input wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/TodosUsuarios" message="tns:IAutenticacaoServico_TodosUsuarios_InputMessage" />
+      <wsdl:output wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/TodosUsuariosResponse" message="tns:IAutenticacaoServico_TodosUsuarios_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObterUsuario">
+      <wsdl:input wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/ObterUsuario" message="tns:IAutenticacaoServico_ObterUsuario_InputMessage" />
+      <wsdl:output wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/ObterUsuarioResponse" message="tns:IAutenticacaoServico_ObterUsuario_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObterTodosUsuarios">
+      <wsdl:input wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/ObterTodosUsuarios" message="tns:IAutenticacaoServico_ObterTodosUsuarios_InputMessage" />
+      <wsdl:output wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/ObterTodosUsuariosResponse" message="tns:IAutenticacaoServico_ObterTodosUsuarios_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/ObterTodosUsuariosTokenInvalidoFaultFault" name="TokenInvalidoFaultFault" message="tns:IAutenticacaoServico_ObterTodosUsuarios_TokenInvalidoFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AutenticarUsuario">
+      <wsdl:input wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AutenticarUsuario" message="tns:IAutenticacaoServico_AutenticarUsuario_InputMessage" />
+      <wsdl:output wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AutenticarUsuarioResponse" message="tns:IAutenticacaoServico_AutenticarUsuario_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AutenticarUsuarioAnonimo">
+      <wsdl:input wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AutenticarUsuarioAnonimo" message="tns:IAutenticacaoServico_AutenticarUsuarioAnonimo_InputMessage" />
+      <wsdl:output wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AutenticarUsuarioAnonimoResponse" message="tns:IAutenticacaoServico_AutenticarUsuarioAnonimo_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AutenticarUsuarioExterno">
+      <wsdl:input wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AutenticarUsuarioExterno" message="tns:IAutenticacaoServico_AutenticarUsuarioExterno_InputMessage" />
+      <wsdl:output wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AutenticarUsuarioExternoResponse" message="tns:IAutenticacaoServico_AutenticarUsuarioExterno_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Autenticar">
+      <wsdl:input wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/Autenticar" message="tns:IAutenticacaoServico_Autenticar_InputMessage" />
+      <wsdl:output wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AutenticarResponse" message="tns:IAutenticacaoServico_Autenticar_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SolicitarSenhaTemporaria">
+      <wsdl:input wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/SolicitarSenhaTemporaria" message="tns:IAutenticacaoServico_SolicitarSenhaTemporaria_InputMessage" />
+      <wsdl:output wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/SolicitarSenhaTemporariaResponse" message="tns:IAutenticacaoServico_SolicitarSenhaTemporaria_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AtualizarPerfis">
+      <wsdl:input wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AtualizarPerfis" message="tns:IAutenticacaoServico_AtualizarPerfis_InputMessage" />
+      <wsdl:output wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AtualizarPerfisResponse" message="tns:IAutenticacaoServico_AtualizarPerfis_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AlterarSenhaUsuarioExterno">
+      <wsdl:input wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AlterarSenhaUsuarioExterno" message="tns:IAutenticacaoServico_AlterarSenhaUsuarioExterno_InputMessage" />
+      <wsdl:output wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AlterarSenhaUsuarioExternoResponse" message="tns:IAutenticacaoServico_AlterarSenhaUsuarioExterno_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="PerfisSistema">
+      <wsdl:input wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/PerfisSistema" message="tns:IAutenticacaoServico_PerfisSistema_InputMessage" />
+      <wsdl:output wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/PerfisSistemaResponse" message="tns:IAutenticacaoServico_PerfisSistema_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObterListaPerfisUsuarioExterno">
+      <wsdl:input wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/ObterListaPerfisUsuarioExterno" message="tns:IAutenticacaoServico_ObterListaPerfisUsuarioExterno_InputMessage" />
+      <wsdl:output wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/ObterListaPerfisUsuarioExternoResponse" message="tns:IAutenticacaoServico_ObterListaPerfisUsuarioExterno_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="VerificacaoPeriodicaServico">
+      <wsdl:input wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/VerificacaoPeriodicaServico" message="tns:IAutenticacaoServico_VerificacaoPeriodicaServico_InputMessage" />
+      <wsdl:output wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/VerificacaoPeriodicaServicoResponse" message="tns:IAutenticacaoServico_VerificacaoPeriodicaServico_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CriarUsuarioExterno">
+      <wsdl:input wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/CriarUsuarioExterno" message="tns:IAutenticacaoServico_CriarUsuarioExterno_InputMessage" />
+      <wsdl:output wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/CriarUsuarioExternoResponse" message="tns:IAutenticacaoServico_CriarUsuarioExterno_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CriarUsuario">
+      <wsdl:input wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/CriarUsuario" message="tns:IAutenticacaoServico_CriarUsuario_InputMessage" />
+      <wsdl:output wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/CriarUsuarioResponse" message="tns:IAutenticacaoServico_CriarUsuario_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AssociarUsuarioAoSistemaPerfil">
+      <wsdl:input wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AssociarUsuarioAoSistemaPerfil" message="tns:IAutenticacaoServico_AssociarUsuarioAoSistemaPerfil_InputMessage" />
+      <wsdl:output wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AssociarUsuarioAoSistemaPerfilResponse" message="tns:IAutenticacaoServico_AssociarUsuarioAoSistemaPerfil_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AssociarUsuarioAoSistemaPerfilUsuarioInexistenteFaultFault" name="UsuarioInexistenteFaultFault" message="tns:IAutenticacaoServico_AssociarUsuarioAoSistemaPerfil_UsuarioInexistenteFaultFault_FaultMessage" />
+      <wsdl:fault wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AssociarUsuarioAoSistemaPerfilTokenInvalidoFaultFault" name="TokenInvalidoFaultFault" message="tns:IAutenticacaoServico_AssociarUsuarioAoSistemaPerfil_TokenInvalidoFaultFault_FaultMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscarUsuarioExterno">
+      <wsdl:input wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/BuscarUsuarioExterno" message="tns:IAutenticacaoServico_BuscarUsuarioExterno_InputMessage" />
+      <wsdl:output wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/BuscarUsuarioExternoResponse" message="tns:IAutenticacaoServico_BuscarUsuarioExterno_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AtivarDesativarUsuarioExterno">
+      <wsdl:input wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AtivarDesativarUsuarioExterno" message="tns:IAutenticacaoServico_AtivarDesativarUsuarioExterno_InputMessage" />
+      <wsdl:output wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AtivarDesativarUsuarioExternoResponse" message="tns:IAutenticacaoServico_AtivarDesativarUsuarioExterno_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AtivarDesativarUsuarioInterno">
+      <wsdl:input wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AtivarDesativarUsuarioInterno" message="tns:IAutenticacaoServico_AtivarDesativarUsuarioInterno_InputMessage" />
+      <wsdl:output wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AtivarDesativarUsuarioInternoResponse" message="tns:IAutenticacaoServico_AtivarDesativarUsuarioInterno_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ObterPerfisSistema">
+      <wsdl:input wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/ObterPerfisSistema" message="tns:IAutenticacaoServico_ObterPerfisSistema_InputMessage" />
+      <wsdl:output wsaw:Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/ObterPerfisSistemaResponse" message="tns:IAutenticacaoServico_ObterPerfisSistema_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>

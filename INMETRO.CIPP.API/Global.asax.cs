@@ -35,10 +35,10 @@ namespace INMETRO.CIPP.API
             var container = new Container();
             container.Options.DefaultScopedLifestyle = new WebRequestLifestyle();
 
-            container.Register<IDownloadServico, DownloadServico>(Lifestyle.Scoped);
+            container.Register<DownloadServico, DownloadServico>(Lifestyle.Scoped);
             container.Register<IOrganismoRepositorio, OrganismoRepositorio>(Lifestyle.Scoped);
             container.Register<IGerenciarFtp, GerenciarFtp>(Lifestyle.Scoped);
-            container.Register<IGerenciarArquivoCompactado, Descompactar>(Lifestyle.Scoped);
+            container.Register<IGerenciarArquivoCompactado, GerenciarArquivoCompactado>(Lifestyle.Scoped);
             container.Register<IGerenciarCsv, GerenciarCsv>(Lifestyle.Scoped);
             container.Register<IInspecao, InspecaoServico>(Lifestyle.Scoped);
             container.Register<IInspecaoRepositorio, InspecaoRepositorio>(Lifestyle.Scoped);

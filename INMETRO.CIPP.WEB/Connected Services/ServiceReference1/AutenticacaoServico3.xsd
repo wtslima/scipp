@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://inmetro.gov.br/ControleAcesso" elementFormDefault="qualified" targetNamespace="http://inmetro.gov.br/ControleAcesso" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://controleacesso-d.inmetro.local/AutenticacaoServico.svc?xsd=xsd2" namespace="http://inmetro.gov.br/ControleAcesso/DataContracts" />
+  <xs:import schemaLocation="http://controleacesso-d.inmetro.local/AutenticacaoServico.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/ControleAcessoService.DataContracts" />
+  <xs:import schemaLocation="http://controleacesso-d.inmetro.local/AutenticacaoServico.svc?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import schemaLocation="http://controleacesso-d.inmetro.local/AutenticacaoServico.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/ControleAcessoService.Elemento" />
+  <xs:element name="TodosUsuarios">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="TodosUsuariosResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://inmetro.gov.br/ControleAcesso/DataContracts" minOccurs="0" name="TodosUsuariosResult" nillable="true" type="q1:ArrayOfUsuario" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ObterUsuario">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="login" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ObterUsuarioResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://inmetro.gov.br/ControleAcesso/DataContracts" minOccurs="0" name="ObterUsuarioResult" nillable="true" type="q2:Usuario" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ObterTodosUsuarios">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/ControleAcessoService.DataContracts" minOccurs="0" name="filtro" type="q3:FiltroObterTodosUsuariosEnum" />
+        <xs:element minOccurs="0" name="filtrarPorSistema" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ObterTodosUsuariosResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://inmetro.gov.br/ControleAcesso/DataContracts" minOccurs="0" name="ObterTodosUsuariosResult" nillable="true" type="q4:ArrayOfUsuario" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AutenticarUsuario">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
+        <xs:element xmlns:q5="http://inmetro.gov.br/ControleAcesso/DataContracts" minOccurs="0" name="login" nillable="true" type="q5:Login" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AutenticarUsuarioResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://inmetro.gov.br/ControleAcesso/DataContracts" minOccurs="0" name="AutenticarUsuarioResult" nillable="true" type="q6:Usuario" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AutenticarUsuarioAnonimo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="credencial" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AutenticarUsuarioAnonimoResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://inmetro.gov.br/ControleAcesso/DataContracts" minOccurs="0" name="AutenticarUsuarioAnonimoResult" nillable="true" type="q7:Usuario" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AutenticarUsuarioExterno">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
+        <xs:element xmlns:q8="http://inmetro.gov.br/ControleAcesso/DataContracts" minOccurs="0" name="login" nillable="true" type="q8:Login" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AutenticarUsuarioExternoResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q9="http://inmetro.gov.br/ControleAcesso/DataContracts" minOccurs="0" name="AutenticarUsuarioExternoResult" nillable="true" type="q9:Usuario" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Autenticar">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
+        <xs:element xmlns:q10="http://inmetro.gov.br/ControleAcesso/DataContracts" minOccurs="0" name="login" nillable="true" type="q10:Login" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AutenticarResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q11="http://inmetro.gov.br/ControleAcesso/DataContracts" minOccurs="0" name="AutenticarResult" nillable="true" type="q11:Usuario" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SolicitarSenhaTemporaria">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="login" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SolicitarSenhaTemporariaResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AtualizarPerfis">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="login" nillable="true" type="xs:string" />
+        <xs:element xmlns:q12="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="perfis" nillable="true" type="q12:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AtualizarPerfisResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AlterarSenhaUsuarioExterno">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="login" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="senhaAtual" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="novaSenha" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AlterarSenhaUsuarioExternoResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PerfisSistema">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PerfisSistemaResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q13="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="PerfisSistemaResult" nillable="true" type="q13:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ObterListaPerfisUsuarioExterno">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="login" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ObterListaPerfisUsuarioExternoResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q14="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="ObterListaPerfisUsuarioExternoResult" nillable="true" type="q14:ArrayOfstring" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VerificacaoPeriodicaServico">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="VerificacaoPeriodicaServicoResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q15="http://schemas.datacontract.org/2004/07/ControleAcessoService.Elemento" minOccurs="0" name="VerificacaoPeriodicaServicoResult" nillable="true" type="q15:RetornoVerificacaoServico" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CriarUsuarioExterno">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
+        <xs:element xmlns:q16="http://inmetro.gov.br/ControleAcesso/DataContracts" minOccurs="0" name="usuario" nillable="true" type="q16:Usuario" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CriarUsuarioExternoResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CriarUsuario">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
+        <xs:element xmlns:q17="http://inmetro.gov.br/ControleAcesso/DataContracts" minOccurs="0" name="usuario" nillable="true" type="q17:Usuario" />
+        <xs:element minOccurs="0" name="senha" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CriarUsuarioResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AssociarUsuarioAoSistemaPerfil">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
+        <xs:element xmlns:q18="http://inmetro.gov.br/ControleAcesso/DataContracts" minOccurs="0" name="usuario" nillable="true" type="q18:Usuario" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AssociarUsuarioAoSistemaPerfilResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="BuscarUsuarioExterno">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="login" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="BuscarUsuarioExternoResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q19="http://inmetro.gov.br/ControleAcesso/DataContracts" minOccurs="0" name="BuscarUsuarioExternoResult" nillable="true" type="q19:Usuario" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AtivarDesativarUsuarioExterno">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="login" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ativo" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AtivarDesativarUsuarioExternoResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AtivarDesativarUsuarioInterno">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="login" nillable="true" type="xs:string" />
+        <xs:element minOccurs="0" name="ativo" type="xs:boolean" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AtivarDesativarUsuarioInternoResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ObterPerfisSistema">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="token" nillable="true" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ObterPerfisSistemaResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q20="http://inmetro.gov.br/ControleAcesso/DataContracts" minOccurs="0" name="ObterPerfisSistemaResult" nillable="true" type="q20:ArrayOfPerfil" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
