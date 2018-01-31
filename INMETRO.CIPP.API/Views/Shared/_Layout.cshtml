@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <header>
+        @Html.Partial("~/Views/Shared/_Header.cshtml")
+    </header>
+
+
+    <div class="container wraper">
+
+        @*<ol class="breadcrumb">
+            <li><a href="http://www.inmetro.gov.br/">Página Inicial</a></li>
+            <li><a href="http://www.inmetro.gov.br/qualidade/">Qualidade</a></li>
+            <li class="active">Registro de Objeto</li>
+        </ol>*@
+
+        @RenderBody()
+
+    </div>
+
+    @Html.Partial("~/Views/Shared/_Footer.cshtml")
+
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    <script src="//barra.brasil.gov.br/barra.js" type="text/javascript"></script>
+</body>
+</html>

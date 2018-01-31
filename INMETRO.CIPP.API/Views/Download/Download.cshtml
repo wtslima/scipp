@@ -1,0 +1,60 @@
+﻿@model INMETRO.CIPP.API.Models.DownloadModel
+
+<div class="row">
+    <div class="col-md-offset-1 col-md-5 divTituloSistema">
+        @*<img src="~/Content/img/logo-login.jpg" class="logoIsos">*@
+        <h2 class="tituloSistema">DOWNLOAD CIPP</h2>
+        <p class="versao">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+    </div>
+    @using (Html.BeginForm())
+    {
+     
+        <div class="col-md-4 col-md-offset-1 boxLogin">
+            <form action="@Url.Action("Download", "Download")" class="form" id="download" method="post" novalidate="novalidate">
+                <div id="divDetalhe">
+                    <div class="form-group">
+                        @Html.Label("CODIGO OIA-PP")
+                        @Html.TextBoxFor(x => x.CodigoOia, new { @class = "form-control" })
+                       @* <label for="Login">CODIGO OIA-PP</label>*@
+                        @*<input class="form-control" data-val="true" data-val-required="Campo obrigatório." id="CodOIAPP" name="CodOIAPP" type="text" value="" required="required" placeholder="Ex. 0001" onkeypress="Mascara(this, Integer)" maxlength="4" size="4">*@
+                        <span class="field-validation-valid" data-valmsg-for="CodOIAPP" data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Digite o número CIPP (opcional")
+                        @Html.TextBoxFor(x => x.CodigoCipp, new { @class = "form-control" })
+                     @*   <input class="form-control" data-val="true" id="NumCIPP" name="NumCIPP" type="text" placeholder="Número CIPP" onkeypress="Mascara(this,Integer)" maxlength="10" size="10">*@
+                    </div>
+                </div>
+                <div id="loginActions">
+                    <input type="submit" class="btn btn-success" value="Download" title="Download" id="btnDownload">
+                    <input type="reset" class="btn btn-basic" value="Cancelar" title="Cancelar" id="Cancelar">
+                </div>
+            </form>
+        </div>
+
+
+        <div class="col-md-12">
+
+        </div>
+    }
+</div>
+
+
+    <script>
+        $(function () {
+            $("#btnDownload").click(function () {
+               alert("oi");
+                $.ajax({
+                    type: "POST",
+                    url: "/Download",
+                    data: $("download").serialize,
+                    datatype: "html",
+                    success: function (data) {
+                        $('#result').html(data);
+                    }
+                });
+            });
+        });
+</script>
+
+

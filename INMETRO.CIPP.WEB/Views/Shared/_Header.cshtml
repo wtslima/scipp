@@ -1,0 +1,91 @@
+﻿<div id="barra-brasil" style="background:#7F7F7F; height: 20px; padding:0 0 0 10px;display:block;">
+    <ul id="menu-barra-temp" style="list-style:none;">
+        <li style="display:inline; float:left;padding-right:10px; margin-right:10px; border-right:1px solid #EDEDED">
+            <a href="http://brasil.gov.br" style="font-family:sans,sans-serif; text-decoration:none; color:white;">
+                Portal do Governo Brasileiro
+            </a>
+        </li>
+        <li>
+            <a style="font-family:sans,sans-serif; text-decoration:none; color:white;" href="http://epwg.governoeletronico.gov.br/barra/atualize.html">
+                Atualize sua Barra de Governo
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+
+
+<!-- barra de identidade visual do Inmetro em sistemas -->
+<!-- solução baseada em: http://getbootstrap.com/examples/navbar-static-top -->
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+
+
+            <!-- logotipo Inmetro -->
+            <a class="navbar-brand" href="http://www.inmetro.gov.br">
+                <img src="~/img/logotipo-inmetro-horizontal-traco-azul-24h.png" alt="Inmetro" width="117" height="24">
+            </a>
+
+            <ul class="nav navbar-nav">
+                <!-- a classe ACTIVE deve ser dinamicamente atribuída ao item de menu ativo -->
+                <!-- ITEM DE MENU: sistema -->
+                <li class="dropdown dropdown-navbar-header">
+                    <a href="@Url.Action("Index", "Home")" class="dropdown-toggle navbar-brand-system text" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        CIPP <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="@Url.Action("Index", "Home")">Inicio</a></li>
+                        <li><a href="@Url.Action("Login", "Login")">Login</a></li>
+                        <li><a href="@Url.Action("Download", "Download")">Download</a></li>
+
+                    </ul>
+                </li><!-- FIM menu sistema -->
+                <!-- ITEM DE MENU: usuario -->
+                <li class="dropdown dropdown-navbar-header">
+                    <p class="navbar-text"><strong>Marcio Ramalho</strong></p>
+                    @*<a href="#" class="dropdown-toggle navbar-user" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Nome do usuário <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Configurações pessoais</a></li>
+                        <li><a href="#">Alterar senha</a></li>
+                    </ul>*@
+                </li><!-- FIM menu usuario -->
+            </ul>
+
+            <!-- botão hamburguer -->
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Abrir navegação</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+        </div><!--/.navbar-header -->
+        <!-- ITENS DE MENU: seções -->
+        <div id="navbar" class="navbar-collapse collapse">
+            @*<ul class="nav navbar-nav">
+                <li class="active"><a href="secao1">Seção 1</a></li>
+                <li><a href="#secao2">Seção 2</a></li>
+                <li><a href="#secao3">Seção 3</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Seção 4 <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#pagina4-1">Página 4.1</a></li>
+                        <li><a href="#pagina4-2">Página 4.2</a></li>
+                    </ul>
+                </li>
+            </ul>*@
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="">Logout</a></li>
+            </ul>
+            
+        </div><!--/.nav-collapse -->
+
+    </div><!--/ .navbar.container -->
+
+</nav><!--/ .navbar -->
