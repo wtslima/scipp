@@ -38,7 +38,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
             {
                 try
                 {
-                    var consulta = contexto.Organismos.Include(ftp => ftp.FtpInfo).ToList();
+                    var consulta = await contexto.Organismos.Include(ftp => ftp.FtpInfo).ToListAsync();
 
                     return consulta.Select(item => new Organismo
                     {

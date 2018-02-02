@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using INMETRO.CIPP.DOMINIO.Modelos;
 using INMETRO.CIPP.SHARED.Interfaces;
 
@@ -9,10 +11,8 @@ namespace INMETRO.CIPP.SHARED.Servicos
 {
     public class GerenciarFtp : IGerenciarFtp
     {
-        public string[] ObterListaDiretoriosInspecoesFtp(FTPInfo ftp)
+        public  string[] ObterListaDiretoriosInspecoesFtp(FTPInfo ftp)
         {
-
-
             List<string> tmpFiles = new List<string>();
             try
             {
@@ -38,19 +38,18 @@ namespace INMETRO.CIPP.SHARED.Servicos
                 }
                 if (tmpFiles.Count > 0)
                 {
-                    return tmpFiles.ToArray();
+                    return  tmpFiles.ToArray();
                 }
                 return new string[] { };
             }
             catch (Exception e)
             {
-
                 throw e;
             }
 
         }
 
-        public bool DownloadInspecaoFtp(string file, string diretorioLocal, FTPInfo ftpInfo)
+        public  bool DownloadInspecaoFtp(string file, string diretorioLocal, FTPInfo ftpInfo)
         {
             bool success = true;
             try

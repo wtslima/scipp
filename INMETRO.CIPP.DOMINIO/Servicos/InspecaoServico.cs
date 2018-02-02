@@ -21,5 +21,14 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
         {
             throw new System.NotImplementedException();
         }
+
+        public bool BuscarInspecaoPorCodigoCipp(string cipp)
+        {
+            var resultado = _repositorio.BuscarInspecaoPorCodigoCipp(cipp);
+
+            return resultado;
+        }
+
+       
     }
 }

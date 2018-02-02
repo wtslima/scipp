@@ -3,7 +3,9 @@ using Quartz.Impl;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
+using Common.Logging.Configuration;
 
 namespace INMETRO.CIPP.WEB.Agendamento
 {
@@ -11,23 +13,31 @@ namespace INMETRO.CIPP.WEB.Agendamento
     {
         public static void Start()
         {
-            IScheduler scheduler = StdSchedulerFactory.GetDefaultScheduler();
-            scheduler.Start();
 
-            IJobDetail job = JobBuilder.Create<TaskScheduled>().Build();
+            StdSchedulerFactory factory = new StdSchedulerFactory();
+
+            // get a scheduler
+            IScheduler sched = factory.GetScheduler();
+            sched.Start();
+
+            
+            IJobDetail job = JobBuilder.Create<DownloadPorRotinaAutomaticaScheduled>()
+                .WithIdentity("myJob", "group1")
+                .Build();
+
 
             ITrigger trigger = TriggerBuilder.Create()
                 .WithDailyTimeIntervalSchedule
                 (s =>
-                    s.WithIntervalInMinutes(5)
+                    s.WithIntervalInHours(24)
                         .OnEveryDay()
-                        .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(18, 20))
+                        .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(0, 0))
                         //.EndingDailyAt(TimeOfDay.HourAndMinuteOfDay(19, 0))
                         //.InTimeZone(System.TimeZoneInfo.FindSystemTimeZoneById("Hawaiian Standard Time"))
                 )
                 .Build();
 
-            scheduler.ScheduleJob(job, trigger);
+            sched.ScheduleJob(job, trigger);
         }
     }
 }

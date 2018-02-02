@@ -7,5 +7,7 @@ namespace INMETRO.CIPP.DOMINIO.Interfaces
         bool AdicionarDadosInspecao(Inspecao inspecao);
         Inspecao ObterDadosInspecao(string Cipp);
 
+        bool BuscarInspecaoPorCodigoCipp(string cipp);
+
     }
 }

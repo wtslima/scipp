@@ -15,7 +15,6 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
     public class DownloadServico : IDownloadServico
     {
         private readonly IOrganismoRepositorio _organismoRepositorio;
-        //private readonly IOrganismo _organismoServico;
         private readonly IGerenciarFtp _ftp;
         private readonly IGerenciarArquivoCompactado _descompactar;
         private readonly string _pathLocal = ConfigurationManager.AppSettings["LocalPath"];
@@ -25,13 +24,12 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         public DownloadServico(IOrganismoRepositorio organismoRepositorio, IGerenciarFtp ftp, IGerenciarArquivoCompactado descompactar, IGerenciarCsv csv, IInspecao inspecaoServico)
         {
             _organismoRepositorio = organismoRepositorio;
-            //_organismoServico = organismoServico;
             _ftp = ftp;
             _descompactar = descompactar;
             _csv = csv;
             _inspecaoServico = inspecaoServico;
         }
-       
+
 
         #region Download Por CIPP
 
@@ -41,34 +39,31 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             {
                 var organismo = _organismoRepositorio.BuscarOrganismoPorId(codigoOIA);
 
-                if (organismo != null)
+                if (organismo?.FtpInfo == null) return false;
+
+                var diretoriosCipp =    ObterListaDiretoriosPorOrganismoAsync(organismo).Result;
+
+                foreach (var cippRemoto in diretoriosCipp)
                 {
-                    var diretoriosCipp = ObterListaDiretoriosPorOrganismo(organismo);
-
-                    foreach (var cippRemoto in diretoriosCipp)
+                    if (TemCipp(cipp, cippRemoto))
                     {
-                        if (TemCipp(cipp, cippRemoto))
-                        {
-                            DownloadInspecao(organismo, cippRemoto);
-                            break;
-                        }
-
-                        if (string.IsNullOrWhiteSpace(cipp))
-                        {
-                            DownloadInspecao(organismo, cippRemoto);
-                        }
-
+                        DownloadInspecao(organismo, cipp);
+                        break;
                     }
 
-                    return true;
-                }
-                return false;
+                    if (string.IsNullOrWhiteSpace(cipp))
+                    {
+                        DownloadInspecao(organismo, cippRemoto);
+                    }
 
+                }
+
+                return true;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e);
-                throw;
+
+                throw ex;
             }
 
         }
@@ -78,24 +73,35 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         #region Download Por Rotina Automatica
         public async Task<bool> DownloadInspecoesPorRotinaAutomatica()
         {
-            var organismos = await _organismoRepositorio.BuscarTodosOrganismos();
-            if (organismos.Count > 0)
+            try
             {
+                var organismos = await _organismoRepositorio.BuscarTodosOrganismos();
+
+                if (organismos.Count <= 0) return false;
+
                 foreach (var item in organismos)
                 {
-                    if (item.FtpInfo.OrganismoId > 0)
+                    if (item.FtpInfo != null)
                     {
 
-                        var diretorios = ObterListaDiretoriosPorOrganismo(item);
+                        var diretorios = await ObterListaDiretoriosPorOrganismoAsync(item);
                         if (diretorios.Length > 0)
                         {
-                            var res1 = DownloadInspecaoAutomatica(item, diretorios);
+                            await DownloadInspecaoAutomatica(item, diretorios);
                         }
                     }
 
                 }
+
+                return true;
+
+
             }
-            return true;
+            catch (Exception e)
+            {
+                throw e;
+            }
+
         }
         #endregion
 
@@ -106,24 +112,22 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             try
             {
                 var organismos = await _organismoRepositorio.BuscarTodosOrganismos();
-                if (organismos.Count > 0)
+                if (organismos.Count <= 0) return false;
+                foreach (var item in organismos)
                 {
-                    foreach (var item in organismos)
+                    var lista = ObterInspecoesComMaisDeTrintaDias(item);
+
+                    if (lista.Count > 0)
                     {
-                        var lista = ObterInspecoesComMaisDeTrintaDias(item);
-                        if (lista.Count > 0)
-                        {
-                            RemoverInspecaoComMaisDe30Dias(lista.ToList(), item);
-                        }
+                        RemoverInspecaoComMaisDe30Dias(lista.ToList(), item);
                     }
                 }
-                return false;
+                return true;
 
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                throw e;
             }
         }
 
@@ -131,12 +135,12 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
 
 
-        private string[] ObterListaDiretoriosPorOrganismo(Organismo organismo)
+        private async Task<string[]> ObterListaDiretoriosPorOrganismoAsync(Organismo organismo)
         {
             try
             {
-                string[] diretorios = new string[] { };
-                var resultado = _ftp.ObterListaDiretoriosInspecoesFtp(organismo.FtpInfo);
+                string[] diretorios = { };
+                var resultado =  _ftp.ObterListaDiretoriosInspecoesFtp(organismo.FtpInfo);
                 return resultado ?? diretorios;
 
             }
@@ -149,27 +153,25 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         }
 
 
-        private async Task<bool> DownloadInspecaoAutomatica(Organismo organismo, string[] diretorios)
+        private async Task<bool> DownloadInspecaoAutomatica(Organismo organismo, IList<string> diretorios)
         {
-            if (diretorios.Length > 0)
+            if (diretorios.Count <= 0) return false;
+            foreach (var item in diretorios)
             {
-
-                foreach (var item in diretorios)
+                var diretorioLocal = ObterDiretorioLocal(organismo.FtpInfo.DiretorioInspecaoLocal, item);
+                if (_ftp.DownloadInspecaoFtp(item, diretorioLocal, organismo.FtpInfo))
                 {
-                    var diretorioLocal = ObterDiretorioLocal(organismo.FtpInfo.DiretorioInspecaoLocal, item);
-                    if (_ftp.DownloadInspecaoFtp(item, diretorioLocal, organismo.FtpInfo))
+                    if (_descompactar.DescompactarArquivo(diretorioLocal, item))
                     {
-                        if (_descompactar.DescompactarArquivo(diretorioLocal, item))
-                        {
-                            GravarInspecao(_csv.ObterDadosInspecao(diretorioLocal));
+                        var inspecao = _csv.ObterDadosInspecao(diretorioLocal);
+                        if (!_inspecaoServico.BuscarInspecaoPorCodigoCipp(inspecao.CodigoCIPP))
+                            GravarInspecao(inspecao);
 
-                            ExcluirArquivoCompactadoECsv(diretorioLocal, item);
-                        }
+                        ExcluirArquivoCompactadoECsv(diretorioLocal, item);
                     }
                 }
-                return true;
             }
-            return false;
+            return true;
         }
 
 
@@ -183,11 +185,28 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 {
                     if (_descompactar.DescompactarArquivo(diretorioLocal, file))
                     {
-                        GravarInspecao(_csv.ObterDadosInspecao(diretorioLocal));
-
-                        ExcluirArquivoCompactadoECsv(diretorioLocal, file);
+                        if (GravarInspecao(_csv.ObterDadosInspecao(diretorioLocal)))
+                        {
+                            ExcluirArquivoCompactadoECsv(diretorioLocal, file);
+                        }
                     }
                 }
+                
+                }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+        }
+
+        private bool ExcluirArquivoCompactadoECsv(string diretorioLocal, string file)
+        {
+            try
+            {
+                if (!_descompactar.ExcluirArquivoLocal(diretorioLocal, file)) return false;
+                if (!_csv.ExcluirArquivoCippCsv(diretorioLocal)) return false;
+                return true;
 
             }
             catch (Exception e)
@@ -196,12 +215,6 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 throw e;
             }
 
-        }
-
-        private void ExcluirArquivoCompactadoECsv(string diretorioLocal, string file)
-        {
-            _descompactar.DescompactarArquivo(diretorioLocal, file);
-            _csv.ExcluirArquivoCippCsv(diretorioLocal);
         }
 
         private bool TemCipp(string cipp, string cippServer)
@@ -232,36 +245,43 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
         private bool GravarInspecao(Inspecao inspecao)
         {
-            var resultado = _inspecaoServico.AdicionarDadosInspecao(inspecao);
-            return resultado;
+            try
+            {
+                var resultado = _inspecaoServico.AdicionarDadosInspecao(inspecao);
+                return resultado;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
         }
 
         public IList<string> ObterInspecoesComMaisDeTrintaDias(Organismo organismo)
         {
-            string[] inspecoesDiretorios =  { };
-            List<string> listaDiretoriosParaExclusao = new List<string>();
+            string[] inspecoesDiretorios = { };
+            var listaDiretoriosParaExclusaoComMais30Dias = new List<string>();
+
             if (organismo.FtpInfo != null)
             {
                 inspecoesDiretorios = _ftp.ObterListaDiretoriosInspecoesFtp(organismo.FtpInfo);
             }
 
 
-            if (
-                inspecoesDiretorios.Length > 0)
-            {
-                foreach (var inspecao in inspecoesDiretorios)
-                {
-                    var fileDate = _ftp.ObterDataEntradaFtp(organismo.FtpInfo, inspecao);
-                    if (TemMaisDe30Dias(fileDate))
-                    {
-                        listaDiretoriosParaExclusao.Add(inspecao);
-                    }
+            if (inspecoesDiretorios.Length <= 0) return new List<string>();
 
+            foreach (var inspecao in inspecoesDiretorios)
+            {
+                var fileDate = _ftp.ObterDataEntradaFtp(organismo.FtpInfo, inspecao);
+                if (TemMaisDe30Dias(fileDate))
+                {
+                    listaDiretoriosParaExclusaoComMais30Dias.Add(inspecao);
                 }
 
-                return listaDiretoriosParaExclusao;
             }
-            return new List<string>();
+
+            return listaDiretoriosParaExclusaoComMais30Dias;
+
         }
 
         public bool TemMaisDe30Dias(DateTime fileDate)

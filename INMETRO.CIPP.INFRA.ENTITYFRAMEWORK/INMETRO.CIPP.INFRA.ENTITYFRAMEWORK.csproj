@@ -49,6 +49,10 @@
   <ItemGroup>
     <Compile Include="Contexto.cs" />
     <Compile Include="Mapeamentos\OrganismoMap.cs" />
+    <Compile Include="Migrations\201802011734148_Add_Values_Table_Organismo.cs" />
+    <Compile Include="Migrations\201802011734148_Add_Values_Table_Organismo.Designer.cs">
+      <DependentUpon>201802011734148_Add_Values_Table_Organismo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -61,6 +65,11 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201802011734148_Add_Values_Table_Organismo.resx">
+      <DependentUpon>201802011734148_Add_Values_Table_Organismo.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

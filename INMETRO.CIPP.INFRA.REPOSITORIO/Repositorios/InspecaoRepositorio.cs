@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data.Entity.Migrations;
+using System.Linq;
 using INMETRO.CIPP.DOMINIO.Interfaces.Repositorios;
 using INMETRO.CIPP.DOMINIO.Modelos;
 using INMETRO.CIPP.INFRA.ENTITYFRAMEWORK;
@@ -15,7 +17,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                 {
                     if (inspecao != null)
                     {
-                        ctx.Inspecoes.Add(inspecao);
+                        ctx.Inspecoes.AddOrUpdate(inspecao);
                         ctx.SaveChanges();
                         return true;
                     }
@@ -25,9 +27,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
             }
             catch (Exception e)
             {
-
-                Console.WriteLine(e);
-                throw;
+                throw e;
             }
         }
 
@@ -43,7 +43,23 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
 
         public bool BuscarInspecaoPorCodigoCipp(string cipp)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                using (var contexto = new Contexto())
+                {
+                    if (string.IsNullOrEmpty(cipp)) return false;
+
+                    var resultado = contexto.Inspecoes.FirstOrDefault(s => s.CodigoCIPP.Equals(cipp));
+
+                    return resultado != null;
+                }
+            }
+            catch (Exception e)
+            {
+               
+                throw e;
+            }
+          
         }
     }
 }
