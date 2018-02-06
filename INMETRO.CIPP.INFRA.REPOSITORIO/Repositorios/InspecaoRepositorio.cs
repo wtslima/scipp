@@ -29,7 +29,21 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
 
         public Inspecao ObterDadosInspecao(string Cipp)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                using (var contexto = new Contexto())
+                {
+                    var consulta = contexto.Inspecoes.FirstOrDefault(s => s.CodigoCIPP.Equals(Cipp));
+
+                    return consulta ?? new Inspecao();
+                }
+                  
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public bool AtualizarDadosInspecao(Inspecao inspecao)

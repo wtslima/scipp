@@ -84,9 +84,18 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
                 foreach (var item in organismos.GroupBy(c => c.FtpInfo))
                 {
-                    var diretoriosCippRemoto = ObterListaDiretoriosPorOrganismo(item.Key);
-                    if (diretoriosCippRemoto.Length <= 0) continue;
-                    DownloadInspecaoAutomatica(item.Key, diretoriosCippRemoto);
+                    try
+                    {
+                        var diretoriosCippRemoto = ObterListaDiretoriosPorOrganismo(item.Key);
+                        if (diretoriosCippRemoto.Length <= 0) continue;
+                        DownloadInspecaoAutomatica(item.Key, diretoriosCippRemoto);
+                    }
+                    catch (Exception e)
+                    {
+                        continue;
+                        
+                    }
+                    
 
                 }
 
@@ -156,13 +165,23 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
             foreach (var item in diretorios)
             {
-                if (!TemInspecaoValida(item)) continue;
-                var diretorioLocal = ObterDiretorioLocal(ftpInfo.DiretorioInspecaoLocal, item);
-                if (!_ftp.DownloadInspecaoFtp(item, diretorioLocal, ftpInfo)) continue;
-                if (!_descompactar.DescompactarArquivo(diretorioLocal, item)) continue;
-                if (!GravarInspecao(Conversao.ConverterParaDominio(_csv.ObterDadosInspecao(diretorioLocal)))) continue;
-                GravarHistoricoDownload(item);
-                ExcluirArquivoCompactadoECsv(diretorioLocal, item);
+                try
+                {
+                    if (TemInspecaoValida(item)) continue;
+                    var diretorioLocal = ObterDiretorioLocal(ftpInfo.DiretorioInspecaoLocal, item);
+                    if (!_ftp.DownloadInspecaoFtp(item, diretorioLocal, ftpInfo)) continue;
+                    if (!_descompactar.DescompactarArquivo(diretorioLocal, item)) continue;
+                    if (!GravarInspecao(Conversao.ConverterParaDominio(_csv.ObterDadosInspecao(diretorioLocal)))) continue;
+                    if (!GravarHistoricoDownload(item)) continue;
+                    ExcluirArquivoCompactadoECsv(diretorioLocal, item);
+                }
+                catch (Exception e)
+                {
+
+                    continue;
+                }
+
+               
             }
 
         }
@@ -176,6 +195,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 if (!_ftp.DownloadInspecaoFtp(diretorioRemoto, diretorioLocal, ftpInfo)) return;
                 if (!_descompactar.DescompactarArquivo(diretorioLocal, diretorioRemoto)) return;
                 if (!GravarInspecao(Conversao.ConverterParaDominio(_csv.ObterDadosInspecao(diretorioLocal)))) return;
+                if (!GravarHistoricoDownload(diretorioRemoto)) return;
                 ExcluirArquivoCompactadoECsv(diretorioLocal, diretorioRemoto);
             }
             catch (Exception e)
@@ -184,7 +204,6 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             }
 
         }
-
 
 
         private bool GravarInspecao(Inspecao inspecao)
@@ -200,10 +219,11 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
         }
 
-        private void GravarHistoricoDownload(string cipp)
+        private bool GravarHistoricoDownload(string cipp)
         {
-            var inspecao = _inspecaoServico.ObterDadosInspecao(cipp);
-            if (inspecao.Id <= 0) return;
+            var value = Path.GetFileNameWithoutExtension(cipp);
+            var inspecao = _inspecaoServico.ObterDadosInspecao(value);
+            if (inspecao.Id <= 0) return false;
             var historicoModel = new HistoricoServiceModel
             {
                 IdInspecao = inspecao.Id,
@@ -211,7 +231,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 DataEntrada = DateTime.Now
             };
 
-            _historicoServico.AdicionarInspecao(Conversao.ConverterParaDominio(historicoModel));
+          return  _historicoServico.AdicionarInspecao(Conversao.ConverterParaDominio(historicoModel));
 
         }
 

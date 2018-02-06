@@ -19,7 +19,8 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
 
         public Inspecao ObterDadosInspecao(string cipp)
         {
-            throw new System.NotImplementedException();
+            var resultado = _repositorio.ObterDadosInspecao(cipp);
+            return resultado;
         }
 
         public bool TemInspecao(string cipp)
