@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using INMETRO.CIPP.WEB.Models;
-using INMETRO.CIPP.WEB.ServiceReference1;
+using INMETRO.CIPP.WEB.ControleAcesso;
 using System.Linq;
 
 namespace INMETRO.CIPP.WEB.Controllers
@@ -24,7 +24,7 @@ namespace INMETRO.CIPP.WEB.Controllers
         [HttpPost]
         public ActionResult Login(LogonModel model, String returnUrl)
         {
-            String UsuarioCorrente = "";
+            String usuarioCorrente = "";
             if (ModelState.IsValid)
             {
 
@@ -44,7 +44,7 @@ namespace INMETRO.CIPP.WEB.Controllers
                             usuario.Perfis.Select(p => p.CodigoPerfil.Trim()).ToList());
                         Session["userLogin"] = model.Usuario;
                         Session["Usuario"] = usuario;
-                        UsuarioCorrente = usuario.Nome;
+                        usuarioCorrente = usuario.Nome;
 
                         if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/") &&
                             !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
@@ -52,7 +52,7 @@ namespace INMETRO.CIPP.WEB.Controllers
                             return RedirectToAction(returnUrl);
                         }
                     }
-                    return RedirectToAction("Download", "Download", UsuarioCorrente);
+                    return RedirectToAction("Download", "Download", usuarioCorrente);
                 }
                 catch (Exception ex)
                 {
@@ -61,13 +61,9 @@ namespace INMETRO.CIPP.WEB.Controllers
                 }
             }
 
-            return View("Login", UsuarioCorrente);
+            return View("Login", usuarioCorrente);
         }
-
-        private void CriarCookie(string v, object p)
-        {
-            throw new NotImplementedException();
-        }
+      
 
         private void CriarCookie(String nomeUsuario, List<string> perfis)
         {

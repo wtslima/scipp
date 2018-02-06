@@ -33,7 +33,7 @@ namespace INMETRO.CIPP.WEB.Agendamento
                 .WithDailyTimeIntervalSchedule
                 (s => s.WithIntervalInHours(24)
                             .OnEveryDay()
-                            .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(16,20)))
+                            .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(15, 20)))
                             .ForJob(jobDownloadPorRotinaAutomatica)
                             .Build();
 

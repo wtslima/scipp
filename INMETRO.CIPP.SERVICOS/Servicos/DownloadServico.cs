@@ -54,7 +54,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
                 foreach (var diretorioCippRemoto in diretoriosCippRemoto)
                 {
-                    if (!TemInspecaoValida(diretorioCippRemoto)) continue;
+                    if (TemInspecaoValida(diretorioCippRemoto)) continue;
                     if (!TemCipp(cipp, diretorioCippRemoto)) continue;
                     var diretorioLocal = ObterDiretorioLocal(ftpInfos.DiretorioInspecaoLocal, diretorioCippRemoto);
                     DownloadInspecao(ftpInfos, diretorioLocal, cipp);
@@ -84,18 +84,9 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
                 foreach (var item in organismos.GroupBy(c => c.FtpInfo))
                 {
-                    try
-                    {
-                        var diretoriosCippRemoto = ObterListaDiretoriosPorOrganismo(item.Key);
-                        if (diretoriosCippRemoto.Length <= 0) continue;
-                        DownloadInspecaoAutomatica(item.Key, diretoriosCippRemoto);
-                    }
-                    catch (Exception e)
-                    {
-                        continue;
-                        
-                    }
-                    
+                    var diretoriosCippRemoto = ObterListaDiretoriosPorOrganismo(item.Key);
+                    if (diretoriosCippRemoto.Length <= 0) continue;
+                    DownloadInspecaoAutomatica(item.Key, diretoriosCippRemoto);
 
                 }
 
@@ -165,23 +156,13 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
             foreach (var item in diretorios)
             {
-                try
-                {
-                    if (TemInspecaoValida(item)) continue;
-                    var diretorioLocal = ObterDiretorioLocal(ftpInfo.DiretorioInspecaoLocal, item);
-                    if (!_ftp.DownloadInspecaoFtp(item, diretorioLocal, ftpInfo)) continue;
-                    if (!_descompactar.DescompactarArquivo(diretorioLocal, item)) continue;
-                    if (!GravarInspecao(Conversao.ConverterParaDominio(_csv.ObterDadosInspecao(diretorioLocal)))) continue;
-                    if (!GravarHistoricoDownload(item)) continue;
-                    ExcluirArquivoCompactadoECsv(diretorioLocal, item);
-                }
-                catch (Exception e)
-                {
-
-                    continue;
-                }
-
-               
+                if (TemInspecaoValida(item)) continue;
+                var diretorioLocal = ObterDiretorioLocal(ftpInfo.DiretorioInspecaoLocal, item);
+                if (!_ftp.DownloadInspecaoFtp(item, diretorioLocal, ftpInfo)) continue;
+                if (!_descompactar.DescompactarArquivo(diretorioLocal, item)) continue;
+                if (!GravarInspecao(Conversao.ConverterParaDominio(_csv.ObterDadosInspecao(diretorioLocal)))) continue;
+                GravarHistoricoDownload(item);
+                ExcluirArquivoCompactadoECsv(diretorioLocal, item);
             }
 
         }
@@ -195,7 +176,6 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 if (!_ftp.DownloadInspecaoFtp(diretorioRemoto, diretorioLocal, ftpInfo)) return;
                 if (!_descompactar.DescompactarArquivo(diretorioLocal, diretorioRemoto)) return;
                 if (!GravarInspecao(Conversao.ConverterParaDominio(_csv.ObterDadosInspecao(diretorioLocal)))) return;
-                if (!GravarHistoricoDownload(diretorioRemoto)) return;
                 ExcluirArquivoCompactadoECsv(diretorioLocal, diretorioRemoto);
             }
             catch (Exception e)
@@ -204,6 +184,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             }
 
         }
+
 
 
         private bool GravarInspecao(Inspecao inspecao)
@@ -219,11 +200,10 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
         }
 
-        private bool GravarHistoricoDownload(string cipp)
+        private void GravarHistoricoDownload(string cipp)
         {
-            var value = Path.GetFileNameWithoutExtension(cipp);
-            var inspecao = _inspecaoServico.ObterDadosInspecao(value);
-            if (inspecao.Id <= 0) return false;
+            var inspecao = _inspecaoServico.ObterDadosInspecao(cipp);
+            if (inspecao.Id <= 0) return;
             var historicoModel = new HistoricoServiceModel
             {
                 IdInspecao = inspecao.Id,
@@ -231,7 +211,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 DataEntrada = DateTime.Now
             };
 
-          return  _historicoServico.AdicionarInspecao(Conversao.ConverterParaDominio(historicoModel));
+            _historicoServico.AdicionarInspecao(Conversao.ConverterParaDominio(historicoModel));
 
         }
 

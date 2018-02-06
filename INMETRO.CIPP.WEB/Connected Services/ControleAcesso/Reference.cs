@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace INMETRO.CIPP.WEB.ServiceReference1 {
+namespace INMETRO.CIPP.WEB.ControleAcesso {
     using System.Runtime.Serialization;
     using System;
     
@@ -35,10 +35,10 @@ namespace INMETRO.CIPP.WEB.ServiceReference1 {
         private string CPFField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private INMETRO.CIPP.WEB.ServiceReference1.Perfil[] PerfisField;
+        private INMETRO.CIPP.WEB.ControleAcesso.Perfil[] PerfisField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private INMETRO.CIPP.WEB.ServiceReference1.PessoaFisica PessoaFisicaField;
+        private INMETRO.CIPP.WEB.ControleAcesso.PessoaFisica PessoaFisicaField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string SenhaField;
@@ -50,7 +50,7 @@ namespace INMETRO.CIPP.WEB.ServiceReference1 {
         private string ControleAtivoField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private INMETRO.CIPP.WEB.ServiceReference1.TipoUsuario TipoField;
+        private INMETRO.CIPP.WEB.ControleAcesso.TipoUsuario TipoField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -115,7 +115,7 @@ namespace INMETRO.CIPP.WEB.ServiceReference1 {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute(Order=4)]
-        public INMETRO.CIPP.WEB.ServiceReference1.Perfil[] Perfis {
+        public INMETRO.CIPP.WEB.ControleAcesso.Perfil[] Perfis {
             get {
                 return this.PerfisField;
             }
@@ -128,7 +128,7 @@ namespace INMETRO.CIPP.WEB.ServiceReference1 {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute(Order=5)]
-        public INMETRO.CIPP.WEB.ServiceReference1.PessoaFisica PessoaFisica {
+        public INMETRO.CIPP.WEB.ControleAcesso.PessoaFisica PessoaFisica {
             get {
                 return this.PessoaFisicaField;
             }
@@ -180,7 +180,7 @@ namespace INMETRO.CIPP.WEB.ServiceReference1 {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute(Order=9)]
-        public INMETRO.CIPP.WEB.ServiceReference1.TipoUsuario Tipo {
+        public INMETRO.CIPP.WEB.ControleAcesso.TipoUsuario Tipo {
             get {
                 return this.TipoField;
             }
@@ -690,64 +690,64 @@ namespace INMETRO.CIPP.WEB.ServiceReference1 {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(Namespace="http://inmetro.gov.br/ControleAcesso", ConfigurationName="ServiceReference1.IAutenticacaoServico")]
+    [System.ServiceModel.ServiceContractAttribute(Namespace="http://inmetro.gov.br/ControleAcesso", ConfigurationName="ControleAcesso.IAutenticacaoServico")]
     public interface IAutenticacaoServico {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/TodosUsuarios", ReplyAction="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/TodosUsuariosResponse")]
-        INMETRO.CIPP.WEB.ServiceReference1.Usuario[] TodosUsuarios(string token);
+        INMETRO.CIPP.WEB.ControleAcesso.Usuario[] TodosUsuarios(string token);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/TodosUsuarios", ReplyAction="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/TodosUsuariosResponse")]
-        System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ServiceReference1.Usuario[]> TodosUsuariosAsync(string token);
+        System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ControleAcesso.Usuario[]> TodosUsuariosAsync(string token);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/ObterUsuario", ReplyAction="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/ObterUsuarioResponse")]
-        INMETRO.CIPP.WEB.ServiceReference1.Usuario ObterUsuario(string token, string login);
+        INMETRO.CIPP.WEB.ControleAcesso.Usuario ObterUsuario(string token, string login);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/ObterUsuario", ReplyAction="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/ObterUsuarioResponse")]
-        System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ServiceReference1.Usuario> ObterUsuarioAsync(string token, string login);
+        System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ControleAcesso.Usuario> ObterUsuarioAsync(string token, string login);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/ObterTodosUsuarios", ReplyAction="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/ObterTodosUsuariosRespo" +
             "nse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(INMETRO.CIPP.WEB.ServiceReference1.TokenInvalidoFault), Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/ObterTodosUsuariosToken" +
+        [System.ServiceModel.FaultContractAttribute(typeof(INMETRO.CIPP.WEB.ControleAcesso.TokenInvalidoFault), Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/ObterTodosUsuariosToken" +
             "InvalidoFaultFault", Name="TokenInvalidoFault", Namespace="http://schemas.datacontract.org/2004/07/ControleAcessoService.DataContracts")]
-        INMETRO.CIPP.WEB.ServiceReference1.Usuario[] ObterTodosUsuarios(string token, INMETRO.CIPP.WEB.ServiceReference1.FiltroObterTodosUsuariosEnum filtro, bool filtrarPorSistema);
+        INMETRO.CIPP.WEB.ControleAcesso.Usuario[] ObterTodosUsuarios(string token, INMETRO.CIPP.WEB.ControleAcesso.FiltroObterTodosUsuariosEnum filtro, bool filtrarPorSistema);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/ObterTodosUsuarios", ReplyAction="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/ObterTodosUsuariosRespo" +
             "nse")]
-        System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ServiceReference1.Usuario[]> ObterTodosUsuariosAsync(string token, INMETRO.CIPP.WEB.ServiceReference1.FiltroObterTodosUsuariosEnum filtro, bool filtrarPorSistema);
+        System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ControleAcesso.Usuario[]> ObterTodosUsuariosAsync(string token, INMETRO.CIPP.WEB.ControleAcesso.FiltroObterTodosUsuariosEnum filtro, bool filtrarPorSistema);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AutenticarUsuario", ReplyAction="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AutenticarUsuarioRespon" +
             "se")]
-        INMETRO.CIPP.WEB.ServiceReference1.Usuario AutenticarUsuario(string token, INMETRO.CIPP.WEB.ServiceReference1.Login login);
+        INMETRO.CIPP.WEB.ControleAcesso.Usuario AutenticarUsuario(string token, INMETRO.CIPP.WEB.ControleAcesso.Login login);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AutenticarUsuario", ReplyAction="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AutenticarUsuarioRespon" +
             "se")]
-        System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ServiceReference1.Usuario> AutenticarUsuarioAsync(string token, INMETRO.CIPP.WEB.ServiceReference1.Login login);
+        System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ControleAcesso.Usuario> AutenticarUsuarioAsync(string token, INMETRO.CIPP.WEB.ControleAcesso.Login login);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AutenticarUsuarioAnonim" +
             "o", ReplyAction="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AutenticarUsuarioAnonim" +
             "oResponse")]
-        INMETRO.CIPP.WEB.ServiceReference1.Usuario AutenticarUsuarioAnonimo(string token, string credencial);
+        INMETRO.CIPP.WEB.ControleAcesso.Usuario AutenticarUsuarioAnonimo(string token, string credencial);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AutenticarUsuarioAnonim" +
             "o", ReplyAction="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AutenticarUsuarioAnonim" +
             "oResponse")]
-        System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ServiceReference1.Usuario> AutenticarUsuarioAnonimoAsync(string token, string credencial);
+        System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ControleAcesso.Usuario> AutenticarUsuarioAnonimoAsync(string token, string credencial);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AutenticarUsuarioExtern" +
             "o", ReplyAction="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AutenticarUsuarioExtern" +
             "oResponse")]
-        INMETRO.CIPP.WEB.ServiceReference1.Usuario AutenticarUsuarioExterno(string token, INMETRO.CIPP.WEB.ServiceReference1.Login login);
+        INMETRO.CIPP.WEB.ControleAcesso.Usuario AutenticarUsuarioExterno(string token, INMETRO.CIPP.WEB.ControleAcesso.Login login);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AutenticarUsuarioExtern" +
             "o", ReplyAction="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AutenticarUsuarioExtern" +
             "oResponse")]
-        System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ServiceReference1.Usuario> AutenticarUsuarioExternoAsync(string token, INMETRO.CIPP.WEB.ServiceReference1.Login login);
+        System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ControleAcesso.Usuario> AutenticarUsuarioExternoAsync(string token, INMETRO.CIPP.WEB.ControleAcesso.Login login);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/Autenticar", ReplyAction="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AutenticarResponse")]
-        INMETRO.CIPP.WEB.ServiceReference1.Usuario Autenticar(string token, INMETRO.CIPP.WEB.ServiceReference1.Login login);
+        INMETRO.CIPP.WEB.ControleAcesso.Usuario Autenticar(string token, INMETRO.CIPP.WEB.ControleAcesso.Login login);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/Autenticar", ReplyAction="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AutenticarResponse")]
-        System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ServiceReference1.Usuario> AutenticarAsync(string token, INMETRO.CIPP.WEB.ServiceReference1.Login login);
+        System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ControleAcesso.Usuario> AutenticarAsync(string token, INMETRO.CIPP.WEB.ControleAcesso.Login login);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/SolicitarSenhaTemporari" +
             "a", ReplyAction="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/SolicitarSenhaTemporari" +
@@ -796,48 +796,48 @@ namespace INMETRO.CIPP.WEB.ServiceReference1 {
         [System.ServiceModel.OperationContractAttribute(Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/VerificacaoPeriodicaSer" +
             "vico", ReplyAction="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/VerificacaoPeriodicaSer" +
             "vicoResponse")]
-        INMETRO.CIPP.WEB.ServiceReference1.RetornoVerificacaoServico VerificacaoPeriodicaServico();
+        INMETRO.CIPP.WEB.ControleAcesso.RetornoVerificacaoServico VerificacaoPeriodicaServico();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/VerificacaoPeriodicaSer" +
             "vico", ReplyAction="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/VerificacaoPeriodicaSer" +
             "vicoResponse")]
-        System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ServiceReference1.RetornoVerificacaoServico> VerificacaoPeriodicaServicoAsync();
+        System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ControleAcesso.RetornoVerificacaoServico> VerificacaoPeriodicaServicoAsync();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/CriarUsuarioExterno", ReplyAction="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/CriarUsuarioExternoResp" +
             "onse")]
-        void CriarUsuarioExterno(string token, INMETRO.CIPP.WEB.ServiceReference1.Usuario usuario);
+        void CriarUsuarioExterno(string token, INMETRO.CIPP.WEB.ControleAcesso.Usuario usuario);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/CriarUsuarioExterno", ReplyAction="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/CriarUsuarioExternoResp" +
             "onse")]
-        System.Threading.Tasks.Task CriarUsuarioExternoAsync(string token, INMETRO.CIPP.WEB.ServiceReference1.Usuario usuario);
+        System.Threading.Tasks.Task CriarUsuarioExternoAsync(string token, INMETRO.CIPP.WEB.ControleAcesso.Usuario usuario);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/CriarUsuario", ReplyAction="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/CriarUsuarioResponse")]
-        void CriarUsuario(string token, INMETRO.CIPP.WEB.ServiceReference1.Usuario usuario, string senha);
+        void CriarUsuario(string token, INMETRO.CIPP.WEB.ControleAcesso.Usuario usuario, string senha);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/CriarUsuario", ReplyAction="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/CriarUsuarioResponse")]
-        System.Threading.Tasks.Task CriarUsuarioAsync(string token, INMETRO.CIPP.WEB.ServiceReference1.Usuario usuario, string senha);
+        System.Threading.Tasks.Task CriarUsuarioAsync(string token, INMETRO.CIPP.WEB.ControleAcesso.Usuario usuario, string senha);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AssociarUsuarioAoSistem" +
             "aPerfil", ReplyAction="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AssociarUsuarioAoSistem" +
             "aPerfilResponse")]
-        [System.ServiceModel.FaultContractAttribute(typeof(INMETRO.CIPP.WEB.ServiceReference1.UsuarioInexistenteFault), Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AssociarUsuarioAoSistem" +
+        [System.ServiceModel.FaultContractAttribute(typeof(INMETRO.CIPP.WEB.ControleAcesso.UsuarioInexistenteFault), Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AssociarUsuarioAoSistem" +
             "aPerfilUsuarioInexistenteFaultFault", Name="UsuarioInexistenteFault", Namespace="http://schemas.datacontract.org/2004/07/ControleAcessoService.DataContracts")]
-        [System.ServiceModel.FaultContractAttribute(typeof(INMETRO.CIPP.WEB.ServiceReference1.TokenInvalidoFault), Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AssociarUsuarioAoSistem" +
+        [System.ServiceModel.FaultContractAttribute(typeof(INMETRO.CIPP.WEB.ControleAcesso.TokenInvalidoFault), Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AssociarUsuarioAoSistem" +
             "aPerfilTokenInvalidoFaultFault", Name="TokenInvalidoFault", Namespace="http://schemas.datacontract.org/2004/07/ControleAcessoService.DataContracts")]
-        void AssociarUsuarioAoSistemaPerfil(string token, INMETRO.CIPP.WEB.ServiceReference1.Usuario usuario);
+        void AssociarUsuarioAoSistemaPerfil(string token, INMETRO.CIPP.WEB.ControleAcesso.Usuario usuario);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AssociarUsuarioAoSistem" +
             "aPerfil", ReplyAction="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AssociarUsuarioAoSistem" +
             "aPerfilResponse")]
-        System.Threading.Tasks.Task AssociarUsuarioAoSistemaPerfilAsync(string token, INMETRO.CIPP.WEB.ServiceReference1.Usuario usuario);
+        System.Threading.Tasks.Task AssociarUsuarioAoSistemaPerfilAsync(string token, INMETRO.CIPP.WEB.ControleAcesso.Usuario usuario);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/BuscarUsuarioExterno", ReplyAction="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/BuscarUsuarioExternoRes" +
             "ponse")]
-        INMETRO.CIPP.WEB.ServiceReference1.Usuario BuscarUsuarioExterno(string token, string login);
+        INMETRO.CIPP.WEB.ControleAcesso.Usuario BuscarUsuarioExterno(string token, string login);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/BuscarUsuarioExterno", ReplyAction="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/BuscarUsuarioExternoRes" +
             "ponse")]
-        System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ServiceReference1.Usuario> BuscarUsuarioExternoAsync(string token, string login);
+        System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ControleAcesso.Usuario> BuscarUsuarioExternoAsync(string token, string login);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AtivarDesativarUsuarioE" +
             "xterno", ReplyAction="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/AtivarDesativarUsuarioE" +
@@ -861,20 +861,20 @@ namespace INMETRO.CIPP.WEB.ServiceReference1 {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/ObterPerfisSistema", ReplyAction="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/ObterPerfisSistemaRespo" +
             "nse")]
-        INMETRO.CIPP.WEB.ServiceReference1.Perfil[] ObterPerfisSistema(string token);
+        INMETRO.CIPP.WEB.ControleAcesso.Perfil[] ObterPerfisSistema(string token);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/ObterPerfisSistema", ReplyAction="http://inmetro.gov.br/ControleAcesso/IAutenticacaoServico/ObterPerfisSistemaRespo" +
             "nse")]
-        System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ServiceReference1.Perfil[]> ObterPerfisSistemaAsync(string token);
+        System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ControleAcesso.Perfil[]> ObterPerfisSistemaAsync(string token);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IAutenticacaoServicoChannel : INMETRO.CIPP.WEB.ServiceReference1.IAutenticacaoServico, System.ServiceModel.IClientChannel {
+    public interface IAutenticacaoServicoChannel : INMETRO.CIPP.WEB.ControleAcesso.IAutenticacaoServico, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class AutenticacaoServicoClient : System.ServiceModel.ClientBase<INMETRO.CIPP.WEB.ServiceReference1.IAutenticacaoServico>, INMETRO.CIPP.WEB.ServiceReference1.IAutenticacaoServico {
+    public partial class AutenticacaoServicoClient : System.ServiceModel.ClientBase<INMETRO.CIPP.WEB.ControleAcesso.IAutenticacaoServico>, INMETRO.CIPP.WEB.ControleAcesso.IAutenticacaoServico {
         
         public AutenticacaoServicoClient() {
         }
@@ -895,59 +895,59 @@ namespace INMETRO.CIPP.WEB.ServiceReference1 {
                 base(binding, remoteAddress) {
         }
         
-        public INMETRO.CIPP.WEB.ServiceReference1.Usuario[] TodosUsuarios(string token) {
+        public INMETRO.CIPP.WEB.ControleAcesso.Usuario[] TodosUsuarios(string token) {
             return base.Channel.TodosUsuarios(token);
         }
         
-        public System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ServiceReference1.Usuario[]> TodosUsuariosAsync(string token) {
+        public System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ControleAcesso.Usuario[]> TodosUsuariosAsync(string token) {
             return base.Channel.TodosUsuariosAsync(token);
         }
         
-        public INMETRO.CIPP.WEB.ServiceReference1.Usuario ObterUsuario(string token, string login) {
+        public INMETRO.CIPP.WEB.ControleAcesso.Usuario ObterUsuario(string token, string login) {
             return base.Channel.ObterUsuario(token, login);
         }
         
-        public System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ServiceReference1.Usuario> ObterUsuarioAsync(string token, string login) {
+        public System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ControleAcesso.Usuario> ObterUsuarioAsync(string token, string login) {
             return base.Channel.ObterUsuarioAsync(token, login);
         }
         
-        public INMETRO.CIPP.WEB.ServiceReference1.Usuario[] ObterTodosUsuarios(string token, INMETRO.CIPP.WEB.ServiceReference1.FiltroObterTodosUsuariosEnum filtro, bool filtrarPorSistema) {
+        public INMETRO.CIPP.WEB.ControleAcesso.Usuario[] ObterTodosUsuarios(string token, INMETRO.CIPP.WEB.ControleAcesso.FiltroObterTodosUsuariosEnum filtro, bool filtrarPorSistema) {
             return base.Channel.ObterTodosUsuarios(token, filtro, filtrarPorSistema);
         }
         
-        public System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ServiceReference1.Usuario[]> ObterTodosUsuariosAsync(string token, INMETRO.CIPP.WEB.ServiceReference1.FiltroObterTodosUsuariosEnum filtro, bool filtrarPorSistema) {
+        public System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ControleAcesso.Usuario[]> ObterTodosUsuariosAsync(string token, INMETRO.CIPP.WEB.ControleAcesso.FiltroObterTodosUsuariosEnum filtro, bool filtrarPorSistema) {
             return base.Channel.ObterTodosUsuariosAsync(token, filtro, filtrarPorSistema);
         }
         
-        public INMETRO.CIPP.WEB.ServiceReference1.Usuario AutenticarUsuario(string token, INMETRO.CIPP.WEB.ServiceReference1.Login login) {
+        public INMETRO.CIPP.WEB.ControleAcesso.Usuario AutenticarUsuario(string token, INMETRO.CIPP.WEB.ControleAcesso.Login login) {
             return base.Channel.AutenticarUsuario(token, login);
         }
         
-        public System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ServiceReference1.Usuario> AutenticarUsuarioAsync(string token, INMETRO.CIPP.WEB.ServiceReference1.Login login) {
+        public System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ControleAcesso.Usuario> AutenticarUsuarioAsync(string token, INMETRO.CIPP.WEB.ControleAcesso.Login login) {
             return base.Channel.AutenticarUsuarioAsync(token, login);
         }
         
-        public INMETRO.CIPP.WEB.ServiceReference1.Usuario AutenticarUsuarioAnonimo(string token, string credencial) {
+        public INMETRO.CIPP.WEB.ControleAcesso.Usuario AutenticarUsuarioAnonimo(string token, string credencial) {
             return base.Channel.AutenticarUsuarioAnonimo(token, credencial);
         }
         
-        public System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ServiceReference1.Usuario> AutenticarUsuarioAnonimoAsync(string token, string credencial) {
+        public System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ControleAcesso.Usuario> AutenticarUsuarioAnonimoAsync(string token, string credencial) {
             return base.Channel.AutenticarUsuarioAnonimoAsync(token, credencial);
         }
         
-        public INMETRO.CIPP.WEB.ServiceReference1.Usuario AutenticarUsuarioExterno(string token, INMETRO.CIPP.WEB.ServiceReference1.Login login) {
+        public INMETRO.CIPP.WEB.ControleAcesso.Usuario AutenticarUsuarioExterno(string token, INMETRO.CIPP.WEB.ControleAcesso.Login login) {
             return base.Channel.AutenticarUsuarioExterno(token, login);
         }
         
-        public System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ServiceReference1.Usuario> AutenticarUsuarioExternoAsync(string token, INMETRO.CIPP.WEB.ServiceReference1.Login login) {
+        public System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ControleAcesso.Usuario> AutenticarUsuarioExternoAsync(string token, INMETRO.CIPP.WEB.ControleAcesso.Login login) {
             return base.Channel.AutenticarUsuarioExternoAsync(token, login);
         }
         
-        public INMETRO.CIPP.WEB.ServiceReference1.Usuario Autenticar(string token, INMETRO.CIPP.WEB.ServiceReference1.Login login) {
+        public INMETRO.CIPP.WEB.ControleAcesso.Usuario Autenticar(string token, INMETRO.CIPP.WEB.ControleAcesso.Login login) {
             return base.Channel.Autenticar(token, login);
         }
         
-        public System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ServiceReference1.Usuario> AutenticarAsync(string token, INMETRO.CIPP.WEB.ServiceReference1.Login login) {
+        public System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ControleAcesso.Usuario> AutenticarAsync(string token, INMETRO.CIPP.WEB.ControleAcesso.Login login) {
             return base.Channel.AutenticarAsync(token, login);
         }
         
@@ -991,43 +991,43 @@ namespace INMETRO.CIPP.WEB.ServiceReference1 {
             return base.Channel.ObterListaPerfisUsuarioExternoAsync(token, login);
         }
         
-        public INMETRO.CIPP.WEB.ServiceReference1.RetornoVerificacaoServico VerificacaoPeriodicaServico() {
+        public INMETRO.CIPP.WEB.ControleAcesso.RetornoVerificacaoServico VerificacaoPeriodicaServico() {
             return base.Channel.VerificacaoPeriodicaServico();
         }
         
-        public System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ServiceReference1.RetornoVerificacaoServico> VerificacaoPeriodicaServicoAsync() {
+        public System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ControleAcesso.RetornoVerificacaoServico> VerificacaoPeriodicaServicoAsync() {
             return base.Channel.VerificacaoPeriodicaServicoAsync();
         }
         
-        public void CriarUsuarioExterno(string token, INMETRO.CIPP.WEB.ServiceReference1.Usuario usuario) {
+        public void CriarUsuarioExterno(string token, INMETRO.CIPP.WEB.ControleAcesso.Usuario usuario) {
             base.Channel.CriarUsuarioExterno(token, usuario);
         }
         
-        public System.Threading.Tasks.Task CriarUsuarioExternoAsync(string token, INMETRO.CIPP.WEB.ServiceReference1.Usuario usuario) {
+        public System.Threading.Tasks.Task CriarUsuarioExternoAsync(string token, INMETRO.CIPP.WEB.ControleAcesso.Usuario usuario) {
             return base.Channel.CriarUsuarioExternoAsync(token, usuario);
         }
         
-        public void CriarUsuario(string token, INMETRO.CIPP.WEB.ServiceReference1.Usuario usuario, string senha) {
+        public void CriarUsuario(string token, INMETRO.CIPP.WEB.ControleAcesso.Usuario usuario, string senha) {
             base.Channel.CriarUsuario(token, usuario, senha);
         }
         
-        public System.Threading.Tasks.Task CriarUsuarioAsync(string token, INMETRO.CIPP.WEB.ServiceReference1.Usuario usuario, string senha) {
+        public System.Threading.Tasks.Task CriarUsuarioAsync(string token, INMETRO.CIPP.WEB.ControleAcesso.Usuario usuario, string senha) {
             return base.Channel.CriarUsuarioAsync(token, usuario, senha);
         }
         
-        public void AssociarUsuarioAoSistemaPerfil(string token, INMETRO.CIPP.WEB.ServiceReference1.Usuario usuario) {
+        public void AssociarUsuarioAoSistemaPerfil(string token, INMETRO.CIPP.WEB.ControleAcesso.Usuario usuario) {
             base.Channel.AssociarUsuarioAoSistemaPerfil(token, usuario);
         }
         
-        public System.Threading.Tasks.Task AssociarUsuarioAoSistemaPerfilAsync(string token, INMETRO.CIPP.WEB.ServiceReference1.Usuario usuario) {
+        public System.Threading.Tasks.Task AssociarUsuarioAoSistemaPerfilAsync(string token, INMETRO.CIPP.WEB.ControleAcesso.Usuario usuario) {
             return base.Channel.AssociarUsuarioAoSistemaPerfilAsync(token, usuario);
         }
         
-        public INMETRO.CIPP.WEB.ServiceReference1.Usuario BuscarUsuarioExterno(string token, string login) {
+        public INMETRO.CIPP.WEB.ControleAcesso.Usuario BuscarUsuarioExterno(string token, string login) {
             return base.Channel.BuscarUsuarioExterno(token, login);
         }
         
-        public System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ServiceReference1.Usuario> BuscarUsuarioExternoAsync(string token, string login) {
+        public System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ControleAcesso.Usuario> BuscarUsuarioExternoAsync(string token, string login) {
             return base.Channel.BuscarUsuarioExternoAsync(token, login);
         }
         
@@ -1047,11 +1047,11 @@ namespace INMETRO.CIPP.WEB.ServiceReference1 {
             return base.Channel.AtivarDesativarUsuarioInternoAsync(token, login, ativo);
         }
         
-        public INMETRO.CIPP.WEB.ServiceReference1.Perfil[] ObterPerfisSistema(string token) {
+        public INMETRO.CIPP.WEB.ControleAcesso.Perfil[] ObterPerfisSistema(string token) {
             return base.Channel.ObterPerfisSistema(token);
         }
         
-        public System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ServiceReference1.Perfil[]> ObterPerfisSistemaAsync(string token) {
+        public System.Threading.Tasks.Task<INMETRO.CIPP.WEB.ControleAcesso.Perfil[]> ObterPerfisSistemaAsync(string token) {
             return base.Channel.ObterPerfisSistemaAsync(token);
         }
     }

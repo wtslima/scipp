@@ -53,6 +53,12 @@
     <Reference Include="Common.Logging.Core, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <HintPath>..\packages\Common.Logging.Core.3.3.1\lib\net40\Common.Logging.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Elmah, Version=1.2.14706.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah.Mvc, Version=2.1.2.1389, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Elmah.Mvc.2.1.2\lib\net40\Elmah.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -129,19 +135,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\ServiceReference1\AutenticacaoServico.disco" />
-    <None Include="Connected Services\ServiceReference1\configuration91.svcinfo" />
-    <None Include="Connected Services\ServiceReference1\configuration.svcinfo" />
-    <Content Include="Connected Services\ServiceReference1\INMETRO.CIPP.WEB.ServiceReference1.Perfil.datasource">
+    <None Include="Connected Services\ControleAcesso\AutenticacaoServico.disco" />
+    <None Include="Connected Services\ControleAcesso\configuration91.svcinfo" />
+    <None Include="Connected Services\ControleAcesso\configuration.svcinfo" />
+    <Content Include="App_Readme\Elmah.txt" />
+    <Content Include="Connected Services\ControleAcesso\INMETRO.CIPP.WEB.ControleAcesso.Perfil.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <Content Include="Connected Services\ServiceReference1\INMETRO.CIPP.WEB.ServiceReference1.RetornoVerificacaoServico.datasource">
+    <Content Include="Connected Services\ControleAcesso\INMETRO.CIPP.WEB.ControleAcesso.RetornoVerificacaoServico.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <Content Include="Connected Services\ServiceReference1\INMETRO.CIPP.WEB.ServiceReference1.Usuario.datasource">
+    <Content Include="Connected Services\ControleAcesso\INMETRO.CIPP.WEB.ControleAcesso.Usuario.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <None Include="Connected Services\ServiceReference1\Reference.svcmap">
+    <None Include="Connected Services\ControleAcesso\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
@@ -164,24 +171,24 @@
     <Content Include="Scripts\App\LoginView.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <None Include="Connected Services\ServiceReference1\AutenticacaoServico.wsdl" />
-    <None Include="Connected Services\ServiceReference1\AutenticacaoServico.xsd">
+    <None Include="Connected Services\ControleAcesso\AutenticacaoServico.wsdl" />
+    <None Include="Connected Services\ControleAcesso\AutenticacaoServico.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReference1\AutenticacaoServico1.wsdl" />
-    <None Include="Connected Services\ServiceReference1\AutenticacaoServico1.xsd">
+    <None Include="Connected Services\ControleAcesso\AutenticacaoServico1.wsdl" />
+    <None Include="Connected Services\ControleAcesso\AutenticacaoServico1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReference1\AutenticacaoServico2.xsd">
+    <None Include="Connected Services\ControleAcesso\AutenticacaoServico2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReference1\AutenticacaoServico3.xsd">
+    <None Include="Connected Services\ControleAcesso\AutenticacaoServico3.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReference1\AutenticacaoServico4.xsd">
+    <None Include="Connected Services\ControleAcesso\AutenticacaoServico4.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReference1\AutenticacaoServico5.xsd">
+    <None Include="Connected Services\ControleAcesso\AutenticacaoServico5.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="job_scheduling_data_2_0.xsd">
@@ -207,7 +214,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Connected Services\ServiceReference1\Reference.cs">
+    <Compile Include="Connected Services\ControleAcesso\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -281,7 +288,7 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Connected Services\ServiceReference1\" />
+    <WCFMetadataStorage Include="Connected Services\ControleAcesso\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
