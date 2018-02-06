@@ -3,30 +3,31 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using INMETRO.CIPP.DOMINIO.Modelos;
 using INMETRO.CIPP.SHARED.Interfaces;
+using INMETRO.CIPP.SHARED.ModelShared;
 
 namespace INMETRO.CIPP.SHARED.Servicos
 {
 
     public class GerenciarCsv : IGerenciarCsv
     {
-        public List<string> linhas;
+        public List<string> Linhas;
         private static string commaReplacement = "_;)(*_";
-        private List<string> inputColumns;
+        private List<string> _inputColumns;
 
-        public Inspecao ObterDadosInspecao(string diretorio)
+        public InspecaoCsvModel ObterDadosInspecao(string diretorio)
         {
-            var insp = LerLinhasCSV(diretorio);
-            return insp;
+            var inspecaoLine = LerLinhasCsv(diretorio);
+            var inspecaoModel = ObterInspecao(inspecaoLine);
+            return inspecaoModel ?? new InspecaoCsvModel();
         }
 
         public bool ExcluirArquivoCippCsv(string diretorio)
         {
             try
             {
-                string[] files = Directory.GetFiles(diretorio, "*.csv");
-                string fileNamePath = files[0];
+                var files = Directory.GetFiles(diretorio, "*.csv");
+                var fileNamePath = files[0];
                 if (File.Exists(fileNamePath))
                 {
                     File.Delete(fileNamePath);
@@ -36,59 +37,53 @@ namespace INMETRO.CIPP.SHARED.Servicos
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                throw e;
             }
 
             return false;
 
         }
 
-        private Inspecao LerLinhasCSV(string diretorio)
+        private string LerLinhasCsv(string diretorio)
         {
-            string[] files = Directory.GetFiles(diretorio, "*.csv");
+            var files = Directory.GetFiles(diretorio, "*.csv");
 
-            if (files.Length > 0)
+            if (files.Length <= 0) return string.Empty;
+            var inspecaoLinha = string.Empty;
+
+            Linhas = File.ReadAllLines(files[0]).Where(l => !string.IsNullOrWhiteSpace(l) && !l.StartsWith("//")).ToList();
+
+            for (var i = 1; i < Linhas.Count; i++)
             {
-                var inspecao = new Inspecao();
-
-                linhas = File.ReadAllLines(files[0]).Where(l => !string.IsNullOrWhiteSpace(l) && !l.StartsWith("//")).ToList();
-
-                for (int i = 1; i < linhas.Count; i++)
-                {
-                    inspecao = ObterInspecao(linhas[i]);
-                }
-
-                if (inspecao != null)
-                    return inspecao;
+                inspecaoLinha = Linhas[i];
             }
 
-            return new Inspecao();
+            return string.IsNullOrWhiteSpace(inspecaoLinha) ? string.Empty : inspecaoLinha;
         }
 
-        private Inspecao ObterInspecao(string inputLine)
+        private InspecaoCsvModel ObterInspecao(string inputLine)
         {
-            string inputLineWithoutExtraCommas = replaceDelimitersWithinQuotes(inputLine);
-            inputColumns = inputLineWithoutExtraCommas.Split(',').ToList();
+            string inputLineWithoutExtraCommas = ReplaceDelimitersWithinQuotes(inputLine);
+            _inputColumns = inputLineWithoutExtraCommas.Split(',').ToList();
 
-            Inspecao cipp = new Inspecao();
+            var inspecao = new InspecaoCsvModel();
 
-            for (int i = 0; i < inputColumns.Count; i++)
+            for (var i = 0; i < _inputColumns.Count; )
             {
-                cipp.CodigoOIA = inputColumns[0];
-                cipp.CodigoCIPP = inputColumns[1];
-                cipp.PlacaLicenca = inputColumns[2];
-                cipp.NumeroEquipamento = Convert.ToInt32(inputColumns[3]);
-                cipp.DataInspecao = Convert.ToDateTime(inputColumns[4]);
-                cipp.ResponsavelTecnico = inputColumns[5];
+                inspecao.CodigoOia = _inputColumns[0];
+                inspecao.CodigoCipp = _inputColumns[1];
+                inspecao.PlacaLicenca = _inputColumns[2];
+                inspecao.NumeroEquipamento = Convert.ToInt32(_inputColumns[3]);
+                inspecao.DataInspecao = Convert.ToDateTime(_inputColumns[4]);
+                inspecao.Responsavel = _inputColumns[5];
 
                 break;
             }
 
-            return cipp;
+            return inspecao;
         }
 
-        private static string replaceDelimitersWithinQuotes(string inputLine)
+        private static string ReplaceDelimitersWithinQuotes(string inputLine)
         {
             bool inQuotes = false;
             StringBuilder sb = new StringBuilder();

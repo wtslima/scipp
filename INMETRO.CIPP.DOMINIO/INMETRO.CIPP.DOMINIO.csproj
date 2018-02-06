@@ -43,17 +43,26 @@
   <ItemGroup>
     <Compile Include="Interfaces\IInspecao.cs" />
     <Compile Include="Interfaces\IOrganismo.cs" />
+    <Compile Include="Interfaces\IHistorico.cs" />
+    <Compile Include="Interfaces\IHistoricoExclusao.cs" />
+    <Compile Include="Interfaces\Repositorios\IHistoricoExclusaoRepositorio.cs" />
+    <Compile Include="Interfaces\Repositorios\IHistoricoRepositorio.cs" />
     <Compile Include="Interfaces\Repositorios\IInspecaoRepositorio.cs" />
     <Compile Include="Interfaces\Repositorios\IOrganismoRepositorio.cs" />
     <Compile Include="Modelos\FTPInfo.cs" />
     <Compile Include="Modelos\Historico.cs" />
+    <Compile Include="Modelos\HistoricoExclusao.cs" />
     <Compile Include="Modelos\Inspecao.cs" />
     <Compile Include="Modelos\Organismo.cs" />
     <Compile Include="Modelos\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Servicos\HistoricoExclusaoServico.cs" />
+    <Compile Include="Servicos\HistoricoServico.cs" />
     <Compile Include="Servicos\InspecaoServico.cs" />
     <Compile Include="Servicos\OrganismoServico.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Excpetions\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

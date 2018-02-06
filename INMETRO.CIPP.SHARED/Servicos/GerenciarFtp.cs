@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using INMETRO.CIPP.DOMINIO.Modelos;
 using INMETRO.CIPP.SHARED.Interfaces;
 
@@ -13,10 +11,10 @@ namespace INMETRO.CIPP.SHARED.Servicos
     {
         public  string[] ObterListaDiretoriosInspecoesFtp(FTPInfo ftp)
         {
-            List<string> tmpFiles = new List<string>();
+            var tmpFiles = new List<string>();
             try
             {
-                FtpWebRequest request = (FtpWebRequest)WebRequest.Create(ftp.HostURI + ftp.DiretorioInspecao);
+                var request = (FtpWebRequest)WebRequest.Create(ftp.HostURI + ftp.DiretorioInspecao);
 
                 request.Method = WebRequestMethods.Ftp.ListDirectory; // Details
                 request.Credentials = new NetworkCredential(ftp.Usuario, ftp.Senha);
@@ -36,11 +34,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                         }
                     }
                 }
-                if (tmpFiles.Count > 0)
-                {
-                    return  tmpFiles.ToArray();
-                }
-                return new string[] { };
+                return tmpFiles.Count > 0 ? tmpFiles.ToArray() : new string[] { };
             }
             catch (Exception e)
             {
@@ -49,7 +43,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
         }
 
-        public  bool DownloadInspecaoFtp(string file, string diretorioLocal, FTPInfo ftpInfo)
+        public bool DownloadInspecaoFtp(string file, string diretorioLocal, FTPInfo ftpInfo)
         {
             bool success = true;
             try

@@ -11,10 +11,12 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
         [Column("IDT_INSPECAO")]
         public int Id { get; set; }
 
+       
+        [StringLength(20)]
         [Required]
         [Column("CDN_CIPP")]
         public string CodigoCIPP { get; set; }
-
+        
         [Required]
         [Column("DES_PLACA_LICENCA")]
         public string PlacaLicenca { get; set; }

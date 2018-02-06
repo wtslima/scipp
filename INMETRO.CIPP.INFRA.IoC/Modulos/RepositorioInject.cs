@@ -10,6 +10,8 @@ namespace INMETRO.CIPP.INFRA.IoC.Modulos
         {
             container.Register<IOrganismoRepositorio, OrganismoRepositorio>(Lifestyle.Scoped);
             container.Register<IInspecaoRepositorio, InspecaoRepositorio>(Lifestyle.Scoped);
+            container.Register<IHistoricoRepositorio, HistoricoDownloadRepositorio>(Lifestyle.Scoped);
+            container.Register<IHistoricoExclusaoRepositorio, HistoricoExclusaoRepositorio>(Lifestyle.Scoped);
             return container;
         }
     }

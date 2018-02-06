@@ -15,14 +15,10 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
             {
                 using (var ctx = new Contexto())
                 {
-                    if (inspecao != null)
-                    {
-                        ctx.Inspecoes.AddOrUpdate(inspecao);
-                        ctx.SaveChanges();
-                        return true;
-                    }
-
-                    return false;
+                    if (inspecao == null) return false;
+                    ctx.Inspecoes.AddOrUpdate(inspecao);
+                    ctx.SaveChanges();
+                    return true;
                 }
             }
             catch (Exception e)

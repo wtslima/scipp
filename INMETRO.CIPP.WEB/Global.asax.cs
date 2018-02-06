@@ -27,7 +27,7 @@ namespace INMETRO.CIPP.WEB
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            JobScheduler.Start();
+            TarefasAgendadas.TarefasRegistradas();
 
             var container = new Container();
             container.Options.DefaultScopedLifestyle = new WebRequestLifestyle();
@@ -40,9 +40,11 @@ namespace INMETRO.CIPP.WEB
             container.Register<IGerenciarCsv, GerenciarCsv>(Lifestyle.Scoped);
             container.Register<IInspecao, InspecaoServico>(Lifestyle.Scoped);
             container.Register<IInspecaoRepositorio, InspecaoRepositorio>(Lifestyle.Scoped);
+            //container.Register<IHistorico, HistoricoServico>(Lifestyle.Scoped);
+            //container.Register<IHistoricoExclusao, HistoricoExclusaoServico>(Lifestyle.Scoped);
+           
             container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
 
-            //container.RegisterInitializer(GlobalConfiguration.Configuration); (GlobalConfiguration.Configuration);
             container.Verify();
             DependencyResolver.SetResolver(new SimpleInjectorDependencyResolver(container));
         }

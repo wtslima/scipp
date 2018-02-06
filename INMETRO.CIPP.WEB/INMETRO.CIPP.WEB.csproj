@@ -201,8 +201,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Agendamento\JobScheduler.cs" />
-    <Compile Include="Agendamento\TaskScheduled.cs" />
+    <Compile Include="Agendamento\ExclusaoPorRotinaAutomaticaJob.cs" />
+    <Compile Include="Agendamento\TarefasAgendadas.cs" />
+    <Compile Include="Agendamento\DownloadPorRotinaAutomaticaJob.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -221,7 +222,6 @@
     <Compile Include="Models\LogonModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServicosAutomatizados\IServicAgendado.cs" />
-    <Compile Include="ServicosAutomatizados\ServicoGeradoPorRotinaAutomatica.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />

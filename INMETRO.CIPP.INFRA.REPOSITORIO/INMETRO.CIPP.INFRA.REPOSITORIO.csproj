@@ -48,6 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositorios\HistoricoDownloadRepositorio.cs" />
+    <Compile Include="Repositorios\HistoricoExclusaoRepositorio.cs" />
     <Compile Include="Repositorios\InspecaoRepositorio.cs" />
     <Compile Include="Repositorios\OrganismoRepositorio.cs" />
   </ItemGroup>

@@ -11,6 +11,8 @@ namespace INMETRO.CIPP.INFRA.IoC.Modulos
         {
             container.Register<IOrganismo, OrganismoServico>(Lifestyle.Scoped);
             container.Register<IInspecao, InspecaoServico>(Lifestyle.Scoped);
+            container.Register<IHistorico, HistoricoServico>(Lifestyle.Scoped);
+            container.Register<IHistoricoExclusao, HistoricoExclusaoServico>(Lifestyle.Scoped);
             return container;
         }
     }

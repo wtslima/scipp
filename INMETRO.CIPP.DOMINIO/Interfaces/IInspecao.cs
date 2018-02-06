@@ -5,9 +5,9 @@ namespace INMETRO.CIPP.DOMINIO.Interfaces
     public interface IInspecao
     {
         bool AdicionarDadosInspecao(Inspecao inspecao);
-        Inspecao ObterDadosInspecao(string Cipp);
+        Inspecao ObterDadosInspecao(string cipp);
 
-        bool BuscarInspecaoPorCodigoCipp(string cipp);
+        bool TemInspecao(string cipp);
 
     }
 }

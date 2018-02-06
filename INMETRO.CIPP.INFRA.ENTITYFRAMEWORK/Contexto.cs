@@ -22,11 +22,17 @@ namespace INMETRO.CIPP.INFRA.ENTITYFRAMEWORK
             modelBuilder.Entity<Organismo>().HasIndex(o => o.CodigoOIA)
                 .IsUnique();
 
+            modelBuilder.Entity<Inspecao>().HasIndex(o => o.CodigoCIPP)
+                .IsUnique();
+
+            modelBuilder.Entity<HistoricoExclusao>().HasIndex(o => o.Cipp)
+                .IsUnique();
+
             // Configura OrganismoId como PK para FTPInfo
             modelBuilder.Entity<FTPInfo>()
                 .HasKey(e => e.OrganismoId);
 
-            // Configura OrganismoId como FK for StudentAddress
+            // Configura OrganismoId como FK for Ftpinfo
             modelBuilder.Entity<Organismo>()
                 .HasRequired(s => s.FtpInfo)
                 .WithRequiredPrincipal(ad => ad.Organismo);
@@ -50,5 +56,7 @@ namespace INMETRO.CIPP.INFRA.ENTITYFRAMEWORK
         public DbSet<Historico> Historico { get; set; }
 
         public DbSet<Usuario> Usuario { get; set; }
+
+        public DbSet<HistoricoExclusao> HistoricoExclusoes { get; set; }
     }
 }

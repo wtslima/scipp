@@ -29,7 +29,7 @@ namespace INMETRO.CIPP.API.Controllers
                 if (ModelState.IsValid)
                 {
 
-                    var resultado = _servico.DownloadInspecao(model.CodigoOia, model.CodigoCipp);
+                    var resultado = _servico.DownloadInspecaoPorUsuario(model.CodigoOia, model.CodigoCipp);
                     return RedirectToAction("Index", "Home");
                 }
                 return View();

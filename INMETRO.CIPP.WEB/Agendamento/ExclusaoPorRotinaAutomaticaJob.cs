@@ -1,15 +1,12 @@
-﻿using INMETRO.CIPP.DOMINIO.Modelos;
-using INMETRO.CIPP.DOMINIO.Servicos;
+﻿using INMETRO.CIPP.DOMINIO.Servicos;
 using INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios;
-using INMETRO.CIPP.SERVICOS.Interfaces;
 using INMETRO.CIPP.SERVICOS.Servicos;
-using INMETRO.CIPP.SHARED.Interfaces;
 using INMETRO.CIPP.SHARED.Servicos;
 using Quartz;
 
 namespace INMETRO.CIPP.WEB.Agendamento
 {
-    public class DownloadPorRotinaAutomaticaScheduled : IJob
+    public class ExclusaoPorRotinaAutomaticaJob : IJob
     {
        
         private readonly OrganismoRepositorio _repositorio;
@@ -19,7 +16,7 @@ namespace INMETRO.CIPP.WEB.Agendamento
         private readonly InspecaoServico _inspecao;
 
 
-        public DownloadPorRotinaAutomaticaScheduled()
+        public ExclusaoPorRotinaAutomaticaJob()
         {
             var inspecaoRepositorio = new InspecaoRepositorio();
             _repositorio = new OrganismoRepositorio();
@@ -32,7 +29,7 @@ namespace INMETRO.CIPP.WEB.Agendamento
         public void Execute(IJobExecutionContext context)
         {
             var servico = new DownloadServico(_repositorio, _ftp, _descompactar, _csv, _inspecao);
-            servico.DownloadInspecoesPorRotinaAutomatica().ConfigureAwait(true);
+            servico.ExcluirInspecaoPorRotinaAutomatica().ConfigureAwait(true);
         }
     }
 }
