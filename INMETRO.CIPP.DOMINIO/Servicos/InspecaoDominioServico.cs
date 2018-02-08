@@ -1,13 +1,15 @@
-﻿using INMETRO.CIPP.DOMINIO.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using INMETRO.CIPP.DOMINIO.Interfaces;
 using INMETRO.CIPP.DOMINIO.Interfaces.Repositorios;
 using INMETRO.CIPP.DOMINIO.Modelos;
 
 namespace INMETRO.CIPP.DOMINIO.Servicos
 {
-    public class InspecaoServico : IInspecao
+    public class InspecaoDominioServico : IInspecao
     {
         private readonly IInspecaoRepositorio _repositorio;
-        public InspecaoServico(IInspecaoRepositorio repositorio)
+        public InspecaoDominioServico(IInspecaoRepositorio repositorio)
         {
             _repositorio = repositorio;
         }
@@ -19,7 +21,8 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
 
         public Inspecao ObterDadosInspecao(string cipp)
         {
-            throw new System.NotImplementedException();
+            var resultado = _repositorio.ObterDadosInspecao(cipp);
+            return resultado;
         }
 
         public bool TemInspecao(string cipp)
@@ -29,6 +32,18 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
             return resultado;
         }
 
-       
+        public IEnumerable<Inspecao> ObterInspecaoPorCodigoOia(string codigoOia)
+        {
+            try
+            {
+                var consulta = _repositorio.ObterInspecaosPorCodigoOia(codigoOia);
+                return consulta;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+           
+        }
     }
 }

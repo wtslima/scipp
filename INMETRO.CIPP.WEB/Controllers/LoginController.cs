@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using INMETRO.CIPP.WEB.Models;
-using INMETRO.CIPP.WEB.ServiceReference1;
+using INMETRO.CIPP.WEB.ControleAcesso;
 using System.Linq;
 
 namespace INMETRO.CIPP.WEB.Controllers
@@ -35,7 +35,7 @@ namespace INMETRO.CIPP.WEB.Controllers
                 {
 
 
-                    var usuario = autenticacao.AutenticarUsuario(token,
+                    var usuario = autenticacao.Autenticar(token,
                         new Login { UserName = model.Usuario, Senha = model.Senha });
 
                     if (usuario != null)
@@ -43,7 +43,7 @@ namespace INMETRO.CIPP.WEB.Controllers
                         CriarCookie(usuario.Nome.Substring(0, usuario.Nome.IndexOf(" ")),
                             usuario.Perfis.Select(p => p.CodigoPerfil.Trim()).ToList());
                         Session["userLogin"] = model.Usuario;
-                        Session["Usuario"] = usuario;
+                        Session["Usuario"] = usuario.Nome;
                         UsuarioCorrente = usuario.Nome;
 
                         if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/") &&
@@ -52,7 +52,7 @@ namespace INMETRO.CIPP.WEB.Controllers
                             return RedirectToAction(returnUrl);
                         }
                     }
-                    return RedirectToAction("Download", "Download", UsuarioCorrente);
+                    return RedirectToAction("Index", "Home", UsuarioCorrente);
                 }
                 catch (Exception ex)
                 {

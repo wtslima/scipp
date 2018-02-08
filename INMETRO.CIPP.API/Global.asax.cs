@@ -40,7 +40,7 @@ namespace INMETRO.CIPP.API
             container.Register<IGerenciarFtp, GerenciarFtp>(Lifestyle.Scoped);
             container.Register<IGerenciarArquivoCompactado, GerenciarArquivoCompactado>(Lifestyle.Scoped);
             container.Register<IGerenciarCsv, GerenciarCsv>(Lifestyle.Scoped);
-            container.Register<IInspecao, InspecaoServico>(Lifestyle.Scoped);
+            //container.Register<IInspecao, InspecaoServico>(Lifestyle.Scoped);
             container.Register<IInspecaoRepositorio, InspecaoRepositorio>(Lifestyle.Scoped);
             container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
 

@@ -6,11 +6,10 @@ using INMETRO.CIPP.WEB.Models;
 
 namespace INMETRO.CIPP.WEB.Controllers
 {
+  
     public class DownloadController : Controller
     {
         private readonly IDownloadServico _servico;
-
-        //public DownloadServico _servico;
 
         public DownloadController(IDownloadServico servico)
         {

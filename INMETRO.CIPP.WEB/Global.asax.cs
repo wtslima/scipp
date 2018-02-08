@@ -38,7 +38,7 @@ namespace INMETRO.CIPP.WEB
             container.Register<IGerenciarArquivoCompactado, GerenciarArquivoCompactado>(Lifestyle.Scoped);
             container.Register<IGerenciarFtp, GerenciarFtp>(Lifestyle.Scoped);
             container.Register<IGerenciarCsv, GerenciarCsv>(Lifestyle.Scoped);
-            container.Register<IInspecao, InspecaoServico>(Lifestyle.Scoped);
+            //container.Register<IInspecao, InspecaoServico>(Lifestyle.Scoped);
             container.Register<IInspecaoRepositorio, InspecaoRepositorio>(Lifestyle.Scoped);
             //container.Register<IHistorico, HistoricoServico>(Lifestyle.Scoped);
             //container.Register<IHistoricoExclusao, HistoricoExclusaoServico>(Lifestyle.Scoped);

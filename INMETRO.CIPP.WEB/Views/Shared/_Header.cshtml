@@ -1,4 +1,6 @@
-﻿<div id="barra-brasil" style="background:#7F7F7F; height: 20px; padding:0 0 0 10px;display:block;">
+﻿@using INMETRO.CIPP.WEB.ControleAcesso
+
+<div id="barra-brasil" style="background:#7F7F7F; height: 20px; padding:0 0 0 10px;display:block;">
     <ul id="menu-barra-temp" style="list-style:none;">
         <li style="display:inline; float:left;padding-right:10px; margin-right:10px; border-right:1px solid #EDEDED">
             <a href="http://brasil.gov.br" style="font-family:sans,sans-serif; text-decoration:none; color:white;">
@@ -35,7 +37,7 @@
                     <a href="@Url.Action("Index", "Home")" class="dropdown-toggle navbar-brand-system text" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         CIPP <span class="caret"></span>
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul id="column-select" class="dropdown-menu">
                         <li><a href="@Url.Action("Index", "Home")">Inicio</a></li>
                         <li><a href="@Url.Action("Login", "Login")">Login</a></li>
                         <li><a href="@Url.Action("Download", "Download")">Download</a></li>
@@ -44,7 +46,7 @@
                 </li><!-- FIM menu sistema -->
                 <!-- ITEM DE MENU: usuario -->
                 <li class="dropdown dropdown-navbar-header">
-                    <p class="navbar-text"><strong>Marcio Ramalho</strong></p>
+                    <p class="navbar-text"><strong>@HttpContext.Current.Session["Usuario"]</strong></p>
                     @*<a href="#" class="dropdown-toggle navbar-user" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         Nome do usuário <span class="caret"></span>
                     </a>
@@ -81,7 +83,7 @@
                 </li>
             </ul>*@
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="">Logout</a></li>
+                <li>  @Html.ActionLink("Sair", "LogOut", "Login", new { area = "" }, new { @class = "navbar-brand" })  </li>
             </ul>
             
         </div><!--/.nav-collapse -->
@@ -89,3 +91,6 @@
     </div><!--/ .navbar.container -->
 
 </nav><!--/ .navbar -->
+
+
+  

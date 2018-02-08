@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="4F61eUmaz0TORXFiCs8Yq56LWuo=">
+<SavedWcfConfigurationInformation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Version="9.1" CheckSum="FCkXksx97GuGO7wJXjK46DQa1/A=">
   <bindingConfigurations>
     <bindingConfiguration bindingType="basicHttpBinding" name="BasicHttpBinding_IAutenticacaoServico">
       <properties>
@@ -236,7 +236,7 @@
     </bindingConfiguration>
   </bindingConfigurations>
   <endpoints>
-    <endpoint name="BasicHttpBinding_IAutenticacaoServico" contract="ServiceReference1.IAutenticacaoServico" bindingType="basicHttpBinding" address="http://controleacesso-d.inmetro.local/AutenticacaoServico.svc" bindingConfiguration="BasicHttpBinding_IAutenticacaoServico">
+    <endpoint name="BasicHttpBinding_IAutenticacaoServico" contract="ControleAcesso.IAutenticacaoServico" bindingType="basicHttpBinding" address="http://controleacesso-d.inmetro.local/AutenticacaoServico.svc" bindingConfiguration="BasicHttpBinding_IAutenticacaoServico">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue>http://controleacesso-d.inmetro.local/AutenticacaoServico.svc</serializedValue>
@@ -251,7 +251,7 @@
           <serializedValue>BasicHttpBinding_IAutenticacaoServico</serializedValue>
         </property>
         <property path="/contract" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>ServiceReference1.IAutenticacaoServico</serializedValue>
+          <serializedValue>ControleAcesso.IAutenticacaoServico</serializedValue>
         </property>
         <property path="/headers" isComplexType="true" isExplicitlyDefined="false" clrType="System.ServiceModel.Configuration.AddressHeaderCollectionElement, System.ServiceModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue>System.ServiceModel.Configuration.AddressHeaderCollectionElement</serializedValue>
@@ -321,7 +321,7 @@
         </property>
       </properties>
     </endpoint>
-    <endpoint name="WSHttpBinding_IAutenticacaoServico" contract="ServiceReference1.IAutenticacaoServico" bindingType="wsHttpBinding" address="http://controleacesso-d.inmetro.local/AutenticacaoServico.svc/WS" bindingConfiguration="WSHttpBinding_IAutenticacaoServico">
+    <endpoint name="WSHttpBinding_IAutenticacaoServico" contract="ControleAcesso.IAutenticacaoServico" bindingType="wsHttpBinding" address="http://controleacesso-d.inmetro.local/AutenticacaoServico.svc/WS" bindingConfiguration="WSHttpBinding_IAutenticacaoServico">
       <properties>
         <property path="/address" isComplexType="false" isExplicitlyDefined="true" clrType="System.Uri, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue>http://controleacesso-d.inmetro.local/AutenticacaoServico.svc/WS</serializedValue>
@@ -336,7 +336,7 @@
           <serializedValue>WSHttpBinding_IAutenticacaoServico</serializedValue>
         </property>
         <property path="/contract" isComplexType="false" isExplicitlyDefined="true" clrType="System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-          <serializedValue>ServiceReference1.IAutenticacaoServico</serializedValue>
+          <serializedValue>ControleAcesso.IAutenticacaoServico</serializedValue>
         </property>
         <property path="/headers" isComplexType="true" isExplicitlyDefined="false" clrType="System.ServiceModel.Configuration.AddressHeaderCollectionElement, System.ServiceModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
           <serializedValue>System.ServiceModel.Configuration.AddressHeaderCollectionElement</serializedValue>

@@ -49,17 +49,9 @@
   <ItemGroup>
     <Compile Include="Contexto.cs" />
     <Compile Include="Mapeamentos\OrganismoMap.cs" />
-    <Compile Include="Migrations\201802011734148_Add_Values_Table_Organismo.cs" />
-    <Compile Include="Migrations\201802011734148_Add_Values_Table_Organismo.Designer.cs">
-      <DependentUpon>201802011734148_Add_Values_Table_Organismo.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201802042334495_Add_UniqueKey_Table_Inspecao.cs" />
-    <Compile Include="Migrations\201802042334495_Add_UniqueKey_Table_Inspecao.Designer.cs">
-      <DependentUpon>201802042334495_Add_UniqueKey_Table_Inspecao.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201802051825438_Add_Table_Historico_Exlusao.cs" />
-    <Compile Include="Migrations\201802051825438_Add_Table_Historico_Exlusao.Designer.cs">
-      <DependentUpon>201802051825438_Add_Table_Historico_Exlusao.cs</DependentUpon>
+    <Compile Include="Migrations\201802061340514_Add Init.cs" />
+    <Compile Include="Migrations\201802061340514_Add Init.Designer.cs">
+      <DependentUpon>201802061340514_Add Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -75,14 +67,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201802011734148_Add_Values_Table_Organismo.resx">
-      <DependentUpon>201802011734148_Add_Values_Table_Organismo.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201802042334495_Add_UniqueKey_Table_Inspecao.resx">
-      <DependentUpon>201802042334495_Add_UniqueKey_Table_Inspecao.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201802051825438_Add_Table_Historico_Exlusao.resx">
-      <DependentUpon>201802051825438_Add_Table_Historico_Exlusao.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201802061340514_Add Init.resx">
+      <DependentUpon>201802061340514_Add Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
