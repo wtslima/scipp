@@ -54,6 +54,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
                 foreach (var diretorioCippRemoto in diretoriosCippRemoto)
                 {
+<<<<<<< HEAD
                     try
                     {
                         if (TemInspecaoValida(diretorioCippRemoto)) continue;
@@ -69,6 +70,13 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                     }
 
                   
+=======
+                    if (TemInspecaoValida(diretorioCippRemoto)) continue;
+                    if (!TemCipp(cipp, diretorioCippRemoto)) continue;
+                    var diretorioLocal = ObterDiretorioLocal(ftpInfos.DiretorioInspecaoLocal, diretorioCippRemoto);
+                    DownloadInspecao(ftpInfos, diretorioLocal, cipp);
+                    break;
+>>>>>>> bceffba06d6077b62e6bb825ac3c054047873d2f
                 }
 
                 return true;
@@ -175,6 +183,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
             foreach (var item in diretorios)
             {
+<<<<<<< HEAD
                 try
                 {
                     if (TemInspecaoValida(item)) continue;
@@ -192,6 +201,15 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 }
 
                
+=======
+                if (TemInspecaoValida(item)) continue;
+                var diretorioLocal = ObterDiretorioLocal(ftpInfo.DiretorioInspecaoLocal, item);
+                if (!_ftp.DownloadInspecaoFtp(item, diretorioLocal, ftpInfo)) continue;
+                if (!_descompactar.DescompactarArquivo(diretorioLocal, item)) continue;
+                if (!GravarInspecao(Conversao.ConverterParaDominio(_csv.ObterDadosInspecao(diretorioLocal)))) continue;
+                GravarHistoricoDownload(item);
+                ExcluirArquivoCompactadoECsv(diretorioLocal, item);
+>>>>>>> bceffba06d6077b62e6bb825ac3c054047873d2f
             }
 
         }

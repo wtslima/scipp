@@ -4,7 +4,11 @@ namespace INMETRO.CIPP.INFRA.ENTITYFRAMEWORK.Migrations
 {
     using System.Data.Entity.Migrations;
 
+<<<<<<< HEAD
     internal sealed class Configuration : DbMigrationsConfiguration<Contexto>
+=======
+    internal sealed class Configuration : DbMigrationsConfiguration<CIPP.INFRA.ENTITYFRAMEWORK.Contexto>
+>>>>>>> bceffba06d6077b62e6bb825ac3c054047873d2f
     {
         public Configuration()
         {

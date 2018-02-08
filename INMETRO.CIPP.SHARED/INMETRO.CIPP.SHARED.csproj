@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Email\Notificacao.cs" />
     <Compile Include="Interfaces\IGerenciarArquivoCompactado.cs" />
     <Compile Include="Interfaces\IGerenciarCsv.cs" />
     <Compile Include="Interfaces\IGerenciarFtp.cs" />
@@ -66,8 +67,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Email\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
