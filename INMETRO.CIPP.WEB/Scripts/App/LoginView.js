@@ -1,5 +1,5 @@
 ﻿$(function () {
-    $('#Entrar').on('click', function () {
+    $('#Entrar').on("click", function () {
         loginView.login();
     });
 
@@ -16,9 +16,9 @@ var loginView = function () {
 
     var login = function () {
 
-        var data = { Login: $('#Login').val(), Senha: $('#Senha').val() };
-
-        system.postJsonAjax("Conta/Login", data).done(function (data) {
+        var data = { Login: $('#Usuario').val(), Senha: $('#Senha').val() };
+        
+        window.system.postJsonAjax("Login/Login", data).done(function (data) {
 
             if (data.Success) {
 
@@ -28,7 +28,7 @@ var loginView = function () {
                     window.location = data.Content;
             } else {
                 if (data.Content)
-                    system.showDangerAlert(data.Content, "messageContainer");
+                    window.system.showDangerAlert(data.Content, "messageContainer");
 
                 $('#divDetalhe').html(data.View);
             }

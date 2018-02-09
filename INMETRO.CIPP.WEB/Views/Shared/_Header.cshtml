@@ -44,7 +44,9 @@
                 </li><!-- FIM menu sistema -->
                 <!-- ITEM DE MENU: usuario -->
                 <li class="dropdown dropdown-navbar-header">
-                    <p class="navbar-text"><strong>Marcio Ramalho</strong></p>
+                  
+                    <p class="navbar-text"><strong>@HttpContext.Current.Session["Usuario"]</strong>
+                    </p>
                     @*<a href="#" class="dropdown-toggle navbar-user" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         Nome do usuário <span class="caret"></span>
                     </a>

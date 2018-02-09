@@ -1,4 +1,5 @@
-﻿@model INMETRO.CIPP.WEB.Models.LogonModel
+﻿@using System.Web.Optimization
+@model INMETRO.CIPP.WEB.Models.LogonModel
 
 <div class="row">
     <div class="col-md-offset-1 col-md-5 divTituloSistema">
@@ -7,29 +8,34 @@
         <h2 class="tituloSistema">Certificado de Inspeção para o Transporte de Produtos Perigosos</h2>
         <p class="versao">Versão: 18783 / 13 de dezembro de 2017.</p>
     </div>
-@using (Html.BeginForm())
-{
-    <div class="col-md-4 col-md-offset-1 boxLogin">
-        <form action="@Url.Action("Login", "Login")" class="form" method="post" novalidate="novalidate">
-            <div id="divDetalhe">
-                <div class="form-group">
-                    @Html.Label("Login*")
-                    @Html.TextBoxFor(x => x.Usuario, new { @class = "form-control" })
-                   @* <input class="form-control" data-val="true" data-val-required="Campo obrigatório." id="Login" name="Login" type="text" value="">*@
-                    <span class="field-validation-valid" data-valmsg-for="Login" data-valmsg-replace="true"></span>
+    @using (Html.BeginForm())
+    {
+        <div class="col-md-4 col-md-offset-1 boxLogin">
+            <form action="@Url.Action("Login", "Login")" class="form" method="post" novalidate="novalidate">
+                <div id="divDetalhe">
+                    <div class="form-group">
+                        @Html.Label("Login*")
+                        @Html.TextBoxFor(x => x.Usuario, new { @class = "form-control" })
+                        @* <input class="form-control" data-val="true" data-val-required="Campo obrigatório." id="Login" name="Login" type="text" value="">*@
+                        <span class="field-validation-valid" data-valmsg-for="Login" data-valmsg-replace="true"></span>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Senha*")
+                        @Html.TextBoxFor(x => x.Senha, new { @class = "form-control", Type = "password" })
+                        <span class="field-validation-valid" data-valmsg-for="Senha" data-valmsg-replace="true"></span>
+                    </div>
                 </div>
-                <div class="form-group">
-                    @Html.Label("Senha*")
-                    @Html.TextBoxFor(x => x.Senha, new { @class = "form-control", Type = "password" })
-                    <span class="field-validation-valid" data-valmsg-for="Senha" data-valmsg-replace="true"></span>
+                <div id="loginActions">
+                    <input type="submit" class="btn btn-primary" value="Entrar" title="Entrar" id="Entrar">
+                    <a id="EsqueciMinhaSenha"><span class="glyphicon glyphicon-lock"></span>&nbsp;Esqueci minha senha</a>
                 </div>
-            </div>
-            <div id="loginActions">
-                <input type="submit" class="btn btn-primary" value="Entrar" title="Entrar" id="Entrar">
-                <a id="EsqueciMinhaSenha"><span class="glyphicon glyphicon-lock"></span>&nbsp;Esqueci minha senha</a>
-            </div>
-        </form>
-    </div>
-}
+            </form>
+        </div>
+    }
     
 </div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/LoginView")
+}
