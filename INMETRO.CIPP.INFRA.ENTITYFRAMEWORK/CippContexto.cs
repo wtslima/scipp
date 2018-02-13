@@ -5,11 +5,11 @@ using INMETRO.CIPP.INFRA.ENTITYFRAMEWORK.Mapeamentos;
 
 namespace INMETRO.CIPP.INFRA.ENTITYFRAMEWORK
 {
-    public class Contexto : DbContext
+    public class CippContexto : DbContext
     {
-        public Contexto() : base("CIPP_CONTEXTO")
+        public CippContexto() : base("CIPP_CONTEXTO")
         {
-            Database.SetInitializer<Contexto>(null);
+            Database.SetInitializer<CippContexto>(null);
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

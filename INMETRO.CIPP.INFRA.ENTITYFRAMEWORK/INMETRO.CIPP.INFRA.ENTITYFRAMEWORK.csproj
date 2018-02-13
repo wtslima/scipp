@@ -47,7 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Contexto.cs" />
+    <Compile Include="CippContexto.cs" />
     <Compile Include="Mapeamentos\OrganismoMap.cs" />
     <Compile Include="Migrations\201802061340514_Add Init.cs" />
     <Compile Include="Migrations\201802061340514_Add Init.Designer.cs">

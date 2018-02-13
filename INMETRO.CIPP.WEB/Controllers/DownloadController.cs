@@ -6,11 +6,10 @@ using INMETRO.CIPP.WEB.Models;
 
 namespace INMETRO.CIPP.WEB.Controllers
 {
+  
     public class DownloadController : Controller
     {
         private readonly IDownloadServico _servico;
-
-        //public DownloadServico _servico;
 
         public DownloadController(IDownloadServico servico)
         {
@@ -20,6 +19,9 @@ namespace INMETRO.CIPP.WEB.Controllers
         // GET: Download
         public ActionResult Download()
         {
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Login", "Login");
+
             return View();
         }
 
@@ -32,7 +34,7 @@ namespace INMETRO.CIPP.WEB.Controllers
                 {
                    
                    var resultado =  _servico.DownloadInspecaoPorUsuario(model.CodigoOia, model.CodigoCipp);
-                    return RedirectToAction("Index", "Home");
+                    return Json("Sucesso");
                 }
                 return View();
             }

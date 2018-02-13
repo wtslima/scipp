@@ -1,4 +1,5 @@
-﻿using INMETRO.CIPP.DOMINIO.Modelos;
+﻿using System;
+using INMETRO.CIPP.DOMINIO.Modelos;
 using INMETRO.CIPP.SERVICOS.ModelService;
 using INMETRO.CIPP.SHARED.ModelShared;
 
@@ -85,6 +86,67 @@ namespace INMETRO.CIPP.SERVICOS
                 Cipp = value.Cipp,
                 DataExclusao = value.DataExclusao
 
+            };
+        }
+
+
+        public static InspecaoModelServico ConverterParaServico(Inspecao value)
+        {
+            if (value == null) return new InspecaoModelServico();
+
+            return new InspecaoModelServico()
+            {
+                CodigoCipp = value.CodigoCIPP,
+                CodigoOia = value.CodigoOIA,
+                Placa = value.PlacaLicenca,
+                Equipamento = value.NumeroEquipamento.ToString(),
+                DataInspecao = value.DataInspecao,
+                Responsavel = value.ResponsavelTecnico
+            };
+        }
+
+        public static Inspecao ConverterParaDominio(InspecaoModelServico value)
+        {
+            if (value == null) return new Inspecao();
+
+            return new Inspecao
+            {
+                CodigoCIPP = value.CodigoCipp,
+                CodigoOIA = value.CodigoOia,
+                PlacaLicenca = value.Placa,
+                NumeroEquipamento = Convert.ToInt32(value.Equipamento),
+                DataInspecao = value.DataInspecao,
+                ResponsavelTecnico = value.Responsavel
+            };
+        }
+
+        public static InspecaoModelServico ConverterParaModeloServico(InspecaoCsvModel value)
+        {
+            if (value == null) return new InspecaoModelServico();
+
+            return new InspecaoModelServico
+            {
+                CodigoCipp = value.CodigoCipp,
+                CodigoOia = value.CodigoOia,
+                Placa = value.PlacaLicenca,
+                Equipamento =  value.NumeroEquipamento.ToString(),
+                DataInspecao = value.DataInspecao,
+                Responsavel = value.Responsavel
+            };
+        }
+
+        public static InspecaoCsvModel ConverterParaModeloCsv(InspecaoModelServico value)
+        {
+            if (value == null) return new InspecaoCsvModel();
+
+            return new InspecaoCsvModel()
+            {
+                CodigoCipp = value.CodigoCipp,
+                CodigoOia = value.CodigoOia,
+                PlacaLicenca = value.Placa,
+                NumeroEquipamento = Convert.ToInt32(value.Equipamento),
+                DataInspecao = value.DataInspecao,
+                Responsavel = value.Responsavel
             };
         }
     }

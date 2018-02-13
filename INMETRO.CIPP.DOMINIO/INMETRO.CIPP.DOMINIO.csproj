@@ -41,8 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\IInspecao.cs" />
-    <Compile Include="Interfaces\IOrganismo.cs" />
+    <Compile Include="Interfaces\IInspecaoDominioService.cs" />
+    <Compile Include="Interfaces\IOrganismoDominioService.cs" />
     <Compile Include="Interfaces\IHistorico.cs" />
     <Compile Include="Interfaces\IHistoricoExclusao.cs" />
     <Compile Include="Interfaces\Repositorios\IHistoricoExclusaoRepositorio.cs" />
@@ -58,8 +58,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Servicos\HistoricoExclusaoServico.cs" />
     <Compile Include="Servicos\HistoricoServico.cs" />
-    <Compile Include="Servicos\InspecaoServico.cs" />
-    <Compile Include="Servicos\OrganismoServico.cs" />
+    <Compile Include="Servicos\InspecaoDominioServico.cs" />
+    <Compile Include="Servicos\OrganismoDominioServico.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Excpetions\" />

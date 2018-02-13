@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Email\Notificacao.cs" />
+    <Compile Include="Helper\ExportarCSV.cs" />
     <Compile Include="Interfaces\IGerenciarArquivoCompactado.cs" />
     <Compile Include="Interfaces\IGerenciarCsv.cs" />
     <Compile Include="Interfaces\IGerenciarFtp.cs" />

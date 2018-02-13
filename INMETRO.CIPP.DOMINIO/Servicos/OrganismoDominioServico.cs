@@ -6,18 +6,18 @@ using INMETRO.CIPP.DOMINIO.Modelos;
 
 namespace INMETRO.CIPP.DOMINIO.Servicos
 {
-    public class OrganismoServico : IOrganismo
+    public class OrganismoDominioServico : IOrganismoDominioService
     {
         private readonly IOrganismoRepositorio _repositorio;
-        public OrganismoServico(IOrganismoRepositorio repositorio)
+        public OrganismoDominioServico(IOrganismoRepositorio repositorio)
         {
             _repositorio = repositorio;
         }
-        public  Organismo BuscarOrganismoPorId(string codigoOIA)
+        public  Organismo BuscarOrganismoPorId(string codigoOia)
         {
-            if (!string.IsNullOrWhiteSpace(codigoOIA))
+            if (!string.IsNullOrWhiteSpace(codigoOia))
             {
-                var resultado =  _repositorio.BuscarOrganismoPorId(codigoOIA);
+                var resultado =  _repositorio.BuscarOrganismoPorId(codigoOia);
                 return resultado;
             }
            

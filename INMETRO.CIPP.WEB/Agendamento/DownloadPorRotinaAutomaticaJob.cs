@@ -13,17 +13,19 @@ namespace INMETRO.CIPP.WEB.Agendamento
         private readonly GerenciarArquivoCompactado _descompactar;
         private readonly GerenciarFtp _ftp;
         private readonly GerenciarCsv _csv;
-        private readonly InspecaoServico _inspecao;
+        private readonly InspecaoDominioServico _inspecao;
+       
 
 
         public DownloadPorRotinaAutomaticaJob()
         {
             var inspecaoRepositorio = new InspecaoRepositorio();
+            _inspecao = new InspecaoDominioServico(inspecaoRepositorio);
             _repositorio = new OrganismoRepositorio();
             _descompactar = new GerenciarArquivoCompactado();
             _ftp = new GerenciarFtp();
             _csv = new GerenciarCsv();
-            _inspecao = new InspecaoServico(inspecaoRepositorio);
+          
         }
 
         public void Execute(IJobExecutionContext context)

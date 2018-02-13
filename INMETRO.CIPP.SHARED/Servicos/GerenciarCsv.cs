@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using INMETRO.CIPP.SHARED.Email;
+using INMETRO.CIPP.SHARED.Helper;
 using INMETRO.CIPP.SHARED.Interfaces;
 using INMETRO.CIPP.SHARED.ModelShared;
 
@@ -42,6 +46,31 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
             return false;
 
+        }
+
+        public string CriarArquivoInspecoesAnexo(IList<InspecaoCsvModel> inspecoes)
+        {
+            string physicalPathToDirectory = Environment.GetEnvironmentVariable("TEMP");
+            string fileName = "Updates" + ".csv";
+            var date = DateTime.Now.ToString("yyyy-MM-dd_HH-mm", CultureInfo.InvariantCulture);
+            ExportarCSV inspecaoCsv = new ExportarCSV();
+            Notificacao email = new Notificacao();
+            foreach (var item in inspecoes)
+            {
+                inspecaoCsv.AddRow();
+                inspecaoCsv["Código Cipp"] = item.CodigoCipp;
+                inspecaoCsv["Codigo OIA-PP"] = item.CodigoOia;
+                inspecaoCsv["Placa"] = item.PlacaLicenca;
+                inspecaoCsv["Equipamento"] = item.NumeroEquipamento;
+                inspecaoCsv["Responsável"] = item.Responsavel;
+                inspecaoCsv["Data da Inspecão"] = item.DataInspecao;
+            }
+            var path = physicalPathToDirectory + date + fileName;
+           
+
+            inspecaoCsv.ExportToFile(path);
+            email.EnviarEmailComAnexo("wellingtonts.lima@gmail.com", path);
+            return path;
         }
 
         private string LerLinhasCsv(string diretorio)

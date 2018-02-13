@@ -4,7 +4,7 @@
     <div class="col-md-offset-1 col-md-5 divTituloSistema">
         @*<img src="~/Content/img/logo-login.jpg" class="logoIsos">*@
         <h2 class="tituloSistema">DOWNLOAD CIPP</h2>
-        <p class="versao">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+       
     </div>
     @using (Html.BeginForm())
     {
@@ -14,7 +14,8 @@
                 <div id="divDetalhe">
                     <div class="form-group">
                         @Html.Label("CÓDIGO OIA-PP")
-                        @Html.TextBoxFor(x => x.CodigoOia, new { @class = "form-control", placeholder = "Ex:1111" })
+                        @Html.TextBoxFor(x => x.CodigoOia, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.CodigoOia)
                        @* <label for="Login">CODIGO OIA-PP</label>*@
                         @*<input class="form-control" data-val="true" data-val-required="Campo obrigatório." id="CodOIAPP" name="CodOIAPP" type="text" value="" required="required" placeholder="Ex. 0001" onkeypress="Mascara(this, Integer)" maxlength="4" size="4">*@
                         <span class="field-validation-valid" data-valmsg-for="CodOIAPP" data-valmsg-replace="true"></span>
@@ -22,6 +23,7 @@
                     <div class="form-group">
                         @Html.Label("Digite o número CIPP")
                         @Html.TextBoxFor(x => x.CodigoCipp, new { @class = "form-control", placeholder = "Opcional" })
+                        @Html.ValidationMessageFor(x => x.CodigoCipp)
                      @*   <input class="form-control" data-val="true" id="NumCIPP" name="NumCIPP" type="text" placeholder="Número CIPP" onkeypress="Mascara(this,Integer)" maxlength="10" size="10">*@
                     </div>
                 </div>
@@ -40,21 +42,5 @@
 </div>
 
 
-    <script>
-        $(function () {
-            $("#btnDownload").click(function () {
-               alert("oi");
-                $.ajax({
-                    type: "POST",
-                    url: "/Download",
-                    data: $("download").serialize,
-                    datatype: "html",
-                    success: function (data) {
-                        $('#result').html(data);
-                    }
-                });
-            });
-        });
-</script>
-
+   
 

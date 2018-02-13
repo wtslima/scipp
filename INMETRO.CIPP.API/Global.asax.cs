@@ -30,27 +30,11 @@ namespace INMETRO.CIPP.API
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            var db = new Contexto();
-
-            var container = new Container();
-            container.Options.DefaultScopedLifestyle = new WebRequestLifestyle();
-
-            container.Register<DownloadServico, DownloadServico>(Lifestyle.Scoped);
-            container.Register<IOrganismoRepositorio, OrganismoRepositorio>(Lifestyle.Scoped);
-            container.Register<IGerenciarFtp, GerenciarFtp>(Lifestyle.Scoped);
-            container.Register<IGerenciarArquivoCompactado, GerenciarArquivoCompactado>(Lifestyle.Scoped);
-            container.Register<IGerenciarCsv, GerenciarCsv>(Lifestyle.Scoped);
-            container.Register<IInspecao, InspecaoServico>(Lifestyle.Scoped);
-            container.Register<IInspecaoRepositorio, InspecaoRepositorio>(Lifestyle.Scoped);
-            container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
-
-            container.Verify();
-            DependencyResolver.SetResolver(new SimpleInjectorDependencyResolver(container));
-
-            
+            var container = new InversaoDeControle().Register();
             container.RegisterWebApiControllers(GlobalConfiguration.Configuration);
             container.Verify();
             GlobalConfiguration.Configuration.DependencyResolver = new SimpleInjectorWebApiDependencyResolver(container);
+
         }
     }
 }

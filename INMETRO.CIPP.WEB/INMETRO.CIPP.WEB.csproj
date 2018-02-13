@@ -194,6 +194,7 @@
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -205,7 +206,9 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Agendamento\ExclusaoPorRotinaAutomaticaJob.cs" />
@@ -219,13 +222,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\CippController.cs" />
     <Compile Include="Controllers\DownloadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InspecaoController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\HttpContextBaseExtensions.cs" />
+    <Compile Include="Helpers\ViewExtensions.cs" />
     <Compile Include="Models\DownloadModel.cs" />
+    <Compile Include="Models\InspecaoModel.cs" />
     <Compile Include="Models\LogonModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServicosAutomatizados\IServicAgendado.cs" />
@@ -248,6 +256,9 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Inspecao\ConsultaInspecao.cshtml" />
+    <Content Include="Views\Login\_DetalheLogin.cshtml" />
+    <Content Include="Views\Inspecao\_PartialConsultaInspecao.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -257,6 +268,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Cipp\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\INMETRO.CIPP.DOMINIO\INMETRO.CIPP.DOMINIO.csproj">

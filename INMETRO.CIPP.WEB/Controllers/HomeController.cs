@@ -10,20 +10,11 @@ namespace INMETRO.DIOIS.INSPECAO.WEB.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Login", "Login");
+
             return View();
         }
-
-        //public ActionResult Login()
-        //{
-        //    ViewBag.Title = "Login Page";
-        //    return View();
-        //}
-
-        //public ActionResult Download()
-        //{
-        //    ViewBag.Title = "Download Page";
-        //    return View();
-        //}
+       
     }
 }

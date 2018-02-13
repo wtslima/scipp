@@ -16,43 +16,51 @@ namespace INMETRO.CIPP.WEB.Controllers
         // GET: Login
         public ActionResult Login()
         {
-          
+            if (Request.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
             return View();
-            
+           
         }
 
         [HttpPost]
         public ActionResult Login(LogonModel model, String returnUrl)
         {
+
+
+            //if (!ModelState.IsValid)
+            //    return ToJsonError("_DetalheLogin", model);
+
             String usuarioCorrente = "";
             if (ModelState.IsValid)
             {
 
-                //var autenticacao = new AutenticacaoServicoClient("BasicHttpBinding_IAutenticacaoServico");
+                var autenticacao = new AutenticacaoServicoClient("BasicHttpBinding_IAutenticacaoServico");
                 var token = ConfigurationManager.AppSettings["accessToken"];
 
                 try
                 {
-                    Session["Usuario"] = "wtslima";
 
-                    //var usuario = autenticacao.AutenticarUsuario(token,
-                    //    new Login { UserName = model.Usuario, Senha = model.Senha });
+                    var usuario = autenticacao.Autenticar(token,
+                        new Login { UserName = model.Usuario, Senha = model.Senha });
 
-                    //if (usuario != null)
-                    //{
-                    //    CriarCookie(usuario.Nome.Substring(0, usuario.Nome.IndexOf(" ")),
-                    //        usuario.Perfis.Select(p => p.CodigoPerfil.Trim()).ToList());
-                    //    Session["userLogin"] = model.Usuario;
-                    //    Session["Usuario"] = usuario;
-                    //    usuarioCorrente = usuario.Nome;
+                    if (usuario != null)
+                    {
+                        CriarCookie(usuario.Nome.Substring(0, usuario.Nome.IndexOf(" ")),
+                            usuario.Perfis.Select(p => p.CodigoPerfil.Trim()).ToList());
+                        Session["userLogin"] = model.Usuario;
+                        Session["Usuario"] = usuario.Nome;
+                        usuarioCorrente = usuario.Nome;
 
-                    //    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/") &&
-                    //        !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
-                    //    {
-                    //        return RedirectToAction(returnUrl);
-                    //    }
-                    //}
+                        if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/") &&
+                            !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                        {
+                            return RedirectToAction(returnUrl);
+                        }
+                    }
+
                     return RedirectToAction("Download", "Download", usuarioCorrente);
+
                 }
                 catch (Exception ex)
                 {
@@ -86,10 +94,10 @@ namespace INMETRO.CIPP.WEB.Controllers
 
         public ActionResult LogOut()
         {
-            Session.Abandon();
             FormsAuthentication.SignOut();
+            HttpContext.Session.Clear();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Login");
         }
     }
 }

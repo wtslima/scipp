@@ -1,16 +1,18 @@
 ﻿using System;
+using System.IO;
 using System.Net;
 using System.Net.Mail;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace INMETRO.CIPP.SHARED.Email
 {
     public class Notificacao
     {
-        public void EnvioEmailComAnexo(string email, string assunto, string texto, string path, string custOrder)
+        public void EnviarEmailComAnexo(string email, string path)
         {
 
-            var fromAddress = new MailAddress("aloha@deliveryhawaii.com", "Delivery Hawaii");
+            var fromAddress = new MailAddress("aloha@deliveryhawaii.com", "CIPP");
             var toAddress = new MailAddress(email);
             Attachment attachment = null;
 
@@ -22,6 +24,7 @@ namespace INMETRO.CIPP.SHARED.Email
 
             var smtp = new SmtpClient
             {
+                
                 Host = "email-smtp.us-west-2.amazonaws.com",
                 Port = 587,
                 EnableSsl = true,
@@ -31,11 +34,13 @@ namespace INMETRO.CIPP.SHARED.Email
 
             };
 
+        
+
             using (var message = new MailMessage(fromAddress, toAddress)
             {
 
-                Subject = assunto,
-                Body = texto,
+                Subject = "Inspeções Baixadas por rotina automática",
+                Body = "Segue em anexo as inspeções",
                 IsBodyHtml = true,
                 Attachments = { attachment }
 

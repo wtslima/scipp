@@ -4,9 +4,9 @@ using INMETRO.CIPP.DOMINIO.Modelos;
 
 namespace INMETRO.CIPP.DOMINIO.Interfaces
 {
-    public interface IOrganismo
+    public interface IOrganismoDominioService
     {
-        Organismo BuscarOrganismoPorId(string codigoOIA);
+        Organismo BuscarOrganismoPorId(string codigoOia);
         
         Task<IList<Organismo>> BuscarTodosOrganismos();
     }

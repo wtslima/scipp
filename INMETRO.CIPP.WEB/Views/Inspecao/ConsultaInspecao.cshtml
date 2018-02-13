@@ -1,0 +1,58 @@
+﻿@model List<INMETRO.CIPP.WEB.Models.InspecaoModel>
+
+
+@{
+    ViewBag.Title = "ConsultaInspecao";
+}
+<div class="row">
+    <div class="col-md-offset-1 col-md-5 divTituloSistema">
+        <h2 class="tituloSistema" >Buscar Inspeções</h2>
+    </div>
+
+
+    <div class="col-md-4 col-md-offset-1 ">
+        <form action="@Url.Action("ConsultaInspecao", "Inspecao")" class="form" id="download" method="post" novalidate="novalidate">
+           
+            <div class="form-group">
+                @Html.Label("CÓDIGO OIA-PP")
+                @Html.TextBox("CodigoOia", null, new { @class = "form-control" })
+                @Html.ValidationMessage("CodigoOia")
+              
+            </div>
+            <div class="form-group">
+                @Html.Label("Digite o número CIPP")
+                @Html.TextBox("CodigoCipp", null, new { @class = "form-control" })
+                @Html.ValidationMessage("CodigoCipp")
+
+            </div>
+           
+            <div id="loginActions">
+                <input type="submit" class="btn btn-primary" value="Buscar" title="Download" id="btnBuscar">
+                <input type="reset" class="btn btn-basic" value="Cancelar" title="Cancelar" id="Cancelar">
+            </div>
+        </form>
+    </div>
+    @if (Model != null)
+    {
+        <div id="idConsultaInspecao">
+            @Html.Partial("_PartialConsultaInspecao", Model)
+        </div>
+
+    }
+
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js">
+
+</script>
+<script type="text/javascript">
+
+    $("btnBuscar").click(function(){
+        var xs = $("#CodOIAPP").val("Ola");
+
+        alert(xs);
+    });
+
+
+
+</script>

@@ -1,4 +1,5 @@
-﻿<div id="barra-brasil" style="background:#7F7F7F; height: 20px; padding:0 0 0 10px;display:block;">
+﻿@using System.Web.Optimization
+<div id="barra-brasil" style="background:#7F7F7F; height: 20px; padding:0 0 0 10px;display:block;">
     <ul id="menu-barra-temp" style="list-style:none;">
         <li style="display:inline; float:left;padding-right:10px; margin-right:10px; border-right:1px solid #EDEDED">
             <a href="http://brasil.gov.br" style="font-family:sans,sans-serif; text-decoration:none; color:white;">
@@ -12,10 +13,6 @@
         </li>
     </ul>
 </div>
-
-
-
-
 <!-- barra de identidade visual do Inmetro em sistemas -->
 <!-- solução baseada em: http://getbootstrap.com/examples/navbar-static-top -->
 <nav class="navbar navbar-default navbar-static-top">
@@ -29,35 +26,32 @@
             </a>
 
             <ul class="nav navbar-nav">
-                <!-- a classe ACTIVE deve ser dinamicamente atribuída ao item de menu ativo -->
-                <!-- ITEM DE MENU: sistema -->
+              
                 <li class="dropdown dropdown-navbar-header">
                     <a href="@Url.Action("Index", "Home")" class="dropdown-toggle navbar-brand-system text" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         CIPP <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="@Url.Action("Index", "Home")">Inicio</a></li>
-                        <li><a href="@Url.Action("Login", "Login")">Login</a></li>
-                        <li><a href="@Url.Action("Download", "Download")">Download</a></li>
+                        @if (!Request.IsAuthenticated)
+                        {
+                            <li><a href="@Url.Action("Index", "Home")">Inicio</a></li>
+                            <li><a href="@Url.Action("Download", "Download")">Download</a></li>
+                            <li><a href="@Url.Action("ConsultaInspecao", "Inspecao")">Consultar Inspeções</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="@Url.Action("Login", "Login")">Login</a></li>
+                        }
 
                     </ul>
                 </li><!-- FIM menu sistema -->
                 <!-- ITEM DE MENU: usuario -->
                 <li class="dropdown dropdown-navbar-header">
-                  
-                    <p class="navbar-text"><strong>@HttpContext.Current.Session["Usuario"]</strong>
-                    </p>
-                    @*<a href="#" class="dropdown-toggle navbar-user" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        Nome do usuário <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Configurações pessoais</a></li>
-                        <li><a href="#">Alterar senha</a></li>
-                    </ul>*@
-                </li><!-- FIM menu usuario -->
+                    <p class="navbar-text"><strong >@HttpContext.Current.Session["Usuario"]</strong></p>
+                   
+                </li>
+               
             </ul>
-
-            <!-- botão hamburguer -->
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Abrir navegação</span>
                 <span class="icon-bar"></span>
@@ -65,29 +59,29 @@
                 <span class="icon-bar"></span>
             </button>
 
-        </div><!--/.navbar-header -->
-        <!-- ITENS DE MENU: seções -->
+        </div>
         <div id="navbar" class="navbar-collapse collapse">
-            @*<ul class="nav navbar-nav">
-                <li class="active"><a href="secao1">Seção 1</a></li>
-                <li><a href="#secao2">Seção 2</a></li>
-                <li><a href="#secao3">Seção 3</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        Seção 4 <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#pagina4-1">Página 4.1</a></li>
-                        <li><a href="#pagina4-2">Página 4.2</a></li>
-                    </ul>
-                </li>
-            </ul>*@
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="">Logout</a></li>
+                @if(Request.IsAuthenticated)
+                {
+                    <li id="idSair"> @Html.ActionLink("Sair", "LogOut", "Login", new { area = "" }, new { @class = "navbar-brand" }) </li>
+                }
+                
             </ul>
-            
-        </div><!--/.nav-collapse -->
+        </div>
+    </div>
+</nav>
+<script src="~/Scripts/jquery-1.10.2.min.js">
+   
+</script>
+<script type="text/javascript">
 
-    </div><!--/ .navbar.container -->
+    $(function () {
+        
+        //$("#idSair").hide();
+    });
 
-</nav><!--/ .navbar -->
+
+
+</script>
+

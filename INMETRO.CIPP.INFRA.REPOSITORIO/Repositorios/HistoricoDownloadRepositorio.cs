@@ -13,7 +13,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
         {
             try
             {
-                using (var contexto = new Contexto())
+                using (var contexto = new CippContexto())
                 {
                     if (historico == null) return false;
                     contexto.Historico.Add(historico);
@@ -32,7 +32,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
         {
             try
             {
-                using (var contexto = new Contexto())
+                using (var contexto = new CippContexto())
                 {
                     var consulta = contexto.Historico.ToList();
 

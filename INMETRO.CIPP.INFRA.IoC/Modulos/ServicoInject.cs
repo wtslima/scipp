@@ -8,7 +8,8 @@ namespace INMETRO.CIPP.INFRA.IoC.Modulos
     {
         public Container Register(Container container)
         {
-            container.Register<DownloadServico, DownloadServico>(Lifestyle.Scoped);
+            container.Register<IDownloadServico, DownloadServico>(Lifestyle.Scoped);
+            container.Register<IInspecaoServico, InspecaoServico>(Lifestyle.Scoped);
             return container;
         }
     }

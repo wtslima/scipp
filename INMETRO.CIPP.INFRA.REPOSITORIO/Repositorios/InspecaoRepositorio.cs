@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using INMETRO.CIPP.DOMINIO.Interfaces.Repositorios;
@@ -13,7 +14,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
         {
             try
             {
-                using (var ctx = new Contexto())
+                using (var ctx = new CippContexto())
                 {
                     if (inspecao == null) return false;
                     ctx.Inspecoes.AddOrUpdate(inspecao);
@@ -31,18 +32,18 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
         {
             try
             {
-                using (var contexto = new Contexto())
+                using (var contexto = new CippContexto())
                 {
                     var consulta = contexto.Inspecoes.FirstOrDefault(s => s.CodigoCIPP.Equals(Cipp));
 
                     return consulta ?? new Inspecao();
                 }
-                  
+
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                throw e;
             }
         }
 
@@ -55,7 +56,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
         {
             try
             {
-                using (var contexto = new Contexto())
+                using (var contexto = new CippContexto())
                 {
                     if (string.IsNullOrEmpty(cipp)) return false;
 
@@ -66,10 +67,75 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
             }
             catch (Exception e)
             {
-               
+
                 throw e;
             }
-          
+
+        }
+
+        public IList<Inspecao> ObterInspecaosPorCodigoOia(string codigoOia)
+        {
+            using (var ctx = new CippContexto())
+            {
+                try
+                {
+                    if (string.IsNullOrEmpty(codigoOia)) return new List<Inspecao>();
+
+                    var resultado = ctx.Inspecoes
+                        .Where(s => s.CodigoOIA == codigoOia)
+                        .ToList()
+                        .Select(
+                    item => new Inspecao
+                    {
+                        Id = item.Id,
+                        CodigoOIA = item.CodigoOIA,
+                        CodigoCIPP = item.CodigoCIPP,
+                        NumeroEquipamento = item.NumeroEquipamento,
+                        PlacaLicenca = item.PlacaLicenca,
+                        ResponsavelTecnico = item.ResponsavelTecnico,
+                        DataInspecao = item.DataInspecao
+                    }).ToList();
+
+                    return resultado;
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+            }
+
+        }
+
+        public IEnumerable<Inspecao> ObterInspecaosPorPlacaLicenca(string placaLicenca)
+        {
+            using (var contexto = new CippContexto())
+            {
+                try
+                {
+                    if (string.IsNullOrEmpty(placaLicenca)) return new List<Inspecao>();
+
+                    var consulta = contexto.Inspecoes.Where(s => s.PlacaLicenca.Equals(placaLicenca));
+
+                    return consulta.Select(i => new Inspecao
+                    {
+                        Id = i.Id,
+                        CodigoCIPP = i.CodigoCIPP,
+                        CodigoOIA = i.CodigoOIA,
+                        NumeroEquipamento = i.NumeroEquipamento,
+                        PlacaLicenca = i.PlacaLicenca,
+                        DataInspecao = i.DataInspecao,
+                        ResponsavelTecnico = i.ResponsavelTecnico
+                    });
+
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+            }
+
         }
     }
 }
