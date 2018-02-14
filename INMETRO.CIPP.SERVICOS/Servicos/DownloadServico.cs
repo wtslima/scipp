@@ -70,7 +70,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                     }
                     catch (Exception e)
                     {
-                        continue;
+                        throw e;
 
                     }
 
@@ -168,8 +168,8 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+               
+                throw e;
             }
 
         }
@@ -354,14 +354,22 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
         private void AddRegistrosExclusao(string codigoOia, string diretorio)
         {
-            var registroExclusao = new HistoricoExclusaoServiceModel
+            try
             {
-                CodigoOia = codigoOia,
-                Cipp = diretorio,
-                DataExclusao = DateTime.Now
-            };
-            _historicoExclusaoServico.AdicionarRegistroDeHistoricoDeExclusao(
-                Conversao.ConverterParaDominio(registroExclusao));
+                var registroExclusao = new HistoricoExclusaoServiceModel
+                {
+                    CodigoOia = codigoOia,
+                    Cipp = diretorio,
+                    DataExclusao = DateTime.Now
+                };
+                _historicoExclusaoServico.AdicionarRegistroDeHistoricoDeExclusao(
+                    Conversao.ConverterParaDominio(registroExclusao));
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            
         }
 
         private void EnviarInspecoes(IList<InspecaoModelServico> inspecoes)

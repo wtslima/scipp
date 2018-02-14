@@ -17,14 +17,14 @@
                 <div class="form-group">
                     @Html.Label("Login*")
                     @Html.TextBoxFor(x => x.Usuario, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(x => x.Usuario)
+                    @Html.ValidationMessageFor(x => x.Usuario, null, new { @class = "text-danger" })
                    @* <input class="form-control" data-val="true" data-val-required="Campo obrigatório." id="Login" name="Login" type="text" value="">*@
                     <span class="field-validation-valid" data-valmsg-for="Login" data-valmsg-replace="true"></span>
                 </div>
                 <div class="form-group">
                     @Html.Label("Senha*")
                     @Html.TextBoxFor(x => x.Senha, new { @class = "form-control", Type = "password" })
-                    @Html.ValidationMessageFor(x => x.Senha )
+                    @Html.ValidationMessageFor(x => x.Senha, null, new { @class = "text-danger" })
                     <span class="field-validation-valid" data-valmsg-for="Senha" data-valmsg-replace="true"></span>
                 </div>
             </div>

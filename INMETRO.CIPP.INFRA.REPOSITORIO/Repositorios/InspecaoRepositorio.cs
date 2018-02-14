@@ -137,5 +137,10 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
             }
 
         }
+
+        public bool ExisteCodigoOia(string codigoOia)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

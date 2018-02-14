@@ -37,7 +37,7 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
 
         public virtual Historico Historico { get; set; }
 
-        public Inspecao(string codigoCipp, string placa, int equipamento, DateTime dataInspecao, string responsavel, string codigoOIA)
+       public Inspecao(string codigoCipp, string placa, int equipamento, DateTime dataInspecao, string responsavel, string codigoOIA)
         {
             CodigoCIPP = codigoCipp;
             PlacaLicenca = placa;

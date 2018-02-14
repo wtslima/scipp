@@ -1,0 +1,8 @@
+﻿@model INMETRO.CIPP.WEB.Models.DownloadModel
+  
+@if(@Model.CodigoCipp == null){
+    <strong><span class="glyphicon glyphicon-ok"></span>O download para CÓDIGO-OIA-PP @Model.CodigoOia foi feito com sucesso!</strong>
+}else{
+    <strong><span class="glyphicon glyphicon-ok"></span>O download para CÓDIGO-OIA-PP @Model.CodigoOia e o CIPP @Model.CodigoCipp foi feito com sucesso!</strong>
+}  
+

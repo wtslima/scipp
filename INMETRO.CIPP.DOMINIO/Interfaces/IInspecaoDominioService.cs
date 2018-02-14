@@ -10,6 +10,7 @@ namespace INMETRO.CIPP.DOMINIO.Interfaces
         Inspecao ObterDadosInspecao(string cipp);
 
         bool TemInspecao(string cipp);
+        bool ExisteCodigoOia(string codigoOia);
 
         IEnumerable<Inspecao> ObterInspecaoPorCodigoOia(string codigoOia);
         IEnumerable<Inspecao> ObterInspecaoPorPlacaLicenca(string placa);

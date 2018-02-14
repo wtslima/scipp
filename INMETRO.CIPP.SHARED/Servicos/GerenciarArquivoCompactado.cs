@@ -103,11 +103,11 @@ namespace INMETRO.CIPP.SHARED.Servicos
                     string fileName = Path.GetFileName(entry.FilePath);
                     string rootToFile = Path.GetFullPath(entry.FilePath).Replace(fileName, fileNamePath);
 
-                    if (!Directory.Exists(rootToFile))
+                    if (!Directory.Exists(diretorio))
                     {
                         Directory.CreateDirectory(rootToFile);
                     }
-                    entry.WriteToFile(rootToFile + fileName, ExtractOptions.ExtractFullPath | ExtractOptions.Overwrite);
+                    entry.WriteToFile(diretorio + fileName, ExtractOptions.ExtractFullPath | ExtractOptions.Overwrite);
                 }
                 catch (Exception e)
                 {

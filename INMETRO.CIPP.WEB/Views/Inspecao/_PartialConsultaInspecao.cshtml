@@ -1,58 +1,63 @@
-﻿@model List<INMETRO.CIPP.WEB.Models.InspecaoModel>
+﻿
+@model List<INMETRO.CIPP.WEB.Models.InspecaoModel>
 
-<table class="table" id="tblPessoas">
-    <thead>
-    <tr>
-        <th>
-            @Html.DisplayName("CÓDIGO OIA-PP")
-        </th>
-        <th>
-            @Html.DisplayName("CIPP")
-        </th>
-        <th>
-            @Html.DisplayName("PLACA")
-        </th>
-        <th>
-            @Html.DisplayName("EQUIPAMENTO")
-        </th>
-        <th>
-            @Html.DisplayName("RESPONSÁVEL")
-        </th>
-        <th>
-            @Html.DisplayName("DATA INSPEÇÃO")
-        </th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    @if (Model != null)
-    {
-        foreach (var item in Model)
+
+    <table class="table table-striped table-bordered table-hover" >
+        <thead class="" >
+        <tr>
+            <th>
+                @Html.DisplayName("CÓDIGO OIA-PP")
+            </th>
+            <th>
+                @Html.DisplayName("CIPP")
+            </th>
+            <th>
+                @Html.DisplayName("PLACA")
+            </th>
+            <th>
+                @Html.DisplayName("EQUIPAMENTO")
+            </th>
+            <th>
+                @Html.DisplayName("RESPONSÁVEL")
+            </th>
+            <th>
+                @Html.DisplayName("DATA INSPEÇÃO")
+            </th>
+            @*<th></th>*@
+        </tr>
+        </thead>
+        <tbody>
+        @if (Model != null)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CodigoOia)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CodigoCipp)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Placa)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Equipamento)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Responsavel)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DataInspecao)
-                </td>
-                <td>
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CodigoOia)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CodigoCipp)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Placa)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Equipamento)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Responsavel)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataInspecao)
+                    </td>
+                    @*<td>
                    <button type="button" class="btn btn-link" data-item="@item.CodigoCipp">Deletar</button>
-                </td>
-            </tr>
+                </td>*@
+                </tr>
+            }
         }
-    }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+
+
+

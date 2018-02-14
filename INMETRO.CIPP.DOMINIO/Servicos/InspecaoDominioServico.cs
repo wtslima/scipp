@@ -32,11 +32,17 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
             return resultado;
         }
 
+        public bool ExisteCodigoOia(string codigoOia)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Inspecao> ObterInspecaoPorCodigoOia(string codigoOia)
         {
             try
             {
                 var consulta = _repositorio.ObterInspecaosPorCodigoOia(codigoOia);
+               
                 return consulta;
             }
             catch (Exception e)
@@ -45,6 +51,8 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
             }
            
         }
+
+       
 
         public IEnumerable<Inspecao> ObterInspecaoPorPlacaLicenca(string placa)
         {

@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 
 using INMETRO.CIPP.SERVICOS.Interfaces;
 using INMETRO.CIPP.WEB.Models;
@@ -6,7 +7,7 @@ using INMETRO.CIPP.WEB.Models;
 
 namespace INMETRO.CIPP.WEB.Controllers
 {
-  
+
     public class DownloadController : Controller
     {
         private readonly IDownloadServico _servico;
@@ -21,8 +22,9 @@ namespace INMETRO.CIPP.WEB.Controllers
         {
             if (!Request.IsAuthenticated)
                 return RedirectToAction("Login", "Login");
+            DownloadModel model = new DownloadModel();
 
-            return View();
+            return View(model);
         }
 
         [HttpPost]
@@ -30,17 +32,20 @@ namespace INMETRO.CIPP.WEB.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
+                if (!ModelState.IsValid) return View(model);
+
+                model.IsSuccess = _servico.DownloadInspecaoPorUsuario(model.CodigoOia, model.CodigoCipp);
+                if (!model.IsSuccess)
                 {
-                   
-                   var resultado =  _servico.DownloadInspecaoPorUsuario(model.CodigoOia, model.CodigoCipp);
-                    return Json("Sucesso");
+                    return View(model);
                 }
-                return View();
+                return View(model);
+
+
             }
-            catch
+            catch (Exception )
             {
-                return View();
+                return PartialView("_Error");
             }
         }
 

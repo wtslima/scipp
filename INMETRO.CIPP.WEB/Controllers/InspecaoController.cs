@@ -22,7 +22,8 @@ namespace INMETRO.CIPP.WEB.Controllers
         // GET: Inspecao
         public ActionResult ConsultaInspecao()
         {
-
+            if (!Request.IsAuthenticated)
+                return RedirectToAction("Login", "Login");
             return View();
         }
 
@@ -31,25 +32,22 @@ namespace INMETRO.CIPP.WEB.Controllers
         {
            
             var lista = new List<InspecaoModel>();
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(lista);
+            var resultado = _servico.ObterInspecoes(model.CodigoOia, model.CodigoCipp);
+
+            foreach (var item in resultado)
             {
-                var resultado = _servico.ObterInspecoes(model.CodigoOia, model.CodigoCipp);
-
-                foreach (var item in resultado)
+                var inspecao = new InspecaoModel
                 {
-                    var inspecao = new InspecaoModel
-                    {
-                        CodigoOia = item.CodigoOia,
-                        CodigoCipp = item.CodigoCipp,
-                        Placa = item.Placa,
-                        Equipamento = item.Equipamento,
-                        Responsavel = item.Responsavel,
-                        DataInspecao = item.DataInspecao.ToString(CultureInfo.InvariantCulture)
-                    };
+                    CodigoOia = item.CodigoOia,
+                    CodigoCipp = item.CodigoCipp,
+                    Placa = item.Placa,
+                    Equipamento = item.Equipamento,
+                    Responsavel = item.Responsavel,
+                    DataInspecao = item.DataInspecao.ToString(CultureInfo.InvariantCulture)
+                };
 
-                    lista.Add(inspecao);
-                }
-
+                lista.Add(inspecao);
             }
             return View(lista);
         }

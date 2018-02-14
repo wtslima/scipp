@@ -259,6 +259,10 @@
     <Content Include="Views\Inspecao\ConsultaInspecao.cshtml" />
     <Content Include="Views\Login\_DetalheLogin.cshtml" />
     <Content Include="Views\Inspecao\_PartialConsultaInspecao.cshtml" />
+    <Content Include="Views\Shared\_Error.cshtml" />
+    <Content Include="Views\Download\_DownloadSuccess.cshtml" />
+    <Content Include="Views\Download\_DownloadError.cshtml" />
+    <Content Include="Views\Inspecao\_BuscaInspecaoError.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

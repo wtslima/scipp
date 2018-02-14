@@ -5,30 +5,30 @@
     ViewBag.Title = "ConsultaInspecao";
 }
 <div class="row">
-    <div class="col-md-offset-1 col-md-5 divTituloSistema">
+    <div class="col-md-offset-1 col-md-3 divTituloSistema">
         <h2 class="tituloSistema" >Buscar Inspeções</h2>
     </div>
 
-
+   
     <div class="col-md-4 col-md-offset-1 ">
         <form action="@Url.Action("ConsultaInspecao", "Inspecao")" class="form" id="download" method="post" novalidate="novalidate">
            
             <div class="form-group">
                 @Html.Label("CÓDIGO OIA-PP")
-                @Html.TextBox("CodigoOia", null, new { @class = "form-control" })
-                @Html.ValidationMessage("CodigoOia")
+                @Html.TextBox("CodigoOia", null, new { @class = "form-control", maxlength="4", onkeypress = "return onlyNos(event,this);" })
+                @Html.ValidationMessage("CodigoOia", null, new { @class = "text-danger" })
               
             </div>
             <div class="form-group">
                 @Html.Label("Digite o número CIPP")
-                @Html.TextBox("CodigoCipp", null, new { @class = "form-control" })
+                @Html.TextBox("CodigoCipp", null, new { @class = "form-control", maxlength="7", onkeypress = "return onlyNos(event,this);" })
                 @Html.ValidationMessage("CodigoCipp")
 
             </div>
            
             <div id="loginActions">
                 <input type="submit" class="btn btn-primary" value="Buscar" title="Download" id="btnBuscar">
-                <input type="reset" class="btn btn-basic" value="Cancelar" title="Cancelar" id="Cancelar">
+                @*<input type="reset" class="btn btn-basic" value="Cancelar" title="Cancelar" id="Cancelar">*@
             </div>
         </form>
     </div>
@@ -42,17 +42,23 @@
 
 </div>
 
-<script src="~/Scripts/jquery-1.10.2.min.js">
 
-</script>
-<script type="text/javascript">
+<script>
+    function onlyNos(e, t) {
 
-    $("btnBuscar").click(function(){
-        var xs = $("#CodOIAPP").val("Ola");
+        if (window.event) {
+            var charCode = window.event.keyCode;
+        }
+        else if (e) {
+            var charCode = e.which;
+        }
+        else { return true; }
 
-        alert(xs);
-    });
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
 
-
-
+            //alert("Please Enter only Numbers");
+            return false;
+        }
+        return true;
+    }
 </script>
