@@ -12,7 +12,7 @@ namespace INMETRO.CIPP.SHARED.Email
         public void EnviarEmailComAnexo(string email, string path)
         {
 
-            var fromAddress = new MailAddress("aloha@deliveryhawaii.com", "CIPP");
+            var fromAddress = new MailAddress("certifiq-naoresponda@inmetro.gov.br", "CIPP");
             var toAddress = new MailAddress(email);
             Attachment attachment = null;
 
@@ -25,12 +25,12 @@ namespace INMETRO.CIPP.SHARED.Email
             var smtp = new SmtpClient
             {
                 
-                Host = "email-smtp.us-west-2.amazonaws.com",
-                Port = 587,
+                Host = "webmail.inmetro.gov.br",
+                Port = 25,
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = true,
-                Credentials = new NetworkCredential("AKIAIGUPGKU4GQT54OAA", "Ag5K6uLwkbbypqGFdvPWWA3MYhUYY0vJVOqD05deT568")
+                Credentials = new NetworkCredential("certifiq-naoresponda", "#@cert!654#@")
 
             };
 
@@ -39,7 +39,7 @@ namespace INMETRO.CIPP.SHARED.Email
             using (var message = new MailMessage(fromAddress, toAddress)
             {
 
-                Subject = "Inspeções Baixadas por rotina automática",
+                Subject = "Inspeções realizadas por rotina automática",
                 Body = "Segue em anexo as inspeções",
                 IsBodyHtml = true,
                 Attachments = { attachment }

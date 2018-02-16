@@ -8,6 +8,7 @@ using INMETRO.CIPP.WEB.Models;
 using INMETRO.CIPP.WEB.ControleAcesso;
 using System.Linq;
 
+
 namespace INMETRO.CIPP.WEB.Controllers
 {
     public class LoginController : Controller
@@ -16,7 +17,9 @@ namespace INMETRO.CIPP.WEB.Controllers
         // GET: Login
         public ActionResult Login()
         {
-            if (Request.IsAuthenticated)
+
+            var user = HttpContext.Session["Usuario"];
+            if (user != null)
                 return RedirectToAction("Index", "Home");
 
             return View();
@@ -58,6 +61,7 @@ namespace INMETRO.CIPP.WEB.Controllers
                             return RedirectToAction(returnUrl);
                         }
                     }
+                    
 
                     return RedirectToAction("Download", "Download", usuarioCorrente);
 

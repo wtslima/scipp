@@ -32,9 +32,9 @@
                         CIPP <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        @if (!Request.IsAuthenticated)
+                        @if (HttpContext.Current.Session["Usuario"] != null)
                         {
-                            <li><a href="@Url.Action("Index", "Home")">Inicio</a></li>
+                            @*<li><a href="@Url.Action("Index", "Home")">Inicio</a></li>*@
                             <li><a href="@Url.Action("Download", "Download")">Download</a></li>
                             <li><a href="@Url.Action("ConsultaInspecao", "Inspecao")">Consultar Inspeções</a></li>
                         }
@@ -62,7 +62,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                @if(Request.IsAuthenticated)
+                @if(HttpContext.Current.Session["Usuario"] != null)
                 {
                     <li id="idSair"> @Html.ActionLink("Sair", "LogOut", "Login", new { area = "" }, new { @class = "navbar-brand" }) </li>
                 }

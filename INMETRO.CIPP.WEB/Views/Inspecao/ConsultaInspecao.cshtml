@@ -4,34 +4,36 @@
 @{
     ViewBag.Title = "ConsultaInspecao";
 }
-<div class="row">
-    <div class="col-md-offset-1 col-md-3 divTituloSistema">
-        <h2 class="tituloSistema" >Buscar Inspeções</h2>
+    <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <h2 class="tituloSistema" >Consulta de Inspeções</h2>
+        
+        <div class="col-md-8 col-md-offset-1">
+            <form action="@Url.Action("ConsultaInspecao", "Inspecao")" class="form" id="download" method="post" novalidate="novalidate">
+           
+                <div class="" style="float: left" >
+                    @Html.Label("CÓDIGO OIA-PP")
+                    @Html.TextBox("CodigoOia", null, new { @class = "form-control", maxlength="4", onkeypress = "return onlyNos(event,this);" })
+                    @Html.ValidationMessage("CodigoOia", null, new { @class = "text-danger" })
+              
+                </div>
+                <div class="" style="float: right" >
+                    @Html.Label("Digite o número CIPP")
+                    @Html.TextBox("CodigoCipp", null, new { @class = "form-control", maxlength="7", onkeypress = "return onlyNos(event,this);" })
+                    @Html.ValidationMessage("CodigoCipp")
+
+                </div>
+           
+                <div id="loginActions" style="float: right">
+                    <input type="submit" class="btn btn-primary" value="Buscar" title="Download" id="btnBuscar">
+                    @*<input type="reset" class="btn btn-basic" value="Cancelar" title="Cancelar" id="Cancelar">*@
+                </div>
+            </form>
+        </div>
     </div>
 
    
-    <div class="col-md-4 col-md-offset-1 ">
-        <form action="@Url.Action("ConsultaInspecao", "Inspecao")" class="form" id="download" method="post" novalidate="novalidate">
-           
-            <div class="form-group">
-                @Html.Label("CÓDIGO OIA-PP")
-                @Html.TextBox("CodigoOia", null, new { @class = "form-control", maxlength="4", onkeypress = "return onlyNos(event,this);" })
-                @Html.ValidationMessage("CodigoOia", null, new { @class = "text-danger" })
-              
-            </div>
-            <div class="form-group">
-                @Html.Label("Digite o número CIPP")
-                @Html.TextBox("CodigoCipp", null, new { @class = "form-control", maxlength="7", onkeypress = "return onlyNos(event,this);" })
-                @Html.ValidationMessage("CodigoCipp")
-
-            </div>
-           
-            <div id="loginActions">
-                <input type="submit" class="btn btn-primary" value="Buscar" title="Download" id="btnBuscar">
-                @*<input type="reset" class="btn btn-basic" value="Cancelar" title="Cancelar" id="Cancelar">*@
-            </div>
-        </form>
-    </div>
+   
     @if (Model != null)
     {
         <div id="idConsultaInspecao">

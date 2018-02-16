@@ -50,8 +50,8 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
         public string CriarArquivoInspecoesAnexo(IList<InspecaoCsvModel> inspecoes)
         {
-            string physicalPathToDirectory = Environment.GetEnvironmentVariable("TEMP");
-            string fileName = "Updates" + ".csv";
+           // string physicalPathToDirectory = Environment.GetEnvironmentVariable("CIPP");
+            string fileName =  ".csv";
             var date = DateTime.Now.ToString("yyyy-MM-dd_HH-mm", CultureInfo.InvariantCulture);
             ExportarCSV inspecaoCsv = new ExportarCSV();
             Notificacao email = new Notificacao();
@@ -65,11 +65,12 @@ namespace INMETRO.CIPP.SHARED.Servicos
                 inspecaoCsv["Responsável"] = item.Responsavel;
                 inspecaoCsv["Data da Inspecão"] = item.DataInspecao;
             }
-            var path = physicalPathToDirectory + date + fileName;
+            var path = "CIPP -" + date + fileName;
            
 
             inspecaoCsv.ExportToFile(path);
-            email.EnviarEmailComAnexo("wellingtonts.lima@gmail.com", path);
+            //todo:Informar emails que irão receber emails da rotina automática
+            email.EnviarEmailComAnexo("wtslima@gmail.com", path);
             return path;
         }
 

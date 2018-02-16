@@ -60,13 +60,18 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
                     try
                     {
-                        if (TemInspecaoValida(diretorioCippRemoto)) continue;
-                        if (!TemCipp(cipp, diretorioCippRemoto)) continue;
                         var diretorioLocal = ObterDiretorioLocal(ftpInfos.DiretorioInspecaoLocal, diretorioCippRemoto);
+                        if (TemInspecaoValida(diretorioCippRemoto)) continue;
+                        if (TemCipp(cipp, diretorioCippRemoto))
+                        {
+                            
+                            DownloadInspecao(ftpInfos, diretorioLocal, diretorioCippRemoto);
+                            break;
+                        }
+
                         DownloadInspecao(ftpInfos, diretorioLocal, diretorioCippRemoto);
 
-                       
-                        break;
+
                     }
                     catch (Exception e)
                     {
@@ -277,8 +282,9 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         private static bool TemCipp(string cipp, string cippServer)
         {
             var cippServe = Path.GetFileNameWithoutExtension(cippServer);
+            if (string.IsNullOrWhiteSpace(cipp)) return false;
             bool combinam = cipp.Equals(cippServe);
-            if (!string.IsNullOrWhiteSpace(cipp) && combinam)
+            if (combinam)
             {
                 return true;
             }
