@@ -1,0 +1,63 @@
+﻿
+@model List<INMETRO.CIPP.WEB.Models.InspecaoModel>
+
+
+    <table class="table table-striped table-bordered table-hover" >
+        <thead  >
+        <tr>
+            <th style="text-align:center">
+                @Html.DisplayName("CÓDIGO OIA-PP")
+            </th>
+            <th style="text-align:center">
+                @Html.DisplayName("CIPP")
+            </th>
+            <th style="text-align:center">
+                @Html.DisplayName("PLACA")
+            </th>
+            <th style="text-align:center">
+                @Html.DisplayName("EQUIPAMENTO")
+            </th>
+            <th style="text-align:center">
+                @Html.DisplayName("RESPONSÁVEL")
+            </th>
+            <th style="text-align:center" >
+                @Html.DisplayName("DATA INSPEÇÃO")
+            </th>
+           
+        </tr>
+        </thead>
+        <tbody>
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                <tr >
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.CodigoOia)
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.CodigoCipp)
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.Placa)
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.Equipamento)
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.Responsavel)
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.DataInspecao)
+                    </td>
+                    @*<td>
+                   <button type="button" class="btn btn-link" data-item="@item.CodigoCipp">Deletar</button>
+                </td>*@
+                </tr>
+            }
+        }
+        </tbody>
+    </table>
+
+
+

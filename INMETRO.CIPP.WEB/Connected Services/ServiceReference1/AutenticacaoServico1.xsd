@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://inmetro.gov.br/ControleAcesso/DataContracts" elementFormDefault="qualified" targetNamespace="http://inmetro.gov.br/ControleAcesso/DataContracts" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://controleacesso-d.inmetro.local/AutenticacaoServico.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/ControleAcessoService.DataContracts" />
+  <xs:complexType name="ArrayOfUsuario">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Usuario" nillable="true" type="tns:Usuario" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfUsuario" nillable="true" type="tns:ArrayOfUsuario" />
+  <xs:complexType name="Usuario">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Login" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Nome" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Email" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CPF" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Perfis" nillable="true" type="tns:ArrayOfPerfil" />
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/ControleAcessoService.DataContracts" minOccurs="0" name="PessoaFisica" nillable="true" type="q1:PessoaFisica" />
+      <xs:element minOccurs="0" name="Senha" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Nascimento" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ControleAtivo" nillable="true" type="xs:string" />
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/ControleAcessoService.DataContracts" minOccurs="0" name="Tipo" type="q2:TipoUsuario" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Usuario" nillable="true" type="tns:Usuario" />
+  <xs:complexType name="ArrayOfPerfil">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Perfil" nillable="true" type="tns:Perfil" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfPerfil" nillable="true" type="tns:ArrayOfPerfil" />
+  <xs:complexType name="Perfil">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CodigoSistema" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CodigoPerfil" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NomePerfil" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ControleAtivo" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Perfil" nillable="true" type="tns:Perfil" />
+  <xs:complexType name="Login">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="UserName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Senha" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Login" nillable="true" type="tns:Login" />
+</xs:schema>

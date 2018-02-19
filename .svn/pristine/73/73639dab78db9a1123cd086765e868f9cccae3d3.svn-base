@@ -1,0 +1,359 @@
+.navbar {
+  z-index: 1;
+}
+.navbar-nav {
+  margin: 0 ;
+}
+.navbar-brand {
+	padding: 12px 15px;
+}
+.dropdown-toggle.navbar-brand-system {
+	padding-top: 12px;
+  padding-bottom: 14px;
+}
+.dropdown-toggle.navbar-brand-system.text {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.dropdown.dropdown-navbar-header {
+	display: inline-block;
+	vertical-align: top;
+	float:left;
+}
+.navbar-brand,
+.navbar-brand-system,
+.navbar-user {
+	border-right: solid 1px #e9e7e9;
+}
+@media (max-width: 767px) {
+	.navbar-brand,
+	.navbar-brand-system,
+	.navbar-user {
+		border-right: none;
+	}
+	.nav.navbar-nav {
+		float:left;
+	}
+	.collapse.in {
+		float: right;
+	}
+	.navbar-collapse {
+		border: none;
+	}
+}
+@media (max-width: 529px) {
+	.nav.navbar-nav {
+		border-bottom: solid 1px #e9e7e9;
+		float:none;
+	}
+	.dropdown.dropdown-navbar-header {
+		display: block;
+		border-top: solid 1px #e9e7e9;
+		float:none;
+  }
+	.dropdown.dropdown-navbar-header:first-child {
+		clear: left;
+	}
+	.navbar-toggle {
+		float: left;
+		margin-left: 15px;
+	}
+	.collapse.in {
+		float: none;
+	}
+}
+.navbar-default .navbar-nav>.open>a.navbar-brand-system,
+.navbar-default .navbar-nav>.open>a.navbar-brand-system:focus,
+.navbar-default .navbar-nav>.open>a.navbar-user,
+.navbar-default .navbar-nav>.open>a.navbar-user:focus {
+	border-color: #e9e7e9;
+}
+.navbar-nav>li>a.navbar-user {
+	padding-top: 15px;
+  padding-bottom: 15px;
+}
+.footer-inmetro {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  margin-top: 100px;
+  color: #767676;
+  text-align: center;
+  border-top: 1px solid #e5e5e5;
+  background-color: #F8F8F8;
+}
+#footer-brasil {
+  background: none repeat scroll 0% 0% #2c66ce;
+  padding: 1em 0px;
+  max-width: 100%;
+}
+.ul-no-style {
+	list-style-type: none; 
+	padding-left:0; 
+	margin-bottom:0;
+}
+.ol-no-style {
+	padding-left:20px; 
+	margin-bottom:0;
+}
+.list-group-item-style-none {
+	list-style-type: none;
+}
+.dropdown-head {
+	float:left;
+	margin-right:0.5em;
+}
+.text-decoration-underline {
+	text-decoration: underline;
+}
+/*h3 a.btn-block {
+	text-decoration:none;
+}*/
+.panel .panel-heading .panel-title span.glyphicon {
+	margin-right:10px;
+}
+dd {
+	margin-bottom:20px;
+}
+.margin-top-20px {
+	margin-top:20px;
+}
+.margin-top-10px {
+	margin-top:10px;
+}
+.margin-right-20px {
+	margin-right:20px;
+}
+.display-inline-block {
+	display:inline-block;
+}
+@media (max-width: 400px) {
+  .hidden-xxs {
+    display: none !important;
+  }
+}
+/* tabelas */
+.vertical-align-top {
+	vertical-align:top !important;
+}
+/* Título da tabela */
+caption.lead {
+	border-bottom: 2px solid #ddd;
+  margin-bottom: 0;
+}
+.row-caption {
+	margin-right: -8px;
+  margin-left: -8px;
+}
+th .dropdown a,
+th .dropdown a:focus {
+  color: #333;
+	text-decoration: none;
+	white-space: nowrap;
+}
+th .dropdown a:hover,
+th .dropdown a:active {
+  color: #337ab7;
+  text-decoration: none;
+}
+caption>h2, td>h2, th>h2, td>h3, th>h3 {
+	margin: inherit;
+	font-size: inherit;
+	line-height: inherit;
+	font-weight: inherit;
+}
+caption small {
+	font-size: 60%;
+	margin-top: 9px;
+}
+table .nav-pills li {
+	margin-left:6px;
+}
+/* para usar com nav-pills */
+.table>thead>tr>td.td-nav {
+	padding: 3px 0;
+	border-bottom: 2px solid #ddd;
+}
+.table>thead>tr>td.td-nav>.td-nav-group {
+	padding: 3px 8px;
+	display: inline-block;
+}
+.dropdown-table-head {
+	float:left;
+	margin-right:0.2em;
+}
+.label-status {
+  font-size: 94%;
+}
+/* formularios */
+legend a {
+	text-decoration:none;
+}
+.nested-fieldset {
+  border: 0 !important; 
+  margin-bottom: 5px;
+  font-weight: 700;
+  font-size: 14px;
+}
+@media (max-width: 399px) {
+	.table>thead>tr>td.td-nav>form.td-nav-group {
+		display: block;
+	}
+}
+@media (min-width: 400px) {
+	.td-nav>.form-inline .form-group {
+    display: inline-block;
+    margin-bottom: 0;
+    vertical-align: middle;
+  }
+  .td-nav>.form-inline .form-control {
+    display: inline-block;
+    width: auto;
+    vertical-align: middle;
+  }
+	.td-nav>.form-inline .form-control-static {
+    display: inline-block;
+  }
+  .td-nav>.form-inline .input-group {
+    display: inline-table;
+    vertical-align: middle;
+  }
+  .td-nav>.form-inline .input-group .input-group-addon,
+  .td-nav>.form-inline .input-group .input-group-btn,
+  .td-nav>.form-inline .input-group .form-control {
+    width: auto;
+  }
+  .td-nav>.form-inline .input-group > .form-control {
+    width: 100%;
+  }
+  .td-nav>.form-inline .control-label {
+    margin-bottom: 0;
+    vertical-align: middle;
+  }
+  .td-nav>.form-inline .radio,
+  .td-nav>.form-inline .checkbox {
+    display: inline-block;
+    margin-top: 0;
+    margin-bottom: 0;
+    vertical-align: middle;
+  }
+  .td-nav>.form-inline .radio label,
+  .td-nav>.form-inline .checkbox label {
+    padding-left: 0;
+  }
+  .td-nav>.form-inline .radio input[type="radio"],
+  .td-nav>.form-inline .checkbox input[type="checkbox"] {
+    position: relative;
+    margin-left: 0;
+  }
+  .td-nav>.form-inline .has-feedback .form-control-feedback {
+    top: 0;
+  }
+}
+/* Fim formulários */
+/* Banners */
+.banner-faq-registro {
+	background-image:url(../img/banner_faq_fundo.png);
+}
+.banner-registro-glyphicon {
+	font-size:3.5em;
+}
+.banner-registro-texto {
+	font-size:1.5em;
+}
+@media (max-width: 767px) {
+  .banner-registro {
+		padding: 0 15px;
+		font-weight:bold;
+	}
+	.banner-registro-glyphicon {
+		font-size:2.75em;
+	}
+	.banner-registro-texto {
+		font-size:1.55em;
+	}
+}
+@media (max-width: 707px) {
+	.banner-registro-glyphicon {
+		font-size:2em;
+	}
+}
+@media (max-width: 460px) {
+	.banner-registro {
+		padding: 3px 15px;
+	}
+	.banner-registro-glyphicon {
+		font-size:1.55em;
+	}
+	.banner-registro-texto {
+		font-size:1.35em;
+	}
+}
+@media (min-width: 992px) {
+  .banner-registro {
+	height:73px;
+  }
+}
+@media (min-width: 1200px) {
+  .banner-registro {
+	height:92px;
+  }
+}
+/* FIM BANNERS */
+/* 
+Alinhamento vertical de colunas
+Copyright © 2013 - 2015 Riccardo Caroli 
+*/
+
+/* columns of same height styles */
+.row-full-height {
+  height: 100%;
+}
+.col-full-height {
+  height: 100%;
+  vertical-align: middle;
+}
+.row-same-height {
+  display: table;
+  width: 100%;
+  /* fix overflow */
+  table-layout: fixed;
+}
+.col-xs-height {
+  display: table-cell;
+  float: none !important;
+}
+
+@media (min-width: 768px) {
+  .col-sm-height {
+    display: table-cell;
+    float: none !important;
+  }
+}
+@media (min-width: 992px) {
+  .col-md-height {
+    display: table-cell;
+    float: none !important;
+  }
+}
+@media (min-width: 1200px) {
+  .col-lg-height {
+    display: table-cell;
+    float: none !important;
+  }
+}
+
+/* vertical alignment styles */
+.col-top {
+  vertical-align: top;
+}
+.col-middle {
+  vertical-align: middle;
+}
+.col-bottom {
+  vertical-align: bottom;
+}
+
+.wraper {
+    height: calc(100vh - 382px);
+    display: table;
+}

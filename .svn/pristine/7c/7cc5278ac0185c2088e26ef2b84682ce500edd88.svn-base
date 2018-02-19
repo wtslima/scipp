@@ -1,0 +1,16 @@
+﻿<footer class="footer-inmetro" role="contentinfo">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-6">
+                CIPP Versão 0.0.1 - 25/01/2018
+            </div>
+            <div class="col-xs-6">
+                © Copyright 1993 - 2018 Inmetro.
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- obrigatório APENAS na internet -->
+<!-- rodape do Governo Federal -->
+<div id="footer-brasil"></div>

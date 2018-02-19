@@ -1,0 +1,20 @@
+﻿@using System.Reflection;
+@{
+    var version = typeof(INMETRO.CIPP.WEB.MvcApplication).Assembly.GetName().Version;
+    var date = typeof(INMETRO.CIPP.WEB.MvcApplication).Assembly.BuildDate();
+}
+
+<footer class="footer-inmetro" role="contentinfo">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-9">
+                <p class="text-muted">INMETRO &REG; @DateTime.Today.Year. Todos os direitos autorais reservados Cipp. Ver. @version.Revision.ToString() / @date.ToString("dd") de @date.ToString("MMMM") de @date.ToString("yyyy").</p>
+            </div>
+          
+        </div>
+    </div>
+</footer>
+
+<!-- obrigatório APENAS na internet -->
+<!-- rodape do Governo Federal -->
+<div id="footer-brasil"></div>

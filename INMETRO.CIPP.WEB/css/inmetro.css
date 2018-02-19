@@ -25,6 +25,10 @@
 .navbar-user {
 	border-right: solid 1px #e9e7e9;
 }
+.table thead th{
+    background-color:black;
+    color: white;
+}
 @media (max-width: 767px) {
 	.navbar-brand,
 	.navbar-brand-system,

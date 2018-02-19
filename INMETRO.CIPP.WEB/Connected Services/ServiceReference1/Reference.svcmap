@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="2d1f02dc-206d-46b9-9706-fc97a063339a" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://controleacesso-d.inmetro.local/AutenticacaoServico.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="AutenticacaoServico.xsd" MetadataType="Schema" ID="30439aff-31ac-4e08-99b6-2349a811ad49" SourceId="1" SourceUrl="http://controleacesso-d.inmetro.local/AutenticacaoServico.svc?xsd=xsd5" />
+    <MetadataFile FileName="AutenticacaoServico1.xsd" MetadataType="Schema" ID="82731050-b71f-488c-a0e6-aa2e1ed387f2" SourceId="1" SourceUrl="http://controleacesso-d.inmetro.local/AutenticacaoServico.svc?xsd=xsd2" />
+    <MetadataFile FileName="AutenticacaoServico2.xsd" MetadataType="Schema" ID="fc85d46e-e54f-486a-9428-5e5d02698181" SourceId="1" SourceUrl="http://controleacesso-d.inmetro.local/AutenticacaoServico.svc?xsd=xsd3" />
+    <MetadataFile FileName="AutenticacaoServico3.xsd" MetadataType="Schema" ID="f8b5a8d6-e61e-4f7e-9ca8-0a6c377f4cb5" SourceId="1" SourceUrl="http://controleacesso-d.inmetro.local/AutenticacaoServico.svc?xsd=xsd0" />
+    <MetadataFile FileName="AutenticacaoServico.wsdl" MetadataType="Wsdl" ID="6832343e-922f-4539-b335-0f894adae60c" SourceId="1" SourceUrl="http://controleacesso-d.inmetro.local/AutenticacaoServico.svc?wsdl=wsdl0" />
+    <MetadataFile FileName="AutenticacaoServico4.xsd" MetadataType="Schema" ID="fa7b0686-0b0d-4497-b313-7b8de73167d6" SourceId="1" SourceUrl="http://controleacesso-d.inmetro.local/AutenticacaoServico.svc?xsd=xsd1" />
+    <MetadataFile FileName="AutenticacaoServico5.xsd" MetadataType="Schema" ID="bd9040b7-2406-4e0b-905f-be419ba65ef7" SourceId="1" SourceUrl="http://controleacesso-d.inmetro.local/AutenticacaoServico.svc?xsd=xsd4" />
+    <MetadataFile FileName="AutenticacaoServico.disco" MetadataType="Disco" ID="ad580dfb-8ed8-4edc-b494-151f0ec97aa3" SourceId="1" SourceUrl="http://controleacesso-d.inmetro.local/AutenticacaoServico.svc?disco" />
+    <MetadataFile FileName="AutenticacaoServico1.wsdl" MetadataType="Wsdl" ID="dced4db7-f52b-493e-af4d-697e30a24d6c" SourceId="1" SourceUrl="http://controleacesso-d.inmetro.local/AutenticacaoServico.svc?wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
