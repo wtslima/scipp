@@ -4,44 +4,52 @@
 @{
     ViewBag.Title = "ConsultaInspecao";
 }
-    <div class="row">
+<div class="row">
+
     <div class="col-md-10 col-md-offset-1">
-        <h2 class="tituloSistema" >Consulta de Inspeções</h2>
-        
-        <div class="col-md-8 col-md-offset-1">
-            <form action="@Url.Action("ConsultaInspecao", "Inspecao")" class="form" id="download" method="post" novalidate="novalidate">
-           
-                <div class="" style="float: left" >
+        <h2 class="tituloSistema">
+            <strong>Consultar Inspeções</strong>
+        </h2>
+
+
+        <form action="@Url.Action("ConsultaInspecao", "Inspecao")" class="form" id="download" method="post" novalidate="novalidate">
+            <div class="col-md-5" style="margin-top: 25px; margin-bottom: 15px">
+                <div class="" style="float: left">
                     @Html.Label("CÓDIGO OIA-PP")
-                    @Html.TextBox("CodigoOia", null, new { @class = "form-control", maxlength="4", onkeypress = "return onlyNos(event,this);" })
+                    @Html.TextBox("CodigoOia", null, new { @class = "form-control", maxlength = "4", onkeypress = "return onlyNos(event,this);" })
                     @Html.ValidationMessage("CodigoOia", null, new { @class = "text-danger" })
-              
+
                 </div>
-                <div class="" style="float: right" >
+                <div class="" style="float: right">
                     @Html.Label("Digite o número CIPP")
-                    @Html.TextBox("CodigoCipp", null, new { @class = "form-control", maxlength="7", onkeypress = "return onlyNos(event,this);" })
+                    @Html.TextBox("CodigoCipp", null, new { @class = "form-control", maxlength = "7", onkeypress = "return onlyNos(event,this);", placeholder = "opcional" })
                     @Html.ValidationMessage("CodigoCipp")
 
                 </div>
-           
-                <div id="loginActions" style="float: right">
-                    <input type="submit" class="btn btn-primary" value="Buscar" title="Download" id="btnBuscar">
-                    @*<input type="reset" class="btn btn-basic" value="Cancelar" title="Cancelar" id="Cancelar">*@
-                </div>
-            </form>
-        </div>
+            </div>
+            <div id="loginActions" style="float: left; margin-top: 50px;">
+                <input type="submit" class="btn btn-success bg-success" value="Buscar" title="Download" id="btnBuscar">
+                @*<input type="reset" class="btn btn-basic" value="Cancelar" title="Cancelar" id="Cancelar">*@
+            </div>
+        </form>
+
     </div>
 
-   
-   
-    @if (Model != null)
-    {
-        <div id="idConsultaInspecao">
-            @Html.Partial("_PartialConsultaInspecao", Model)
-        </div>
+    <div class="col-md-10 col-md-offset-1">
 
-    }
-
+        @if (Model != null)
+        {
+            <div id="idConsultaInspecao">
+                @Html.Partial("_PartialConsultaInspecao", Model)
+            </div>
+        }
+        @*else
+        {
+            <div id="idConsultaInspecao" class="alert alert-danger alert-dismissable">
+                @Html.Partial("_BuscaInspecaoError")
+            </div>
+        }*@
+    </div>
 </div>
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Web;
@@ -35,6 +36,7 @@ namespace INMETRO.CIPP.WEB.Controllers
             var lista = new List<InspecaoModel>();
             if (!ModelState.IsValid) return View(lista);
             var resultado = _servico.ObterInspecoes(model.CodigoOia, model.CodigoCipp);
+            if (resultado == null) return View(lista);
 
             foreach (var item in resultado)
             {
