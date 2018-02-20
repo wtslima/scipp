@@ -23,9 +23,9 @@ namespace INMETRO.CIPP.WEB.Controllers
         // GET: Inspecao
         public ActionResult ConsultaInspecao()
         {
-            //var user = HttpContext.Session["Usuario"];
-            //if (user == null)
-            //    return RedirectToAction("Login", "Login");
+            var user = HttpContext.Session["Usuario"];
+            if (user == null)
+                return RedirectToAction("Login", "Login");
             return View();
         }
 
