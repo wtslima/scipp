@@ -2,11 +2,12 @@
 {
     public class MensagemSistema
     {
-        public const string Msg004 = "Não é permitido usar caracteres especiais.";
+        public const string SucessoDownloadCodigoOiaeCipp = "O download para CÓDIGO-OIA-PP {0} e o CIPP {1} foi feito com sucesso!";
+        public const string SucessoDownloadCodigoOia = "O download para CÓDIGO-OIA-PP {0} foi feito com sucesso!";
         public const string CampoObrigatorio = "Campo obrigatório.";
-        public const string Msg008 = "Não é possível realizar esta operação, pois o usuário não está ativo.";
-        public const string Msg010 = "O e-mail / usuário informado não possui acesso ao sistema. Se for usuário, entre em contato com o suporte.";
-        public const string Msg022 = "Não foi possível realizar esta operação, pois o Organismo está Suspenso ou Cancelado.";
+        public const string FtpInvalido = "Não existe um site ftp válido para o Código OIA-PP {0}.";
+        public const string SemNovosDiretorios = "Não há nenhuma inspeção disponível para o Código OIA-PP {0}";
+        public const string FalhaDownloadFtp = "Houve uma falha ao fazer download do ftp para servidor Inmetro para CÓDIGO-OIA-PP {0} e o CIPP {1}.";
         public const string Msg025 = "Inclusão realizada com sucesso.";
         public const string Msg026 = "Alteração realizada com sucesso.";
         public const string Msg028 = "O CNPJ informado está incorreto.";

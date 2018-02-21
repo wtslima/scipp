@@ -13,5 +13,6 @@ namespace INMETRO.CIPP.WEB.Models
         public string CodigoCipp { get; set; }
 
         public bool IsSuccess { get; set; }
+        public string Mensagem { get; set; }
     }
 }

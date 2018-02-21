@@ -21,7 +21,7 @@ namespace INMETRO.CIPP.WEB.Controllers
         [HttpGet]
         public ActionResult Download(string usuario)
         {
-            var user  =HttpContext.Session["Usuario"];
+            var user = HttpContext.Session["Usuario"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
             DownloadModel model = new DownloadModel();
@@ -36,7 +36,15 @@ namespace INMETRO.CIPP.WEB.Controllers
             {
                 if (!ModelState.IsValid) return View(model);
 
-                model.IsSuccess = _servico.DownloadInspecaoPorUsuario(model.CodigoOia, model.CodigoCipp);
+                var usuario = HttpContext.Session["Usuario"].ToString();
+
+                var resultado = _servico.DownloadInspecaoPorUsuario(model.CodigoOia, model.CodigoCipp, usuario);
+                if (resultado != null)
+                {
+                    model.IsSuccess = resultado.ExisteExcecao;
+                    model.Mensagem = resultado.Mensagem;
+
+                }
                 if (!model.IsSuccess)
                 {
                     return View(model);

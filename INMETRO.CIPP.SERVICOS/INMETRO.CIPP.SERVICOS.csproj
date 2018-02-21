@@ -49,6 +49,7 @@
     <Compile Include="ModelService\HistoricoServiceModel.cs" />
     <Compile Include="ModelService\InspecaoModelServico.cs" />
     <Compile Include="ModelService\OrganismoServiceModel.cs" />
+    <Compile Include="ModelService\RetornoDownloadModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Servicos\DownloadServico.cs" />
     <Compile Include="Servicos\InspecaoServico.cs" />
