@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{787BE0E3-ACEA-46E9-8516-5680907B2B5C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>INMETRO.CIPP.SERVICOS</RootNamespace>
+    <AssemblyName>INMETRO.CIPP.SERVICOS</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Conversao.cs" />
+    <Compile Include="Interfaces\IDownloadServico.cs" />
+    <Compile Include="Interfaces\IInspecaoServico.cs" />
+    <Compile Include="ModelService\FtpServiceModel.cs" />
+    <Compile Include="ModelService\HistoricoExclusaoServiceModel.cs" />
+    <Compile Include="ModelService\HistoricoServiceModel.cs" />
+    <Compile Include="ModelService\InspecaoModelServico.cs" />
+    <Compile Include="ModelService\OrganismoServiceModel.cs" />
+    <Compile Include="ModelService\RetornoDownloadModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Servicos\DownloadServico.cs" />
+    <Compile Include="Servicos\InspecaoServico.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\INMETRO.CIPP.DOMINIO\INMETRO.CIPP.DOMINIO.csproj">
+      <Project>{55bdd78f-925f-42ec-9adc-d372cbd559da}</Project>
+      <Name>INMETRO.CIPP.DOMINIO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\INMETRO.CIPP.INFRA.REPOSITORIO\INMETRO.CIPP.INFRA.REPOSITORIO.csproj">
+      <Project>{dccaee2c-f142-4cf0-ba8d-342f35edb3a3}</Project>
+      <Name>INMETRO.CIPP.INFRA.REPOSITORIO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\INMETRO.CIPP.SHARED\INMETRO.CIPP.SHARED.csproj">
+      <Project>{725ab552-0591-43b2-ae4f-57abf1e52f16}</Project>
+      <Name>INMETRO.CIPP.SHARED</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

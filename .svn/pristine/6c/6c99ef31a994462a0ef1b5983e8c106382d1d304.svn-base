@@ -1,0 +1,40 @@
+﻿@using System.Web.Optimization
+@model INMETRO.CIPP.WEB.Models.LogonModel
+
+<div class="row">
+    <div class="col-md-offset-1 col-md-5 divTituloSistema">
+        @*<img src="~/Content/img/logo-login.jpg" class="logoIsos">*@
+        <h1><img class="img-responsive" style="margin-left: -25px;" src="~/img/logo-scipp.png" /></h1>
+       @* <h3 class="tituloSistema">Sistema de Certificado de Inspeção para o Transporte de Produtos Perigosos</h3>*@
+        <p class="versao">Versão: 18783 / 21 de fevereiro de 2018.</p>
+    </div>
+
+@using (Html.BeginForm())
+{
+    <div class="col-md-3 col-md-offset-1 boxLogin">
+        <form action="@Url.Action("Login", "Login")" class="form" method="post" novalidate="novalidate">
+            <div id="divDetalhe">
+                <div class="form-group">
+                    @Html.Label("Login*")
+                    @Html.TextBoxFor(x => x.Usuario, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Usuario, null, new { @class = "text-danger" })
+                   @* <input class="form-control" data-val="true" data-val-required="Campo obrigatório." id="Login" name="Login" type="text" value="">*@
+                    <span class="field-validation-valid" data-valmsg-for="Login" data-valmsg-replace="true"></span>
+                </div>
+                <div class="form-group">
+                    @Html.Label("Senha*")
+                    @Html.TextBoxFor(x => x.Senha, new { @class = "form-control", Type = "password" })
+                    @Html.ValidationMessageFor(x => x.Senha, null, new { @class = "text-danger" })
+                    <span class="field-validation-valid" data-valmsg-for="Senha" data-valmsg-replace="true"></span>
+                </div>
+            </div>
+            <div id="loginActions">
+                <input type="submit"  class="btn btn-primary" value="Entrar" title="Entrar" id="Entrar">
+               @* <a id="EsqueciMinhaSenha"><span class="glyphicon glyphicon-lock"></span>&nbsp;Esqueci minha senha</a>*@
+            </div>
+        </form>
+    </div>
+}
+    
+</div>
+
