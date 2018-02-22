@@ -22,10 +22,9 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
             if (string.IsNullOrEmpty(cipp))
             {
-
-
-
+                
                 var lista = _inspecaoDominio.ObterInspecaoPorCodigoOia(codigoOia);
+                
 
                 foreach (var item in lista)
                 {
@@ -64,7 +63,17 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             return listaInspecao;
         }
 
-        
-        
+
+        //private string  VerificarDiretorios(string[] diretorios, string codigo)
+        //{
+        //    var retornoDownload = new RetornoDownloadModel();
+
+        //    if (diretorios.Length != 0 && !ExisteInspecoesGravadas(diretorios)) return new RetornoDownloadModel();
+        //    retornoDownload.ExisteExcecao = false;
+        //    retornoDownload.Mensagem = string.Format(MensagemSistema.SemNovosDiretorios, codigo);
+        //    return retornoDownload;
+        //}
+
+
     }
 }

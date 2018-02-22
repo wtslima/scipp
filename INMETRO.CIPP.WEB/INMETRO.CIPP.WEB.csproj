@@ -234,6 +234,7 @@
     <Compile Include="Helpers\HttpContextBaseExtensions.cs" />
     <Compile Include="Helpers\ViewExtensions.cs" />
     <Compile Include="Models\DownloadModel.cs" />
+    <Compile Include="Models\ExceptionSystem.cs" />
     <Compile Include="Models\InspecaoModel.cs" />
     <Compile Include="Models\LogonModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -261,9 +262,9 @@
     <Content Include="Views\Login\_DetalheLogin.cshtml" />
     <Content Include="Views\Inspecao\_PartialConsultaInspecao.cshtml" />
     <Content Include="Views\Shared\_Error.cshtml" />
-    <Content Include="Views\Download\_DownloadSuccess.cshtml" />
-    <Content Include="Views\Download\_DownloadError.cshtml" />
+    <Content Include="Views\Download\_DownloadResposta.cshtml" />
     <Content Include="Views\Inspecao\_BuscaInspecaoError.cshtml" />
+    <Content Include="Views\Download\_DownloadError.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

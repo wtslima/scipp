@@ -8,7 +8,7 @@
         public const string FtpInvalido = "Não existe um site ftp válido para o Código OIA-PP {0}.";
         public const string SemNovosDiretorios = "Não há nenhuma inspeção disponível para o Código OIA-PP {0}";
         public const string FalhaDownloadFtp = "Houve uma falha ao fazer download do ftp para servidor Inmetro para CÓDIGO-OIA-PP {0} e o CIPP {1}.";
-        public const string Msg025 = "Inclusão realizada com sucesso.";
+        public const string NaoExisteCodigoOia = "Não existe CÓDIGO-OIA-PP {0} informado.";
         public const string Msg026 = "Alteração realizada com sucesso.";
         public const string Msg028 = "O CNPJ informado está incorreto.";
         public const string Msg031 = "Tipo de acreditação habilitado com sucesso.";

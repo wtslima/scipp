@@ -51,14 +51,21 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             try
             {
                 var retornoDownload = new RetornoDownloadModel();
-                var ftpInfos = _organismoRepositorio.BuscarOrganismoPorId(codigoOia).FtpInfo;
+                var organismo = _organismoRepositorio.BuscarOrganismoPorId(codigoOia);
 
-                retornoDownload = VerificarFtpValido(ftpInfos, codigoOia);
+                if (organismo.Id <= 0)
+                {
+                    retornoDownload.ExisteExcecao = false;
+                    retornoDownload.Mensagem = string.Format(MensagemSistema.NaoExisteCodigoOia, codigoOia);
+                    return retornoDownload;
+                }
+
+                retornoDownload = VerificarFtpValido(organismo.FtpInfo, codigoOia);
 
                 if (!retornoDownload.ExisteExcecao)
                     return retornoDownload;
 
-                var diretoriosCippRemoto = ObterListaDiretoriosPorOrganismo(ftpInfos);
+                var diretoriosCippRemoto = ObterListaDiretoriosPorOrganismo(organismo.FtpInfo);
 
                 retornoDownload = VerificarDiretorios(diretoriosCippRemoto, codigoOia);
 
@@ -71,12 +78,12 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
                     try
                     {
-                        var diretorioLocal = ObterDiretorioLocal(ftpInfos.DiretorioInspecaoLocal, diretorioCippRemoto);
+                        var diretorioLocal = ObterDiretorioLocal(organismo.FtpInfo.DiretorioInspecaoLocal, diretorioCippRemoto);
                         if (TemInspecaoValida(diretorioCippRemoto)) continue;
                         if (TemCipp(cipp, diretorioCippRemoto))
                         {
                             
-                            DownloadInspecao(ftpInfos, diretorioLocal, diretorioCippRemoto, usuario);
+                            DownloadInspecao(organismo.FtpInfo, diretorioLocal, diretorioCippRemoto, usuario);
                             retornoDownload.ExisteExcecao = true;
                             retornoDownload.Mensagem = string.Format(MensagemSistema.SucessoDownloadCodigoOiaeCipp,
                                 codigoOia, cipp);
@@ -84,7 +91,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                            
                         }
 
-                        DownloadInspecao(ftpInfos, diretorioLocal, diretorioCippRemoto, usuario);
+                        DownloadInspecao(organismo.FtpInfo, diretorioLocal, diretorioCippRemoto, usuario);
 
 
                     }

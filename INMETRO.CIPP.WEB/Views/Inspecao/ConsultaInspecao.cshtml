@@ -1,4 +1,6 @@
-﻿@model List<INMETRO.CIPP.WEB.Models.InspecaoModel>
+﻿@using System.Web.UI.WebControls
+@using INMETRO.CIPP.WEB.Models
+@model List<INMETRO.CIPP.WEB.Models.InspecaoModel>
 
 
 @{
@@ -31,19 +33,28 @@
     <br />
     <br />
     <div class="col-md-10 col-md-offset-1">
-
-        @if (Model != null)
+        
+       
+        @foreach(var item in @Model)
         {
-            <div id="idConsultaInspecao">
-                @Html.Partial("_PartialConsultaInspecao", Model)
-            </div>
+             if (item.CodigoOia != null)
+             {
+                 <div id="idConsultaInspecao">
+                     @Html.Partial("_PartialConsultaInspecao", Model)
+                 </div>
+                break;
+            }
         }
-        @*else
-            {
-                <div id="idConsultaInspecao" class="alert alert-danger alert-dismissable">
-                    @Html.Partial("_BuscaInspecaoError")
-                </div>
-            }*@
+        @{
+            var test = ViewData["DownloadModel"] as DownloadModel;
+
+            if (test.CodigoOia != null && @Model.Count == 0)
+             {
+                 <div id="idConsultaInspecao" class="alert alert-danger alert-dismissable">
+                     @Html.Partial("_BuscaInspecaoError", Model)
+                 </div>
+             }
+        }
     </div>
 </div>
 
