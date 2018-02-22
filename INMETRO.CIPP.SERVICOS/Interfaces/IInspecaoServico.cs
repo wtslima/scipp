@@ -7,5 +7,7 @@ namespace INMETRO.CIPP.SERVICOS.Interfaces
     {
         IEnumerable<InspecaoModelServico> ObterInspecoes(string codigoOia, string cipp);
 
+        IEnumerable<InspecaoModelServico> ObterTodasInspecoes();
+
     }
 }

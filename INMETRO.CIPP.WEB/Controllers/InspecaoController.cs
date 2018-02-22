@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using INMETRO.CIPP.SERVICOS.Interfaces;
+using INMETRO.CIPP.SERVICOS.ModelService;
 using INMETRO.CIPP.WEB.Models;
 
 namespace INMETRO.CIPP.WEB.Controllers
@@ -32,15 +33,21 @@ namespace INMETRO.CIPP.WEB.Controllers
         [HttpPost]
         public ActionResult ConsultaInspecao(DownloadModel model)
         {
-           
-            var lista = new List<InspecaoModel>();
-            if (!ModelState.IsValid) return View(lista);
 
-            var resultado = _servico.ObterInspecoes(model.CodigoOia, model.CodigoCipp);
+            var lista = new List<InspecaoModel>();
             ViewData["DownloadModel"] = model;
+            List<InspecaoModelServico> resultado;
+            //if (!ModelState.IsValid) return View(lista);
+            if (!string.IsNullOrEmpty(model.CodigoOia) || !string.IsNullOrEmpty(model.CodigoCipp))
+            {
+                resultado = (List<InspecaoModelServico>)_servico.ObterInspecoes(model.CodigoOia, model.CodigoCipp);
+               
+                if (resultado == null) return View(lista);
+            }
+
+            resultado = (List<InspecaoModelServico>)_servico.ObterTodasInspecoes();
             if (resultado == null) return View(lista);
 
-           
 
             foreach (var item in resultado)
             {
@@ -73,6 +80,6 @@ namespace INMETRO.CIPP.WEB.Controllers
         //    return lista;
         //}
 
-      
+
     }
 }

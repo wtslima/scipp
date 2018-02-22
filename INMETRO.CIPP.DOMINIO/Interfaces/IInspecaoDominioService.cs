@@ -14,6 +14,7 @@ namespace INMETRO.CIPP.DOMINIO.Interfaces
 
         IEnumerable<Inspecao> ObterInspecaoPorCodigoOia(string codigoOia);
         IEnumerable<Inspecao> ObterInspecaoPorPlacaLicenca(string placa);
+        IEnumerable<Inspecao> ObterTodasInspecoes();
 
     }
 }

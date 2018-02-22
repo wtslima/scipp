@@ -1,6 +1,6 @@
 ﻿@using System.Web.UI.WebControls
 @using INMETRO.CIPP.WEB.Models
-@model List<INMETRO.CIPP.WEB.Models.InspecaoModel>
+@model List<InspecaoModel>
 
 
 @{
@@ -33,9 +33,10 @@
     <br />
     <br />
     <div class="col-md-10 col-md-offset-1">
-        
        
-        @foreach(var item in @Model)
+        @if(@Model != null) { 
+
+        foreach(var item in @Model)
         {
              if (item.CodigoOia != null)
              {
@@ -45,7 +46,7 @@
                 break;
             }
         }
-        @{
+        {
             var test = ViewData["DownloadModel"] as DownloadModel;
 
             if (test.CodigoOia != null && @Model.Count == 0)
@@ -55,6 +56,8 @@
                  </div>
              }
         }
+        }
+        
     </div>
 </div>
 

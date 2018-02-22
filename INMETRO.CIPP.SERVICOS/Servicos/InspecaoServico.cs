@@ -63,6 +63,35 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             return listaInspecao;
         }
 
+        public IEnumerable<InspecaoModelServico> ObterTodasInspecoes()
+        {
+            var listaInspecao = new List<InspecaoModelServico>();
+            var lista = _inspecaoDominio.ObterTodasInspecoes();
+
+            if (lista == null) return listaInspecao;
+
+            foreach (var item in lista)
+            {
+                var inspecaoModelServico = new InspecaoModelServico
+                {
+                    CodigoCipp = item.CodigoCIPP,
+                    CodigoOia = item.CodigoOIA,
+                    Equipamento = item.NumeroEquipamento.ToString(),
+                    Placa = item.PlacaLicenca,
+                    DataInspecao = item.DataInspecao,
+                    Responsavel = item.ResponsavelTecnico
+                };
+
+
+                listaInspecao.Add(inspecaoModelServico);
+
+
+            }
+
+            return listaInspecao;
+
+        }
+
 
         //private string  VerificarDiretorios(string[] diretorios, string codigo)
         //{

@@ -102,7 +102,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                     }
 
                 }
-                retornoDownload.ExisteExcecao = true;
+                retornoDownload.ExisteExcecao =  true;
                 retornoDownload.Mensagem = string.Format(MensagemSistema.SucessoDownloadCodigoOia, codigoOia);
                 return retornoDownload;
             }

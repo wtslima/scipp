@@ -11,6 +11,7 @@ namespace INMETRO.CIPP.DOMINIO.Interfaces.Repositorios
         bool BuscarInspecaoPorCodigoCipp(string cipp);
         IList<Inspecao> ObterInspecaosPorCodigoOia(string codigoOia);
         IEnumerable<Inspecao> ObterInspecaosPorPlacaLicenca(string placaLicenca);
+        IEnumerable<Inspecao> ObterTodasInspecoes();
 
         bool ExisteCodigoOia(string codigoOia);
     }

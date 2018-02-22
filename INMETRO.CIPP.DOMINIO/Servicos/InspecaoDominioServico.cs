@@ -68,5 +68,18 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
                 throw e;
             }
         }
+
+        public IEnumerable<Inspecao> ObterTodasInspecoes()
+        {
+            try
+            {
+                var resultado =  _repositorio.ObterTodasInspecoes();
+                return resultado;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }

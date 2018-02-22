@@ -138,6 +138,35 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
 
         }
 
+        public IEnumerable<Inspecao> ObterTodasInspecoes()
+        {
+            using (var contexto = new CippContexto())
+            {
+                try
+                {
+
+                    var consulta = contexto.Inspecoes.ToList();
+
+                    return consulta.Select(i => new Inspecao
+                    {
+                        Id = i.Id,
+                        CodigoCIPP = i.CodigoCIPP,
+                        CodigoOIA = i.CodigoOIA,
+                        NumeroEquipamento = i.NumeroEquipamento,
+                        PlacaLicenca = i.PlacaLicenca,
+                        DataInspecao = i.DataInspecao,
+                        ResponsavelTecnico = i.ResponsavelTecnico
+                    });
+
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+            }
+        }
+
         public bool ExisteCodigoOia(string codigoOia)
         {
             throw new NotImplementedException();
