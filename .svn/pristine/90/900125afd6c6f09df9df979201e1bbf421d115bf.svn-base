@@ -1,0 +1,10 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model INMETRO.CIPP.SERVICOS.ModelService.RetornoDownloadModel
+  
+<div id="idConsultaInspecao" class="alert alert-danger alert-dismissable">
+<p>@Model.Mensagem</p>
+    </div>
+
+
