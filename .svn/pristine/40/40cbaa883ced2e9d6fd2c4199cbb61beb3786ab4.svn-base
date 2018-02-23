@@ -17,7 +17,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
         public IEnumerable<InspecaoModelServico> ObterInspecoes(string codigoOia, string cipp)
         {
-           //if(string.IsNullOrEmpty(codigoOia)) return new List<InspecaoModelServico>();
+           if(string.IsNullOrEmpty(codigoOia)) return new List<InspecaoModelServico>();
            var listaInspecao =  new List<InspecaoModelServico>();
 
             if (string.IsNullOrEmpty(cipp))

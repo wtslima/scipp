@@ -44,10 +44,11 @@ namespace INMETRO.CIPP.WEB.Controllers
                
                 if (resultado == null) return View(lista);
             }
-
-            resultado = (List<InspecaoModelServico>)_servico.ObterTodasInspecoes();
-            if (resultado == null) return View(lista);
-
+            else
+            {
+                resultado = (List<InspecaoModelServico>)_servico.ObterTodasInspecoes();
+                if (resultado == null) return View(lista);
+            }
 
             foreach (var item in resultado)
             {
