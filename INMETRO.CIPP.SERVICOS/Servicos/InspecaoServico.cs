@@ -1,24 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using INMETRO.CIPP.DOMINIO.Interfaces;
-using INMETRO.CIPP.DOMINIO.Servicos;
+using INMETRO.CIPP.DOMINIO.Interfaces.Repositorios;
 using INMETRO.CIPP.SERVICOS.Interfaces;
 using INMETRO.CIPP.SERVICOS.ModelService;
+using INMETRO.CIPP.SHARED;
 
 namespace INMETRO.CIPP.SERVICOS.Servicos
 {
     public class InspecaoServico : IInspecaoServico
     {
         private readonly IInspecaoDominioService _inspecaoDominio;
-        public InspecaoServico(IInspecaoDominioService inspecaoDominio)
+        private readonly IOrganismoRepositorio _organismoRepositorio;
+
+
+        public InspecaoServico(IInspecaoDominioService inspecaoDominio, IOrganismoRepositorio organismoRepositorio)
         {
             _inspecaoDominio = inspecaoDominio;
+            _organismoRepositorio = organismoRepositorio;
         }
 
         public IEnumerable<InspecaoModelServico> ObterInspecoes(string codigoOia, string cipp)
         {
-           if(string.IsNullOrEmpty(codigoOia)) return new List<InspecaoModelServico>();
-           var listaInspecao =  new List<InspecaoModelServico>();
+
+            if (!string.IsNullOrWhiteSpace(codigoOia))
+            {
+                var codigo = _organismoRepositorio.BuscarOrganismoPorId(codigoOia);
+                if (codigo.Id <= 0)
+                {
+                    var lista = new List<InspecaoModelServico>
+                    {
+                        new InspecaoModelServico
+                        {
+                            Mensagem = string.Format(MensagemSistema.NaoExisteCodigoOia, codigoOia),
+                            ExisteExcecao = true
+                        }
+                    };
+
+                    return lista;
+                }
+            }
+            
+            var listaInspecao =  new List<InspecaoModelServico>();
 
             if (string.IsNullOrEmpty(cipp))
             {

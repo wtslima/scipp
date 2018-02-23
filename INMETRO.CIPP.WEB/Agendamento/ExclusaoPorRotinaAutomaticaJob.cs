@@ -23,7 +23,7 @@ namespace INMETRO.CIPP.WEB.Agendamento
             _descompactar = new GerenciarArquivoCompactado();
             _ftp = new GerenciarFtp();
             _csv = new GerenciarCsv();
-            _inspecao = new InspecaoServico(null);
+            _inspecao = new InspecaoServico(null, null);
         }
 
         public void Execute(IJobExecutionContext context)

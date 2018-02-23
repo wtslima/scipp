@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using INMETRO.CIPP.DOMINIO.Interfaces.Repositorios;
 using INMETRO.CIPP.SERVICOS.Interfaces;
 using INMETRO.CIPP.SERVICOS.ModelService;
 using INMETRO.CIPP.WEB.Models;
@@ -15,6 +16,7 @@ namespace INMETRO.CIPP.WEB.Controllers
     {
 
         private readonly IInspecaoServico _servico;
+       
 
         public InspecaoController(IInspecaoServico servico)
         {
@@ -24,9 +26,9 @@ namespace INMETRO.CIPP.WEB.Controllers
         // GET: Inspecao
         public ActionResult ConsultaInspecao()
         {
-            var user = HttpContext.Session["Usuario"];
-            if (user == null)
-                return RedirectToAction("Login", "Login");
+            //var user = HttpContext.Session["Usuario"];
+            //if (user == null)
+            //    return RedirectToAction("Login", "Login");
             return View();
         }
 
@@ -37,17 +39,23 @@ namespace INMETRO.CIPP.WEB.Controllers
             var lista = new List<InspecaoModel>();
             ViewData["DownloadModel"] = model;
             List<InspecaoModelServico> resultado;
-            //if (!ModelState.IsValid) return View(lista);
+
             if (!string.IsNullOrEmpty(model.CodigoOia) || !string.IsNullOrEmpty(model.CodigoCipp))
             {
-                resultado = (List<InspecaoModelServico>)_servico.ObterInspecoes(model.CodigoOia, model.CodigoCipp);
-               
+                resultado = (List<InspecaoModelServico>) _servico.ObterInspecoes(model.CodigoOia, model.CodigoCipp);
+                var retorno = resultado.FirstOrDefault(s => s.ExisteExcecao);
+                if (retorno.ExisteExcecao)
+                {
+                    RetornoDownloadModel v = new RetornoDownloadModel();
+                    v.Mensagem = retorno.Mensagem;
+                    return PartialView("_BuscaInspecaoError", v);
+                }
+            }
+            else
+            {
+                resultado = (List<InspecaoModelServico>) _servico.ObterTodasInspecoes();
                 if (resultado == null) return View(lista);
             }
-
-            resultado = (List<InspecaoModelServico>)_servico.ObterTodasInspecoes();
-            if (resultado == null) return View(lista);
-
 
             foreach (var item in resultado)
             {

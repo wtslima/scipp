@@ -228,6 +228,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InspecaoController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Conversao\Converter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
