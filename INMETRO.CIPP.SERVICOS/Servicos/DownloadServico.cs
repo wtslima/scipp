@@ -284,8 +284,8 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
         private bool GravarHistoricoDownload(string cipp, string usuario)
         {
-            var value = Path.GetFileNameWithoutExtension(cipp);
-            var inspecao = _inspecaoServico.ObterDadosInspecao(value);
+            var retorno = Path.GetFileNameWithoutExtension(cipp);
+            var inspecao = _inspecaoServico.ObterDadosInspecaoPorCipp(retorno);
             if (inspecao.Id <= 0) return false;
             var historicoModel = new HistoricoServiceModel
             {

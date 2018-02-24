@@ -1,102 +1,96 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using INMETRO.CIPP.DOMINIO.Interfaces;
-using INMETRO.CIPP.DOMINIO.Interfaces.Repositorios;
 using INMETRO.CIPP.SERVICOS.Interfaces;
 using INMETRO.CIPP.SERVICOS.ModelService;
-using INMETRO.CIPP.SHARED;
 
 namespace INMETRO.CIPP.SERVICOS.Servicos
 {
     public class InspecaoServico : IInspecaoServico
     {
         private readonly IInspecaoDominioService _inspecaoDominio;
-        private readonly IOrganismoRepositorio _organismoRepositorio;
-
-
-        public InspecaoServico(IInspecaoDominioService inspecaoDominio, IOrganismoRepositorio organismoRepositorio)
+        
+        public InspecaoServico(IInspecaoDominioService inspecaoDominio)
         {
             _inspecaoDominio = inspecaoDominio;
-            _organismoRepositorio = organismoRepositorio;
         }
 
-        public IEnumerable<InspecaoModelServico> ObterInspecoes(string codigoOia, string cipp)
+        public IEnumerable<InspecaoModelServico> ObterInspecoesPorCodigoInformado(string codigoOia, string cipp)
         {
-
-           var listaInspecao = new List<InspecaoModelServico>();
-
-            if (!string.IsNullOrWhiteSpace(codigoOia))
+            try
             {
-                var codigo = _organismoRepositorio.BuscarOrganismoPorId(codigoOia);
-                if (codigo.Id <= 0)
+                if (!string.IsNullOrEmpty(codigoOia) && !string.IsNullOrEmpty(cipp))
                 {
-                    listaInspecao = new List<InspecaoModelServico>
+                    var listaInspecao = new List<InspecaoModelServico>
                     {
-                        new InspecaoModelServico
-                        {
-                            Mensagem = string.Format(MensagemSistema.NaoExisteCodigoOia, codigoOia),
-                            ExisteExcecao = true
-                        }
+                        Conversao.ConverterParaServico(_inspecaoDominio.ObterInspecaoParaCippECodigoOiaInformado(codigoOia, cipp))
                     };
-
                     return listaInspecao;
                 }
-            }
+                if (!string.IsNullOrEmpty(cipp))
+                {
+                    var inspecao = BuscarInspecaoPorCipp(cipp);
+                    return inspecao;
+                }
 
-            if (string.IsNullOrEmpty(cipp))
+                return BuscarInspecoesPorCodigoOia(codigoOia);
+            }
+            catch (Exception e)
             {
-                
-                var lista = _inspecaoDominio.ObterInspecaoPorCodigoOia(codigoOia).ToList();
-
-                if (lista.Count <= 0)
-                {
-                    listaInspecao = new List<InspecaoModelServico>
-                    {
-                        new InspecaoModelServico
-                        {
-                            Mensagem = string.Format(MensagemSistema.NenhumInspecaoEncontradoParaCodigoOia, codigoOia),
-                            ExisteExcecao = true
-                        }
-                    };
-
-                    return listaInspecao;
-                }
-
-                listaInspecao = Conversao.ConverterListaParaModeloService(lista);
-                return listaInspecao;
+                throw e;
             }
-           
-                var inspecao = _inspecaoDominio.ObterDadosInspecao(cipp);
-
-                if (inspecao.Id <= 0)
-                {
-                    listaInspecao = new List<InspecaoModelServico>
-                    {
-                        new InspecaoModelServico
-                        {
-                            Mensagem = string.Format(MensagemSistema.NenhumInspecaoEncontradoParaCodigoCipp, cipp),
-                            ExisteExcecao = true
-                        }
-                    };
-
-                    return listaInspecao;
-                }
-                
-                 listaInspecao.Add(Conversao.ConverterParaServico(inspecao));
-
-                return listaInspecao;
-           
+            
         }
 
         public IEnumerable<InspecaoModelServico> ObterTodasInspecoes()
         {
-            var listaInspecao = new List<InspecaoModelServico>();
-            var lista = _inspecaoDominio.ObterTodasInspecoes().ToList();
+            try
+            {
+                var lista = _inspecaoDominio.ObterTodasInspecoes().ToList();
 
-            listaInspecao = Conversao.ConverterListaParaModeloService(lista);
+                var listaInspecao = Conversao.ConverterListaParaModeloService(lista);
 
-            return listaInspecao;
+                return listaInspecao;
+            }
+            catch (Exception e)
+            {
+               
+                throw e;
+            }
+        }
 
+        private IEnumerable<InspecaoModelServico> BuscarInspecoesPorCodigoOia(string codigoOia)
+        {
+            try
+            {
+                var inspecoes = _inspecaoDominio.ObterInspecaoPorCodigoOia(codigoOia).ToList();
+
+                return Conversao.ConverterListaParaModeloService(inspecoes);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        private IEnumerable<InspecaoModelServico> BuscarInspecaoPorCipp(string cipp)
+        {
+            try
+            {
+                var listaInspecao = new List<InspecaoModelServico>();
+
+                var inspecao = _inspecaoDominio.ObterDadosInspecaoPorCipp(cipp);
+
+                listaInspecao.Add(Conversao.ConverterParaServico(inspecao));
+
+                return listaInspecao;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            
         }
 
     }

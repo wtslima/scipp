@@ -49,6 +49,7 @@
     <Compile Include="Interfaces\Repositorios\IHistoricoRepositorio.cs" />
     <Compile Include="Interfaces\Repositorios\IInspecaoRepositorio.cs" />
     <Compile Include="Interfaces\Repositorios\IOrganismoRepositorio.cs" />
+    <Compile Include="Mensagens\MensagemNegocio.cs" />
     <Compile Include="Modelos\FTPInfo.cs" />
     <Compile Include="Modelos\Historico.cs" />
     <Compile Include="Modelos\HistoricoExclusao.cs" />
@@ -61,8 +62,6 @@
     <Compile Include="Servicos\InspecaoDominioServico.cs" />
     <Compile Include="Servicos\OrganismoDominioServico.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Excpetions\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

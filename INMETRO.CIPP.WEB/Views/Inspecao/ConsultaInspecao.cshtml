@@ -23,7 +23,7 @@
             </div>
             <div class="form-group">
                 @Html.Label("Nº CIPP")
-                @Html.TextBox("CodigoCipp", null, new { @class = "form-control", maxlength = "7", onkeypress = "return onlyNos(event,this);", placeholder = "opcional", id="idCodigoOia" })
+                @Html.TextBox("CodigoCipp", null, new { @class = "form-control", maxlength = "7", onkeypress = "return onlyNos(event,this);", placeholder = "opcional", id= "idCipp" })
                 @Html.ValidationMessage("CodigoCipp")
             </div>
             <input type="submit" class="btn btn-primary bg-primary" value="Buscar" title="Download" id="btnBuscar">
@@ -64,19 +64,17 @@
 
 
 <script>
-    function onlyNos(e, t) {
+    function onlyNos(e) {
 
+        var charCode;
         if (window.event) {
-            var charCode = window.event.keyCode;
-        }
-        else if (e) {
-            var charCode = e.which;
-        }
-        else { return true; }
+            charCode = window.event.keyCode;
+        } else if (e) {
+            charCode = e.which;
+        } else { return true; }
 
         if (charCode > 31 && (charCode < 48 || charCode > 57)) {
 
-            //alert("Please Enter only Numbers");
             return false;
         }
         return true;

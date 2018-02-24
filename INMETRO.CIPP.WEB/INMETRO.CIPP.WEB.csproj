@@ -223,7 +223,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\CippController.cs" />
     <Compile Include="Controllers\DownloadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InspecaoController.cs" />
@@ -232,7 +231,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\HttpContextBaseExtensions.cs" />
     <Compile Include="Helpers\ViewExtensions.cs" />
     <Compile Include="Models\DownloadModel.cs" />
     <Compile Include="Models\ExceptionSystem.cs" />

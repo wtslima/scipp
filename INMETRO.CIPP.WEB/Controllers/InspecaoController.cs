@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using INMETRO.CIPP.SERVICOS.Interfaces;
 using INMETRO.CIPP.SERVICOS.ModelService;
@@ -10,7 +12,7 @@ namespace INMETRO.CIPP.WEB.Controllers
     {
 
         private readonly IInspecaoServico _servico;
-       
+
 
         public InspecaoController(IInspecaoServico servico)
         {
@@ -29,35 +31,61 @@ namespace INMETRO.CIPP.WEB.Controllers
         [HttpPost]
         public ActionResult ConsultaInspecao(DownloadModel model)
         {
-
-            var lista = new List<InspecaoModel>();
-            ViewData["DownloadModel"] = model;
-            List<InspecaoModelServico> resultado;
-            RetornoDownloadModel retornoMensagem = new RetornoDownloadModel();
-            if (!string.IsNullOrEmpty(model.CodigoOia) || !string.IsNullOrEmpty(model.CodigoCipp))
+            try
             {
-                resultado = (List<InspecaoModelServico>) _servico.ObterInspecoes(model.CodigoOia, model.CodigoCipp);
-                lista = Conversao.Converter.ConverterParaModelo(resultado);
-                foreach (var item in lista)
+                ViewData["DownloadModel"] = model;
+                var retornoMensagem = new RetornoDownloadModel();
+
+                if (!string.IsNullOrWhiteSpace(model.CodigoOia) || !string.IsNullOrWhiteSpace(model.CodigoCipp))
                 {
-                    if (item.ExisteExcecao)
+                    var lista = ObterInspecaoPorCodigoInformado(model.CodigoOia, model.CodigoCipp);
+                    foreach (var item in lista)
                     {
-                      
+                        if (!item.ExisteExcecao) continue;
                         retornoMensagem.Mensagem = item.Mensagem;
                         return PartialView("_BuscaInspecaoError", retornoMensagem);
                     }
+                    return View(lista);
                 }
-                return View(lista);
-            }
-            else
-            {
-                resultado = (List<InspecaoModelServico>) _servico.ObterTodasInspecoes();
-                if (resultado == null) return View(lista);
-            }
 
-            lista = Conversao.Converter.ConverterParaModelo(resultado);
-            
-            return View(lista);
+                var resultado = ObterInspecoes();
+                return resultado.Count<=0 ? View() : View(resultado);
+            }
+            catch (Exception e)
+            {
+                var exception = new ExceptionSystem();
+                if (e.InnerException != null && e.InnerException.Message != null) exception.Mensagem = e.InnerException.Message;
+                return PartialView("_Error", exception);
+            }
+           
+        }
+
+        private List<InspecaoModel> ObterInspecaoPorCodigoInformado(string codigoOia, string cipp)
+        {
+            try
+            {
+                var resultado = _servico.ObterInspecoesPorCodigoInformado(codigoOia, cipp).ToList();
+
+                return Conversao.Converter.ConverterParaModelo(resultado);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        private List<InspecaoModel> ObterInspecoes()
+        {
+            try
+            {
+                var resultado = _servico.ObterTodasInspecoes().ToList();
+
+                return Conversao.Converter.ConverterParaModelo(resultado);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
     }
 }

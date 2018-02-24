@@ -27,14 +27,10 @@ namespace INMETRO.CIPP.WEB.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(LogonModel model, String returnUrl)
+        public ActionResult Login(LogonModel model, string returnUrl)
         {
 
-
-            //if (!ModelState.IsValid)
-            //    return ToJsonError("_DetalheLogin", model);
-
-            String usuarioCorrente = "";
+            string usuarioCorrente = "";
             if (ModelState.IsValid)
             {
 
@@ -77,20 +73,15 @@ namespace INMETRO.CIPP.WEB.Controllers
         }
       
 
-        private void CriarCookie(String nomeUsuario, List<string> perfis)
+        private void CriarCookie(string nomeUsuario, IEnumerable<string> perfis)
         {
-            bool persisteCookie = false;
-
-            persisteCookie = true;
-
-            string MinutesTime = ConfigurationManager.AppSettings.Get("TempoConexao");
-            int connecttime = 240;
-            if (!int.TryParse(MinutesTime, out connecttime)) connecttime = 240;
-            FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(
-                1, nomeUsuario, DateTime.Now, DateTime.Now.AddMinutes(connecttime), persisteCookie,
+            var minutesTime = ConfigurationManager.AppSettings.Get("TempoConexao");
+            if (!int.TryParse(minutesTime, out var connecttime)) connecttime = 240;
+            var ticket = new FormsAuthenticationTicket(
+                1, nomeUsuario, DateTime.Now, DateTime.Now.AddMinutes(connecttime), true,
                 string.Join(",", perfis), FormsAuthentication.FormsCookiePath);
-            string hash = FormsAuthentication.Encrypt(ticket);
-            HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, hash);
+            var hash = FormsAuthentication.Encrypt(ticket);
+            var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, hash);
             if (ticket.IsPersistent) cookie.Expires = ticket.Expiration;
 
             Response.Cookies.Add(cookie);

@@ -20,8 +20,8 @@ namespace INMETRO.CIPP.WEB.Agendamento
         public DownloadPorRotinaAutomaticaJob()
         {
             var inspecaoRepositorio = new InspecaoRepositorio();
-            _inspecao = new InspecaoDominioServico(inspecaoRepositorio);
             _repositorio = new OrganismoRepositorio();
+            _inspecao = new InspecaoDominioServico(inspecaoRepositorio, _repositorio);
             _descompactar = new GerenciarArquivoCompactado();
             _ftp = new GerenciarFtp();
             _csv = new GerenciarCsv();

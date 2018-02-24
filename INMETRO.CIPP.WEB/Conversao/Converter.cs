@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using INMETRO.CIPP.SERVICOS.ModelService;
-using INMETRO.CIPP.SHARED.ModelShared;
 using INMETRO.CIPP.WEB.Models;
 
 namespace INMETRO.CIPP.WEB.Conversao

@@ -103,7 +103,9 @@ namespace INMETRO.CIPP.SERVICOS
                 Placa = value.PlacaLicenca,
                 Equipamento = value.NumeroEquipamento.ToString(),
                 DataInspecao = value.DataInspecao,
-                Responsavel = value.ResponsavelTecnico
+                Responsavel = value.ResponsavelTecnico,
+                ExisteExcecao = value.ExisteExcecao,
+                Mensagem = value.Mensagem
             };
         }
 
@@ -165,6 +167,8 @@ namespace INMETRO.CIPP.SERVICOS
                     Equipamento =  item.NumeroEquipamento.ToString(),
                     Responsavel = item.ResponsavelTecnico,
                     DataInspecao = item.DataInspecao,
+                    ExisteExcecao = item.ExisteExcecao,
+                    Mensagem = item.Mensagem
 
                 };
                 lista.Add(inspecao);

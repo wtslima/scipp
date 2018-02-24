@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace INMETRO.CIPP.WEB.Models
+﻿namespace INMETRO.CIPP.WEB.Models
 {
     public class InspecaoModel
     {

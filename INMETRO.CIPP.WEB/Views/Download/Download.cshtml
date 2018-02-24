@@ -1,5 +1,6 @@
 ﻿@using System.Drawing
 @model INMETRO.CIPP.WEB.Models.DownloadModel
+<style type="text/css">.tituloSistema { }</style>
 
 <div class="row">
     @using (Html.BeginForm())
@@ -24,8 +25,8 @@
                 <strong>Download Cipp</strong>
             </h2>
         </div>
-            <div class="col-md-3 col-md-offset-1 boxLogin">
-                <form action="@Url.Action("Download", "Download")" class="form" id="download" method="post" novalidate="novalidate">
+            <div class="col-md-3 col-md-offset-1">
+                <form action="@Url.Action("Download", "Download")"  id="download" method="post" novalidate="novalidate">
                     <div id="divDetalhe">
                         <div class="form-group">
                             @Html.Label("CÓDIGO OIA-PP")
@@ -51,19 +52,17 @@
             
 
 <script>
-    function onlyNos(e, t) {
+    function onlyNos(e) {
 
+        var charCode;
         if (window.event) {
-            var charCode = window.event.keyCode;
-        }
-        else if (e) {
-            var charCode = e.which;
-        }
-        else { return true; }
+            charCode = window.event.keyCode;
+        } else if (e) {
+            charCode = e.which;
+        } else { return true; }
 
         if (charCode > 31 && (charCode < 48 || charCode > 57)) {
 
-            //alert("Please Enter only Numbers");
             return false;
         }
         return true;

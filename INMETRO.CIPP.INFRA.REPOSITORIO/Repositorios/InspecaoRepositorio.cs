@@ -28,28 +28,21 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
             }
         }
 
-        public Inspecao ObterDadosInspecao(string Cipp)
+        public Inspecao ObterDadosInspecao(string cipp)
         {
             try
             {
                 using (var contexto = new CippContexto())
                 {
-                    var consulta = contexto.Inspecoes.FirstOrDefault(s => s.CodigoCIPP.Equals(Cipp));
+                    var consulta = contexto.Inspecoes.FirstOrDefault(s => s.CodigoCIPP.Equals(cipp));
 
                     return consulta ?? new Inspecao();
                 }
-
             }
             catch (Exception e)
             {
-
                 throw e;
             }
-        }
-
-        public bool AtualizarDadosInspecao(Inspecao inspecao)
-        {
-            throw new System.NotImplementedException();
         }
 
         public bool BuscarInspecaoPorCodigoCipp(string cipp)
@@ -67,7 +60,6 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
             }
             catch (Exception e)
             {
-
                 throw e;
             }
 
@@ -155,7 +147,8 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                         NumeroEquipamento = i.NumeroEquipamento,
                         PlacaLicenca = i.PlacaLicenca,
                         DataInspecao = i.DataInspecao,
-                        ResponsavelTecnico = i.ResponsavelTecnico
+                        ResponsavelTecnico = i.ResponsavelTecnico,
+                       
                     });
 
                 }
@@ -166,10 +159,6 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
 
             }
         }
-
-        public bool ExisteCodigoOia(string codigoOia)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
