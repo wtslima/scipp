@@ -49,7 +49,7 @@ namespace INMETRO.CIPP.WEB.Controllers
                             usuario.Perfis.Select(p => p.CodigoPerfil.Trim()).ToList());
                         Session["userLogin"] = model.Usuario;
                         Session["Usuario"] = usuario.Nome;
-                        usuarioCorrente = usuario.Nome;
+                       
 
                         if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/") &&
                             !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
@@ -57,7 +57,7 @@ namespace INMETRO.CIPP.WEB.Controllers
                             return RedirectToAction(returnUrl);
                         }
                     }
-                    Session["Usuario"] = "Wellington Lima";
+                   
                     usuarioCorrente = Session["Usuario"].ToString();
                     return RedirectToAction("Download", "Download", usuarioCorrente);
 
