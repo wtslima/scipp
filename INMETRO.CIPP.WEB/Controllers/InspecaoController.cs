@@ -10,10 +10,7 @@ namespace INMETRO.CIPP.WEB.Controllers
 {
     public class InspecaoController : Controller
     {
-
         private readonly IInspecaoServico _servico;
-
-
         public InspecaoController(IInspecaoServico servico)
         {
             _servico = servico;
@@ -29,27 +26,49 @@ namespace INMETRO.CIPP.WEB.Controllers
         }
 
         [HttpPost]
-        public ActionResult ConsultaInspecao(DownloadModel model)
+        public ActionResult ConsultaInspecao(DownloadModel model, int? page)
         {
             try
             {
+                
                 ViewData["DownloadModel"] = model;
                 var retornoMensagem = new RetornoDownloadModel();
-
-                if (!string.IsNullOrWhiteSpace(model.CodigoOia) || !string.IsNullOrWhiteSpace(model.CodigoCipp))
-                {
-                    var lista = ObterInspecaoPorCodigoInformado(model.CodigoOia, model.CodigoCipp);
-                    foreach (var item in lista)
+                var viewModel = new RetornoListaInspecoesViewModel();
+                var pager = new Pager(0,page);
+               
+                    if (!string.IsNullOrWhiteSpace(model.CodigoOia) ||
+                        !string.IsNullOrWhiteSpace(model.CodigoCipp))
                     {
-                        if (!item.ExisteExcecao) continue;
-                        retornoMensagem.Mensagem = item.Mensagem;
-                        return PartialView("_BuscaInspecaoError", retornoMensagem);
+
+                        var lista = ObterInspecaoPorCodigoInformado(model.CodigoOia,
+                            model.CodigoCipp);
+                        pager = new Pager(lista.Count(), page);
+                        foreach (var item in lista)
+                        {
+                            if (!item.ExisteExcecao) continue;
+                            retornoMensagem.Mensagem = item.Mensagem;
+                            return PartialView("_BuscaInspecaoError", retornoMensagem);
+                        }
+                        viewModel = new RetornoListaInspecoesViewModel
+                        {
+                            Inspecoes = lista.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
+                            Pager = pager,
+                            InspecaoModel = model
+                        };
+
+                        return View(viewModel);
                     }
-                    return View(lista);
-                }
+                
 
                 var resultado = ObterInspecoes();
-                return resultado.Count<=0 ? View() : View(resultado);
+                pager = new Pager(resultado.Count(), page);
+                viewModel = new RetornoListaInspecoesViewModel
+                {
+                    Inspecoes = resultado.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
+                    Pager = pager,
+                    InspecaoModel = model
+                };
+                return resultado.Count<=0 ? View() : View(viewModel);
             }
             catch (Exception e)
             {

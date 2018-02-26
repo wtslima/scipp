@@ -21,10 +21,10 @@ namespace INMETRO.CIPP.WEB.Controllers
         [HttpGet]
         public ActionResult Download(string usuario)
         {
-            var user = HttpContext.Session["Usuario"];
-            if (user == null)
-                return RedirectToAction("Login", "Login");
-            DownloadModel model = new DownloadModel();
+            //var user = HttpContext.Session["Usuario"];
+            //if (user == null)
+            //    return RedirectToAction("Login", "Login");
+            var model = new DownloadModel();
 
             return View(model);
         }

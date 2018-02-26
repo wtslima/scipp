@@ -7,11 +7,11 @@ namespace INMETRO.CIPP.WEB.Models
     {
         [Required(ErrorMessage = "O campo Usuário é obrigatório")]
         [Display(Name = "Usuário")]
-        public String Usuario { get; set; }
+        public string Usuario { get; set; }
 
         [Required(ErrorMessage = "O campo Senha é obrigatório")]
         [Display(Name = "Senha")]
         [DataType(DataType.Password)]
-        public String Senha { get; set; }
+        public string Senha { get; set; }
     }
 }

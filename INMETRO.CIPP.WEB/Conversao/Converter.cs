@@ -10,6 +10,8 @@ namespace INMETRO.CIPP.WEB.Conversao
         public static List<InspecaoModel>  ConverterParaModelo(List<InspecaoModelServico> list)
         {
             var lista = new List<InspecaoModel>();
+            
+
             foreach (var item in list)
             {
                 var inspecao = new InspecaoModel
@@ -22,7 +24,6 @@ namespace INMETRO.CIPP.WEB.Conversao
                     DataInspecao = item.DataInspecao.ToString(CultureInfo.InvariantCulture),
                     ExisteExcecao = item.ExisteExcecao,
                     Mensagem = item.Mensagem
-                    
                 };
                 lista.Add(inspecao);
             }

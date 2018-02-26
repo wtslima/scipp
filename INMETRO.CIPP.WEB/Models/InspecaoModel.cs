@@ -10,6 +10,7 @@
         public string DataInspecao { get; set; }
         public string Mensagem { get; set; }
         public bool  ExisteExcecao { get; set; }
+        public Pager Pagination { get; set; }
        
     }
 }

@@ -154,11 +154,11 @@
     </None>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Site.css" />
     <Content Include="css\bootstrap-theme.css" />
     <Content Include="css\bootstrap-theme.min.css" />
     <Content Include="css\bootstrap.css" />
     <Content Include="css\bootstrap.min.css" />
+    <Content Include="css\Site.css" />
     <Content Include="css\inmetro.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -192,6 +192,8 @@
     <None Include="Connected Services\ControleAcesso\AutenticacaoServico5.xsd">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="css\bootstrap-theme.css.map" />
+    <Content Include="css\bootstrap.css.map" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -236,13 +238,13 @@
     <Compile Include="Models\ExceptionSystem.cs" />
     <Compile Include="Models\InspecaoModel.cs" />
     <Compile Include="Models\LogonModel.cs" />
+    <Compile Include="Models\Pager.cs" />
+    <Compile Include="Models\RetornoListaInspecoesViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServicosAutomatizados\IServicAgendado.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
-    <Content Include="css\bootstrap-theme.css.map" />
-    <Content Include="css\bootstrap.css.map" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -263,6 +265,7 @@
     <Content Include="Views\Download\_DownloadResposta.cshtml" />
     <Content Include="Views\Inspecao\_BuscaInspecaoError.cshtml" />
     <Content Include="Views\Download\_DownloadError.cshtml" />
+    <Content Include="Views\Inspecao\_Consulta.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
