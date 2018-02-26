@@ -236,12 +236,13 @@
     <Compile Include="Helpers\ViewExtensions.cs" />
     <Compile Include="Models\DownloadModel.cs" />
     <Compile Include="Models\ExceptionSystem.cs" />
+    <Compile Include="Models\InspecaoExcluidaModel.cs" />
+    <Compile Include="Models\InspecaoExcluidaViewModel.cs" />
     <Compile Include="Models\InspecaoModel.cs" />
     <Compile Include="Models\LogonModel.cs" />
     <Compile Include="Models\Pager.cs" />
     <Compile Include="Models\RetornoListaInspecoesViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServicosAutomatizados\IServicAgendado.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -266,6 +267,8 @@
     <Content Include="Views\Inspecao\_BuscaInspecaoError.cshtml" />
     <Content Include="Views\Download\_DownloadError.cshtml" />
     <Content Include="Views\Inspecao\_Consulta.cshtml" />
+    <Content Include="Views\Inspecao\ConsultaInspecoesExcluida.cshtml" />
+    <Content Include="Views\Inspecao\_PartialConsultaInspecaoExcluida.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

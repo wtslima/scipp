@@ -11,17 +11,19 @@ namespace INMETRO.CIPP.WEB.Controllers
     public class InspecaoController : Controller
     {
         private readonly IInspecaoServico _servico;
-        public InspecaoController(IInspecaoServico servico)
+        private readonly IHistoricoInspecaoExcluidaServico _inspecaoExcluidaServico;
+        public InspecaoController(IInspecaoServico servico, IHistoricoInspecaoExcluidaServico inspecaoExcluidaServico)
         {
             _servico = servico;
+            _inspecaoExcluidaServico = inspecaoExcluidaServico;
         }
 
         // GET: Inspecao
         public ActionResult ConsultaInspecao()
         {
-            var user = HttpContext.Session["Usuario"];
-            if (user == null)
-                return RedirectToAction("Login", "Login");
+            //var user = HttpContext.Session["Usuario"];
+            //if (user == null)
+            //    return RedirectToAction("Login", "Login");
             return View();
         }
 
@@ -79,6 +81,66 @@ namespace INMETRO.CIPP.WEB.Controllers
            
         }
 
+        public ActionResult ConsultaInspecoesExcluida()
+        {
+            //var user = HttpContext.Session["Usuario"];
+            //if (user == null)
+            //    return RedirectToAction("Login", "Login");
+            return View();
+        }
+        [HttpPost]
+        public ActionResult ConsultaInspecoesExcluida (DownloadModel model, int? page)
+        {
+            try
+            {
+
+                ViewData["DownloadModel"] = model;
+                var retornoMensagem = new RetornoDownloadModel();
+                var viewModel = new InspecaoExcluidaModel();
+                var pager = new Pager(0, page);
+
+                if (!string.IsNullOrWhiteSpace(model.CodigoOia) ||
+                    !string.IsNullOrWhiteSpace(model.CodigoCipp))
+                {
+
+                    var lista = ObterInspecaoExcluidaPorCodigoInformado(model.CodigoOia,
+                        model.CodigoCipp);
+                    pager = new Pager(lista.Count(), page);
+                    foreach (var item in lista)
+                    {
+                        if (!item.ExisteExcecao) continue;
+                        retornoMensagem.Mensagem = item.Mensagem;
+                        return PartialView("_BuscaInspecaoError", retornoMensagem);
+                    }
+                    viewModel = new InspecaoExcluidaModel
+                    {
+                        HistoricoInspecoesExcluidas = (List<HistoricoExclusaoServiceModel>) lista.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
+                        Pager = pager,
+                        
+                    };
+
+                    return View(viewModel);
+                }
+
+
+                var resultado = ObterInspecoesExcluidas();
+                pager = new Pager(resultado.Count(), page);
+                viewModel = new InspecaoExcluidaModel
+                {
+                    HistoricoInspecoesExcluidas = (List<HistoricoExclusaoServiceModel>)resultado.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
+                    Pager = pager,
+                   
+                };
+                return resultado.Count <= 0 ? View() : View(viewModel);
+            }
+            catch (Exception e)
+            {
+                var exception = new ExceptionSystem();
+                if (e.InnerException != null && e.InnerException.Message != null) exception.Mensagem = e.InnerException.Message;
+                return PartialView("_Error", exception);
+            }
+        }
+
         private List<InspecaoModel> ObterInspecaoPorCodigoInformado(string codigoOia, string cipp)
         {
             try
@@ -106,5 +168,33 @@ namespace INMETRO.CIPP.WEB.Controllers
                 throw e;
             }
         }
+        private List<HistoricoExclusaoServiceModel> ObterInspecaoExcluidaPorCodigoInformado(string codigoOia, string cipp)
+        {
+            try
+            {
+                var resultado = _inspecaoExcluidaServico.ObterInspecoesExcluidasPorCodigoInformado(codigoOia, cipp).ToList();
+
+                return resultado;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        private List<HistoricoExclusaoServiceModel> ObterInspecoesExcluidas()
+        {
+            try
+            {
+                var resultado = _inspecaoExcluidaServico.ObterTodasInspecoesExcluidas().ToList();
+
+                return resultado;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
     }
 }

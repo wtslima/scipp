@@ -1,4 +1,6 @@
-﻿using INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios;
+﻿using INMETRO.CIPP.DOMINIO.Modelos;
+using INMETRO.CIPP.DOMINIO.Servicos;
+using INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios;
 using INMETRO.CIPP.SERVICOS.Servicos;
 using INMETRO.CIPP.SHARED.Servicos;
 using Quartz;
@@ -9,25 +11,21 @@ namespace INMETRO.CIPP.WEB.Agendamento
     {
        
         private readonly OrganismoRepositorio _repositorio;
-        private readonly GerenciarArquivoCompactado _descompactar;
         private readonly GerenciarFtp _ftp;
-        private readonly GerenciarCsv _csv;
-        public InspecaoServico Inspecao { get; }
+        public HistoricoExclusaoServico HistoricoInspecao { get; }
 
 
         public ExclusaoPorRotinaAutomaticaJob()
         {
-            var inspecaoRepositorio = new InspecaoRepositorio();
+            HistoricoInspecao = new HistoricoExclusaoServico(null, _repositorio);
             _repositorio = new OrganismoRepositorio();
-            _descompactar = new GerenciarArquivoCompactado();
             _ftp = new GerenciarFtp();
-            _csv = new GerenciarCsv();
-            Inspecao = new InspecaoServico(null);
+            
         }
 
         public void Execute(IJobExecutionContext context)
         {
-            var servico = new DownloadServico(_repositorio, _ftp, _descompactar, _csv, null);
+            var servico = new InspecaoExcluidaService(HistoricoInspecao, _repositorio, _ftp);
             servico.ExcluirInspecaoPorRotinaAutomatica().ConfigureAwait(true);
         }
     }

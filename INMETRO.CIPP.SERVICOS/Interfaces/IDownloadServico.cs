@@ -7,7 +7,6 @@ namespace INMETRO.CIPP.SERVICOS.Interfaces
     {
         RetornoDownloadModel DownloadInspecaoPorUsuario(string codigoOIA, string cipp, string usuario);
         Task<bool> DownloadInspecoesPorRotinaAutomatica();
-
-        Task<bool> ExcluirInspecaoPorRotinaAutomatica();
+       
     }
 }

@@ -23,11 +23,11 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         private readonly IOrganismoRepositorio _organismoRepositorio;
         private readonly IGerenciarFtp _ftp;
         private readonly IGerenciarArquivoCompactado _descompactar;
-        private readonly string _pathLocal = ConfigurationManager.AppSettings["LocalPath"];
         private readonly IGerenciarCsv _csv;
         private readonly IInspecaoDominioService _inspecaoServico;
         private readonly IHistorico _historicoServico;
-        private readonly IHistoricoExclusao _historicoExclusaoServico;
+
+        private readonly string _pathLocal = ConfigurationManager.AppSettings["LocalPath"];
 
         readonly List<InspecaoModelServico> _listaInspecoesParaEnvio = new List<InspecaoModelServico>();
 
@@ -39,9 +39,8 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             _csv = csv;
             _inspecaoServico = inspecaoServico;
             IHistoricoRepositorio historicoRepositorio = new HistoricoDownloadRepositorio();
-            IHistoricoExclusaoRepositorio historicoExclusaoRepositorio = new HistoricoExclusaoRepositorio();
             _historicoServico = new HistoricoServico(historicoRepositorio);
-            _historicoExclusaoServico = new HistoricoExclusaoServico(historicoExclusaoRepositorio);
+          
         }
 
 
@@ -133,6 +132,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                     }
                     catch (Exception e)
                     {
+                        throw e;
                     }
 
 
@@ -149,36 +149,6 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
         }
         #endregion
-
-        #region Excluir Inspecao Automatica
-
-        public async Task<bool> ExcluirInspecaoPorRotinaAutomatica()
-        {
-            try
-            {
-                var organismos = await _organismoRepositorio.BuscarTodosOrganismos();
-
-                if (organismos.Count <= 0) return false;
-                foreach (var item in organismos.GroupBy(c => c.FtpInfo))
-                {
-                    var lista = ObterInspecoesComMaisDeTrintaDias(item.Key);
-
-                    if (lista.Count > 0)
-                    {
-                        RemoverInspecaoComMaisDe30Dias(lista.ToList(), item.Key);
-                    }
-                }
-                return true;
-
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        #endregion
-
 
 
         private string[] ObterListaDiretoriosPorOrganismo(FTPInfo ftpInfo)
@@ -314,7 +284,6 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
         }
 
-
         private static bool TemCipp(string cipp, string cippServer)
         {
             var cippServe = Path.GetFileNameWithoutExtension(cippServer);
@@ -340,77 +309,13 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             }
             return path;
         }
-
-        public IList<string> ObterInspecoesComMaisDeTrintaDias(FTPInfo ftpInfo)
-        {
-            var listaDiretoriosParaExclusaoComMais30Dias = new List<string>();
-
-            var inspecoesDiretorios = _ftp.ObterListaDiretoriosInspecoesFtp(ftpInfo);
-
-
-            if (inspecoesDiretorios.Length <= 0) return new List<string>();
-
-            foreach (var inspecao in inspecoesDiretorios)
-            {
-                var dataDiretorioRemoto = _ftp.ObterDataEntradaFtp(ftpInfo, inspecao);
-                if (!TemMaisDe30Dias(dataDiretorioRemoto)) continue;
-                listaDiretoriosParaExclusaoComMais30Dias.Add(inspecao);
-            }
-
-            return listaDiretoriosParaExclusaoComMais30Dias;
-
-        }
-
-        public bool TemMaisDe30Dias(DateTime fileDate)
-        {
-            var limite = fileDate.AddDays(30);
-            return DateTime.Now > limite;
-        }
-
-        public void RemoverInspecaoComMaisDe30Dias(List<string> lista, FTPInfo ftpInfo)
-        {
-            try
-            {
-                foreach (var item in lista)
-                {
-                    if (!_ftp.ExcluirInspecao(ftpInfo, item)) continue;
-                    AddRegistrosExclusao(ftpInfo.Organismo.CodigoOIA, item);
-                }
-
-            }
-            catch (Exception e)
-            {
-
-                throw e;
-            }
-
-        }
+        
 
         private bool TemInspecaoValida(string cipp)
         {
             var inspecao = Path.GetFileNameWithoutExtension(cipp);
 
             return _inspecaoServico.TemInspecao(inspecao);
-
-        }
-
-        private void AddRegistrosExclusao(string codigoOia, string diretorio)
-        {
-            try
-            {
-                var registroExclusao = new HistoricoExclusaoServiceModel
-                {
-                    CodigoOia = codigoOia,
-                    Cipp = diretorio,
-                    DataExclusao = DateTime.Now
-                };
-                _historicoExclusaoServico.AdicionarRegistroDeHistoricoDeExclusao(
-                    Conversao.ConverterParaDominio(registroExclusao));
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
 
         }
 
@@ -447,8 +352,6 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
             return inspecoesNaoGravadas.Count;
         }
-
-
     }
 
 }

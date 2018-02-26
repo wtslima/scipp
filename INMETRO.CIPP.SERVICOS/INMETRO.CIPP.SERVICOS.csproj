@@ -56,6 +56,8 @@
     <Compile Include="ModelService\RetornoDownloadModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Servicos\DownloadServico.cs" />
+    <Compile Include="Interfaces\IHistoricoInspecaoExcluidaServico.cs" />
+    <Compile Include="Servicos\InspecaoExcluidaService.cs" />
     <Compile Include="Servicos\InspecaoServico.cs" />
   </ItemGroup>
   <ItemGroup>

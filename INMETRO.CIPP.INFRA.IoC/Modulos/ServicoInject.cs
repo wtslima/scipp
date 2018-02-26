@@ -10,6 +10,7 @@ namespace INMETRO.CIPP.INFRA.IoC.Modulos
         {
             container.Register<IDownloadServico, DownloadServico>(Lifestyle.Scoped);
             container.Register<IInspecaoServico, InspecaoServico>(Lifestyle.Scoped);
+            container.Register<IHistoricoInspecaoExcluidaServico, InspecaoExcluidaService>(Lifestyle.Scoped);
             return container;
         }
     }

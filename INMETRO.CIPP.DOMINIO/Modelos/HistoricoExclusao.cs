@@ -24,5 +24,11 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
         [Column("DAT_DOWNLOAD")]
         public DateTime DataExclusao { get; set; }
 
+        [NotMapped]
+        public string Mensagem  { get; set; }
+
+        [NotMapped]
+        public bool ExisteExcecao { get; set; }
+
     }
 }

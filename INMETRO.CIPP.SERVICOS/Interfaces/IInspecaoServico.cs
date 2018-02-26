@@ -8,7 +8,6 @@ namespace INMETRO.CIPP.SERVICOS.Interfaces
         IEnumerable<InspecaoModelServico> ObterInspecoesPorCodigoInformado(string codigoOia, string cipp);
 
         IEnumerable<InspecaoModelServico> ObterTodasInspecoes();
-            
 
     }
 }

@@ -6,6 +6,8 @@ namespace INMETRO.CIPP.DOMINIO.Interfaces.Repositorios
     public interface IHistoricoExclusaoRepositorio
     {
         bool AdicionarRegistroDeHistoricoDeExclusao(HistoricoExclusao historico);
+        HistoricoExclusao ObterDadosInspecaoPorCipp(string cipp);
+        IEnumerable<HistoricoExclusao> ObterInspecaoPorCodigoOia(string codigoOia);
         IEnumerable<HistoricoExclusao> BuscarRegistrosDeHistorico();
     }
 }

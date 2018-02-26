@@ -28,6 +28,53 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
             }
         }
 
+        public HistoricoExclusao ObterDadosInspecaoPorCipp(string cipp)
+        {
+            try
+            {
+                using (var contexto = new CippContexto())
+                {
+                    var consulta = contexto.HistoricoExclusoes.FirstOrDefault(s => s.Cipp.Equals(cipp));
+
+                    return consulta ?? new HistoricoExclusao();
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        
+        public IEnumerable<HistoricoExclusao> ObterInspecaoPorCodigoOia(string codigoOia)
+        {
+            using (var ctx = new CippContexto())
+            {
+                try
+                {
+                    if (string.IsNullOrEmpty(codigoOia)) return new List<HistoricoExclusao>();
+
+                    var resultado = ctx.HistoricoExclusoes
+                        .Where(s => s.CodigoOia == codigoOia)
+                        .ToList()
+                        .Select(
+                            item => new HistoricoExclusao()
+                            {
+                                Id = item.Id,
+                                CodigoOia = item.CodigoOia,
+                                Cipp = item.Cipp,
+                                DataExclusao = item.DataExclusao
+                            }).ToList();
+
+                    return resultado.ToList();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+
+            }
+        }
+
         public IEnumerable<HistoricoExclusao> BuscarRegistrosDeHistorico()
         {
             try

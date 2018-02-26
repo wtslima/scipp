@@ -86,7 +86,9 @@ namespace INMETRO.CIPP.SERVICOS
             {
                 CodigoOia = value.CodigoOia,
                 Cipp = value.Cipp,
-                DataExclusao = value.DataExclusao
+                DataExclusao = value.DataExclusao,
+                ExisteExcecao = value.ExisteExcecao,
+                Mensagem = value.Mensagem
 
             };
         }
@@ -167,6 +169,26 @@ namespace INMETRO.CIPP.SERVICOS
                     Equipamento =  item.NumeroEquipamento.ToString(),
                     Responsavel = item.ResponsavelTecnico,
                     DataInspecao = item.DataInspecao,
+                    ExisteExcecao = item.ExisteExcecao,
+                    Mensagem = item.Mensagem
+
+                };
+                lista.Add(inspecao);
+            }
+
+            return lista;
+        }
+
+        public static List<HistoricoExclusaoServiceModel> ConverterListaParaModeloService(List<HistoricoExclusao> list)
+        {
+            var lista = new List<HistoricoExclusaoServiceModel>();
+            foreach (var item in list)
+            {
+                var inspecao = new HistoricoExclusaoServiceModel
+                {
+                    CodigoOia = item.CodigoOia,
+                    Cipp = item.Cipp,
+                    DataExclusao = item.DataExclusao,
                     ExisteExcecao = item.ExisteExcecao,
                     Mensagem = item.Mensagem
 
