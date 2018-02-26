@@ -282,8 +282,9 @@ textarea {
 
 /* Datatables */
 
-table tr th {
-    background-color: #D8D8D8 !important
+table tr th{
+    background-color: gray !important;
+    color:white;
 }
 
 #historico table {
@@ -300,6 +301,10 @@ table tr th {
 }
 
 /* Estilos globais */
+
+.form-inline .form-group {
+    vertical-align: top;
+}
 
 div.container > h2 {
     margin-top: 1px

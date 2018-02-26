@@ -64,8 +64,9 @@ namespace INMETRO.CIPP.WEB.Controllers
                 }
                 catch (Exception ex)
                 {
-
-                    throw ex;
+                    var exception = new ExceptionSystem();
+                    if (ex.Message != null) exception.Mensagem = ex.Message;
+                    return PartialView("_Error", exception);
                 }
             }
 

@@ -13,5 +13,6 @@
         public const string NenhumInspecaoEncontradoParaCodigoCipp = "Nenhum resultado encontrado para Nº Cipp {0}";
         public const string NenhumInspecaoEncontradoParaCodigoOiAeCipp = "Nenhum resultado encontrado para Código OIA-PP {0} e Nº Cipp {0}";
 
+        public const string ErroDownloadRepositorioRemoto = "Não foi possível fazer download do Repositorio Remoto do Codigo-Oia {0}";
     }
 }

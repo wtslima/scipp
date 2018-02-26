@@ -1,5 +1,4 @@
-﻿using INMETRO.CIPP.DOMINIO.Modelos;
-using INMETRO.CIPP.DOMINIO.Servicos;
+﻿using INMETRO.CIPP.DOMINIO.Servicos;
 using INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios;
 using INMETRO.CIPP.SERVICOS.Servicos;
 using INMETRO.CIPP.SHARED.Servicos;

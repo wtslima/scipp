@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using INMETRO.CIPP.SERVICOS.ModelService;
 using INMETRO.CIPP.WEB.Models;
 
@@ -29,6 +30,27 @@ namespace INMETRO.CIPP.WEB.Conversao
             }
 
             return lista;
+        }
+
+        public static List<HistoricoDeExclusaoModel> ConverterParaModelo(List<HistoricoExclusaoServiceModel> list)
+        {
+            var lista = new List<HistoricoDeExclusaoModel>();
+
+
+            foreach (var item in list)
+            {
+                var inspecao = new HistoricoDeExclusaoModel
+                {
+                    CodigoOia = item.CodigoOia,
+                    Cipp = item.Cipp,
+                    DataExclusao = item.DataExclusao.ToString(CultureInfo.InvariantCulture),
+                    ExisteExcecao = item.ExisteExcecao,
+                    Mensagem = item.Mensagem
+                };
+                lista.Add(inspecao);
+            }
+
+            return lista.ToList();
         }
     }
 }

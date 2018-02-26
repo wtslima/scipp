@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "ConsultaInspecoesExcluida";
 }
+@using INMETRO.CIPP.SERVICOS.ModelService
 @using INMETRO.CIPP.WEB.Models
 @model InspecaoExcluidaModel
 
@@ -52,10 +53,10 @@
             {
                 var test = ViewData["DownloadModel"] as DownloadModel;
 
-                if (test.CodigoOia != null && !@Model.HistoricoInspecoesExcluidas.Any())
+                if (test.CodigoOia == null &&  Model.HistoricoInspecoesExcluidas.Count() == 0)
                 {
                     <div id="idConsultaInspecao" class="alert alert-danger alert-dismissable">
-                        @Html.Partial("_BuscaInspecaoError", Model.RetornoDownloadModel)
+                        @Html.Partial("_BuscaInspecaoError", (RetornoDownloadModel) Model.HistoricoInspecoesExcluidas)
                     </div>
                 }
             }

@@ -110,7 +110,18 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
         {
             try
             {
-                var resultado = _repositorio.BuscarRegistrosDeHistorico();
+                var resultado = _repositorio.BuscarRegistrosDeHistorico().ToList();
+                if (resultado.Count == 0)
+                {
+                    return new List<HistoricoExclusao>
+                    {
+                        new HistoricoExclusao
+                        {
+                            Mensagem = string.Format(MensagemNegocio.NenhumaInspecaoExcluidaEncontrada),
+                            ExisteExcecao = true
+                        }
+                    };
+                }
                 return resultado;
             }
             catch (Exception e)

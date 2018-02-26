@@ -58,12 +58,12 @@ namespace INMETRO.CIPP.SHARED.Servicos
             foreach (var item in inspecoes)
             {
                 inspecaoCsv.AddRow();
-                inspecaoCsv["Código Cipp"] = item.CodigoCipp;
+                inspecaoCsv["Codigo Cipp"] = item.CodigoCipp;
                 inspecaoCsv["Codigo OIA-PP"] = item.CodigoOia;
                 inspecaoCsv["Placa"] = item.PlacaLicenca;
                 inspecaoCsv["Equipamento"] = item.NumeroEquipamento;
-                inspecaoCsv["Responsável"] = item.Responsavel;
-                inspecaoCsv["Data da Inspecão"] = item.DataInspecao;
+                inspecaoCsv["Responsavel"] = item.Responsavel;
+                inspecaoCsv["Data da Inspecao"] = item.DataInspecao;
             }
             var path = "CIPP -" + date + fileName;
            
@@ -71,6 +71,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
             inspecaoCsv.ExportToFile(path);
             //todo:Informar emails que irão receber emails da rotina automática
             email.EnviarEmailComAnexo("wtslima@gmail.com", path);
+            email.EnviarEmailComAnexo("astrindade@colaborador.inmetro.gov.br", path);
             return path;
         }
 

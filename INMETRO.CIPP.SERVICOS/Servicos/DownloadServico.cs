@@ -13,6 +13,7 @@ using INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios;
 using INMETRO.CIPP.SERVICOS.Interfaces;
 using INMETRO.CIPP.SERVICOS.ModelService;
 using INMETRO.CIPP.SHARED;
+using INMETRO.CIPP.SHARED.Email;
 using INMETRO.CIPP.SHARED.Interfaces;
 using INMETRO.CIPP.SHARED.ModelShared;
 
@@ -31,6 +32,9 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
         readonly List<InspecaoModelServico> _listaInspecoesParaEnvio = new List<InspecaoModelServico>();
 
+        readonly List<ExcecaoService> _listaExcecao = new List<ExcecaoService>();
+
+
         public DownloadServico(IOrganismoRepositorio organismoRepositorio, IGerenciarFtp ftp, IGerenciarArquivoCompactado descompactar, IGerenciarCsv csv, IInspecaoDominioService inspecaoServico)
         {
             _organismoRepositorio = organismoRepositorio;
@@ -42,7 +46,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             _historicoServico = new HistoricoServico(historicoRepositorio);
           
         }
-
+         
 
         #region Download Por CIPP
 
@@ -119,11 +123,12 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             try
             {
                 var organismos = await _organismoRepositorio.BuscarTodosOrganismos();
-
+                Notificacao enviar = new Notificacao();
                 if (!organismos.GroupBy(f => f.FtpInfo).Any()) return false;
 
                 foreach (var item in organismos.GroupBy(c => c.FtpInfo))
                 {
+                    ExcecaoService excecaoService = new ExcecaoService();
                     try
                     {
                         var diretoriosCippRemoto = ObterListaDiretoriosPorOrganismo(item.Key);
@@ -132,11 +137,12 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                     }
                     catch (Exception e)
                     {
-                        throw e;
+                        enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br",  e.Message);
                     }
 
 
                 }
+               
                 EnviarInspecoes(_listaInspecoesParaEnvio);
                 return true;
 

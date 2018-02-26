@@ -1,0 +1,104 @@
+﻿
+@using System.Web.Optimization
+@model INMETRO.CIPP.WEB.Models.InspecaoExcluidaModel
+
+<table class="table table-striped table-bordered table-hover" >
+    <thead  >
+    <tr>
+        <th style="text-align:center">
+            @Html.DisplayName("CÓDIGO OIA-PP")
+        </th>
+        <th style="text-align:center">
+            @Html.DisplayName("CIPP")
+        </th>
+        <th style="text-align:center" >
+            @Html.DisplayName("DATA INSPEÇÃO")
+        </th>
+           
+    </tr>
+    </thead>
+    <tbody>
+    @if (Model.HistoricoInspecoesExcluidas != null)
+    {
+        foreach (var item in Model.HistoricoInspecoesExcluidas.ToList())
+        {
+            <tr >
+                <td align="center">
+                    @Html.DisplayFor(modelItem => item.CodigoOia)
+                </td>
+                <td align="center">
+                    @Html.DisplayFor(modelItem => item.Cipp)
+                </td>
+                <td align="center">
+                    @Html.DisplayFor(modelItem => item.DataExclusao)
+                </td>
+                @*<td>
+                   <button type="button" class="btn btn-link" data-item="@item.CodigoCipp">Deletar</button>
+                </td>*@
+            </tr>
+        }
+    }
+    </tbody>
+</table>
+
+<table cellpadding="0" cellspacing="0">
+    <tr>
+        @for (int i = 1; i <= Model.PageCount; i++)
+        {
+            <td>
+                @if (i != Model.CurrentPageIndex)
+                {
+                    <a href="javascript:PagerClick(@i);">@i</a>
+                }
+                else
+                {
+                    <span>@i</span>
+                }
+            </td>
+        }
+    </tr>
+</table>
+<input type="hidden" id="hfCurrentPageIndex" name="currentPageIndex"/>
+}
+<script type="text/javascript">
+    function PagerClick(index) {
+        document.getElementById("hfCurrentPageIndex").value = index;
+        document.forms[0].submit();
+    }
+</script>
+<!-- pager -->
+@*@if (Model.Pager.EndPage > 1)
+{
+    <ul class="pagination">
+        @if (Model.Pager.CurrentPage > 1)
+        {
+            <li>
+                <a href="~/Inspecao/ConsultaInspecao">First</a>
+            </li>
+            <li>
+                <a href="~/Inspecao/ConsultaInspecao?page@(Model.Pager.CurrentPage - 1)">Previous</a>
+            </li>
+        }
+
+        @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+        {
+            <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
+                <a href="~/Inspecao/ConsultaInspecao?page=@page">@page</a>
+            </li>
+        }
+
+        @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+        {
+            <li>
+                <a href="~/Inspecao/ConsultaInspecao?page=@(Model.Pager.CurrentPage + 1)">Next</a>
+            </li>
+            <li>
+                <a href="~/Inspecao/ConsultaInspecao?page=@(Model.Pager.TotalPages)">Last</a>
+            </li>
+        }
+    </ul>
+}*@
+
+
+
+

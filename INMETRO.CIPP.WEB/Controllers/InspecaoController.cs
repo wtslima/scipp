@@ -21,9 +21,9 @@ namespace INMETRO.CIPP.WEB.Controllers
         // GET: Inspecao
         public ActionResult ConsultaInspecao()
         {
-            //var user = HttpContext.Session["Usuario"];
-            //if (user == null)
-            //    return RedirectToAction("Login", "Login");
+            var user = HttpContext.Session["Usuario"];
+            if (user == null)
+                return RedirectToAction("Login", "Login");
             return View();
         }
 
@@ -83,9 +83,9 @@ namespace INMETRO.CIPP.WEB.Controllers
 
         public ActionResult ConsultaInspecoesExcluida()
         {
-            //var user = HttpContext.Session["Usuario"];
-            //if (user == null)
-            //    return RedirectToAction("Login", "Login");
+            var user = HttpContext.Session["Usuario"];
+            if (user == null)
+                return RedirectToAction("Login", "Login");
             return View();
         }
         [HttpPost]
@@ -114,8 +114,9 @@ namespace INMETRO.CIPP.WEB.Controllers
                     }
                     viewModel = new InspecaoExcluidaModel
                     {
-                        HistoricoInspecoesExcluidas = (List<HistoricoExclusaoServiceModel>) lista.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
-                        Pager = pager,
+                        HistoricoInspecoesExcluidas =  lista.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
+                        Pager = pager
+                        
                         
                     };
 
@@ -127,9 +128,8 @@ namespace INMETRO.CIPP.WEB.Controllers
                 pager = new Pager(resultado.Count(), page);
                 viewModel = new InspecaoExcluidaModel
                 {
-                    HistoricoInspecoesExcluidas = (List<HistoricoExclusaoServiceModel>)resultado.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
-                    Pager = pager,
-                   
+                    HistoricoInspecoesExcluidas = resultado.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
+                    Pager = pager
                 };
                 return resultado.Count <= 0 ? View() : View(viewModel);
             }
@@ -168,11 +168,11 @@ namespace INMETRO.CIPP.WEB.Controllers
                 throw e;
             }
         }
-        private List<HistoricoExclusaoServiceModel> ObterInspecaoExcluidaPorCodigoInformado(string codigoOia, string cipp)
+        private List<HistoricoDeExclusaoModel> ObterInspecaoExcluidaPorCodigoInformado(string codigoOia, string cipp)
         {
             try
             {
-                var resultado = _inspecaoExcluidaServico.ObterInspecoesExcluidasPorCodigoInformado(codigoOia, cipp).ToList();
+                var resultado = Conversao.Converter.ConverterParaModelo(_inspecaoExcluidaServico.ObterInspecoesExcluidasPorCodigoInformado(codigoOia, cipp).ToList());
 
                 return resultado;
             }
@@ -182,11 +182,11 @@ namespace INMETRO.CIPP.WEB.Controllers
             }
         }
 
-        private List<HistoricoExclusaoServiceModel> ObterInspecoesExcluidas()
+        private List<HistoricoDeExclusaoModel> ObterInspecoesExcluidas()
         {
             try
             {
-                var resultado = _inspecaoExcluidaServico.ObterTodasInspecoesExcluidas().ToList();
+                var resultado = Conversao.Converter.ConverterParaModelo(_inspecaoExcluidaServico.ObterTodasInspecoesExcluidas().ToList());
 
                 return resultado;
             }

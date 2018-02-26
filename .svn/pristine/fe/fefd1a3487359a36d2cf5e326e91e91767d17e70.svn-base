@@ -1,0 +1,81 @@
+﻿@using System.Drawing
+@model INMETRO.CIPP.WEB.Models.DownloadModel
+
+
+   @{
+       if (Model.IsSuccess)
+       {
+           <div id="idConsultaInspecao" class="alert alert-success alert-dismissable">
+               @Html.Partial("_DownloadResposta", Model)
+           </div>
+       }
+       if (!Model.IsSuccess && Model.CodigoOia != null)
+       {
+           <div id="idConsultaInspecao" class="alert alert-danger alert-dismissable">
+               @Html.Partial("_DownloadError", Model)
+           </div>
+       }
+   }
+        <div class="row">
+
+        <div class="col-md-10 col-md-offset-1" >
+            <h2 class="tituloSistema">
+                Download de Inspeções
+            </h2>
+            <hr/>
+           
+            
+            <form action="@Url.Action("Download", "Download")"  class="form form-inline" id="download" method="post" novalidate="novalidate">
+                
+                    <div class="form-group" style="margin-right: 25px">
+                        @Html.Label("CÓDIGO OIA-PP")
+                        @Html.TextBoxFor(x => x.CodigoOia, new { @class = "form-control", maxlength = "4" , onkeypress = "return onlyNos(event,this);", id = "idCodigoOia" })
+                        <br/>
+                        @Html.ValidationMessageFor(x => x.CodigoOia, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Nº CIPP")
+                        @Html.TextBoxFor(x => x.CodigoCipp, new { @class = "form-control", placeholder = "Opcional", maxlength = "7", onkeypress = "return onlyNos(event,this);", id = "idCipp" })
+                        @Html.ValidationMessageFor(x => x.CodigoCipp)
+                    </div>
+               
+                <input type="submit" class="btn btn-success" value="Download" title="Download" id="btnDownload">
+                <input type="reset" class="btn btn-basic" value="Limpar" title="Cancelar" id="Cancelar">
+               
+            </form>
+        </div>
+
+    
+</div>
+
+
+
+<script>
+    function onlyNos(e) {
+
+        var charCode;
+        if (window.event) {
+            charCode = window.event.keyCode;
+        } else if (e) {
+            charCode = e.which;
+        } else { return true; }
+
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+
+            return false;
+        }
+        return true;
+    }
+
+
+    $("#Cancelar").click(function () {
+        $("#idCodigoOia").val("");
+        $("#idCipp").val("");
+        return false;
+    });
+
+</script>
+
+
+
+

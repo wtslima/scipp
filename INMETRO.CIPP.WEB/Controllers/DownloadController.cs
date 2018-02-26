@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Web.Mvc;
-
 using INMETRO.CIPP.SERVICOS.Interfaces;
 using INMETRO.CIPP.WEB.Models;
 
@@ -21,9 +20,9 @@ namespace INMETRO.CIPP.WEB.Controllers
         [HttpGet]
         public ActionResult Download(string usuario)
         {
-            //var user = HttpContext.Session["Usuario"];
-            //if (user == null)
-            //    return RedirectToAction("Login", "Login");
+            var user = HttpContext.Session["Usuario"];
+            if (user == null)
+                return RedirectToAction("Login", "Login");
             var model = new DownloadModel();
 
             return View(model);
