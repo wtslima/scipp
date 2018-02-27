@@ -12,8 +12,8 @@ namespace INMETRO.CIPP.DOMINIO.Interfaces
         bool TemInspecao(string cipp);
         Inspecao ObterInspecaoParaCippECodigoOiaInformado(string codigoOia,string cipp);
 
-        IEnumerable<Inspecao> ObterInspecaoPorCodigoOia(string codigoOia);
-        IEnumerable<Inspecao> ObterTodasInspecoes();
+        InspecoesGravadas ObterInspecaoPorCodigoOia(string codigoOia);
+        InspecoesGravadas ObterTodasInspecoes();
 
     }
 }

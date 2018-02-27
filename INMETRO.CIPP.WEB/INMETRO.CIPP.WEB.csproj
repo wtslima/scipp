@@ -241,7 +241,9 @@
     <Compile Include="Models\HistoricoDeExclusaoModel.cs" />
     <Compile Include="Models\InspecaoExcluidaModel.cs" />
     <Compile Include="Models\InspecaoModel.cs" />
+    <Compile Include="Models\InspecoesGravadasModel.cs" />
     <Compile Include="Models\LogonModel.cs" />
+    <Compile Include="Models\MensagemModel.cs" />
     <Compile Include="Models\Pager.cs" />
     <Compile Include="Models\RetornoListaInspecoesViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

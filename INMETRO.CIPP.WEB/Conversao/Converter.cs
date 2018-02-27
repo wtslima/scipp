@@ -8,28 +8,31 @@ namespace INMETRO.CIPP.WEB.Conversao
 {
     public class Converter
     {
-        public static List<InspecaoModel>  ConverterParaModelo(List<InspecaoModelServico> list)
+        public static InspecoesGravadasModel  ConverterParaModelo(InspecoesGravadasModelServico value)
         {
-            var lista = new List<InspecaoModel>();
-            
+           var inspecoes = new InspecoesGravadasModel();
 
-            foreach (var item in list)
+            if (value == null) return new InspecoesGravadasModel();
+
+            return new InspecoesGravadasModel
             {
-                var inspecao = new InspecaoModel
+                Inspecoes = value.InspecoesGravadas.Select(s => new InspecaoModel()
                 {
-                    CodigoOia = item.CodigoOia,
-                    CodigoCipp = item.CodigoCipp,
-                    Placa = item.Placa,
-                    Equipamento = item.Equipamento,
-                    Responsavel = item.Responsavel,
-                    DataInspecao = item.DataInspecao.ToString(CultureInfo.InvariantCulture),
-                    ExisteExcecao = item.ExisteExcecao,
-                    Mensagem = item.Mensagem
-                };
-                lista.Add(inspecao);
-            }
+                    CodigoOia = s.CodigoOia,
+                    CodigoCipp = s.CodigoCipp,
+                    DataInspecao = s.DataInspecao.ToString(),
+                    Equipamento = s.Equipamento.ToString(),
+                    Responsavel = s.Responsavel,
+                    Placa = s.Placa
 
-            return lista;
+                }),
+                Mensagem = new MensagemModel
+                {
+                    ExisteExcecao = value.Excecao.Excecao,
+                    Mensagem = value.Excecao.Mensagem
+                }
+
+            };
         }
 
         public static List<HistoricoDeExclusaoModel> ConverterParaModelo(List<HistoricoExclusaoServiceModel> list)
@@ -59,7 +62,7 @@ namespace INMETRO.CIPP.WEB.Conversao
         }
 
 
-        public static InspecaoExcluidaModel ConverterParaModelo(HIstoricoDeExclusaoModelService value)
+        public static InspecaoExcluidaModel ConverterParaModelo(HistoricoDeExclusaoModelService value)
         {
             if (value == null) return new InspecaoExcluidaModel();
 

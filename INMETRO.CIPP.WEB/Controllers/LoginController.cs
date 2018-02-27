@@ -30,7 +30,7 @@ namespace INMETRO.CIPP.WEB.Controllers
         public ActionResult Login(LogonModel model, string returnUrl)
         {
 
-            string usuarioCorrente = "";
+            var usuarioCorrente = "";
             if (ModelState.IsValid)
             {
 
@@ -40,24 +40,26 @@ namespace INMETRO.CIPP.WEB.Controllers
                 try
                 {
 
-                    //    var usuario = autenticacao.Autenticar(token,
-                    //        new Login { UserName = model.Usuario, Senha = model.Senha });
 
-                    //    if (usuario != null)
-                    //    {
-                    //        CriarCookie(usuario.Nome.Substring(0, usuario.Nome.IndexOf(" ")),
-                    //            usuario.Perfis.Select(p => p.CodigoPerfil.Trim()).ToList());
-                    //        Session["userLogin"] = model.Usuario;
-                    //        Session["Usuario"] = usuario.Nome;
+                    var usuario = autenticacao.Autenticar(token,
+                        new Login { UserName = model.Usuario, Senha = model.Senha });
+
+                    if (usuario != null)
+                    {
+                        CriarCookie(usuario.Nome.Substring(0, usuario.Nome.IndexOf(" ")),
+                            usuario.Perfis.Select(p => p.CodigoPerfil.Trim()).ToList());
+                        Session["userLogin"] = model.Usuario;
+                        Session["Usuario"] = usuario.Nome;
 
 
-                    //        if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/") &&
-                    //            !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
-                    //        {
-                    //            return RedirectToAction(returnUrl);
-                    //        }
-                    //    }
-                    Session["Usuario"] = "WELLINGTON";
+                        if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/") &&
+                            !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                        {
+                            return RedirectToAction(returnUrl);
+                        }
+                    }
+
+                    //Session["Usuario"] = "Wellington";
                     usuarioCorrente = Session["Usuario"].ToString();
                     return RedirectToAction("Download", "Download", usuarioCorrente);
 
@@ -73,7 +75,6 @@ namespace INMETRO.CIPP.WEB.Controllers
             return View("Login", usuarioCorrente);
         }
       
-
         private void CriarCookie(string nomeUsuario, IEnumerable<string> perfis)
         {
             var minutesTime = ConfigurationManager.AppSettings.Get("TempoConexao");

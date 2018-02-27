@@ -38,11 +38,9 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
         public virtual Historico Historico { get; set; }
 
         [NotMapped]
-        public string Mensagem { get; set; }
-        [NotMapped]
-        public bool ExisteExcecao { get; set; }
+        public virtual ExcecaoDominio ExcecaoDominio { get; set; }
 
-       public Inspecao(string codigoCipp, string placa, int equipamento, DateTime dataInspecao, string responsavel, string codigoOIA)
+        public Inspecao(string codigoCipp, string placa, int equipamento, DateTime dataInspecao, string responsavel, string codigoOIA)
         {
             CodigoCIPP = codigoCipp;
             PlacaLicenca = placa;

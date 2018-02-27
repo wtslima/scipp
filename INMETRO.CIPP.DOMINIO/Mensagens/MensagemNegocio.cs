@@ -13,6 +13,7 @@
         public const string NenhumInspecaoEncontradoParaCodigoCipp = "Nenhum resultado encontrado para Nº Cipp {0} informado";
         public const string NenhumInspecaoEncontradoParaCodigoOiAeCipp = "Nenhum resultado encontrado para Código OIA-PP {0} e Nº Cipp {1}";
         public const string NenhumaInspecaoExcluidaEncontrada = "Nenhuma Inspeção Excluída foi encontrada";
+        public const string NenhumaInspecaoEncontrada = "Nenhum resultado encontrado";
 
     }
 }

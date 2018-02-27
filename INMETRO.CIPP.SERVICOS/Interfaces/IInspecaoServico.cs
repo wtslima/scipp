@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
-using INMETRO.CIPP.SERVICOS.ModelService;
+﻿using INMETRO.CIPP.SERVICOS.ModelService;
 
 namespace INMETRO.CIPP.SERVICOS.Interfaces
 {
     public interface IInspecaoServico
     {
-        IEnumerable<InspecaoModelServico> ObterInspecoesPorCodigoInformado(string codigoOia, string cipp);
+        InspecoesGravadasModelServico ObterInspecoesPorCodigoInformado(string codigoOia, string cipp);
 
-        IEnumerable<InspecaoModelServico> ObterTodasInspecoes();
+        InspecoesGravadasModelServico ObterTodasInspecoes();
 
     }
 }

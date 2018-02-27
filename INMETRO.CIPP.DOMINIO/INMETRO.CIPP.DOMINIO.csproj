@@ -56,6 +56,7 @@
     <Compile Include="Modelos\HistoricoDeInspecoesExcluidas.cs" />
     <Compile Include="Modelos\HistoricoExclusao.cs" />
     <Compile Include="Modelos\Inspecao.cs" />
+    <Compile Include="Modelos\InspecoesGravadas.cs" />
     <Compile Include="Modelos\Organismo.cs" />
     <Compile Include="Modelos\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

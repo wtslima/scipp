@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using INMETRO.CIPP.SERVICOS.Interfaces;
-using INMETRO.CIPP.SERVICOS.ModelService;
 using INMETRO.CIPP.WEB.Models;
 
 namespace INMETRO.CIPP.WEB.Controllers
@@ -15,7 +13,6 @@ namespace INMETRO.CIPP.WEB.Controllers
         public InspecaoController(IInspecaoServico servico)
         {
             _servico = servico;
-           
         }
 
         // GET: Inspecao
@@ -32,45 +29,29 @@ namespace INMETRO.CIPP.WEB.Controllers
         {
             try
             {
-                
-                ViewData["DownloadModel"] = model;
-                var retornoMensagem = new RetornoDownloadModel();
-                var viewModel = new RetornoListaInspecoesViewModel();
                 var pager = new Pager(0,page);
                
-                    if (!string.IsNullOrWhiteSpace(model.CodigoOia) ||
-                        !string.IsNullOrWhiteSpace(model.CodigoCipp))
+                    if (!string.IsNullOrWhiteSpace(model.CodigoOia) ||!string.IsNullOrWhiteSpace(model.CodigoCipp))
                     {
 
-                        var lista = ObterInspecaoPorCodigoInformado(model.CodigoOia,
-                            model.CodigoCipp);
-                        pager = new Pager(lista.Count(), page);
-                        foreach (var item in lista)
+                        var inspecoesPorCodigo = ObterInspecaoPorCodigoInformado(model.CodigoOia,model.CodigoCipp);
+                        pager = new Pager(inspecoesPorCodigo.Inspecoes.ToList().Count, page);
+                        if (inspecoesPorCodigo.Mensagem.ExisteExcecao)
                         {
-                            if (!item.ExisteExcecao) continue;
-                            retornoMensagem.Mensagem = item.Mensagem;
-                            return PartialView("_BuscaInspecaoError", retornoMensagem);
+                            return PartialView("_BuscaInspecaoError", inspecoesPorCodigo.Mensagem);
                         }
-                        viewModel = new RetornoListaInspecoesViewModel
-                        {
-                            Inspecoes = lista.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
-                            Pager = pager,
-                            InspecaoModel = model
-                        };
-
-                        return View(viewModel);
+                        inspecoesPorCodigo.Inspecoes.ToList().Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize);
+                        inspecoesPorCodigo.Pager = pager;
+                        return View(inspecoesPorCodigo);
                     }
                 
 
-                var resultado = ObterInspecoes();
-                pager = new Pager(resultado.Count(), page);
-                viewModel = new RetornoListaInspecoesViewModel
-                {
-                    Inspecoes = resultado.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
-                    Pager = pager,
-                    InspecaoModel = model
-                };
-                return resultado.Count<=0 ? View() : View(viewModel);
+                var todasInspecoes = ObterInspecoes();
+                pager = new Pager(todasInspecoes.Inspecoes.Count(), page);
+                todasInspecoes.Inspecoes.ToList().Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize);
+                todasInspecoes.Pager = pager;
+                  
+                return  View(todasInspecoes);
             }
             catch (Exception e)
             {
@@ -81,12 +62,11 @@ namespace INMETRO.CIPP.WEB.Controllers
            
         }
         
-
-        private List<InspecaoModel> ObterInspecaoPorCodigoInformado(string codigoOia, string cipp)
+        private InspecoesGravadasModel ObterInspecaoPorCodigoInformado(string codigoOia, string cipp)
         {
             try
             {
-                var resultado = _servico.ObterInspecoesPorCodigoInformado(codigoOia, cipp).ToList();
+                var resultado = _servico.ObterInspecoesPorCodigoInformado(codigoOia, cipp);
 
                 return Conversao.Converter.ConverterParaModelo(resultado);
             }
@@ -96,11 +76,11 @@ namespace INMETRO.CIPP.WEB.Controllers
             }
         }
 
-        private List<InspecaoModel> ObterInspecoes()
+        private InspecoesGravadasModel ObterInspecoes()
         {
             try
             {
-                var resultado = _servico.ObterTodasInspecoes().ToList();
+                var resultado = _servico.ObterTodasInspecoes();
 
                 return Conversao.Converter.ConverterParaModelo(resultado);
             }

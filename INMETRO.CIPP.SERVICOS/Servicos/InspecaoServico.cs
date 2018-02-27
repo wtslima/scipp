@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using INMETRO.CIPP.DOMINIO.Interfaces;
 using INMETRO.CIPP.SERVICOS.Interfaces;
 using INMETRO.CIPP.SERVICOS.ModelService;
@@ -16,17 +14,13 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             _inspecaoDominio = inspecaoDominio;
         }
 
-        public IEnumerable<InspecaoModelServico> ObterInspecoesPorCodigoInformado(string codigoOia, string cipp)
+        public InspecoesGravadasModelServico ObterInspecoesPorCodigoInformado(string codigoOia, string cipp)
         {
             try
             {
                 if (!string.IsNullOrEmpty(codigoOia) && !string.IsNullOrEmpty(cipp))
                 {
-                    var listaInspecao = new List<InspecaoModelServico>
-                    {
-                        Conversao.ConverterParaServico(_inspecaoDominio.ObterInspecaoParaCippECodigoOiaInformado(codigoOia, cipp))
-                    };
-                    return listaInspecao;
+                        return Conversao.ConverterParaServico(_inspecaoDominio.ObterInspecaoParaCippECodigoOiaInformado(codigoOia, cipp));
                 }
                 if (!string.IsNullOrEmpty(cipp))
                 {
@@ -43,13 +37,13 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             
         }
 
-        public IEnumerable<InspecaoModelServico> ObterTodasInspecoes()
+        public InspecoesGravadasModelServico ObterTodasInspecoes()
         {
             try
             {
-                var lista = _inspecaoDominio.ObterTodasInspecoes().ToList();
+                var inspecooesGravadas = _inspecaoDominio.ObterTodasInspecoes();
 
-                var listaInspecao = Conversao.ConverterListaParaModeloService(lista);
+                var listaInspecao = Conversao.ConverterParaModelService(inspecooesGravadas);
 
                 return listaInspecao;
             }
@@ -60,13 +54,13 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             }
         }
 
-        private IEnumerable<InspecaoModelServico> BuscarInspecoesPorCodigoOia(string codigoOia)
+        private InspecoesGravadasModelServico BuscarInspecoesPorCodigoOia(string codigoOia)
         {
             try
             {
-                var inspecoes = _inspecaoDominio.ObterInspecaoPorCodigoOia(codigoOia).ToList();
+                var inspecoes = _inspecaoDominio.ObterInspecaoPorCodigoOia(codigoOia);
 
-                return Conversao.ConverterListaParaModeloService(inspecoes);
+                return Conversao.ConverterParaModelService(inspecoes);
             }
             catch (Exception e)
             {
@@ -74,17 +68,13 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             }
         }
 
-        private IEnumerable<InspecaoModelServico> BuscarInspecaoPorCipp(string cipp)
+        private InspecoesGravadasModelServico BuscarInspecaoPorCipp(string cipp)
         {
             try
             {
-                var listaInspecao = new List<InspecaoModelServico>();
-
                 var inspecao = _inspecaoDominio.ObterDadosInspecaoPorCipp(cipp);
 
-                listaInspecao.Add(Conversao.ConverterParaServico(inspecao));
-
-                return listaInspecao;
+                return Conversao.ConverterParaServico(inspecao);
             }
             catch (Exception e)
             {

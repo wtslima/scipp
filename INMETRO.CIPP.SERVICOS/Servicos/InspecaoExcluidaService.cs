@@ -75,7 +75,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             }
         }
 
-        public HIstoricoDeExclusaoModelService ObterTodasInspecoesExcluidas()
+        public HistoricoDeExclusaoModelService ObterTodasInspecoesExcluidas()
         {
             try
             {

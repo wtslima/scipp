@@ -94,20 +94,27 @@ namespace INMETRO.CIPP.SERVICOS
         }
 
 
-        public static InspecaoModelServico ConverterParaServico(Inspecao value)
+        public static InspecoesGravadasModelServico ConverterParaServico(Inspecao value)
         {
-            if (value == null) return new InspecaoModelServico();
-
-            return new InspecaoModelServico()
+            return new InspecoesGravadasModelServico
             {
-                CodigoCipp = value.CodigoCIPP,
-                CodigoOia = value.CodigoOIA,
-                Placa = value.PlacaLicenca,
-                Equipamento = value.NumeroEquipamento.ToString(),
-                DataInspecao = value.DataInspecao,
-                Responsavel = value.ResponsavelTecnico,
-                ExisteExcecao = value.ExisteExcecao,
-                Mensagem = value.Mensagem
+                InspecoesGravadas = new List<InspecaoModelServico>
+                {
+                    new InspecaoModelServico
+                    {
+                        CodigoOia = value.CodigoOIA,
+                        CodigoCipp = value.CodigoCIPP,
+                        Equipamento = value.NumeroEquipamento.ToString(),
+                        Placa = value.PlacaLicenca,
+                        DataInspecao = value.DataInspecao,
+                        Responsavel = value.ResponsavelTecnico
+                    }
+                },
+                Excecao = new ExcecaoService
+                {
+                    Excecao = value.ExcecaoDominio.ExisteExcecao,
+                    Mensagem = value.ExcecaoDominio.Mensagem
+                }
             };
         }
 
@@ -168,11 +175,8 @@ namespace INMETRO.CIPP.SERVICOS
                     Placa = item.PlacaLicenca,
                     Equipamento = item.NumeroEquipamento.ToString(),
                     Responsavel = item.ResponsavelTecnico,
-                    DataInspecao = item.DataInspecao,
-                    ExisteExcecao = item.ExisteExcecao,
-                    Mensagem = item.Mensagem
-
-                };
+                    DataInspecao = item.DataInspecao
+                    };
                 lista.Add(inspecao);
             }
 
@@ -199,17 +203,42 @@ namespace INMETRO.CIPP.SERVICOS
             return lista;
         }
 
-        public static HIstoricoDeExclusaoModelService ConverterParaModelService(HistoricoDeInspecoesExcluidas value)
+        public static HistoricoDeExclusaoModelService ConverterParaModelService(HistoricoDeInspecoesExcluidas value)
         {
-            if (value == null) return new HIstoricoDeExclusaoModelService();
+            if (value == null) return new HistoricoDeExclusaoModelService();
 
-            return new HIstoricoDeExclusaoModelService
+            return new HistoricoDeExclusaoModelService
             {
                 HistoricoExclusoes = value.InspecoesExcluidas.Select(s => new HistoricoExclusaoServiceModel
                 {
                     CodigoOia = s.CodigoOia,
                     Cipp = s.Cipp,
                     DataExclusao = s.DataExclusao
+                }),
+                Excecao = new ExcecaoService
+                {
+                    Excecao = value.ExcecaoDominio.ExisteExcecao,
+                    Mensagem = value.ExcecaoDominio.Mensagem
+                }
+
+            };
+        }
+
+        public static InspecoesGravadasModelServico ConverterParaModelService(InspecoesGravadas value)
+        {
+            if (value == null) return new InspecoesGravadasModelServico();
+
+            return new InspecoesGravadasModelServico
+            {
+                InspecoesGravadas = value.Inspecoes.Select(s => new InspecaoModelServico()
+                {
+                    CodigoOia = s.CodigoOIA,
+                    CodigoCipp = s.CodigoCIPP,
+                    DataInspecao = s.DataInspecao,
+                    Equipamento = s.NumeroEquipamento.ToString(),
+                    Responsavel = s.ResponsavelTecnico,
+                    Placa = s.PlacaLicenca
+
                 }),
                 Excecao = new ExcecaoService
                 {

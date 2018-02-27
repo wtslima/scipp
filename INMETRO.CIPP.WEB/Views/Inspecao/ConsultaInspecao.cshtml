@@ -1,32 +1,32 @@
 ﻿@using INMETRO.CIPP.SERVICOS.ModelService
 @using INMETRO.CIPP.WEB.Models
-@model RetornoListaInspecoesViewModel
+@model InspecoesGravadasModel
 
 
 @{
     ViewBag.Title = "ConsultaInspecao";
-    
+
 }
 <div class="row">
 
-    <div class="col-md-10 col-md-offset-1" style="padding-bottom:25px;" >
+    <div class="col-md-10 col-md-offset-1" style="padding-bottom:25px;">
         <h2 class="tituloSistema">
             Consultar Inspeções
         </h2>
-        <hr/>
-        
+        <hr />
+
         <form action="@Url.Action("ConsultaInspecao", "Inspecao")" class="form form-inline" id="download" method="post" novalidate="novalidate">
 
-            <div class="form-group"style="margin-right: 25px">
+            <div class="form-group" style="margin-right: 25px">
                 @Html.Label("CÓDIGO OIA-PP")
-                @Html.TextBox("CodigoOia", null, new {@class = "form-control", maxlength = "4", onkeypress = "return onlyNos(event,this);", id = "idCodigoOia"})
+                @Html.TextBox("CodigoOia", null, new { @class = "form-control", maxlength = "4", onkeypress = "return onlyNos(event,this);", id = "idCodigoOia" })
             </div>
             <div class="form-group">
                 @Html.Label("Nº CIPP")
-                @Html.TextBox("CodigoCipp", null, new { @class = "form-control", maxlength = "7", onkeypress = "return onlyNos(event,this);", id= "idCipp" })
+                @Html.TextBox("CodigoCipp", null, new { @class = "form-control", maxlength = "7", onkeypress = "return onlyNos(event,this);", id = "idCipp" })
                 @Html.ValidationMessage("CodigoCipp")
             </div>
-   
+
             <input type="submit" class="btn btn-primary bg-primary" value="Buscar" title="Download" id="btnBuscar">
             <input type="reset" class="btn btn-basic" value="Limpar" title="Cancelar" id="Cancelar">
         </form>
@@ -35,31 +35,29 @@
     <br />
     <br />
     <div class="col-md-10 col-md-offset-1">
-       
-        @if(Model != null) { 
 
-        foreach(var item in Model.Inspecoes)
+        @if (Model != null)
         {
-             if (item.CodigoOia != null)
-             {
-                 <div id="idConsultaInspecao">
-                     @Html.Partial("_PartialConsultaInspecao", Model)
-                 </div>
-                break;
+
+            foreach (var item in Model.Inspecoes)
+            {
+                if (item.CodigoOia != null)
+                {
+                    <div id="idConsultaInspecao">
+                        @Html.Partial("_PartialConsultaInspecao", Model)
+                    </div>
+                    break;
+                }
             }
-        }
-        {
-            var test = ViewData["DownloadModel"] as DownloadModel;
 
-            if (test.CodigoOia != null && !@Model.Inspecoes.Any())
-             {
-                 <div id="idConsultaInspecao" class="alert alert-danger alert-dismissable">
-                     @Html.Partial("_BuscaInspecaoError", (RetornoDownloadModel) Model.Inspecoes)
-                 </div>
-             }
+
+            if (!Model.Inspecoes.Any())
+            {
+                @Html.Partial("_BuscaInspecaoError", Model.Mensagem)
+            }
+
         }
-        }
-        
+
     </div>
 </div>
 

@@ -50,9 +50,10 @@
     <Compile Include="Interfaces\IInspecaoServico.cs" />
     <Compile Include="ModelService\ExcecaoService.cs" />
     <Compile Include="ModelService\FtpServiceModel.cs" />
-    <Compile Include="ModelService\HIstoricoDeExclusaoModelService.cs" />
+    <Compile Include="ModelService\HistoricoDeExclusaoModelService.cs" />
     <Compile Include="ModelService\HistoricoExclusaoServiceModel.cs" />
     <Compile Include="ModelService\HistoricoServiceModel.cs" />
+    <Compile Include="ModelService\InspecoesGravadasModelServico.cs" />
     <Compile Include="ModelService\InspecaoModelServico.cs" />
     <Compile Include="ModelService\OrganismoServiceModel.cs" />
     <Compile Include="ModelService\RetornoDownloadModel.cs" />

@@ -1,4 +1,4 @@
-﻿@model INMETRO.CIPP.WEB.Models.RetornoListaInspecoesViewModel
+﻿@model INMETRO.CIPP.WEB.Models.InspecoesGravadasModel
 
 <table class="table table-striped table-bordered table-hover" >
     <thead  >
@@ -48,14 +48,15 @@
                 <td align="center">
                     @Html.DisplayFor(modelItem => item.DataInspecao)
                 </td>
-                @*<td>
-                   <button type="button" class="btn btn-link" data-item="@item.CodigoCipp">Deletar</button>
-                </td>*@
+               
             </tr>
         }
     }
     </tbody>
 </table>
+
+<br />
+
 <!-- pager -->
 @if (Model.Pager.EndPage > 1)
 {

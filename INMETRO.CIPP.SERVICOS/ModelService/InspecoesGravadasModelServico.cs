@@ -2,11 +2,10 @@
 
 namespace INMETRO.CIPP.SERVICOS.ModelService
 {
-    public class HistoricoDeExclusaoModelService
+    public class InspecoesGravadasModelServico 
     {
-        public IEnumerable<HistoricoExclusaoServiceModel> HistoricoExclusoes { get; set; }
-
+        public IEnumerable<InspecaoModelServico> InspecoesGravadas { get; set; }
         public ExcecaoService Excecao { get; set; }
-
+        
     }
 }
