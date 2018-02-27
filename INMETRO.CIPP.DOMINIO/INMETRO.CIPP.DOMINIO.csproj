@@ -50,8 +50,10 @@
     <Compile Include="Interfaces\Repositorios\IInspecaoRepositorio.cs" />
     <Compile Include="Interfaces\Repositorios\IOrganismoRepositorio.cs" />
     <Compile Include="Mensagens\MensagemNegocio.cs" />
+    <Compile Include="Modelos\ExcecaoDominio.cs" />
     <Compile Include="Modelos\FTPInfo.cs" />
     <Compile Include="Modelos\Historico.cs" />
+    <Compile Include="Modelos\HistoricoDeInspecoesExcluidas.cs" />
     <Compile Include="Modelos\HistoricoExclusao.cs" />
     <Compile Include="Modelos\Inspecao.cs" />
     <Compile Include="Modelos\Organismo.cs" />

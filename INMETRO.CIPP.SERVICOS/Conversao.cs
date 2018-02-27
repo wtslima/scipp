@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Linq;
 using INMETRO.CIPP.DOMINIO.Modelos;
 using INMETRO.CIPP.SERVICOS.ModelService;
 using INMETRO.CIPP.SHARED.ModelShared;
@@ -11,7 +11,7 @@ namespace INMETRO.CIPP.SERVICOS
     {
         public static Inspecao ConverterParaDominio(InspecaoCsvModel value)
         {
-            if(value == null) return new Inspecao();
+            if (value == null) return new Inspecao();
 
             return new Inspecao
             {
@@ -31,7 +31,7 @@ namespace INMETRO.CIPP.SERVICOS
             return new InspecaoCsvModel()
             {
                 CodigoCipp = value.CodigoCIPP,
-                CodigoOia= value.CodigoOIA,
+                CodigoOia = value.CodigoOIA,
                 PlacaLicenca = value.PlacaLicenca,
                 NumeroEquipamento = value.NumeroEquipamento,
                 DataInspecao = value.DataInspecao,
@@ -48,7 +48,7 @@ namespace INMETRO.CIPP.SERVICOS
                 InspecaoId = value.IdInspecao,
                 Usuario = value.Usuario,
                 DataDownload = value.DataEntrada
-                
+
             };
         }
 
@@ -135,7 +135,7 @@ namespace INMETRO.CIPP.SERVICOS
                 CodigoCipp = value.CodigoCipp,
                 CodigoOia = value.CodigoOia,
                 Placa = value.PlacaLicenca,
-                Equipamento =  value.NumeroEquipamento.ToString(),
+                Equipamento = value.NumeroEquipamento.ToString(),
                 DataInspecao = value.DataInspecao,
                 Responsavel = value.Responsavel
             };
@@ -166,7 +166,7 @@ namespace INMETRO.CIPP.SERVICOS
                     CodigoOia = item.CodigoOIA,
                     CodigoCipp = item.CodigoCIPP,
                     Placa = item.PlacaLicenca,
-                    Equipamento =  item.NumeroEquipamento.ToString(),
+                    Equipamento = item.NumeroEquipamento.ToString(),
                     Responsavel = item.ResponsavelTecnico,
                     DataInspecao = item.DataInspecao,
                     ExisteExcecao = item.ExisteExcecao,
@@ -197,6 +197,27 @@ namespace INMETRO.CIPP.SERVICOS
             }
 
             return lista;
+        }
+
+        public static HIstoricoDeExclusaoModelService ConverterParaModelService(HistoricoDeInspecoesExcluidas value)
+        {
+            if (value == null) return new HIstoricoDeExclusaoModelService();
+
+            return new HIstoricoDeExclusaoModelService
+            {
+                HistoricoExclusoes = value.InspecoesExcluidas.Select(s => new HistoricoExclusaoServiceModel
+                {
+                    CodigoOia = s.CodigoOia,
+                    Cipp = s.Cipp,
+                    DataExclusao = s.DataExclusao
+                }),
+                Excecao = new ExcecaoService
+                {
+                    Excecao = value.ExcecaoDominio.ExisteExcecao,
+                    Mensagem = value.ExcecaoDominio.Mensagem
+                }
+
+            };
         }
     }
 }

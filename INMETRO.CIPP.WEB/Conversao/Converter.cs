@@ -45,12 +45,40 @@ namespace INMETRO.CIPP.WEB.Conversao
                     Cipp = item.Cipp,
                     DataExclusao = item.DataExclusao.ToString(CultureInfo.InvariantCulture),
                     ExisteExcecao = item.ExisteExcecao,
-                    Mensagem = item.Mensagem
+                    Mensagem = item.Mensagem,
+                    Retorno = new RetornoDownloadModel
+                    {
+                        ExisteExcecao = item.ExisteExcecao,
+                        Mensagem = item.Mensagem
+                    }
                 };
                 lista.Add(inspecao);
             }
 
             return lista.ToList();
+        }
+
+
+        public static InspecaoExcluidaModel ConverterParaModelo(HIstoricoDeExclusaoModelService value)
+        {
+            if (value == null) return new InspecaoExcluidaModel();
+
+            return new InspecaoExcluidaModel
+            {
+                HistoricoInspecoesExcluidas = value.HistoricoExclusoes.Select(s => new HistoricoDeExclusaoModel
+                {
+                    CodigoOia = s.CodigoOia,
+                    Cipp = s.Cipp,
+                    DataExclusao = s.DataExclusao.ToString(CultureInfo.InvariantCulture)
+                }).ToList(),
+                Retorno = new RetornoDownloadModel()
+                {
+                    ExisteExcecao = value.Excecao.Excecao,
+                    Mensagem = value.Excecao.Mensagem
+                }
+
+            };
+           
         }
     }
 }

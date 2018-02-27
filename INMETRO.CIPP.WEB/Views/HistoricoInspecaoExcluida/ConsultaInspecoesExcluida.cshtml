@@ -2,7 +2,6 @@
 @{
     ViewBag.Title = "ConsultaInspecoesExcluida";
 }
-@using INMETRO.CIPP.SERVICOS.ModelService
 @using INMETRO.CIPP.WEB.Models
 @model InspecaoExcluidaModel
 
@@ -15,7 +14,7 @@
         </h2>
         <hr />
 
-        <form action="@Url.Action("ConsultaInspecoesExcluida", "Inspecao")" class="form form-inline" id="download" method="post" novalidate="novalidate">
+        <form action="@Url.Action("ConsultaInspecoesExcluida", "HistoricoInspecaoExcluida")" class="form form-inline" id="download" method="post" novalidate="novalidate">
 
             <div class="form-group" style="margin-right: 25px">
                 @Html.Label("CÓDIGO OIA-PP")
@@ -36,6 +35,16 @@
     <br />
     <br />
     <div class="col-md-10 col-md-offset-1">
+        @if (IsPost)
+        {
+            if (Model.Retorno.ExisteExcecao)
+            {
+                <div id="idConsultaInspecao" class="alert alert-danger alert-dismissable">
+                    @Html.Partial("_HistoricoExclusaoErro", Model.Retorno)
+                </div>
+            }
+        }
+        
 
         @if (Model != null)
         {
@@ -50,16 +59,18 @@
                     break;
                 }
             }
-            {
-                var test = ViewData["DownloadModel"] as DownloadModel;
 
-                if (test.CodigoOia == null &&  Model.HistoricoInspecoesExcluidas.Count() == 0)
-                {
-                    <div id="idConsultaInspecao" class="alert alert-danger alert-dismissable">
-                        @Html.Partial("_BuscaInspecaoError", (RetornoDownloadModel) Model.HistoricoInspecoesExcluidas)
-                    </div>
-                }
+            var test = ViewData["DownloadModel"] as DownloadModel;
+
+            if (!Model.HistoricoInspecoesExcluidas.Any() && Model.Retorno.ExisteExcecao)
+            {
+                @*<div id="idConsultaInspecao" class="alert alert-danger alert-dismissable">*@
+                @Html.Partial("_HistoricoExclusaoErro", Model.Retorno)
+                @*</div>*@
             }
+
+           
+
         }
 
     </div>

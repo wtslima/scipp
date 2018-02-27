@@ -226,6 +226,7 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="Controllers\DownloadController.cs" />
+    <Compile Include="Controllers\HistoricoInspecaoExcluidaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InspecaoController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -266,9 +267,9 @@
     <Content Include="Views\Download\_DownloadResposta.cshtml" />
     <Content Include="Views\Inspecao\_BuscaInspecaoError.cshtml" />
     <Content Include="Views\Download\_DownloadError.cshtml" />
-    <Content Include="Views\Inspecao\_Consulta.cshtml" />
-    <Content Include="Views\Inspecao\ConsultaInspecoesExcluida.cshtml" />
-    <Content Include="Views\Inspecao\_PartialConsultaInspecaoExcluida.cshtml" />
+    <Content Include="Views\HistoricoInspecaoExcluida\ConsultaInspecoesExcluida.cshtml" />
+    <Content Include="Views\HistoricoInspecaoExcluida\_PartialConsultaInspecaoExcluida.cshtml" />
+    <Content Include="Views\HistoricoInspecaoExcluida\_HistoricoExclusaoErro.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -278,7 +279,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Cipp\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\INMETRO.CIPP.DOMINIO\INMETRO.CIPP.DOMINIO.csproj">

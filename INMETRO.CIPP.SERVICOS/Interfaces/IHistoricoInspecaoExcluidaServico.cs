@@ -10,6 +10,6 @@ namespace INMETRO.CIPP.SERVICOS.Interfaces
 
         IEnumerable<HistoricoExclusaoServiceModel> ObterInspecoesExcluidasPorCodigoInformado(string codigoOia, string cipp);
 
-        IEnumerable<HistoricoExclusaoServiceModel> ObterTodasInspecoesExcluidas();
+        HIstoricoDeExclusaoModelService ObterTodasInspecoesExcluidas();
     }
 }

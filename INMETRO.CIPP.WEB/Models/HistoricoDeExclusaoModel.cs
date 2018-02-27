@@ -1,4 +1,7 @@
-﻿namespace INMETRO.CIPP.WEB.Models
+﻿using INMETRO.CIPP.SERVICOS.ModelService;
+using INMETRO.CIPP.WEB.ControleAcesso;
+
+namespace INMETRO.CIPP.WEB.Models
 {
     public class HistoricoDeExclusaoModel
     {
@@ -8,5 +11,7 @@
         public string Mensagem { get; set; }
         public bool ExisteExcecao { get; set; }
         public Pager Pagination { get; set; }
+
+        public RetornoDownloadModel Retorno { get; set; }
     }
 }

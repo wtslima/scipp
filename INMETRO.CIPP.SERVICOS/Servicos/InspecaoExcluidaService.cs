@@ -75,15 +75,16 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             }
         }
 
-        public IEnumerable<HistoricoExclusaoServiceModel> ObterTodasInspecoesExcluidas()
+        public HIstoricoDeExclusaoModelService ObterTodasInspecoesExcluidas()
         {
             try
             {
-                var lista = _historicoInspecaoExcluida.BuscarRegistrosDeHistorico().ToList();
+                var resultado = _historicoInspecaoExcluida.BuscarRegistrosDeHistorico();
 
-                var listaInspecao = Conversao.ConverterListaParaModeloService(lista);
+                var inspecaoExcluida = Conversao.ConverterParaModelService(resultado);
+                    
 
-                return listaInspecao;
+                return inspecaoExcluida;
             }
             catch (Exception e)
             {

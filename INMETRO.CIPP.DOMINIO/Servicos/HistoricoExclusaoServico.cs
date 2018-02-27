@@ -106,23 +106,39 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
             }
         }
 
-        public IEnumerable<HistoricoExclusao> BuscarRegistrosDeHistorico()
+        public HistoricoDeInspecoesExcluidas BuscarRegistrosDeHistorico()
         {
             try
             {
                 var resultado = _repositorio.BuscarRegistrosDeHistorico().ToList();
                 if (resultado.Count == 0)
                 {
-                    return new List<HistoricoExclusao>
+                    return new HistoricoDeInspecoesExcluidas
                     {
-                        new HistoricoExclusao
-                        {
-                            Mensagem = string.Format(MensagemNegocio.NenhumaInspecaoExcluidaEncontrada),
-                            ExisteExcecao = true
-                        }
+                       InspecoesExcluidas = new List<HistoricoExclusao>(),
+                       ExcecaoDominio = new ExcecaoDominio
+                       {
+                           ExisteExcecao = true,
+                           Mensagem = string.Format(MensagemNegocio.NenhumaInspecaoExcluidaEncontrada)
+                       }
                     };
                 }
-                return resultado;
+
+                return new HistoricoDeInspecoesExcluidas
+                {
+                   InspecoesExcluidas = resultado.Select(d => new HistoricoExclusao
+                    {
+                        CodigoOia = d.CodigoOia,
+                        Cipp = d.Cipp,
+                        DataExclusao = d.DataExclusao
+                    }),
+                   ExcecaoDominio = new ExcecaoDominio
+                   {
+                       ExisteExcecao = false,
+                       Mensagem = string.Empty
+                   }
+
+                };
             }
             catch (Exception e)
             {

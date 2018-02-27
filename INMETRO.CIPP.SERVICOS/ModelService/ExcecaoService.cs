@@ -4,6 +4,6 @@
     {
         public string  Mensagem { get; set; }
        
-        public string Excecao { get; set; }
+        public bool Excecao { get; set; }
     }
 }

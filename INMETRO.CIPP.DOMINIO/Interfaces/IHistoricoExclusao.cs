@@ -12,6 +12,6 @@ namespace INMETRO.CIPP.DOMINIO.Interfaces
 
         IEnumerable<HistoricoExclusao> ObterInspecaoPorCodigoOia(string codigoOia);
 
-        IEnumerable<HistoricoExclusao> BuscarRegistrosDeHistorico();
+        HistoricoDeInspecoesExcluidas BuscarRegistrosDeHistorico();
     }
 }
