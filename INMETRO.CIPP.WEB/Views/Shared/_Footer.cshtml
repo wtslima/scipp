@@ -1,8 +1,10 @@
 ﻿@using System.Reflection;
 @{
-    var version = typeof(INMETRO.CIPP.WEB.MvcApplication).Assembly.GetName().Version;
+    Version version = typeof(INMETRO.CIPP.WEB.MvcApplication).Assembly.GetName().Version;
     var date = typeof(INMETRO.CIPP.WEB.MvcApplication).Assembly.BuildDate();
 }
+
+
 
 <footer class="footer-inmetro" role="contentinfo">
     <div class="container">
