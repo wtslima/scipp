@@ -78,17 +78,25 @@ namespace INMETRO.CIPP.SERVICOS
             };
         }
 
-        public static HistoricoExclusaoServiceModel ConverterParaModeloServico(HistoricoExclusao value)
+        public static HistoricoDeExclusaoModelService ConverterParaModeloServico(HistoricoExclusao value)
         {
-            if (value == null) return new HistoricoExclusaoServiceModel();
 
-            return new HistoricoExclusaoServiceModel()
+            return new HistoricoDeExclusaoModelService
             {
-                CodigoOia = value.CodigoOia,
-                Cipp = value.Cipp,
-                DataExclusao = value.DataExclusao,
-                ExisteExcecao = value.ExisteExcecao,
-                Mensagem = value.Mensagem
+               HistoricoExclusoes = new List<HistoricoExclusaoServiceModel>
+               {
+                   new HistoricoExclusaoServiceModel
+                   {
+                       CodigoOia = value.CodigoOia,
+                       Cipp = value.Cipp,
+                       DataExclusao = value.DataExclusao
+                   }
+               },
+               Excecao = new ExcecaoService
+               {
+                   Mensagem = value.Mensagem,
+                   Excecao = value.ExisteExcecao
+               }
 
             };
         }

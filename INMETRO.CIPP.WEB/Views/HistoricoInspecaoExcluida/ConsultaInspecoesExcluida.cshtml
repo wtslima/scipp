@@ -1,9 +1,28 @@
 ﻿
+@using INMETRO.CIPP.WEB.Models
+@model InspecaoExcluidaModel
 @{
     ViewBag.Title = "ConsultaInspecoesExcluida";
 }
-@using INMETRO.CIPP.WEB.Models
-@model InspecaoExcluidaModel
+
+
+@{
+    if (IsPost)
+    {
+        if (Model.Mensagem.ExisteExcecao)
+        {
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+
+                    <div id="idConsultaInspecao" class="alert alert-danger alert-dismissable">
+                        @Html.Partial("_HistoricoExclusaoErro", Model.Mensagem)
+
+                    </div>
+                </div>
+            </div>
+        }
+    }
+}
 
 
 <div class="row">
@@ -12,7 +31,7 @@
         <h2 class="tituloSistema">
             Consultar Inspeções Excluídas
         </h2>
-        <hr/>
+        <hr />
 
         <form action="@Url.Action("ConsultaInspecoesExcluida", "HistoricoInspecaoExcluida")" class="form form-inline" id="download" method="post" novalidate="novalidate">
 
@@ -34,16 +53,7 @@
     <br />
     <br />
     <div class="col-md-10 col-md-offset-1">
-        @if (IsPost)
-        {
-            if (Model.Retorno.ExisteExcecao)
-            {
-                <div id="idConsultaInspecao" class="alert alert-danger alert-dismissable">
-                    @Html.Partial("_HistoricoExclusaoErro", Model.Retorno)
-                </div>
-            }
-        }
-        
+
 
         @if (Model != null)
         {
@@ -59,12 +69,6 @@
                 }
             }
 
-            var test = ViewData["DownloadModel"] as DownloadModel;
-
-            if (!Model.HistoricoInspecoesExcluidas.Any() && Model.Retorno.ExisteExcecao)
-            {
-                @Html.Partial("_HistoricoExclusaoErro", Model.Retorno)
-            }
         }
 
     </div>

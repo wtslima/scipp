@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using INMETRO.CIPP.SERVICOS.ModelService;
 
 
 namespace INMETRO.CIPP.WEB.Models
@@ -8,7 +7,7 @@ namespace INMETRO.CIPP.WEB.Models
     {
         public IEnumerable<HistoricoDeExclusaoModel> HistoricoInspecoesExcluidas { get; set; }
         public Pager Pager { get; set; }
-        public RetornoDownloadModel Retorno { get; set; }
+        public MensagemModel Mensagem { get; set; }
 
     }
 }

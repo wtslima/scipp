@@ -10,7 +10,6 @@ namespace INMETRO.CIPP.WEB.Conversao
     {
         public static InspecoesGravadasModel  ConverterParaModelo(InspecoesGravadasModelServico value)
         {
-           var inspecoes = new InspecoesGravadasModel();
 
             if (value == null) return new InspecoesGravadasModel();
 
@@ -47,9 +46,8 @@ namespace INMETRO.CIPP.WEB.Conversao
                     CodigoOia = item.CodigoOia,
                     Cipp = item.Cipp,
                     DataExclusao = item.DataExclusao.ToString(CultureInfo.InvariantCulture),
-                    ExisteExcecao = item.ExisteExcecao,
-                    Mensagem = item.Mensagem,
-                    Retorno = new RetornoDownloadModel
+                    
+                    MensagemModel = new MensagemModel
                     {
                         ExisteExcecao = item.ExisteExcecao,
                         Mensagem = item.Mensagem
@@ -74,7 +72,7 @@ namespace INMETRO.CIPP.WEB.Conversao
                     Cipp = s.Cipp,
                     DataExclusao = s.DataExclusao.ToString(CultureInfo.InvariantCulture)
                 }).ToList(),
-                Retorno = new RetornoDownloadModel()
+                Mensagem = new MensagemModel()
                 {
                     ExisteExcecao = value.Excecao.Excecao,
                     Mensagem = value.Excecao.Mensagem

@@ -49,17 +49,13 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             }
         
 
-        public IEnumerable<HistoricoExclusaoServiceModel> ObterInspecoesExcluidasPorCodigoInformado(string codigoOia, string cipp)
+        public HistoricoDeExclusaoModelService ObterInspecoesExcluidasPorCodigoInformado(string codigoOia, string cipp)
         {
             try
             {
                 if (!string.IsNullOrEmpty(codigoOia) && !string.IsNullOrEmpty(cipp))
                 {
-                    var listaInspecao = new List<HistoricoExclusaoServiceModel>
-                    {
-                        Conversao.ConverterParaModeloServico(_historicoInspecaoExcluida.ObterInspecaoParaCippECodigoOiaInformado(codigoOia, cipp))
-                    };
-                    return listaInspecao;
+                    return Conversao.ConverterParaModeloServico(_historicoInspecaoExcluida.ObterInspecaoParaCippECodigoOiaInformado(codigoOia, cipp));
                 }
                 if (!string.IsNullOrEmpty(cipp))
                 {
@@ -91,6 +87,57 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
                 throw e;
             }
+        }
+       
+
+        private void AddRegistrosExclusao(string codigoOia, string diretorio)
+        {
+            try
+            {
+                var registroExclusao = new HistoricoExclusaoServiceModel
+                {
+                    CodigoOia = codigoOia,
+                    Cipp = diretorio,
+                    DataExclusao = DateTime.Now
+                };
+                _historicoInspecaoExcluida.AdicionarRegistroDeHistoricoDeExclusao(
+                    Conversao.ConverterParaDominio(registroExclusao));
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+        }
+        private HistoricoDeExclusaoModelService BuscarInspecoesPorCodigoOia(string codigoOia)
+        {
+            try
+            {
+                var inspecoes = _historicoInspecaoExcluida.ObterInspecaoPorCodigoOia(codigoOia);
+
+                return Conversao.ConverterParaModelService(inspecoes);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        private HistoricoDeExclusaoModelService BuscarInspecaoPorCipp(string cipp)
+        {
+            try
+            {
+
+                var inspecao = _historicoInspecaoExcluida.ObterDadosInspecaoPorCipp(cipp);
+
+                return   Conversao.ConverterParaModeloServico(inspecao);
+             
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
         }
 
         private void RemoverInspecaoComMaisDe30Dias(List<string> lista, FTPInfo ftpInfo)
@@ -136,58 +183,6 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         {
             var limite = fileDate.AddDays(30);
             return DateTime.Now > limite;
-        }
-
-        private void AddRegistrosExclusao(string codigoOia, string diretorio)
-        {
-            try
-            {
-                var registroExclusao = new HistoricoExclusaoServiceModel
-                {
-                    CodigoOia = codigoOia,
-                    Cipp = diretorio,
-                    DataExclusao = DateTime.Now
-                };
-                _historicoInspecaoExcluida.AdicionarRegistroDeHistoricoDeExclusao(
-                    Conversao.ConverterParaDominio(registroExclusao));
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-
-        }
-        private IEnumerable<HistoricoExclusaoServiceModel> BuscarInspecoesPorCodigoOia(string codigoOia)
-        {
-            try
-            {
-                var inspecoes = _historicoInspecaoExcluida.ObterInspecaoPorCodigoOia(codigoOia).ToList();
-
-                return Conversao.ConverterListaParaModeloService(inspecoes);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        private IEnumerable<HistoricoExclusaoServiceModel> BuscarInspecaoPorCipp(string cipp)
-        {
-            try
-            {
-                var listaInspecao = new List<HistoricoExclusaoServiceModel>();
-
-                var inspecao = _historicoInspecaoExcluida.ObterDadosInspecaoPorCipp(cipp);
-
-                listaInspecao.Add(Conversao.ConverterParaModeloServico(inspecao));
-
-                return listaInspecao;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-
         }
     }
 }

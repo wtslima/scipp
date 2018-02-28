@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using INMETRO.CIPP.SERVICOS.Interfaces;
-using INMETRO.CIPP.SERVICOS.ModelService;
 using INMETRO.CIPP.WEB.Models;
 
 namespace INMETRO.CIPP.WEB.Controllers
@@ -25,51 +23,44 @@ namespace INMETRO.CIPP.WEB.Controllers
                 return RedirectToAction("Login", "Login");
             return View();
         }
+
         [HttpPost]
         public ActionResult ConsultaInspecoesExcluida(DownloadModel model, int? page)
         {
             try
             {
 
-                ViewData["DownloadModel"] = model;
-                var retornoMensagem = new RetornoDownloadModel();
-                var viewModel = new InspecaoExcluidaModel();
-                var pager = new Pager(0, page);
+                Pager pager;
 
                 if (!string.IsNullOrWhiteSpace(model.CodigoOia) ||
                     !string.IsNullOrWhiteSpace(model.CodigoCipp))
                 {
 
-                    var lista = ObterInspecaoExcluidaPorCodigoInformado(model.CodigoOia,
+                    var inspecoesPorCodigo = ObterInspecaoExcluidaPorCodigoInformado(model.CodigoOia,
                         model.CodigoCipp);
-                    pager = new Pager(lista.Count(), page);
-                    foreach (var item in lista)
+                    pager = new Pager(inspecoesPorCodigo.HistoricoInspecoesExcluidas.Count(), page);
+
+                    if (inspecoesPorCodigo.Mensagem.ExisteExcecao)
                     {
-                        if (!item.ExisteExcecao) continue;
-                        retornoMensagem.Mensagem = item.Mensagem;
-                        return PartialView("_HistoricoExclusaoErro", retornoMensagem);
+                        return View(inspecoesPorCodigo);
                     }
-                    viewModel = new InspecaoExcluidaModel
-                    {
-                        HistoricoInspecoesExcluidas = lista.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
-                        Pager = pager
+                    inspecoesPorCodigo.HistoricoInspecoesExcluidas.Skip((pager.CurrentPage - 1) * pager.PageSize)
+                        .Take(pager.PageSize);
+                    inspecoesPorCodigo.Pager = pager;
 
-                    };
-
-                    return View(viewModel);
+                    return View(inspecoesPorCodigo);
                 }
 
 
                 var resultado = ObterInspecoesExcluidas();
                 pager = new Pager(resultado.HistoricoInspecoesExcluidas.Count(), page);
-                if (resultado.Retorno.ExisteExcecao) return PartialView("_HistoricoExclusaoErro", resultado.Retorno);
-                viewModel = new InspecaoExcluidaModel
-                {
-                    HistoricoInspecoesExcluidas = resultado.HistoricoInspecoesExcluidas.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
-                    Pager = pager
-                };
+                if (resultado.Mensagem.ExisteExcecao) return View(resultado);
 
-                return View(viewModel);
+                resultado.HistoricoInspecoesExcluidas.Skip((pager.CurrentPage - 1) * pager.PageSize)
+                    .Take(pager.PageSize);
+                 resultado.Pager = pager;
+
+                return View(resultado);
             }
             catch (Exception e)
             {
@@ -79,11 +70,11 @@ namespace INMETRO.CIPP.WEB.Controllers
             }
         }
 
-        private List<HistoricoDeExclusaoModel> ObterInspecaoExcluidaPorCodigoInformado(string codigoOia, string cipp)
+        private InspecaoExcluidaModel ObterInspecaoExcluidaPorCodigoInformado(string codigoOia, string cipp)
         {
             try
             {
-                var resultado = Conversao.Converter.ConverterParaModelo(_inspecaoExcluidaServico.ObterInspecoesExcluidasPorCodigoInformado(codigoOia, cipp).ToList());
+                var resultado = Conversao.Converter.ConverterParaModelo(_inspecaoExcluidaServico.ObterInspecoesExcluidasPorCodigoInformado(codigoOia, cipp));
 
                 return resultado;
             }

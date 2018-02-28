@@ -70,15 +70,16 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
             };
         }
 
-        public IEnumerable<HistoricoExclusao> ObterInspecaoPorCodigoOia(string codigoOia)
+        public HistoricoDeInspecoesExcluidas ObterInspecaoPorCodigoOia(string codigoOia)
         {
             try
             {
                 var organismo = _organismoRepositorio.BuscarOrganismoPorId(codigoOia);
                 if (organismo.Id <= 0)
-                    return new List<HistoricoExclusao>
+                    return new HistoricoDeInspecoesExcluidas
                     {
-                        new HistoricoExclusao
+                        InspecoesExcluidas = new List<HistoricoExclusao>(),
+                        ExcecaoDominio = new ExcecaoDominio
                         {
                             Mensagem = string.Format(MensagemNegocio.NaoExisteCodigoOia, codigoOia),
                             ExisteExcecao = true
@@ -88,12 +89,26 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
 
                 if (resultado.Count > 0)
                 {
-                    return resultado;
+                    return new HistoricoDeInspecoesExcluidas
+                    {
+                        InspecoesExcluidas = resultado.Select(s => new HistoricoExclusao
+                        {
+                            CodigoOia = s.CodigoOia,
+                            Cipp = s.Cipp,
+                            DataExclusao = s.DataExclusao
+                        }),
+                        ExcecaoDominio = new ExcecaoDominio
+                        {
+                            ExisteExcecao = false,
+                            Mensagem = string.Empty
+                        }
+                    };
                 }
 
-                return new List<HistoricoExclusao>
+                return new HistoricoDeInspecoesExcluidas
                 {
-                    new HistoricoExclusao
+                    InspecoesExcluidas = new List<HistoricoExclusao>(),
+                    ExcecaoDominio = new ExcecaoDominio
                     {
                         Mensagem = string.Format( MensagemNegocio.NenhumInspecaoEncontradoParaCodigoOia, codigoOia),
                         ExisteExcecao = true
@@ -146,19 +161,6 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
             }
         }
 
-        //public bool TemInspecao(string cipp)
-        //{
-        //    try
-        //    {
-        //        var resultado = _repositorio.ObterDadosInspecaoPorCipp(cipp);
-
-        //        return resultado;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw e;
-        //    }
-
-        //}
+      
     }
 }

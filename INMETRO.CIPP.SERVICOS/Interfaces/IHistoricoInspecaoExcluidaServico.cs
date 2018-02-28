@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using INMETRO.CIPP.SERVICOS.ModelService;
 
 namespace INMETRO.CIPP.SERVICOS.Interfaces
@@ -8,7 +7,7 @@ namespace INMETRO.CIPP.SERVICOS.Interfaces
     {
         Task<bool> ExcluirInspecaoPorRotinaAutomatica();
 
-        IEnumerable<HistoricoExclusaoServiceModel> ObterInspecoesExcluidasPorCodigoInformado(string codigoOia, string cipp);
+        HistoricoDeExclusaoModelService ObterInspecoesExcluidasPorCodigoInformado(string codigoOia, string cipp);
 
         HistoricoDeExclusaoModelService ObterTodasInspecoesExcluidas();
     }

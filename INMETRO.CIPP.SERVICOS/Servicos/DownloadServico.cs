@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using INMETRO.CIPP.DOMINIO.Interfaces;
 using INMETRO.CIPP.DOMINIO.Interfaces.Repositorios;
+using INMETRO.CIPP.DOMINIO.Mensagens;
 using INMETRO.CIPP.DOMINIO.Modelos;
 using INMETRO.CIPP.DOMINIO.Servicos;
 using INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios;
@@ -54,6 +55,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         {
             try
             {
+
                 var retornoDownload = new RetornoDownloadModel();
                 var organismo = _organismoRepositorio.BuscarOrganismoPorId(codigoOia);
 
@@ -61,6 +63,15 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 {
                     retornoDownload.ExisteExcecao = false;
                     retornoDownload.Mensagem = string.Format(MensagemSistema.NaoExisteCodigoOia, codigoOia);
+                    return retornoDownload;
+                }
+
+                var retorno = _inspecaoServico.ObterInspecaoParaCippECodigoOiaInformado(codigoOia, cipp);
+                if (retorno.ExcecaoDominio.ExisteExcecao)
+                {
+                    retornoDownload.ExisteExcecao = true;
+                    retornoDownload.Mensagem = string.Format(MensagemNegocio.InspecaoJaGravadaParaCippEOia,
+                        codigoOia, cipp);
                     return retornoDownload;
                 }
 
@@ -128,7 +139,6 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
                 foreach (var item in organismos.GroupBy(c => c.FtpInfo))
                 {
-                    ExcecaoService excecaoService = new ExcecaoService();
                     try
                     {
                         var diretoriosCippRemoto = ObterListaDiretoriosPorOrganismo(item.Key);
@@ -358,6 +368,8 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
             return inspecoesNaoGravadas.Count;
         }
+
+       
     }
 
 }

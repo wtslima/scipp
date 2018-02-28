@@ -1,5 +1,4 @@
-﻿@using INMETRO.CIPP.SERVICOS.ModelService
-@using INMETRO.CIPP.WEB.Models
+﻿@using INMETRO.CIPP.WEB.Models
 @model InspecoesGravadasModel
 
 
@@ -7,6 +6,24 @@
     ViewBag.Title = "ConsultaInspecao";
 
 }
+@{
+    if (IsPost)
+    {
+        if (Model.Mensagem.ExisteExcecao)
+        {
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+
+                    <div id="idConsultaInspecao" class="alert alert-danger alert-dismissable">
+                        @Html.Partial("_BuscaInspecaoError", Model.Mensagem)
+
+                    </div>
+                </div>
+            </div>
+        }
+    }
+}
+
 <div class="row">
 
     <div class="col-md-10 col-md-offset-1" style="padding-bottom:25px;">
@@ -48,12 +65,6 @@
                     </div>
                     break;
                 }
-            }
-
-
-            if (!Model.Inspecoes.Any())
-            {
-                @Html.Partial("_BuscaInspecaoError", Model.Mensagem)
             }
 
         }

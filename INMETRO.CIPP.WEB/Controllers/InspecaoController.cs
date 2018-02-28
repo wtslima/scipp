@@ -38,7 +38,7 @@ namespace INMETRO.CIPP.WEB.Controllers
                         pager = new Pager(inspecoesPorCodigo.Inspecoes.ToList().Count, page);
                         if (inspecoesPorCodigo.Mensagem.ExisteExcecao)
                         {
-                            return PartialView("_BuscaInspecaoError", inspecoesPorCodigo.Mensagem);
+                            return View(inspecoesPorCodigo);
                         }
                         inspecoesPorCodigo.Inspecoes.ToList().Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize);
                         inspecoesPorCodigo.Pager = pager;
