@@ -22,7 +22,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 {
     public class DownloadServico : IDownloadServico
     {
-        private readonly IOrganismoRepositorio _organismoRepositorio;
+        private readonly IOrganismoDominioService __organismoDomainService;
         private readonly IGerenciarFtp _ftp;
         private readonly IGerenciarArquivoCompactado _descompactar;
         private readonly IGerenciarCsv _csv;
@@ -36,9 +36,9 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         readonly List<ExcecaoService> _listaExcecao = new List<ExcecaoService>();
 
 
-        public DownloadServico(IOrganismoRepositorio organismoRepositorio, IGerenciarFtp ftp, IGerenciarArquivoCompactado descompactar, IGerenciarCsv csv, IInspecaoDominioService inspecaoServico)
+        public DownloadServico(IOrganismoDominioService organismoDomainService, IGerenciarFtp ftp, IGerenciarArquivoCompactado descompactar, IGerenciarCsv csv, IInspecaoDominioService inspecaoServico)
         {
-            _organismoRepositorio = organismoRepositorio;
+            __organismoDomainService = organismoDomainService;
             _ftp = ftp;
             _descompactar = descompactar;
             _csv = csv;
@@ -55,29 +55,22 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         {
             try
             {
+                var organismo = __organismoDomainService.BuscarOrganismoPorId(codigoOia);
 
-                var retornoDownload = new RetornoDownloadModel();
-                var organismo = _organismoRepositorio.BuscarOrganismoPorId(codigoOia);
-
-                if (organismo.Id <= 0)
+                var existeOrganismo = TemOrganismo(organismo);
+                if (existeOrganismo.ExisteExcecao)
+                    return existeOrganismo;
+                if (!string.IsNullOrEmpty(cipp))
                 {
-                    retornoDownload.ExisteExcecao = false;
-                    retornoDownload.Mensagem = string.Format(MensagemSistema.NaoExisteCodigoOia, codigoOia);
-                    return retornoDownload;
+                    var retorno = _inspecaoServico.ObterInspecaoParaCippECodigoOiaInformado(codigoOia, cipp);
+                    var existeCippParaCodigoOia = TemCippParaOrganismoInformado(retorno);
+                    if (existeCippParaCodigoOia.ExisteExcecao)
+                        return existeCippParaCodigoOia;
                 }
 
-                var retorno = _inspecaoServico.ObterInspecaoParaCippECodigoOiaInformado(codigoOia, cipp);
-                if (!retorno.ExcecaoDominio.ExisteExcecao)
-                {
-                    retornoDownload.ExisteExcecao = true;
-                    retornoDownload.Mensagem = string.Format(MensagemNegocio.InspecaoJaGravadaParaCippEOia,
-                        codigoOia, cipp);
-                    return retornoDownload;
-                }
+                var retornoDownload = VerificarFtpValido(organismo.FtpInfo, codigoOia);
 
-                retornoDownload = VerificarFtpValido(organismo.FtpInfo, codigoOia);
-
-                if (!retornoDownload.ExisteExcecao)
+                if (retornoDownload.ExisteExcecao)
                     return retornoDownload;
 
                 var diretoriosCippRemoto = ObterListaDiretoriosPorOrganismo(organismo.FtpInfo);
@@ -99,7 +92,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                         {
 
                             DownloadInspecao(organismo.FtpInfo, diretorioLocal, diretorioCippRemoto, usuario);
-                            retornoDownload.ExisteExcecao = true;
+                            retornoDownload.ExisteExcecao = false;
                             retornoDownload.Mensagem = string.Format(MensagemSistema.SucessoDownloadCodigoOiaeCipp,
                                 codigoOia, cipp);
                             return retornoDownload;
@@ -114,7 +107,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                     }
 
                 }
-                retornoDownload.ExisteExcecao = true;
+                retornoDownload.ExisteExcecao = false;
                 retornoDownload.Mensagem = string.Format(MensagemSistema.SucessoDownloadCodigoOia, codigoOia);
                 return retornoDownload;
             }
@@ -123,7 +116,6 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
                 throw ex;
             }
-
         }
 
         #endregion
@@ -133,7 +125,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         {
             try
             {
-                var organismos = await _organismoRepositorio.BuscarTodosOrganismos();
+                var organismos = await __organismoDomainService.BuscarTodosOrganismos();
                 Notificacao enviar = new Notificacao();
                 if (!organismos.GroupBy(f => f.FtpInfo).Any()) return false;
 
@@ -190,15 +182,13 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
             foreach (var item in diretorios)
             {
-                var inspecao = new InspecaoModelServico();
-
                 try
                 {
                     if (TemInspecaoValida(item)) continue;
                     var diretorioLocal = ObterDiretorioLocal(ftpInfo.DiretorioInspecaoLocal, item);
                     if (!_ftp.DownloadInspecaoFtp(item, diretorioLocal, ftpInfo)) continue;
                     if (!_descompactar.DescompactarArquivo(diretorioLocal, item)) continue;
-                    inspecao = Conversao.ConverterParaModeloServico(_csv.ObterDadosInspecao(diretorioLocal));
+                    var inspecao = Conversao.ConverterParaModeloServico(_csv.ObterDadosInspecao(diretorioLocal));
                     if (!GravarInspecao(Conversao.ConverterParaDominio(inspecao))) continue;
                     _listaInspecoesParaEnvio.Add(inspecao);
                     if (!GravarHistoricoDownload(item, "Rotina Automática")) continue;
@@ -239,7 +229,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             var retornoDownload = new RetornoDownloadModel();
             var inspecoes = ExisteInspecoesGravadas(diretorios);
             if (diretorios.Length != 0 && inspecoes > 0) return new RetornoDownloadModel();
-            retornoDownload.ExisteExcecao = false;
+            retornoDownload.ExisteExcecao = true;
             retornoDownload.Mensagem = string.Format(MensagemSistema.SemNovosDiretorios, codigo);
             return retornoDownload;
         }
@@ -249,7 +239,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             var retornoDownload = new RetornoDownloadModel();
 
             if (ftpInfos != null) return new RetornoDownloadModel();
-            retornoDownload.ExisteExcecao = false;
+            retornoDownload.ExisteExcecao = true;
             retornoDownload.Mensagem = string.Format(MensagemSistema.FtpInvalido, codigo);
             return retornoDownload;
         }
@@ -369,7 +359,34 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             return inspecoesNaoGravadas.Count;
         }
 
-       
+        private RetornoDownloadModel TemOrganismo (Organismo organismo)
+        {
+            if (organismo.ExcecaoDominio.ExisteExcecao)
+            {
+                return new RetornoDownloadModel
+                {
+                    ExisteExcecao = organismo.ExcecaoDominio.ExisteExcecao,
+                    Mensagem = organismo.ExcecaoDominio.Mensagem
+                };
+            }
+
+            return new RetornoDownloadModel();
+        }
+
+        private RetornoDownloadModel TemCippParaOrganismoInformado(Inspecao inspecao)
+        {
+            if (!inspecao.ExcecaoDominio.ExisteExcecao)
+            {
+                return new RetornoDownloadModel
+                {
+                    ExisteExcecao =true,
+                    Mensagem = inspecao.ExcecaoDominio.Mensagem
+                };
+            }
+
+            return new RetornoDownloadModel();
+        }
+
     }
 
 }

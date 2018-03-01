@@ -45,13 +45,8 @@ namespace INMETRO.CIPP.WEB.Controllers
                     model.Mensagem = resultado.Mensagem;
 
                 }
-                if (!model.IsSuccess)
-                {
-                    return View(model);
-                }
                 return View(model);
-
-
+               
             }
             catch (Exception e)
             {

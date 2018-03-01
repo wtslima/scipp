@@ -15,14 +15,34 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
         }
         public  Organismo BuscarOrganismoPorId(string codigoOia)
         {
-            if (!string.IsNullOrWhiteSpace(codigoOia))
+            if (string.IsNullOrWhiteSpace(codigoOia)) return new Organismo
             {
-                var resultado =  _repositorio.BuscarOrganismoPorId(codigoOia);
-                return resultado;
-            }
-           
-            return new Organismo();
-           
+                ExcecaoDominio = new ExcecaoDominio
+                {
+                    ExisteExcecao = true,
+                    Mensagem = Mensagens.MensagemNegocio.CampoObrigatorio
+                }
+            };
+
+            var resultado =  _repositorio.BuscarOrganismoPorId(codigoOia);
+
+            if (resultado.Id <= 0)
+                return new Organismo
+                {
+                    ExcecaoDominio = new ExcecaoDominio
+                    {
+                        ExisteExcecao = true,
+                        Mensagem = Mensagens.MensagemNegocio.NaoExisteCodigoOia
+
+                    }
+                };
+            resultado.ExcecaoDominio = new ExcecaoDominio
+            {
+                ExisteExcecao = false,
+                Mensagem = string.Empty
+            };
+
+            return resultado;
         }
 
         public async Task<IList<Organismo>> BuscarTodosOrganismos()

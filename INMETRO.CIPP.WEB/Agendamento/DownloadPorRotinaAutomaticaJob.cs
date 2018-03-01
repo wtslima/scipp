@@ -10,6 +10,7 @@ namespace INMETRO.CIPP.WEB.Agendamento
     {
        
         private readonly OrganismoRepositorio _repositorio;
+        private readonly OrganismoDominioServico _domainService;
         private readonly GerenciarArquivoCompactado _descompactar;
         private readonly GerenciarFtp _ftp;
         private readonly GerenciarCsv _csv;
@@ -30,7 +31,7 @@ namespace INMETRO.CIPP.WEB.Agendamento
 
         public void Execute(IJobExecutionContext context)
         {
-            var servico = new DownloadServico(_repositorio, _ftp, _descompactar, _csv, _inspecao);
+            var servico = new DownloadServico(_domainService, _ftp, _descompactar, _csv, _inspecao);
             servico.DownloadInspecoesPorRotinaAutomatica().ConfigureAwait(true);
         }
     }

@@ -66,13 +66,13 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
         public Inspecao ObterInspecaoParaCippECodigoOiaInformado(string codigoOia, string cipp)
         {
             var organismo = _organismoRepositorio.BuscarOrganismoPorId(codigoOia);
-            if (organismo.Id <= 0)
+            if (organismo.ExcecaoDominio.ExisteExcecao)
                 return new Inspecao
                 {
                     ExcecaoDominio = new ExcecaoDominio
                     {
                         ExisteExcecao = true,
-                        Mensagem = string.Format(MensagemNegocio.NenhumInspecaoEncontradoParaCodigoOia, codigoOia)
+                        Mensagem = organismo.ExcecaoDominio.Mensagem
                     }
                 };
             var inspecoes = _repositorio.ObterInspecaosPorCodigoOia(codigoOia);
@@ -160,7 +160,17 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
 
     }
 
-    public InspecoesGravadas ObterTodasInspecoes()
+        public InspecoesGravadas ObterInspecaoPorPlacaLicenca(string placa)
+        {
+            throw new NotImplementedException();
+        }
+
+        public InspecoesGravadas ObterInspecaoPorDataInspecao(DateTime dataInspecao)
+        {
+            throw new NotImplementedException();
+        }
+
+        public InspecoesGravadas ObterTodasInspecoes()
     {
         try
         {

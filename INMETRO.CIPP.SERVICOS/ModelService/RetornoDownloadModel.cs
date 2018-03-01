@@ -4,13 +4,7 @@
     {
         public bool ExisteExcecao { get; set; }
         public string Mensagem { get; set; }
-
-
-        public RetornoDownloadModel()
-        {
-            ExisteExcecao = true;
-            Mensagem = "";
-        }
+        
     }
 
 }

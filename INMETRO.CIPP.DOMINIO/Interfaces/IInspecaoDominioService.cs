@@ -1,4 +1,5 @@
-﻿using INMETRO.CIPP.DOMINIO.Modelos;
+﻿using System;
+using INMETRO.CIPP.DOMINIO.Modelos;
 
 namespace INMETRO.CIPP.DOMINIO.Interfaces
 {
@@ -13,6 +14,10 @@ namespace INMETRO.CIPP.DOMINIO.Interfaces
         Inspecao ObterInspecaoParaCippECodigoOiaInformado(string codigoOia,string cipp);
 
         InspecoesGravadas ObterInspecaoPorCodigoOia(string codigoOia);
+
+        InspecoesGravadas ObterInspecaoPorPlacaLicenca(string placa);
+
+        InspecoesGravadas ObterInspecaoPorDataInspecao(DateTime dataInspecao);
 
         InspecoesGravadas ObterTodasInspecoes();
 

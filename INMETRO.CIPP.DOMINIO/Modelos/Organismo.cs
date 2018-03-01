@@ -26,6 +26,9 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
        
         public virtual IEnumerable<Inspecao> Inspecaoes { get; set; }
 
+        [NotMapped]
+        public ExcecaoDominio ExcecaoDominio { get; set; }
+
         public Organismo()
         {
             
