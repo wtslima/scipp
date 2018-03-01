@@ -67,7 +67,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 }
 
                 var retorno = _inspecaoServico.ObterInspecaoParaCippECodigoOiaInformado(codigoOia, cipp);
-                if (retorno.ExcecaoDominio.ExisteExcecao)
+                if (!retorno.ExcecaoDominio.ExisteExcecao)
                 {
                     retornoDownload.ExisteExcecao = true;
                     retornoDownload.Mensagem = string.Format(MensagemNegocio.InspecaoJaGravadaParaCippEOia,

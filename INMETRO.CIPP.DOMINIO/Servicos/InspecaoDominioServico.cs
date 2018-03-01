@@ -81,6 +81,11 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
             {
                 if (item.CodigoCIPP.Equals(cipp))
                 {
+                    item.ExcecaoDominio = new ExcecaoDominio
+                    {
+                        Mensagem = string.Empty,
+                        ExisteExcecao = false
+                    };
                     return item;
                 }
             }

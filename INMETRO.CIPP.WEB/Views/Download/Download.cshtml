@@ -1,20 +1,26 @@
 ﻿@model INMETRO.CIPP.WEB.Models.DownloadModel
 
 
-   @{
-       if (Model.IsSuccess)
-       {
-           <div id="idConsultaInspecao" class="alert alert-success alert-dismissable">
-               @Html.Partial("_DownloadResposta", Model)
-           </div>
-       }
-       if (!Model.IsSuccess && Model.CodigoOia != null)
-       {
-           <div id="idConsultaInspecao" class="alert alert-danger alert-dismissable">
-               @Html.Partial("_DownloadError", Model)
-           </div>
-       }
-   }
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        @if (IsPost)
+        {
+            if (!Model.IsSuccess && Model.CodigoOia != null)
+            {
+                <div id="idConsultaInspecao" class="alert alert-success alert-dismissable">
+                    @Html.Partial("_DownloadResposta", Model)
+                </div>
+            }
+            if (Model.IsSuccess && Model.CodigoOia != null)
+            {
+                <div id="idConsultaInspecao" class="alert alert-danger alert-dismissable">
+                    @Html.Partial("_DownloadError", Model)
+                </div>
+            }
+
+        }
+    </div>
+</div>
         <div class="row">
 
         <div class="col-md-10 col-md-offset-1" >
