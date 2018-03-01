@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using INMETRO.CIPP.DOMINIO.Interfaces;
 using INMETRO.CIPP.DOMINIO.Interfaces.Repositorios;
-using INMETRO.CIPP.DOMINIO.Mensagens;
 using INMETRO.CIPP.DOMINIO.Modelos;
 using INMETRO.CIPP.DOMINIO.Servicos;
 using INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios;
@@ -77,7 +75,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
                 retornoDownload = VerificarDiretorios(diretoriosCippRemoto, codigoOia);
 
-                if (!retornoDownload.ExisteExcecao)
+                if (retornoDownload.ExisteExcecao)
                     return retornoDownload;
 
 

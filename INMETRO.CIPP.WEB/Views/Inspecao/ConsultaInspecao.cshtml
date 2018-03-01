@@ -33,14 +33,24 @@
         <hr />
 
         <form action="@Url.Action("ConsultaInspecao", "Inspecao")" class="form form-inline" id="download" method="post" novalidate="novalidate">
-
-            <div class="form-group" style="margin-right: 25px">
+           
+            <select id="combo">
+                <option value="0">- Selecione -</option>
+                <option value="1">CÓDIGO OIA-PP</option>
+                <option value="2">Nº CIPP</option>
+                <option value="3">DATA DA INSPECÃO</option>
+                <option value="4">PLACA DE LICENCIAMENTO</option>
+                <option value="4">Buscar Todos</option>
+            </select>
+            <input id="idConsultarPor" class="btn btn-primary bg-inverse" type="button" value="Consultar Por"/>
+           
+            <div id="idCodigoOia" class="form-group" style="margin-left: 25px">
                 @Html.Label("CÓDIGO OIA-PP")
-                @Html.TextBox("CodigoOia", null, new { @class = "form-control", maxlength = "4", onkeypress = "return onlyNos(event,this);", id = "idCodigoOia" })
+                @Html.TextBox("CodigoOia", null, new {@class = "form-control", maxlength = "4", onkeypress = "return onlyNos(event,this);", id = "idCodigoOia"})
             </div>
-            <div class="form-group">
+            <div id="idCipp" class="form-group" style="margin-left: 25px">
                 @Html.Label("Nº CIPP")
-                @Html.TextBox("CodigoCipp", null, new { @class = "form-control", maxlength = "7", onkeypress = "return onlyNos(event,this);", id = "idCipp" })
+                @Html.TextBox("CodigoCipp", null, new {@class = "form-control", maxlength = "7", onkeypress = "return onlyNos(event,this);", id = "idCipp"})
                 @Html.ValidationMessage("CodigoCipp")
             </div>
 
@@ -95,4 +105,68 @@
         $("#idCipp").val("");
         return false;
     });
+
+    $("#idCodigoOia").hide();
+    $("#idCipp").hide();
+    $("#btnBuscar").hide();
+    $("#Cancelar").hide();
+
+    $(document).ready(function(){ 
+        $('#idConsultarPor').click(function(){ 
+            
+
+            switch ($('#combo :selected').text()) {
+                case 'Nº CIPP':
+                    MostrarCodigoCipp();
+                    break;
+                case 'CÓDIGO OIA-PP':
+                    MostrarCodigoOia();
+                    break;
+                case 'DATA DA INSPECÃO':
+                    $("#idCipp").show();
+                    $("#btnBuscar").show();
+                    $("#Cancelar").show();
+                    break;
+                case 'PLACA DE LICENCIAMENTO':
+                    $("#idCipp").show();
+                    $("#btnBuscar").show();
+                    $("#Cancelar").show();
+                    break;
+                case 'Buscar Todos':
+                    MostrarBuscarTodos();
+                    break;
+            default:
+            }
+        });
+    });
+
+    function MostrarCodigoOia() {
+
+        $("#idCodigoOia").show();
+        $("#btnBuscar").show();
+        $("#Cancelar").show();
+        $("#idCipp").hide();
+
+    }
+
+    function MostrarCodigoCipp() {
+
+        $("#idCipp").show();
+        $("#btnBuscar").show();
+        $("#Cancelar").show();
+        $("#idCodigoOia").hide();
+
+    }
+
+    function MostrarBuscarTodos() {
+
+        $("#idCipp").hide();
+        $("#btnBuscar").show();
+        $("#Cancelar").hide();
+        $("#idCodigoOia").hide();
+        $("#btnBuscar").show();
+        $("#btnBuscar").val('Buscar Todas as Inspeções'); 
+
+
+    }
 </script>

@@ -1,4 +1,5 @@
-﻿using INMETRO.CIPP.SERVICOS.ModelService;
+﻿using System;
+using INMETRO.CIPP.SERVICOS.ModelService;
 
 namespace INMETRO.CIPP.SERVICOS.Interfaces
 {
@@ -7,6 +8,10 @@ namespace INMETRO.CIPP.SERVICOS.Interfaces
         InspecoesGravadasModelServico ObterInspecoesPorCodigoInformado(string codigoOia, string cipp);
 
         InspecoesGravadasModelServico ObterTodasInspecoes();
+
+        InspecoesGravadasModelServico ObterInspecoesPorPlacaLicenca(string placa);
+
+        InspecoesGravadasModelServico ObterInspecaoPorDataInspecao(string dataInspecao);
 
     }
 }

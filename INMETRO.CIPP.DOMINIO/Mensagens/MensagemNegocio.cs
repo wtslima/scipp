@@ -16,5 +16,13 @@
         public const string NenhumaInspecaoEncontrada = "Nenhum resultado encontrado";
         public const string InspecaoJaGravadaParaCippEOia = "Já há gravados CÓDIGO-OIA-PP {0} e o CIPP {1}";
 
+        #region Mensagens Data
+        public const string NenhumaInspecaoParaPeriodoInformado = "Nenhuma inspeção foi encontrada para o período informado.";
+        #endregion
+
+        #region Mensagens Placa
+        public const string NenhumaInspecaoPlcaInformada = "Nenhuma inspeção foi encontrada para placa de licença {0} informado.";
+        #endregion
+
     }
 }

@@ -11,6 +11,10 @@ namespace INMETRO.CIPP.WEB.Models
         [RegularExpression("([0-9]+)", ErrorMessage = "Por favor digite um numero válido.")]
         public string CodigoCipp { get; set; }
 
+        public string DataInspecao { get; set; }
+
+        public string PlacaLicenca { get; set; }
+
         public bool IsSuccess { get; set; }
         public string Mensagem { get; set; }
     }
