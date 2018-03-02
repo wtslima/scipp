@@ -34,7 +34,9 @@
 
         <script type="text/javascript">
             $("document").ready(function () {
-                $("#DownloadModel.DataInspecao").attr("data-mask", "00/00/0000");
+
+                $(".campo-insp").hide();
+
                 var combo_anterior = "";
                 
                 $("#combo").change(function () {
@@ -52,9 +54,17 @@
                         $("#Cancelar").hide();
                     }
                     combo_anterior = $("#combo :selected").val();
-
+                    $("#idConsultaInspecao").find("table").remove();
                     
                 });
+
+                $("#Cancelar").click(function () {
+                    $("input").atrr("type","text").val("");
+                   
+                });
+
+                $(".date").mask('00/00/0000');
+                $(".num").mask('##');
             });
 
         </script>
@@ -68,28 +78,31 @@
                 <option value="idPlaca">PLACA DE LICENCIAMENTO</option>
                 <option value="4">Buscar Todos</option>
             </select>
-            <div id="idCodigoOia" class="form-group" style="margin-left: 25px">
+            <div id="idCodigoOia" class="form-group campo-insp" style="margin-left: 25px">
                 @Html.Label("CÓDIGO OIA-PP")
-                @Html.TextBoxFor(m => m.DownloadModel.CodigoOia, null, new {@class = "form-control", maxlength = "4", onkeypress = "return onlyNos(event,this);", id="codigoId"})
+                @Html.TextBoxFor(m => m.DownloadModel.CodigoOia, null, new {@class = "num form-control", maxlength = "4", id = "codigoId" })
+                @Html.ValidationMessage("CodigoOia")
             </div>
-            <div id="idCipp" class="form-group" style="margin-left: 25px">
+            <div id="idCipp" class="form-group campo-insp" style="margin-left: 25px" hidden>
                 @Html.Label("Nº CIPP")
-                @Html.TextBoxFor(m => m.DownloadModel.CodigoCipp, new {@class = "form-control", maxlength = "7", onkeypress = "return onlyNos(event,this);"})
+
+                @Html.TextBoxFor(m => m.DownloadModel.CodigoCipp, new {@class = "num form-control", maxlength = "7", onkeypress = "return onlyNos(event,this);", id = "Cippid"})
+
                 @Html.ValidationMessage("CodigoCipp")
             </div>
-            <div id="idDateInsp" class="form-group" style="margin-left: 25px">
+            <div id="idDateInsp" class="form-group campo-insp" style="margin-left: 25px" hidden>
                 @Html.Label("Data da Inspeção")
-                @Html.EditorFor(model => model.DownloadModel.DataInspecao, new {htmlAttributes = new {@class = "form-control datepicker ", Type = "date"}})
+                @Html.EditorFor(model => model.DownloadModel.DataInspecao, new {htmlAttributes = new {@class = "form-control datepicker date", Type = "date"}})
                 @Html.ValidationMessage("DataInspecao")
             </div>
-            <div id="idPlaca" class="form-group" style="margin-left: 25px">
+            <div id="idPlaca" class="form-group campo-insp" style="margin-left: 25px" hidden>
                 @Html.Label("Placa de Licença")
-                @Html.TextBoxFor(model => model.DownloadModel.PlacaLicenca, new {htmlAttributes = new {@class = "form-control"}})
+                @Html.TextBoxFor(model => model.DownloadModel.PlacaLicenca, new {@class = "num form-control", maxlength = "7" })
                 @Html.ValidationMessage("PlacaLicenca")
             </div>
 
-            <input type="submit" class="btn btn-primary bg-primary" value="Buscar" title="Download" id="btnBuscar">
-            <input type="reset" class="btn btn-basic" value="Limpar" title="Cancelar" id="Cancelar">
+            <input type="submit" class="btn btn-primary bg-primary campo-insp" value="Buscar" title="Download" id="btnBuscar" hidden>
+            <input type="reset" class="btn btn-basic campo-insp" value="Limpar" title="Cancelar" id="Cancelar" hidden>
         </form>
     
     </div>
@@ -119,6 +132,7 @@
  
 
 <script>
+
     function onlyNos(e) {
 
         var charCode;
@@ -153,96 +167,7 @@
 
     $(document).ready(function(){ 
         $('#idConsultarPor').click(function(){ 
-            
 
-            switch ($('#combo :selected').text()) {
-            case 'Nº CIPP':
-                MostrarCodigoCipp();
-                break;
-            case 'CÓDIGO OIA-PP':
-                MostrarCodigoOia();
-                break;
-            case 'DATA DA INSPECÃO':
-                MostrarDataInsp();
-                break;
-            case 'PLACA DE LICENCIAMENTO':
-                MostrarBuscarPlaca();
-                break;
-            case 'Buscar Todos':
-                MostrarBuscarTodos();
-                break;
-            default:
-            }
-        });
-    });
-
-    function MostrarCodigoOia() {
-
-        $("#idCodigoOia").show();
-        $("#btnBuscar").show();
-        $("#Cancelar").show();
-        $("#idCipp").hide();
-        $("#idDateInsp").hide();
-        $("#idPlaca").hide();
-        $("#btnBuscar").val('Buscar'); 
-
-    }
-
-    function MostrarCodigoCipp() {
-
-        $("#idCipp").show();
-        $("#btnBuscar").show();
-        $("#Cancelar").show();
-        $("#idCodigoOia").hide();
-        $("#idDateInsp").hide();
-        $("#idPlaca").hide();
-        $("#btnBuscar").val('Buscar'); 
-    }
-    function MostrarDataInsp() {
-
-        $("#idDateInsp").show();
-        $("#btnBuscar").show();
-        $("#Cancelar").hide();
-        $("#idCodigoOia").hide();
-        $("#idCipp").hide();
-        $("#btnBuscar").show();
-        $("#idPlaca").hide();
-        $("#btnBuscar").val('Buscar'); 
-    }
-    function MostrarBuscarPlaca() {
-
-        $("#idCipp").hide();
-        $("#idPlaca").show();
-        $("#Cancelar").show();
-        $("#idCodigoOia").hide();
-        $("#btnBuscar").show();
-        $("#btnBuscar").val('Buscar'); 
-        $("#idDateInsp").hide();
-
-
-    }
-
-    function MostrarBuscarTodos() {
-
-        $("#idCipp").hide();
-        $("#btnBuscar").show();
-        $("#Cancelar").hide();
-        $("#idCodigoOia").hide();
-        $("#btnBuscar").show();
-        $("#idDateInsp").hide();
-        $("#idPlaca").hide();
-        $("#btnBuscar").val('Buscar Todas as Inspeções'); 
-
-
-    }
-    (document).ready(function() {  
-        $("#DownloadModel.DataInspecao").datepicker({  
-  
-            dateFormat:"dd-mm-yy",  
-            changeMonth :true,   
-            changeYear: true   
-  
-        });  
-    });
+   
   
 </script>
