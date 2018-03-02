@@ -31,9 +31,9 @@
             Consultar Inspeções
         </h2>
         <hr />
-
+   
         <form action="@Url.Action("ConsultaInspecao", "Inspecao")" class="form form-inline" id="download" method="post" novalidate="novalidate">
-           
+
             <select id="combo">
                 <option value="0">- Selecione -</option>
                 <option value="1">CÓDIGO OIA-PP</option>
@@ -43,7 +43,8 @@
                 <option value="4">Buscar Todos</option>
             </select>
             <input id="idConsultarPor" class="btn btn-primary bg-inverse" type="button" value="Consultar Por"/>
-           
+            
+
             <div id="idCodigoOia" class="form-group" style="margin-left: 25px">
                 @Html.Label("CÓDIGO OIA-PP")
                 @Html.TextBox("CodigoOia", null, new {@class = "form-control", maxlength = "4", onkeypress = "return onlyNos(event,this);", id = "idCodigoOia"})
@@ -53,11 +54,21 @@
                 @Html.TextBox("CodigoCipp", null, new {@class = "form-control", maxlength = "7", onkeypress = "return onlyNos(event,this);", id = "idCipp"})
                 @Html.ValidationMessage("CodigoCipp")
             </div>
+            <div id="idDateInsp" class="form-group" style="margin-left: 25px">
+                @Html.Label("Data da Inspeção")
+                @Html.EditorFor(model => model.DownloadModel.DataInspecao, new { htmlAttributes = new { @class = "form-control datepicker " } })
+                @Html.ValidationMessage("DataInspecao")
+            </div>
+            <div id="idPlaca" class="form-group" style="margin-left: 25px">
+                @Html.Label("Placa de Licença")
+                @Html.EditorFor(model => model.DownloadModel.PlacaLicenca, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessage("PlacaLicenca")
+            </div>
 
             <input type="submit" class="btn btn-primary bg-primary" value="Buscar" title="Download" id="btnBuscar">
             <input type="reset" class="btn btn-basic" value="Limpar" title="Cancelar" id="Cancelar">
         </form>
-
+    
     </div>
     <br />
     <br />
@@ -82,6 +93,7 @@
     </div>
 </div>
 
+ 
 
 <script>
     function onlyNos(e) {
@@ -99,7 +111,8 @@
         }
         return true;
     }
-
+    
+   
     $("#Cancelar").click(function () {
         $("#idCodigoOia").val("");
         $("#idCipp").val("");
@@ -110,31 +123,29 @@
     $("#idCipp").hide();
     $("#btnBuscar").hide();
     $("#Cancelar").hide();
+    $("#idDateInsp").hide();
+    $("#idPlaca").hide();
 
     $(document).ready(function(){ 
         $('#idConsultarPor').click(function(){ 
             
 
             switch ($('#combo :selected').text()) {
-                case 'Nº CIPP':
-                    MostrarCodigoCipp();
-                    break;
-                case 'CÓDIGO OIA-PP':
-                    MostrarCodigoOia();
-                    break;
-                case 'DATA DA INSPECÃO':
-                    $("#idCipp").show();
-                    $("#btnBuscar").show();
-                    $("#Cancelar").show();
-                    break;
-                case 'PLACA DE LICENCIAMENTO':
-                    $("#idCipp").show();
-                    $("#btnBuscar").show();
-                    $("#Cancelar").show();
-                    break;
-                case 'Buscar Todos':
-                    MostrarBuscarTodos();
-                    break;
+            case 'Nº CIPP':
+                MostrarCodigoCipp();
+                break;
+            case 'CÓDIGO OIA-PP':
+                MostrarCodigoOia();
+                break;
+            case 'DATA DA INSPECÃO':
+                MostrarDataInsp();
+                break;
+            case 'PLACA DE LICENCIAMENTO':
+                MostrarBuscarPlaca();
+                break;
+            case 'Buscar Todos':
+                MostrarBuscarTodos();
+                break;
             default:
             }
         });
@@ -146,6 +157,9 @@
         $("#btnBuscar").show();
         $("#Cancelar").show();
         $("#idCipp").hide();
+        $("#idDateInsp").hide();
+        $("#idPlaca").hide();
+        $("#btnBuscar").val('Buscar'); 
 
     }
 
@@ -155,6 +169,31 @@
         $("#btnBuscar").show();
         $("#Cancelar").show();
         $("#idCodigoOia").hide();
+        $("#idDateInsp").hide();
+        $("#idPlaca").hide();
+        $("#btnBuscar").val('Buscar'); 
+    }
+    function MostrarDataInsp() {
+
+        $("#idDateInsp").show();
+        $("#btnBuscar").show();
+        $("#Cancelar").show();
+        $("#idCodigoOia").hide();
+        $("#idCipp").hide();
+        $("#btnBuscar").show();
+        $("#idPlaca").hide();
+        $("#btnBuscar").val('Buscar'); 
+    }
+    function MostrarBuscarPlaca() {
+
+        $("#idCipp").hide();
+        $("#idPlaca").show();
+        $("#Cancelar").show();
+        $("#idCodigoOia").hide();
+        $("#btnBuscar").show();
+        $("#btnBuscar").val('Buscar'); 
+        $("#idDateInsp").hide();
+
 
     }
 
@@ -165,8 +204,20 @@
         $("#Cancelar").hide();
         $("#idCodigoOia").hide();
         $("#btnBuscar").show();
+        $("#idDateInsp").hide();
+        $("#idPlaca").hide();
         $("#btnBuscar").val('Buscar Todas as Inspeções'); 
 
 
     }
+    (document).ready(function() {  
+        $("#DownloadModel.DataInspecao").datepicker({  
+  
+            dateFormat:"dd-mm-yy",  
+            changeMonth :true,   
+            changeYear: true   
+  
+        });  
+    });
+  
 </script>
