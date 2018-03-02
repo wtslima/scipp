@@ -22,6 +22,7 @@ namespace INMETRO.CIPP.WEB.Agendamento
         {
             var inspecaoRepositorio = new InspecaoRepositorio();
             _repositorio = new OrganismoRepositorio();
+            _domainService = new OrganismoDominioServico(_repositorio);
             _inspecao = new InspecaoDominioServico(inspecaoRepositorio, _repositorio);
             _descompactar = new GerenciarArquivoCompactado();
             _ftp = new GerenciarFtp();

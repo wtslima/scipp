@@ -41,11 +41,43 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         {
             try
             {
-                var inspecooesGravadas = _inspecaoDominio.ObterTodasInspecoes();
+                var inspecoesGravadas = _inspecaoDominio.ObterTodasInspecoes();
 
-                var listaInspecao = Conversao.ConverterParaModelService(inspecooesGravadas);
+                var listaInspecao = Conversao.ConverterParaModelService(inspecoesGravadas);
 
                 return listaInspecao;
+            }
+            catch (Exception e)
+            {
+               
+                throw e;
+            }
+        }
+
+        public InspecoesGravadasModelServico ObterInspecoesPorPlacaLicenca(string placa)
+        {
+            try
+            {
+                var inspecoesGravadasPorPlaca = _inspecaoDominio.ObterInspecaoPorPlacaLicenca(placa);
+
+                return  Conversao.ConverterParaModelService(inspecoesGravadasPorPlaca);
+            }
+            catch (Exception e)
+            {
+               
+                throw e;
+            }
+        }
+
+        public InspecoesGravadasModelServico ObterInspecaoPorDataInspecao(string dataInspecao)
+        {
+            try
+            {
+                var dataInsp= Convert.ToDateTime(dataInspecao).Date;
+
+                var inspecoesGravadasPorData = _inspecaoDominio.ObterInspecaoPorDataInspecao(dataInsp);
+
+                return Conversao.ConverterParaModelService(inspecoesGravadasPorData);
             }
             catch (Exception e)
             {

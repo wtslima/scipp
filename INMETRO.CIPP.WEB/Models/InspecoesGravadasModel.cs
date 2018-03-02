@@ -7,5 +7,6 @@ namespace INMETRO.CIPP.WEB.Models
         public IEnumerable<InspecaoModel> Inspecoes { get; set; }
         public Pager Pager { get; set; }
         public MensagemModel Mensagem { get; set; }
+        public DownloadModel DownloadModel { get; set; }
     }
 }
