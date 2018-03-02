@@ -138,6 +138,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                     catch (Exception e)
                     {
                         enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br",  e.Message);
+                        enviar.EnviarEmail("astrindade@colaborador.inmetro.gov.br", e.Message);
                     }
 
 
