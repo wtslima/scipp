@@ -31,36 +31,63 @@
             Consultar Inspeções
         </h2>
         <hr />
+
+        <script type="text/javascript">
+            $("document").ready(function () {
+                $("#DownloadModel_DataInspecao").attr("data-mask", "00/00/0000");
+                var combo_anterior = "";
+                
+                $("#combo").change(function () {
+
+                    if ($("#combo :selected").val() != 0) {
+                        $("#" + $("#combo :selected").val()).show();
+                        $("#btnBuscar").show();
+                        $("#Cancelar").show();
+                        $("#" + combo_anterior).hide();
+                    }
+                    else
+                    {
+                        $("#" + combo_anterior).hide();
+                        $("#btnBuscar").hide();
+                        $("#Cancelar").hide();
+                    }
+                    combo_anterior = $("#combo :selected").val();
+
+                    
+                });
+            });
+
+        </script>
    
         <form action="@Url.Action("ConsultaInspecao", "Inspecao")" class="form form-inline" id="download" method="post" novalidate="novalidate">
 
-            <select id="combo">
+            <select id="combo" class="form-control">
                 <option value="0">- Selecione -</option>
-                <option value="1">CÓDIGO OIA-PP</option>
-                <option value="2">Nº CIPP</option>
-                <option value="3">DATA DA INSPECÃO</option>
-                <option value="4">PLACA DE LICENCIAMENTO</option>
+                <option value="idCodigoOia">CÓDIGO OIA-PP</option>
+                <option value="idCipp">Nº CIPP</option>
+                <option value="idDateInsp">DATA DA INSPECÃO</option>
+                <option value="idPlaca">PLACA DE LICENCIAMENTO</option>
                 <option value="4">Buscar Todos</option>
             </select>
-            <input id="idConsultarPor" class="btn btn-primary bg-inverse" type="button" value="Consultar Por"/>
-            
 
+            @*<input class="btn btn-primary bg-inverse" type="button" value="Consultar Por"/>*@
+            
             <div id="idCodigoOia" class="form-group" style="margin-left: 25px">
-                @Html.Label("CÓDIGO OIA-PP")
+                @Html.Label("Consultar Por: CÓDIGO OIA-PP")
                 @Html.TextBox("CodigoOia", null, new {@class = "form-control", maxlength = "4", onkeypress = "return onlyNos(event,this);", id = "idCodigoOia"})
             </div>
             <div id="idCipp" class="form-group" style="margin-left: 25px">
-                @Html.Label("Nº CIPP")
+                @Html.Label("Consultar Por: Nº CIPP")
                 @Html.TextBox("CodigoCipp", null, new {@class = "form-control", maxlength = "7", onkeypress = "return onlyNos(event,this);", id = "idCipp"})
                 @Html.ValidationMessage("CodigoCipp")
             </div>
             <div id="idDateInsp" class="form-group" style="margin-left: 25px">
-                @Html.Label("Data da Inspeção")
-                @Html.EditorFor(model => model.DownloadModel.DataInspecao, new { htmlAttributes = new { @class = "form-control datepicker " } })
+                @Html.Label("Consultar Por: Data da Inspeção")
+                @Html.EditorFor(model => model.DownloadModel.DataInspecao, new { htmlAttributes = new { @class = "form-control datepicker ", Type = "date" } })
                 @Html.ValidationMessage("DataInspecao")
             </div>
             <div id="idPlaca" class="form-group" style="margin-left: 25px">
-                @Html.Label("Placa de Licença")
+                @Html.Label("Consultar Por: Placa de Licença")
                 @Html.EditorFor(model => model.DownloadModel.PlacaLicenca, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessage("PlacaLicenca")
             </div>

@@ -20,8 +20,10 @@ namespace INMETRO.DIOIS.INSPECAO.WEB
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/js/bootstrap.js",
-                      "~/Scripts/respond.js",
-                      "~/js/mascaras.js"));
+                      "~/Scripts/respond.js"));
+            bundles.Add(new ScriptBundle("~/bundles/topo").Include(
+                      "~/Scripts/jquery-1.10.2.js",
+                      "~/js/jquery-mask.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/css/bootstrap.css",
