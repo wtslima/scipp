@@ -210,6 +210,8 @@
     <Content Include="img\logotipo-siadi.png" />
     <Content Include="js\bootstrap.js" />
     <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\jquery-mask.js" />
+    <Content Include="js\mascaras.js" />
     <Content Include="js\npm.js" />
     <Content Include="Scripts\App\LoginView.js" />
     <Content Include="Scripts\bootstrap.js" />
