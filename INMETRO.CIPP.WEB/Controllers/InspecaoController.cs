@@ -25,12 +25,12 @@ namespace INMETRO.CIPP.WEB.Controllers
         }
 
         [HttpPost]
-        public ActionResult ConsultaInspecao(DownloadModel model, int? page)
+        public ActionResult ConsultaInspecao(InspecoesGravadasModel model, int? page)
         {
             try
             {
                 var pager = new Pager(0, page);
-                var retorno = RetornarInspecoes(model);
+                var retorno = RetornarInspecoes(model.DownloadModel);
 
                 retorno.Inspecoes.ToList().Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize);
                 pager = new Pager(retorno.Inspecoes.ToList().Count, page);

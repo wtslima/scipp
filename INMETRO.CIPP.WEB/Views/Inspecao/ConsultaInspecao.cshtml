@@ -34,7 +34,7 @@
 
         <script type="text/javascript">
             $("document").ready(function () {
-                $("#DownloadModel_DataInspecao").attr("data-mask", "00/00/0000");
+                $("#DownloadModel.DataInspecao").attr("data-mask", "00/00/0000");
                 var combo_anterior = "";
                 
                 $("#combo").change(function () {
@@ -59,8 +59,10 @@
 
         </script>
    
-        <form action="@Url.Action("ConsultaInspecao", "Inspecao")" class="form form-inline" id="download" method="post" novalidate="novalidate">
+       
 
+           
+        <form action="@Url.Action("ConsultaInspecao", "Inspecao")" class="form form-inline" id="download" method="post" novalidate="novalidate">
             <select id="combo" class="form-control">
                 <option value="0">- Selecione -</option>
                 <option value="idCodigoOia">CÓDIGO OIA-PP</option>
@@ -69,26 +71,23 @@
                 <option value="idPlaca">PLACA DE LICENCIAMENTO</option>
                 <option value="4">Buscar Todos</option>
             </select>
-
-            @*<input class="btn btn-primary bg-inverse" type="button" value="Consultar Por"/>*@
-            
             <div id="idCodigoOia" class="form-group" style="margin-left: 25px">
-                @Html.Label("Consultar Por: CÓDIGO OIA-PP")
-                @Html.TextBox("CodigoOia", null, new {@class = "form-control", maxlength = "4", onkeypress = "return onlyNos(event,this);", id = "idCodigoOia"})
+                @Html.Label("CÓDIGO OIA-PP")
+                @Html.TextBoxFor(m => m.DownloadModel.CodigoOia, null, new {@class = "form-control", maxlength = "4", onkeypress = "return onlyNos(event,this);", id = "idCodigoOia"})
             </div>
             <div id="idCipp" class="form-group" style="margin-left: 25px">
-                @Html.Label("Consultar Por: Nº CIPP")
-                @Html.TextBox("CodigoCipp", null, new {@class = "form-control", maxlength = "7", onkeypress = "return onlyNos(event,this);", id = "idCipp"})
+                @Html.Label("Nº CIPP")
+                @Html.TextBoxFor(m => m.DownloadModel.CodigoCipp, new {@class = "form-control", maxlength = "7", onkeypress = "return onlyNos(event,this);", id = "idCipp"})
                 @Html.ValidationMessage("CodigoCipp")
             </div>
             <div id="idDateInsp" class="form-group" style="margin-left: 25px">
-                @Html.Label("Consultar Por: Data da Inspeção")
-                @Html.EditorFor(model => model.DownloadModel.DataInspecao, new { htmlAttributes = new { @class = "form-control datepicker ", Type = "date" } })
+                @Html.Label("Data da Inspeção")
+                @Html.EditorFor(model => model.DownloadModel.DataInspecao, new {htmlAttributes = new {@class = "form-control datepicker ", Type = "date"}})
                 @Html.ValidationMessage("DataInspecao")
             </div>
             <div id="idPlaca" class="form-group" style="margin-left: 25px">
-                @Html.Label("Consultar Por: Placa de Licença")
-                @Html.EditorFor(model => model.DownloadModel.PlacaLicenca, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.Label("Placa de Licença")
+                @Html.TextBoxFor(model => model.DownloadModel.PlacaLicenca, new {htmlAttributes = new {@class = "form-control"}})
                 @Html.ValidationMessage("PlacaLicenca")
             </div>
 
@@ -143,6 +142,8 @@
     $("#Cancelar").click(function () {
         $("#idCodigoOia").val("");
         $("#idCipp").val("");
+        $("#DownloadModel.DataInspecao").val("");
+        $("#idPlaca").val("");
         return false;
     });
 
@@ -204,7 +205,7 @@
 
         $("#idDateInsp").show();
         $("#btnBuscar").show();
-        $("#Cancelar").show();
+        $("#Cancelar").hide();
         $("#idCodigoOia").hide();
         $("#idCipp").hide();
         $("#btnBuscar").show();
