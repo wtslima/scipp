@@ -59,10 +59,7 @@
 
         </script>
    
-       
-
-           
-        <form action="@Url.Action("ConsultaInspecao", "Inspecao")" class="form form-inline" id="download" method="post" novalidate="novalidate">
+       <form action="@Url.Action("ConsultaInspecao", "Inspecao")" class="form form-inline" id="download" method="post" novalidate="novalidate">
             <select id="combo" class="form-control">
                 <option value="0">- Selecione -</option>
                 <option value="idCodigoOia">CÓDIGO OIA-PP</option>
@@ -73,11 +70,11 @@
             </select>
             <div id="idCodigoOia" class="form-group" style="margin-left: 25px">
                 @Html.Label("CÓDIGO OIA-PP")
-                @Html.TextBoxFor(m => m.DownloadModel.CodigoOia, null, new {@class = "form-control", maxlength = "4", onkeypress = "return onlyNos(event,this);", id = "idCodigoOia"})
+                @Html.TextBoxFor(m => m.DownloadModel.CodigoOia, null, new {@class = "form-control", maxlength = "4", onkeypress = "return onlyNos(event,this);", id="codigoId"})
             </div>
             <div id="idCipp" class="form-group" style="margin-left: 25px">
                 @Html.Label("Nº CIPP")
-                @Html.TextBoxFor(m => m.DownloadModel.CodigoCipp, new {@class = "form-control", maxlength = "7", onkeypress = "return onlyNos(event,this);", id = "idCipp"})
+                @Html.TextBoxFor(m => m.DownloadModel.CodigoCipp, new {@class = "form-control", maxlength = "7", onkeypress = "return onlyNos(event,this);"})
                 @Html.ValidationMessage("CodigoCipp")
             </div>
             <div id="idDateInsp" class="form-group" style="margin-left: 25px">
@@ -140,7 +137,7 @@
     
    
     $("#Cancelar").click(function () {
-        $("#idCodigoOia").val("");
+        $("#codigoId").val("");
         $("#idCipp").val("");
         $("#DownloadModel.DataInspecao").val("");
         $("#idPlaca").val("");
