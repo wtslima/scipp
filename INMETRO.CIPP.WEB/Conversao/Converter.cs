@@ -19,7 +19,7 @@ namespace INMETRO.CIPP.WEB.Conversao
                 {
                     CodigoOia = s.CodigoOia,
                     CodigoCipp = s.CodigoCipp,
-                    DataInspecao = s.DataInspecao.ToString(),
+                    DataInspecao = s.DataInspecao.ToString(CultureInfo.InvariantCulture),
                     Equipamento = s.Equipamento.ToString(),
                     Responsavel = s.Responsavel,
                     Placa = s.Placa
@@ -27,7 +27,7 @@ namespace INMETRO.CIPP.WEB.Conversao
                 }),
                 Mensagem = new MensagemModel
                 {
-                    ExisteExcecao = value.Excecao.Excecao,
+                    ExisteExcecao = value.Excecao.ExisteExcecao,
                     Mensagem = value.Excecao.Mensagem
                 }
 
@@ -74,7 +74,7 @@ namespace INMETRO.CIPP.WEB.Conversao
                 }).ToList(),
                 Mensagem = new MensagemModel()
                 {
-                    ExisteExcecao = value.Excecao.Excecao,
+                    ExisteExcecao = value.Excecao.ExisteExcecao,
                     Mensagem = value.Excecao.Mensagem
                 }
 

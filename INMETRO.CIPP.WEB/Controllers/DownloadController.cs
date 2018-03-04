@@ -23,13 +23,13 @@ namespace INMETRO.CIPP.WEB.Controllers
             var user = HttpContext.Session["Usuario"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
-            var model = new DownloadModel();
+            var model = new InspecoesGravadasModel();
 
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Download(DownloadModel model)
+        public ActionResult Download(InspecoesGravadasModel model)
         {
             try
             {
@@ -37,14 +37,11 @@ namespace INMETRO.CIPP.WEB.Controllers
 
                 var usuario = HttpContext.Session["Usuario"].ToString();
 
-                var resultado = _servico.DownloadInspecaoPorUsuario(model.CodigoOia, model.CodigoCipp, usuario);
-                if (resultado != null)
-                {
-                    model.IsSuccess = resultado.ExisteExcecao;
-                    model.Mensagem = resultado.Mensagem;
-
-                }
-                return View(model);
+                var resultado = _servico.DownloadInspecaoPorUsuario(model.DownloadModel.CodigoOia, model.DownloadModel.CodigoCipp, usuario);
+                
+                var resultModel = Conversao.Converter.ConverterParaModelo(resultado);
+                resultModel.DownloadModel = new DownloadModel{CodigoOia = model.DownloadModel.CodigoOia};
+                return View(resultModel);
                
             }
             catch (Exception e)

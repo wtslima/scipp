@@ -1,23 +1,22 @@
-﻿@model INMETRO.CIPP.WEB.Models.DownloadModel
+﻿@model INMETRO.CIPP.WEB.Models.InspecoesGravadasModel
 
 
 <div class="row">
     <div class="col-md-10 col-md-offset-1">
         @if (IsPost)
         {
-            if (!Model.IsSuccess && Model.CodigoOia != null)
+            if (!Model.Mensagem.ExisteExcecao && Model.DownloadModel.CodigoOia != null)
             {
                 <div id="idConsultaInspecao" class="alert alert-success alert-dismissable">
                     @Html.Partial("_DownloadResposta", Model)
                 </div>
             }
-            if (Model.IsSuccess && Model.CodigoOia != null)
+            if (Model.Mensagem.ExisteExcecao && Model.DownloadModel.CodigoOia != null)
             {
                 <div id="idConsultaInspecao" class="alert alert-danger alert-dismissable">
                     @Html.Partial("_DownloadError", Model)
                 </div>
             }
-
         }
     </div>
 </div>
@@ -31,22 +30,40 @@
             
             <form action="@Url.Action("Download", "Download")"  class="form form-inline"  id="download" method="post" novalidate="novalidate">
                 
-                    <div class="form-group" style="margin-right: 25px">
-                        @Html.Label("CÓDIGO OIA-PP")
-                        @Html.TextBoxFor(x => x.CodigoOia, new { @class = "form-control", maxlength = "4" , onkeypress = "return onlyNos(event,this);", id = "idCodigoOia" })
-                        <br/>
-                        @Html.ValidationMessageFor(x => x.CodigoOia, null, new { @class = "text-danger" })
-                    </div>
-                    <div class="form-group">
-                        @Html.Label("Nº CIPP")
-                        @Html.TextBoxFor(x => x.CodigoCipp, new { @class = "form-control", placeholder = "Opcional", maxlength = "7", onkeypress = "return onlyNos(event,this);", id = "idCipp" })
-                        @Html.ValidationMessageFor(x => x.CodigoCipp)
-                    </div>
+                <div class="form-group" style="margin-right: 25px">
+                    @Html.Label("CÓDIGO OIA-PP")
+                    @Html.TextBoxFor(x => x.DownloadModel.CodigoOia, new { @class = "form-control", maxlength = "4" , onkeypress = "return onlyNos(event,this);", id = "idCodigoOia" })
+                    <br/>
+                    @Html.ValidationMessageFor(x => x.DownloadModel.CodigoOia, null, new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Nº CIPP")
+                    @Html.TextBoxFor(x => x.DownloadModel.CodigoCipp, new { @class = "form-control", placeholder = "Opcional", maxlength = "7", onkeypress = "return onlyNos(event,this);", id = "idCipp" })
+                    @Html.ValidationMessageFor(x => x.DownloadModel.CodigoCipp)
+                </div>
                
                 <input type="submit" class="btn btn-success" value="Download" title="Download" id="btnDownload">
                 <input type="reset" class="btn btn-basic" value="Limpar" title="Cancelar" id="Cancelar">
-               
             </form>
+            <br/>
+            @if(IsPost && !Model.Mensagem.ExisteExcecao)
+            {
+                <div class="jumbotron">
+                    @{
+                        
+                        if (Model.Inspecoes != null)
+                        {
+                            @Html.Label("CIPP(s) gravado(s):" )
+
+                            foreach (var item in Model.Inspecoes)
+                            {
+                                <p> @Html.DisplayFor(modelItem => item.CodigoCipp)</p>
+                            }
+                        }
+
+                    }
+                </div>
+            }
         </div>
     
 </div>

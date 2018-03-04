@@ -15,15 +15,6 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
         }
         public  Organismo BuscarOrganismoPorId(string codigoOia)
         {
-            if (string.IsNullOrWhiteSpace(codigoOia)) return new Organismo
-            {
-                ExcecaoDominio = new ExcecaoDominio
-                {
-                    ExisteExcecao = true,
-                    Mensagem = Mensagens.MensagemNegocio.CampoObrigatorio
-                }
-            };
-
             var resultado =  _repositorio.BuscarOrganismoPorId(codigoOia);
 
             if (resultado.Id <= 0)

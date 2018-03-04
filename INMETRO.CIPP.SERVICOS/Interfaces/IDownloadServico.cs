@@ -5,7 +5,7 @@ namespace INMETRO.CIPP.SERVICOS.Interfaces
 {
     public interface IDownloadServico
     {
-        RetornoDownloadModel DownloadInspecaoPorUsuario(string codigoOIA, string cipp, string usuario);
+        InspecoesGravadasModelServico DownloadInspecaoPorUsuario(string codigoOIA, string cipp, string usuario);
         Task<bool> DownloadInspecoesPorRotinaAutomatica();
        
     }

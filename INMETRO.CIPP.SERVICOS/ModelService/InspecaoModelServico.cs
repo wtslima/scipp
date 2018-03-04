@@ -10,7 +10,6 @@ namespace INMETRO.CIPP.SERVICOS.ModelService
         public string Equipamento { get; set; }
         public string Placa { get; set; }
         public DateTime DataInspecao { get; set; }
-        public string Mensagem { get; set; }
-        public bool ExisteExcecao { get; set; }
+      
     }
 }

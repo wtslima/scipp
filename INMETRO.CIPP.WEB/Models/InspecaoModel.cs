@@ -8,9 +8,6 @@
         public string Equipamento { get; set; }
         public string Placa { get; set; }
         public string DataInspecao { get; set; }
-        public string Mensagem { get; set; }
-        public bool  ExisteExcecao { get; set; }
-        public Pager Pagination { get; set; }
        
     }
 }

@@ -14,7 +14,7 @@
         public const string NenhumInspecaoEncontradoParaCodigoOiAeCipp = "Nenhum resultado encontrado para Código OIA-PP {0} e Nº Cipp {1}";
         public const string NenhumaInspecaoExcluidaEncontrada = "Nenhuma Inspeção Excluída foi encontrada";
         public const string NenhumaInspecaoEncontrada = "Nenhum resultado encontrado";
-        public const string InspecaoJaGravadaParaCippEOia = "Já há gravados CÓDIGO-OIA-PP {0} e o CIPP {1}";
+        public const string InspecaoJaGravadaParaCippEOia = "A inspeção já está gravada na base de dados do Inmetro.";
 
         #region Mensagens Data
         public const string NenhumaInspecaoParaPeriodoInformado = "Nenhuma inspeção foi encontrada para o período informado.";
