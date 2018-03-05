@@ -19,7 +19,7 @@ namespace INMETRO.CIPP.WEB.Conversao
                 {
                     CodigoOia = s.CodigoOia,
                     CodigoCipp = s.CodigoCipp,
-                    DataInspecao = s.DataInspecao.ToString(CultureInfo.InvariantCulture),
+                    DataInspecao = s.DataInspecao.ToString("d"),
                     Equipamento = s.Equipamento.ToString(),
                     Responsavel = s.Responsavel,
                     Placa = s.Placa

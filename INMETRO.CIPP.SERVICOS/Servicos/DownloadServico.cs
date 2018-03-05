@@ -32,7 +32,8 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
         private readonly List<InspecaoModelServico> _listaInspecoesParaEnvio = new List<InspecaoModelServico>();
 
-       // readonly List<ExcecaoService> _listaExcecao = new List<ExcecaoService>();
+        readonly Notificacao _enviar = new Notificacao();
+        // readonly List<ExcecaoService> _listaExcecao = new List<ExcecaoService>();
 
 
         public DownloadServico(IOrganismoDominioService organismoDomainService, IGerenciarFtp ftp, IGerenciarArquivoCompactado descompactar, IGerenciarCsv csv, IInspecaoDominioService inspecaoServico)
@@ -93,7 +94,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                             DownloadInspecao(organismo.FtpInfo, diretorioLocal, diretorioCippRemoto, usuario);
                             return new InspecoesGravadasModelServico
                             {
-                                InspecoesGravadas = new List<InspecaoModelServico>(),
+                                InspecoesGravadas = _listaInspecoesParaEnvio,
                                 Excecao = new ExcecaoService
                                 {
                                     ExisteExcecao = false,
@@ -139,7 +140,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             try
             {
                 var organismos = await _organismoDomainService.BuscarTodosOrganismos();
-                Notificacao enviar = new Notificacao();
+               
                 if (!organismos.GroupBy(f => f.FtpInfo).Any()) return false;
 
                 foreach (var item in organismos.GroupBy(c => c.FtpInfo))
@@ -152,8 +153,8 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                     }
                     catch (Exception e)
                     {
-                        enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br",  e.Message);
-                        enviar.EnviarEmail("astrindade@colaborador.inmetro.gov.br", e.Message);
+                        _enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br",  e.Message);
+                        _enviar.EnviarEmail("astrindade@colaborador.inmetro.gov.br", e.Message);
                     }
 
 
@@ -388,8 +389,17 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
                 lista.Add(inspecaoModelServico);
             }
+            if (lista.Count > 0)
+            {
+                _csv.CriarArquivoInspecoesAnexo(lista);
+            }
+            else
+            {
+                _enviar.EnviarEmail("astrindade@colaborador.inmetro.gov.br", string.Format(MensagemSistema.NenhumArquivoEncontrado));
+            }
+           
 
-            _csv.CriarArquivoInspecoesAnexo(lista);
+
         }
 
         private int ExisteInspecoesGravadas(IEnumerable<string> listaInspecao)
@@ -446,7 +456,15 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 };
             }
 
-            return new InspecoesGravadasModelServico();
+            return new InspecoesGravadasModelServico
+            {
+                InspecoesGravadas = new List<InspecaoModelServico>(),
+                Excecao = new ExcecaoService
+                {
+                    ExisteExcecao = false,
+                    Mensagem = string.Empty
+                }
+            };
         }
 
     }

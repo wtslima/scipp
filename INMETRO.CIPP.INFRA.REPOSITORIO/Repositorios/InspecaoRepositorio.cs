@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using INMETRO.CIPP.DOMINIO.Interfaces.Repositorios;
@@ -120,7 +119,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                                 NumeroEquipamento = item.NumeroEquipamento,
                                 PlacaLicenca = item.PlacaLicenca,
                                 ResponsavelTecnico = item.ResponsavelTecnico,
-                                DataInspecao = item.DataInspecao
+                                DataInspecao = item.DataInspecao.Date
                             }).ToList();
 
                 }
@@ -139,7 +138,8 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
             {
                 try
                 {
-                    var consulta = contexto.Inspecoes.Where(s => s.DataInspecao.Date.ToString() == dataInspecao.Date.ToString());
+                   
+                    var consulta = contexto.Inspecoes.Where(s => s.DataInspecao.Date==dataInspecao.Date);
 
                     return consulta.Select(i => new Inspecao
                     {

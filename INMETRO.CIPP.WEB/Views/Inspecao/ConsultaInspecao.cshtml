@@ -82,17 +82,7 @@
                 }
                 return true;
             }
-            function submitForm() {
-                // Get the first form with the name
-                // Usually the form name is not repeated
-                // but duplicate names are possible in HTML
-                // Therefore to work around the issue, enforce the correct index
-                var frm = document.getElementsByName('contact-form')[0];
-                frm.submit(); // Submit the form
-                frm.reset();  // Reset all form data
-                return false; // Prevent page refresh
-            }
-
+           
         </script>
     
         @Html.AntiForgeryToken()
@@ -103,7 +93,7 @@
                <option value="0">- Selecione -</option>
                <option value="idCodigoOia">CÓDIGO OIA-PP</option>
                <option value="idCipp">Nº CIPP</option>
-               <option value="idDateInsp">DATA DA INSPECÃO</option>
+               <option disabled="disabled" value="idDateInsp">DATA DA INSPECÃO</option>
                <option value="idPlaca">PLACA DE LICENCIAMENTO</option>
                <option value="4">Buscar Todos</option>
            </select>
