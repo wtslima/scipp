@@ -189,7 +189,8 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
         private bool TemMaisDe30Dias(DateTime fileDate)
         {
-            var limite = fileDate.AddDays(10);
+           
+            var limite = fileDate.AddDays(30);
             return DateTime.Now > limite;
         }
     }

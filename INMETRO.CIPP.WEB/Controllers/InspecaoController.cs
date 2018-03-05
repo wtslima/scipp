@@ -36,7 +36,7 @@ namespace INMETRO.CIPP.WEB.Controllers
                 retorno.Inspecoes.ToList().Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize);
                 pager = new Pager(retorno.Inspecoes.ToList().Count, page);
                 retorno.Pager = pager;
-                ModelState.Clear();
+                //ModelState.Clear();
                 return View(retorno);
 
             }

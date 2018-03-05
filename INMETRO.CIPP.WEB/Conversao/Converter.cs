@@ -21,7 +21,6 @@ namespace INMETRO.CIPP.WEB.Conversao
                     CodigoCipp = s.CodigoCipp,
                     DataInspecao = s.DataInspecao.ToString("d"),
                     Equipamento = s.Equipamento.ToString(),
-                    Responsavel = s.Responsavel,
                     Placa = s.Placa
 
                 }),

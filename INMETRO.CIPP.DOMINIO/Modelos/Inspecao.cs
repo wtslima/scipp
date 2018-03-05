@@ -27,10 +27,9 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
 
         [Required]
         [Column("DAT_INSPECAO")]
+        [DataType(DataType.Date)]
         public DateTime DataInspecao { get; set; }
-
-        [Column("NOM_RESPONSAVEL_TECNICO")]
-        public string ResponsavelTecnico { get; set; }
+       
         [Required]
         [Column("CDA_CODIGO_OIA")]
         public string CodigoOIA { get; set; }
@@ -40,13 +39,12 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
         [NotMapped]
         public virtual ExcecaoDominio ExcecaoDominio { get; set; }
 
-        public Inspecao(string codigoCipp, string placa, int equipamento, DateTime dataInspecao, string responsavel, string codigoOIA)
+        public Inspecao(string codigoCipp, string placa, int equipamento, DateTime dataInspecao,  string codigoOIA)
         {
             CodigoCIPP = codigoCipp;
             PlacaLicenca = placa;
             NumeroEquipamento = equipamento;
             DataInspecao = dataInspecao;
-            ResponsavelTecnico = responsavel;
             CodigoOIA = codigoOIA;
         }
 

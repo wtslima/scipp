@@ -62,8 +62,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                 inspecaoCsv["Codigo OIA-PP"] = item.CodigoOia;
                 inspecaoCsv["Placa"] = item.PlacaLicenca;
                 inspecaoCsv["Equipamento"] = item.NumeroEquipamento;
-                inspecaoCsv["Responsavel"] = item.Responsavel;
-                inspecaoCsv["Data da Inspecao"] = item.DataInspecao;
+                inspecaoCsv["Data da Inspecao"] = item.DataInspecao.Date;
             }
             var path = "CIPP -" + date + fileName;
            
@@ -94,6 +93,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
         private InspecaoCsvModel ObterInspecao(string inputLine)
         {
+         
             string inputLineWithoutExtraCommas = ReplaceDelimitersWithinQuotes(inputLine);
             _inputColumns = inputLineWithoutExtraCommas.Split(',').ToList();
 
@@ -104,9 +104,12 @@ namespace INMETRO.CIPP.SHARED.Servicos
                 inspecao.CodigoOia = _inputColumns[0];
                 inspecao.CodigoCipp = _inputColumns[1];
                 inspecao.PlacaLicenca = _inputColumns[2];
-                inspecao.NumeroEquipamento = Convert.ToInt32(_inputColumns[3]);
-                inspecao.DataInspecao = Convert.ToDateTime(_inputColumns[4]);
-                inspecao.Responsavel = _inputColumns[5];
+                inspecao.NumeroEquipamento =  Convert.ToInt32(_inputColumns[3]);
+
+                var date = DateTime.ParseExact(_inputColumns[4], "ddMMyyyy", CultureInfo.InvariantCulture);
+                inspecao.DataInspecao = date;
+
+
 
                 break;
             }

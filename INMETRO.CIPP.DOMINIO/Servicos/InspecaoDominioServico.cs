@@ -146,8 +146,8 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
                         CodigoCIPP = d.CodigoCIPP,
                         PlacaLicenca = d.PlacaLicenca,
                         NumeroEquipamento = d.NumeroEquipamento,
-                        DataInspecao = d.DataInspecao,
-                        ResponsavelTecnico = d.ResponsavelTecnico
+                        DataInspecao = d.DataInspecao
+                      
                     }),
                     ExcecaoDominio = new ExcecaoDominio
                     {
@@ -189,8 +189,8 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
                             CodigoCIPP = d.CodigoCIPP,
                             PlacaLicenca = d.PlacaLicenca,
                             NumeroEquipamento = d.NumeroEquipamento,
-                            DataInspecao = d.DataInspecao,
-                            ResponsavelTecnico = d.ResponsavelTecnico
+                            DataInspecao = d.DataInspecao
+                           
                         }),
                         ExcecaoDominio = new ExcecaoDominio
                         {
@@ -244,8 +244,8 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
                         CodigoCIPP = d.CodigoCIPP,
                         PlacaLicenca = d.PlacaLicenca,
                         NumeroEquipamento = d.NumeroEquipamento,
-                        DataInspecao = d.DataInspecao,
-                        ResponsavelTecnico = d.ResponsavelTecnico
+                        DataInspecao = d.DataInspecao
+                      
                     }),
                     ExcecaoDominio = new ExcecaoDominio
                     {
@@ -288,8 +288,8 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
                     CodigoCIPP = d.CodigoCIPP,
                     PlacaLicenca = d.PlacaLicenca,
                     NumeroEquipamento = d.NumeroEquipamento,
-                    DataInspecao = d.DataInspecao,
-                    ResponsavelTecnico = d.ResponsavelTecnico
+                    DataInspecao = d.DataInspecao
+                   
                 }),
                 ExcecaoDominio = new ExcecaoDominio
                 {

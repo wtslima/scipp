@@ -383,8 +383,8 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                     CodigoOia = item.CodigoOia,
                     PlacaLicenca = item.Placa,
                     NumeroEquipamento = Convert.ToInt32(item.Equipamento),
-                    DataInspecao = item.DataInspecao,
-                    Responsavel = item.Responsavel
+                    DataInspecao = item.DataInspecao
+                 
                 };
 
                 lista.Add(inspecaoModelServico);
@@ -396,6 +396,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             else
             {
                 _enviar.EnviarEmail("astrindade@colaborador.inmetro.gov.br", string.Format(MensagemSistema.NenhumArquivoEncontrado));
+                _enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br", string.Format(MensagemSistema.NenhumArquivoEncontrado));
             }
            
 

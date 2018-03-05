@@ -84,7 +84,6 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                         CodigoCIPP = item.CodigoCIPP,
                         NumeroEquipamento = item.NumeroEquipamento,
                         PlacaLicenca = item.PlacaLicenca,
-                        ResponsavelTecnico = item.ResponsavelTecnico,
                         DataInspecao = item.DataInspecao
                     }).ToList();
 
@@ -118,7 +117,6 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                                 CodigoCIPP = item.CodigoCIPP,
                                 NumeroEquipamento = item.NumeroEquipamento,
                                 PlacaLicenca = item.PlacaLicenca,
-                                ResponsavelTecnico = item.ResponsavelTecnico,
                                 DataInspecao = item.DataInspecao.Date
                             }).ToList();
 
@@ -148,8 +146,8 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                         CodigoOIA = i.CodigoOIA,
                         NumeroEquipamento = i.NumeroEquipamento,
                         PlacaLicenca = i.PlacaLicenca,
-                        DataInspecao = i.DataInspecao,
-                        ResponsavelTecnico = i.ResponsavelTecnico
+                        DataInspecao = i.DataInspecao
+                        
                     });
 
                 }
@@ -177,8 +175,8 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                         CodigoOIA = i.CodigoOIA,
                         NumeroEquipamento = i.NumeroEquipamento,
                         PlacaLicenca = i.PlacaLicenca,
-                        DataInspecao = i.DataInspecao,
-                        ResponsavelTecnico = i.ResponsavelTecnico,
+                        DataInspecao = i.DataInspecao.Date
+                      
                        
                     });
 

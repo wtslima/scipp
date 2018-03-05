@@ -10,21 +10,21 @@ namespace INMETRO.CIPP.SHARED.ModelShared
         public string PlacaLicenca { get; set; }
         public int NumeroEquipamento { get; set; }
         public DateTime DataInspecao { get; set; }
-        public string Responsavel { get; set; }
+       
 
         public InspecaoCsvModel()
         {
             
         }
 
-        public InspecaoCsvModel(string codigoOia, string cipp, string placa, int equipamento, DateTime dataInspecao, string responsavel)
+        public InspecaoCsvModel(string codigoOia, string cipp, string placa, int equipamento, DateTime dataInspecao)
         {
             CodigoOia = codigoOia;
             CodigoCipp = cipp;
             PlacaLicenca = placa;
             NumeroEquipamento = equipamento;
-            DataInspecao = dataInspecao;
-            Responsavel = responsavel;
+            DataInspecao = dataInspecao.Date;
+         
         }
     }
 }

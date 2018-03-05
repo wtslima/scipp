@@ -191,9 +191,9 @@ namespace INMETRO.CIPP.INFRA.ENTITYFRAMEWORK.Migrations
             //        DiretorioInspecaoLocal = $"82\\",
             //        DiretorioInspecaoRemoto = $"/New/"
             //    });
-                //new FTPInfo() { OrganismoId = 156, HostURI = $"ftp://184.168.109.66:2112/", Usuario = $"nakoa_ftp", Senha = $"n@k@412!", DiretorioInspecao = $"/new-orders/", DiretorioInspecaoLocal = $"7777\\", DiretorioInspecaoRemoto = $"/New/" },
-                //new FTPInfo() { OrganismoId = 157, HostURI = $"ftp://184.168.109.66:2111/", Usuario = $"cocomoon_ftp", Senha = $"c3e#22F!", DiretorioInspecao = $"/new-orders/", DiretorioInspecaoLocal = $"8888\\", DiretorioInspecaoRemoto = $"/New/" },
-                //new FTPInfo() { OrganismoId = 158, HostURI = $"ftp://184.168.109.66:2111/", Usuario = $"cocomoon_ftp", Senha = $"c3e#22F!", DiretorioInspecao = $"/new-orders/", DiretorioInspecaoLocal = $"9999\\", DiretorioInspecaoRemoto = $"/New/" });
+            //new FTPInfo() { OrganismoId = 156, HostURI = $"ftp://184.168.109.66:2112/", Usuario = $"nakoa_ftp", Senha = $"n@k@412!", DiretorioInspecao = $"/new-orders/", DiretorioInspecaoLocal = $"7777\\", DiretorioInspecaoRemoto = $"/New/" },
+            //new FTPInfo() { OrganismoId = 157, HostURI = $"ftp://184.168.109.66:2111/", Usuario = $"cocomoon_ftp", Senha = $"c3e#22F!", DiretorioInspecao = $"/new-orders/", DiretorioInspecaoLocal = $"8888\\", DiretorioInspecaoRemoto = $"/New/" },
+            //new FTPInfo() { OrganismoId = 158, HostURI = $"ftp://184.168.109.66:2111/", Usuario = $"cocomoon_ftp", Senha = $"c3e#22F!", DiretorioInspecao = $"/new-orders/", DiretorioInspecaoLocal = $"9999\\", DiretorioInspecaoRemoto = $"/New/" });
 
             #endregion
 
