@@ -1,6 +1,4 @@
-﻿@using INMETRO.CIPP.WEB.Models
-@model InspecoesGravadasModel
-
+﻿@model INMETRO.CIPP.WEB.Models.InspecoesGravadasModel
 
 @{
     ViewBag.Title = "ConsultaInspecao";
@@ -37,9 +35,9 @@
             $("document").ready(function () {
 
                 $(".campo-insp").hide();
+
                 var comboAnterior = "";
-               
-                 
+
                 $("#combo").change(function () {
 
                     if ($("#combo :selected").val() != 0) {
@@ -48,83 +46,69 @@
                         $("#Cancelar").show();
                         $("#" + comboAnterior).hide();
                     }
-                    else
-                    {
-                        $("#" + comboAnterior).hide();
+                    else {
+                        $("#" + combo_anterior).hide();
+
                         $("#btnBuscar").hide();
                         $("#Cancelar").hide();
                     }
                     comboAnterior = $("#combo :selected").val();
                     $("#idConsultaInspecao").find("table").remove();
-                    
+
+                    limparImputs();
                 });
 
                 $("#Cancelar").click(function () {
-                    $("input").atrr("type","text").val("");
-                   
+                    limparImputs();
                 });
 
-                $(".date").datepicker(); /*.mask('00/00/0000');*/
-                $(".num").mask('##');
             });
 
-            function onlyNos(e) {
-
-                var charCode;
-                if (window.event) {
-                    charCode = window.event.keyCode;
-                } else if (e) {
-                    charCode = e.which;
-                } else { return true; }
-
-                if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-
-                    return false;
-                }
-                return true;
+            function limparImputs() {
+                $("#codigoId").val("");
+                $("#Cippid").val("");
+                $("#DownloadModel_DataInspecao").val("");
+                $("#DownloadModel_PlacaLicenca").val("");
             }
-
 
         </script>
       
     
         @Html.AntiForgeryToken()
     
-   
-        <form name="contact-form" action="@Url.Action("ConsultaInspecao", "Inspecao")" class="form form-inline" id="download" method="post" novalidate="novalidate">
-            @Html.Label("Consultar por")
-            <select id="combo" class="form-control">
-                <option value="0">- Selecione -</option>
-                <option value="idCodigoOia">CÓDIGO OIA-PP</option>
-                <option value="idCipp">Nº CIPP</option>
-                <option value="idDateInsp">DATA DA INSPECÃO</option>
-                <option value="idPlaca">PLACA DE LICENCIAMENTO</option>
-                <option value="4">Buscar Todos</option>
-            </select>
-         
-              <div id="idCodigoOia" class="form-group campo-insp" style="margin-left: 25px">
-                  @Html.Label("CÓDIGO OIA-PP")
-                  @Html.TextBoxFor(m => m.DownloadModel.CodigoOia, null, new {@class = "num form-control", maxlength = "4", id = "codigoId"})
-                  @Html.ValidationMessage("CodigoOia")
-              </div>
-              <div id="idCipp" class="form-group campo-insp" style="margin-left: 25px" hidden>
-                  @Html.Label("Nº CIPP")
+       <form name="contact-form" action="@Url.Action("ConsultaInspecao", "Inspecao")" class="form form-inline" id="download" method="post" novalidate="novalidate">
+           <select id="combo" class="form-control">
+               <option value="0">- Selecione -</option>
+               <option value="idCodigoOia">CÓDIGO OIA-PP</option>
+               <option value="idCipp">Nº CIPP</option>
+               <option value="idDateInsp">DATA DA INSPECÃO</option>
+               <option value="idPlaca">PLACA DE LICENCIAMENTO</option>
+               <option value="4">Buscar Todos</option>
+           </select>
+          
+            <div id="idCodigoOia" class="form-group campo-insp" style="margin-left: 25px">
+                @Html.Label("CÓDIGO OIA-PP")
+                @Html.TextBoxFor(m => m.DownloadModel.CodigoOia, null, new {@class = "num form-control", maxlength = "4", id = "codigoId" })
+                @Html.ValidationMessage("CodigoOia")
+            </div>
+            <div id="idCipp" class="form-group campo-insp" style="margin-left: 25px" hidden>
+                @Html.Label("Nº CIPP")
 
-                  @Html.TextBoxFor(m => m.DownloadModel.CodigoCipp, new {@class = "num form-control", maxlength = "7", onkeypress = "return onlyNos(event,this);", id = "Cippid"})
+                @Html.TextBoxFor(m => m.DownloadModel.CodigoCipp, new {@class = "num form-control", maxlength = "7", onkeypress = "return onlyNos(event,this);", id = "Cippid"})
 
-                  @Html.ValidationMessage("CodigoCipp")
-              </div>
-              <div id="idDateInsp" class="form-group campo-insp" style="margin-left: 25px" hidden>
-                  @Html.Label("Data da Inspeção")
-                  @Html.EditorFor(model => model.DownloadModel.DataInspecao, new {htmlAttributes = new {@class = "form-control datepicker date", Type = "date"}})
-                  @Html.ValidationMessage("DataInspecao")
-              </div>
-              <div id="idPlaca" class="form-group campo-insp" style="margin-left: 25px" hidden>
-                  @Html.Label("Placa de Licença")
-                  @Html.TextBoxFor(model => model.DownloadModel.PlacaLicenca, new {@class = "num form-control", maxlength = "10"})
-                  @Html.ValidationMessage("PlacaLicenca")
-              </div>
-         
+                @Html.ValidationMessage("CodigoCipp")
+            </div>
+            <div id="idDateInsp" class="form-group campo-insp" style="margin-left: 25px" hidden>
+                @Html.Label("Data da Inspeção")
+                @Html.EditorFor(model => model.DownloadModel.DataInspecao, new {htmlAttributes = new {@class = "form-control date", Type = "text"}})
+                @Html.ValidationMessage("DataInspecao")
+            </div>
+            <div id="idPlaca" class="form-group campo-insp" style="margin-left: 25px" hidden>
+                @Html.Label("Placa de Licença")
+                @Html.TextBoxFor(model => model.DownloadModel.PlacaLicenca, new {@class = "num form-control", maxlength = "10" })
+                @Html.ValidationMessage("PlacaLicenca")
+            </div>
+
             <input type="submit" class="btn btn-primary bg-primary campo-insp" value="Buscar" title="Download"  id="btnBuscar" hidden>
             <input type="reset" class="btn btn-basic campo-insp" value="Limpar" title="Cancelar" id="Cancelar" hidden>
         </form>

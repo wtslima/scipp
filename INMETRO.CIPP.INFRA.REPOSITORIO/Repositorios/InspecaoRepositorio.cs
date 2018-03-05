@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Migrations;
+using System.Globalization;
 using System.Linq;
 using INMETRO.CIPP.DOMINIO.Interfaces.Repositorios;
 using INMETRO.CIPP.DOMINIO.Modelos;
@@ -136,8 +137,9 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
             {
                 try
                 {
-                   
-                    var consulta = contexto.Inspecoes.Where(s => s.DataInspecao.Date==dataInspecao.Date);
+                    var str = Convert.ToString(dataInspecao);
+                    DateTime condate2 = DateTime.ParseExact(str, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
+                    var consulta = contexto.Inspecoes.Where(s => s.DataInspecao == condate2);
 
                     return consulta.Select(i => new Inspecao
                     {
