@@ -95,7 +95,7 @@ namespace INMETRO.CIPP.SERVICOS
                Excecao = new ExcecaoService
                {
                    Mensagem = value.Mensagem,
-                   Excecao = value.ExisteExcecao
+                   ExisteExcecao = value.ExisteExcecao
                }
 
             };
@@ -120,7 +120,7 @@ namespace INMETRO.CIPP.SERVICOS
                 },
                 Excecao = new ExcecaoService
                 {
-                    Excecao = value.ExcecaoDominio.ExisteExcecao,
+                    ExisteExcecao = value.ExcecaoDominio.ExisteExcecao,
                     Mensagem = value.ExcecaoDominio.Mensagem
                 }
             };
@@ -225,7 +225,7 @@ namespace INMETRO.CIPP.SERVICOS
                 }),
                 Excecao = new ExcecaoService
                 {
-                    Excecao = value.ExcecaoDominio.ExisteExcecao,
+                    ExisteExcecao = value.ExcecaoDominio.ExisteExcecao,
                     Mensagem = value.ExcecaoDominio.Mensagem
                 }
 
@@ -250,7 +250,7 @@ namespace INMETRO.CIPP.SERVICOS
                 }),
                 Excecao = new ExcecaoService
                 {
-                    Excecao = value.ExcecaoDominio.ExisteExcecao,
+                    ExisteExcecao = value.ExcecaoDominio.ExisteExcecao,
                     Mensagem = value.ExcecaoDominio.Mensagem
                 }
 

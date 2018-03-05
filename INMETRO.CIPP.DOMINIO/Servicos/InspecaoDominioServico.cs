@@ -12,16 +12,19 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
     {
         private readonly IInspecaoRepositorio _repositorio;
         private readonly IOrganismoRepositorio _organismoRepositorio;
+       
         public InspecaoDominioServico(IInspecaoRepositorio repositorio, IOrganismoRepositorio organismoRepositorio)
         {
             _repositorio = repositorio;
             _organismoRepositorio = organismoRepositorio;
+           
         }
         public bool AdicionarDadosInspecao(Inspecao inspecao)
         {
             try
             {
                 var resultado = _repositorio.AdicionarDadosInspecao(inspecao);
+               
                 return resultado;
             }
             catch (Exception e)
@@ -67,15 +70,20 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
             try
             {
                 var organismo = _organismoRepositorio.BuscarOrganismoPorId(codigoOia);
-                if (organismo.ExcecaoDominio.ExisteExcecao)
+                if (organismo.Id <= 0)
+                {
                     return new Inspecao
                     {
+
                         ExcecaoDominio = new ExcecaoDominio
                         {
                             ExisteExcecao = true,
-                            Mensagem = organismo.ExcecaoDominio.Mensagem
+                            Mensagem = string.Format(MensagemNegocio.NaoExisteCodigoOia, codigoOia)
+
                         }
+
                     };
+                }
                 var inspecoes = _repositorio.ObterInspecaosPorCodigoOia(codigoOia);
 
                 foreach (var item in inspecoes)
@@ -97,7 +105,7 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
                     ExcecaoDominio = new ExcecaoDominio
                     {
                         ExisteExcecao = true,
-                        Mensagem = string.Format(MensagemNegocio.NenhumInspecaoEncontradoParaCodigoOiAeCipp, codigoOia, cipp)
+                        Mensagem = string.Format(MensagemNegocio.InspecaoJaGravadaParaCippEOia)
 
                     }
 

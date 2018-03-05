@@ -25,8 +25,8 @@ namespace INMETRO.CIPP.SHARED.Servicos
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                
+                throw e;
             }
             
         }
@@ -45,8 +45,8 @@ namespace INMETRO.CIPP.SHARED.Servicos
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                
+                throw e;
             }
 
             return false;
@@ -84,8 +84,8 @@ namespace INMETRO.CIPP.SHARED.Servicos
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                
+                throw e;
             }
 
 

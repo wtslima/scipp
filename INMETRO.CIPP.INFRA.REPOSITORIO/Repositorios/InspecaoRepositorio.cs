@@ -99,6 +99,8 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
 
         }
 
+       
+
         public IEnumerable<Inspecao> ObterInspecaosPorPlacaLicenca(string placaLicenca)
         {
             using (var contexto = new CippContexto())
@@ -107,18 +109,18 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                 {
                     if (string.IsNullOrEmpty(placaLicenca)) return new List<Inspecao>();
 
-                    var consulta = contexto.Inspecoes.Where(s => s.PlacaLicenca.Equals(placaLicenca));
-
-                    return consulta.Select(i => new Inspecao
-                    {
-                        Id = i.Id,
-                        CodigoCIPP = i.CodigoCIPP,
-                        CodigoOIA = i.CodigoOIA,
-                        NumeroEquipamento = i.NumeroEquipamento,
-                        PlacaLicenca = i.PlacaLicenca,
-                        DataInspecao = i.DataInspecao,
-                        ResponsavelTecnico = i.ResponsavelTecnico
-                    });
+                    return contexto.Inspecoes.Where(s => s.PlacaLicenca == placaLicenca ).ToList()
+                        .Select(
+                            item => new Inspecao
+                            {
+                                Id = item.Id,
+                                CodigoOIA = item.CodigoOIA,
+                                CodigoCIPP = item.CodigoCIPP,
+                                NumeroEquipamento = item.NumeroEquipamento,
+                                PlacaLicenca = item.PlacaLicenca,
+                                ResponsavelTecnico = item.ResponsavelTecnico,
+                                DataInspecao = item.DataInspecao.Date
+                            }).ToList();
 
                 }
                 catch (Exception e)
@@ -136,7 +138,8 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
             {
                 try
                 {
-                    var consulta = contexto.Inspecoes.Where(s => s.DataInspecao.Date == dataInspecao.Date);
+                   
+                    var consulta = contexto.Inspecoes.Where(s => s.DataInspecao.Date==dataInspecao.Date);
 
                     return consulta.Select(i => new Inspecao
                     {

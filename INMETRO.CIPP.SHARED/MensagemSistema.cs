@@ -14,5 +14,7 @@
         public const string NenhumInspecaoEncontradoParaCodigoOiAeCipp = "Nenhum resultado encontrado para Código OIA-PP {0} e Nº Cipp {0}";
 
         public const string ErroDownloadRepositorioRemoto = "Não foi possível fazer download do Repositorio Remoto do Codigo-Oia {0}";
+
+        public const string NenhumArquivoEncontrado = "Nenhum Inspeção foi encontrado ao realizar a Rotina Automática";
     }
 }

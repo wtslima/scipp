@@ -7,8 +7,8 @@ namespace INMETRO.DIOIS.INSPECAO.WEB
         // Para obter mais informações sobre o agrupamento, visite https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
-            bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+            //bundles.Add(new ScriptBundle("~/bundles/jquery").Include("~/Scripts/jquery-{version}.js"));
+            bundles.Add(new ScriptBundle("~/bundles/jquery").Include("~/Scripts/jquery-1.12.4.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -21,7 +21,7 @@ namespace INMETRO.DIOIS.INSPECAO.WEB
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/js/bootstrap.js",
                       "~/Scripts/respond.js",
-                      "~/js/mascaras.js"));
+                      "~/js/jquery.mask.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/css/bootstrap.css",

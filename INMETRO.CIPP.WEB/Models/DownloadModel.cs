@@ -15,7 +15,5 @@ namespace INMETRO.CIPP.WEB.Models
 
         public string PlacaLicenca { get; set; }
 
-        public bool IsSuccess { get; set; }
-        public string Mensagem { get; set; }
     }
 }

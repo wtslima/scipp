@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using INMETRO.CIPP.DOMINIO.Interfaces;
 using INMETRO.CIPP.DOMINIO.Interfaces.Repositorios;
 using INMETRO.CIPP.DOMINIO.Modelos;
 using INMETRO.CIPP.SERVICOS.Interfaces;
 using INMETRO.CIPP.SERVICOS.ModelService;
+using INMETRO.CIPP.SHARED.Email;
 using INMETRO.CIPP.SHARED.Interfaces;
 
 namespace INMETRO.CIPP.SERVICOS.Servicos
@@ -23,31 +25,37 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             _organismoRepositorio = organismoRepositorio;
             _ftp = ftp;
         }
-          public async Task<bool> ExcluirInspecaoPorRotinaAutomatica()
+        public async Task<bool> ExcluirInspecaoPorRotinaAutomatica()
+        {
+            var enviar = new Notificacao();
+            try
             {
-                try
+                var organismos = await _organismoRepositorio.BuscarTodosOrganismos();
+               
+                
+                if (organismos.Count <= 0) return false;
+                foreach (var item in organismos)
                 {
-                    var organismos = await _organismoRepositorio.BuscarTodosOrganismos();
+                    var lista = ObterInspecoesComMaisDeTrintaDias(item.FtpInfo);
 
-                    if (organismos.Count <= 0) return false;
-                    foreach (var item in organismos.GroupBy(c => c.FtpInfo))
+                    if (lista.Count > 0)
                     {
-                        var lista = ObterInspecoesComMaisDeTrintaDias(item.Key);
-
-                        if (lista.Count > 0)
-                        {
-                            RemoverInspecaoComMaisDe30Dias(lista.ToList(), item.Key);
-                        }
+                        RemoverInspecaoComMaisDe30Dias(lista.ToList(), item.FtpInfo);
                     }
-                    return true;
+                }
+                return true;
 
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
             }
-        
+            catch (Exception e)
+            {
+
+                enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br", e.Message);
+                enviar.EnviarEmail("astrindade@colaborador.inmetro.gov.br", e.Message);
+               
+            }
+            return false;
+        }
+
 
         public HistoricoDeExclusaoModelService ObterInspecoesExcluidasPorCodigoInformado(string codigoOia, string cipp)
         {
@@ -78,7 +86,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 var resultado = _historicoInspecaoExcluida.BuscarRegistrosDeHistorico();
 
                 var inspecaoExcluida = Conversao.ConverterParaModelService(resultado);
-                    
+
 
                 return inspecaoExcluida;
             }
@@ -88,7 +96,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 throw e;
             }
         }
-       
+
 
         private void AddRegistrosExclusao(string codigoOia, string diretorio)
         {
@@ -130,8 +138,8 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
                 var inspecao = _historicoInspecaoExcluida.ObterDadosInspecaoPorCipp(cipp);
 
-                return   Conversao.ConverterParaModeloServico(inspecao);
-             
+                return Conversao.ConverterParaModeloServico(inspecao);
+
             }
             catch (Exception e)
             {
@@ -181,7 +189,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
         private bool TemMaisDe30Dias(DateTime fileDate)
         {
-            var limite = fileDate.AddDays(30);
+            var limite = fileDate.AddDays(10);
             return DateTime.Now > limite;
         }
     }

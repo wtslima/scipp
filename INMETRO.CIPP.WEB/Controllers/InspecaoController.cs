@@ -25,48 +25,64 @@ namespace INMETRO.CIPP.WEB.Controllers
         }
 
         [HttpPost]
-        public ActionResult ConsultaInspecao(DownloadModel model, int? page)
+        public ActionResult ConsultaInspecao(InspecoesGravadasModel model, int? page)
         {
             try
             {
+                
                 var pager = new Pager(0, page);
+                var retorno = RetornarInspecoes(model.DownloadModel);
 
-                if (!string.IsNullOrWhiteSpace(model.CodigoOia) || !string.IsNullOrWhiteSpace(model.CodigoCipp))
-                {
+                retorno.Inspecoes.ToList().Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize);
+                pager = new Pager(retorno.Inspecoes.ToList().Count, page);
+                retorno.Pager = pager;
+                ModelState.Clear();
+                return View(retorno);
 
-                    var inspecoesPorCodigo = ObterInspecaoPorCodigoInformado(model.CodigoOia, model.CodigoCipp);
-                    pager = new Pager(inspecoesPorCodigo.Inspecoes.ToList().Count, page);
-                    if (inspecoesPorCodigo.Mensagem.ExisteExcecao)
-                    {
-                        return View(inspecoesPorCodigo);
-                    }
-                    inspecoesPorCodigo.Inspecoes.ToList().Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize);
-                    inspecoesPorCodigo.Pager = pager;
-                    return View(inspecoesPorCodigo);
-                }
-
-
-                var todasInspecoes = ObterInspecoes();
-                pager = new Pager(todasInspecoes.Inspecoes.Count(), page);
-                todasInspecoes.Inspecoes.ToList().Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize);
-                todasInspecoes.Pager = pager;
-
-                return View(todasInspecoes);
             }
             catch (Exception e)
             {
+                ModelState.Clear();
                 var exception = new ExceptionSystem();
-                if (e.InnerException != null && e.InnerException.Message != null) exception.Mensagem = e.InnerException.Message;
+                if (e.Message != null && e.Message != null) exception.Mensagem = e.Message;
                 return PartialView("_Error", exception);
             }
 
         }
+       
 
-        private InspecoesGravadasModel ObterInspecaoPorCodigoInformado(string codigoOia, string cipp)
+        private InspecoesGravadasModel RetornarInspecoes(DownloadModel model)
+        {
+            if (!string.IsNullOrEmpty(model.DataInspecao))
+                return ObterInspecoesPorData(model.DataInspecao);
+            if (!string.IsNullOrEmpty(model.PlacaLicenca))
+                return ObterInspecoesPorPlaca(model.PlacaLicenca);
+            if (!string.IsNullOrEmpty(model.CodigoOia) || !string.IsNullOrEmpty(model.CodigoCipp))
+                return ObterInspecaoPorCodigoInformado(model.CodigoOia, model.CodigoCipp);
+
+            return ObterInspecoes();
+
+        }
+
+        private InspecoesGravadasModel ObterInspecoesPorData(string data)
         {
             try
             {
-                var resultado = _servico.ObterInspecoesPorCodigoInformado(codigoOia, cipp);
+                var resultado = _servico.ObterInspecaoPorDataInspecao(data);
+
+                return Conversao.Converter.ConverterParaModelo(resultado);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        private InspecoesGravadasModel ObterInspecoesPorPlaca(string placa)
+        {
+            try
+            {
+                var resultado = _servico.ObterInspecoesPorPlacaLicenca(placa);
 
                 return Conversao.Converter.ConverterParaModelo(resultado);
             }
@@ -90,6 +106,20 @@ namespace INMETRO.CIPP.WEB.Controllers
             }
         }
 
-        
+        private InspecoesGravadasModel ObterInspecaoPorCodigoInformado(string codigoOia, string cipp)
+        {
+            try
+            {
+                var resultado = _servico.ObterInspecoesPorCodigoInformado(codigoOia, cipp);
+
+                return Conversao.Converter.ConverterParaModelo(resultado);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+
     }
 }
