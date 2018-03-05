@@ -21,12 +21,15 @@ namespace INMETRO.DIOIS.INSPECAO.WEB
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/js/bootstrap.js",
                       "~/Scripts/respond.js",
-                      "~/js/jquery.mask.js"));
+                      "~/js/jquery.mask.js",
+                      "~/js/jquery-ui/jquery-ui.js",
+                      "~/js/config.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/css/bootstrap.css",
                       "~/css/inmetro.css",
-                      "~/css/Site.css"));
+                      "~/css/Site.css",
+                      "~/js/jquery-ui/jquery-ui.css"));
         }
     }
 }
