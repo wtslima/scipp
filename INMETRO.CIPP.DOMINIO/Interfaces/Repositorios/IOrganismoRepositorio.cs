@@ -6,7 +6,7 @@ namespace INMETRO.CIPP.DOMINIO.Interfaces.Repositorios
 {
     public interface IOrganismoRepositorio
     {
-        Organismo BuscarOrganismoPorId(string codigoOIA);
+        Organismo BuscarOrganismoPorId(int codigoOIA);
         Task<IList<Organismo>> BuscarTodosOrganismos();
     }
 }

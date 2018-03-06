@@ -83,7 +83,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
             Linhas = File.ReadAllLines(files[0]).Where(l => !string.IsNullOrWhiteSpace(l) && !l.StartsWith("//")).ToList();
 
-            for (var i = 1; i < Linhas.Count; i++)
+            for (var i = 0; i < Linhas.Count; i++)
             {
                 inspecaoLinha = Linhas[i];
             }
@@ -104,7 +104,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                 inspecao.CodigoOia = _inputColumns[0];
                 inspecao.CodigoCipp = _inputColumns[1];
                 inspecao.PlacaLicenca = _inputColumns[2];
-                inspecao.NumeroEquipamento =  Convert.ToInt32(_inputColumns[3]);
+                inspecao.NumeroEquipamento =  _inputColumns[3];
 
                 var date = DateTime.ParseExact(_inputColumns[4], "ddMMyyyy", CultureInfo.InvariantCulture);
                 inspecao.DataInspecao = date;
@@ -128,7 +128,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                 {
                     inQuotes = !inQuotes;
                 }
-                if (c == ',')
+                if (c == ',' || c==';')
                 {
                     sb.Append(inQuotes ? commaReplacement : "" + ",");
                 }

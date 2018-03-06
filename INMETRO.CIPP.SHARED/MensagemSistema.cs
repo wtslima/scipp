@@ -11,7 +11,7 @@
         public const string NaoExisteCodigoOia = "Não existe CÓDIGO-OIA-PP {0} informado.";
         public const string NenhumInspecaoEncontradoParaCodigoOia = "Nenhum resultado encontrado para Código OIA-PP {0}";
         public const string NenhumInspecaoEncontradoParaCodigoCipp = "Nenhum resultado encontrado para Nº Cipp {0}";
-        public const string NenhumInspecaoEncontradoParaCodigoOiAeCipp = "Nenhum resultado encontrado para Código OIA-PP {0} e Nº Cipp {0}";
+        public const string NenhumInspecaoEncontradoParaCodigoOiAeCipp = "Nenhum resultado encontrado para Código OIA-PP {0} e Nº Cipp {1}";
 
         public const string ErroDownloadRepositorioRemoto = "Não foi possível fazer download do Repositorio Remoto do Codigo-Oia {0}";
 

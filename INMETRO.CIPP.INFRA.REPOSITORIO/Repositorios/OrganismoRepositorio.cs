@@ -11,13 +11,13 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
 {
     public class OrganismoRepositorio : IOrganismoRepositorio
     {
-        public Organismo BuscarOrganismoPorId(string codigoOia)
+        public Organismo BuscarOrganismoPorId(int codigoOia)
         {
             using (var contexto = new CippContexto())
             {
                 try
                 {
-                    var consulta = contexto.Organismos.Include(ftp => ftp.FtpInfo).FirstOrDefault(x => x.CodigoOIA.Equals(codigoOia));
+                    var consulta = contexto.Organismos.Include(ftp => ftp.FtpInfo).FirstOrDefault(x => x.CodigoOIA == codigoOia);
 
                     return consulta ?? new Organismo();
 

@@ -5,17 +5,20 @@
     <div class="col-md-10 col-md-offset-1">
         @if (IsPost)
         {
-            if (!Model.Mensagem.ExisteExcecao && Model.DownloadModel.CodigoOia != null)
+            if (Model.DownloadModel.CodigoOia != null)
             {
-                <div id="idConsultaInspecao" class="alert alert-success alert-dismissable">
-                    @Html.Partial("_DownloadResposta", Model)
-                </div>
-            }
-            if (Model.Mensagem.ExisteExcecao && Model.DownloadModel.CodigoOia != null)
-            {
-                <div id="idConsultaInspecao" class="alert alert-danger alert-dismissable">
-                    @Html.Partial("_DownloadError", Model)
-                </div>
+                if (!Model.Mensagem.ExisteExcecao)
+                {
+                    <div id="idConsultaInspecao" class="alert alert-success alert-dismissable">
+                        @Html.Partial("_DownloadResposta", Model)
+                    </div>
+                }
+                if (Model.Mensagem.ExisteExcecao)
+                {
+                    <div id="idConsultaInspecao" class="alert alert-danger alert-dismissable">
+                        @Html.Partial("_DownloadError", Model)
+                    </div>
+                }
             }
         }
     </div>
@@ -33,7 +36,6 @@
                 <div class="form-group" style="margin-right: 25px">
                     @Html.Label("CÓDIGO OIA-PP")
                     @Html.TextBoxFor(x => x.DownloadModel.CodigoOia, new { @class = "form-control", maxlength = "4" , onkeypress = "return onlyNos(event,this);", id = "idCodigoOia" })
-                    <br/>
                     @Html.ValidationMessageFor(x => x.DownloadModel.CodigoOia, null, new { @class = "text-danger" })
                 </div>
                 <div class="form-group">
@@ -46,7 +48,7 @@
                 <input type="reset" class="btn btn-basic" value="Limpar" title="Cancelar" id="Cancelar">
             </form>
             <br/>
-            @if(IsPost && !Model.Mensagem.ExisteExcecao)
+            @if(IsPost && Model.DownloadModel.CodigoOia != null)
             {
                 <div class="jumbotron">
                     @{
@@ -57,7 +59,10 @@
 
                             foreach (var item in Model.Inspecoes)
                             {
-                                <p> @Html.DisplayFor(modelItem => item.CodigoCipp)</p>
+                                
+                                    
+                                <string>@Html.DisplayFor(modelItem => item.CodigoCipp),</string>    
+                                
                             }
                         }
 
@@ -91,8 +96,11 @@
     $("#Cancelar").click(function () {
         $("#idCodigoOia").val("");
         $("#idCipp").val("");
+        $('.field-validation-error').text("");
         return false;
     });
+
+   
 
 </script>
 

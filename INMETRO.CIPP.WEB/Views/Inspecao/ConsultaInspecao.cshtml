@@ -77,7 +77,7 @@
         @Html.AntiForgeryToken()
     
        <form name="contact-form" action="@Url.Action("ConsultaInspecao", "Inspecao")" class="form form-inline" id="download" method="post" novalidate="novalidate">
-           <select id="combo" class="form-control">
+           @Html.Label("Consultar por") <select id="combo" class="form-control">
                <option value="0">- Selecione -</option>
                <option value="idCodigoOia">CÓDIGO OIA-PP</option>
                <option value="idCipp">Nº CIPP</option>
@@ -85,7 +85,7 @@
                <option value="idPlaca">PLACA DE LICENCIAMENTO</option>
                <option value="4">Buscar Todos</option>
            </select>
-          
+    
             <div id="idCodigoOia" class="form-group campo-insp" style="margin-left: 25px">
                 @Html.Label("CÓDIGO OIA-PP")
                 @Html.TextBoxFor(m => m.DownloadModel.CodigoOia, null, new {@class = "num form-control", maxlength = "4", id = "codigoId" })

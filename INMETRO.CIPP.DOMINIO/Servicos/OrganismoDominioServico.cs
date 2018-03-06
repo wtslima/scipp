@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using INMETRO.CIPP.DOMINIO.Interfaces;
 using INMETRO.CIPP.DOMINIO.Interfaces.Repositorios;
@@ -15,7 +16,8 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
         }
         public  Organismo BuscarOrganismoPorId(string codigoOia)
         {
-            var resultado =  _repositorio.BuscarOrganismoPorId(codigoOia);
+            var _codigo = Convert.ToInt32(codigoOia);
+            var resultado =  _repositorio.BuscarOrganismoPorId(_codigo);
 
             if (resultado.Id <= 0)
                 return new Organismo
@@ -23,7 +25,7 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
                     ExcecaoDominio = new ExcecaoDominio
                     {
                         ExisteExcecao = true,
-                        Mensagem = Mensagens.MensagemNegocio.NaoExisteCodigoOia
+                        Mensagem = string.Format(Mensagens.MensagemNegocio.NaoExisteCodigoOia, codigoOia)
 
                     }
                 };

@@ -11,7 +11,7 @@ namespace INMETRO.CIPP.INFRA.ENTITYFRAMEWORK.Mapeamentos
 
             HasKey(o => o.Id);
 
-            Property(o => o.CodigoOIA).HasColumnName("CDA_CODIGO_OIA").IsRequired().HasMaxLength(4);
+            Property(o => o.CodigoOIA).HasColumnName("CDA_CODIGO_OIA").IsRequired();
 
             Property(o => o.Nome).HasColumnName("NOM_ORGANISMO").IsRequired();
 

@@ -98,13 +98,14 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         }
 
 
-        private void AddRegistrosExclusao(string codigoOia, string diretorio)
+        private void AddRegistrosExclusao(int codigoOia, string diretorio)
         {
             try
             {
+                
                 var registroExclusao = new HistoricoExclusaoServiceModel
                 {
-                    CodigoOia = codigoOia,
+                    CodigoOia = codigoOia.ToString(),
                     Cipp = diretorio,
                     DataExclusao = DateTime.Now
                 };

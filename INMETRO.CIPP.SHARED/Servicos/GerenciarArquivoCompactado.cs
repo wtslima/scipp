@@ -35,11 +35,15 @@ namespace INMETRO.CIPP.SHARED.Servicos
         {
             try
             {
-                string fileNamePath = diretorio + file;
-                if (File.Exists(fileNamePath))
+                string fileExt = Path.GetExtension(file);
+                if (!fileExt.Equals(".rar"))
                 {
-                    File.Delete(fileNamePath);
-                    return true;
+                    string fileNamePath = diretorio + file;
+                    if (File.Exists(fileNamePath))
+                    {
+                        File.Delete(fileNamePath);
+                        return true;
+                    }
                 }
 
             }
@@ -96,6 +100,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
             string fileNamePath = diretorio + file;
 
             RarArchive ArchiveRar = RarArchive.Open(fileNamePath);
+            
             foreach (RarArchiveEntry entry in ArchiveRar.Entries)
             {
                 try
@@ -108,12 +113,15 @@ namespace INMETRO.CIPP.SHARED.Servicos
                         Directory.CreateDirectory(rootToFile);
                     }
                     entry.WriteToFile(diretorio + fileName, ExtractOptions.ExtractFullPath | ExtractOptions.Overwrite);
+                    
                 }
                 catch (Exception e)
                 {
 
                     throw e;
                 }
+
+                
             }
         }
 

@@ -86,11 +86,12 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
                     try
                     {
-                        var diretorioLocal = ObterDiretorioLocal(organismo.FtpInfo.DiretorioInspecaoLocal, diretorioCippRemoto);
-                        if (TemInspecaoValida(diretorioCippRemoto)) continue;
+
                         if (TemCipp(cipp, diretorioCippRemoto))
                         {
-
+                            if (TemInspecaoValida(diretorioCippRemoto)) continue;
+                            var diretorioLocal = ObterDiretorioLocal(organismo.FtpInfo.DiretorioInspecaoLocal,
+                                diretorioCippRemoto);
                             DownloadInspecao(organismo.FtpInfo, diretorioLocal, diretorioCippRemoto, usuario);
                             return new InspecoesGravadasModelServico
                             {
@@ -101,11 +102,16 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                                     Mensagem = string.Format(MensagemSistema.SucessoDownloadCodigoOiaeCipp,
                                         codigoOia, cipp)
                                 }
-                               
+
                             };
                         }
-
-                        DownloadInspecao(organismo.FtpInfo, diretorioLocal, diretorioCippRemoto, usuario);
+                        if(!TemInspecaoValida(diretorioCippRemoto) && string.IsNullOrEmpty(cipp))
+                        {
+                            var diretorioLocal2 = ObterDiretorioLocal(organismo.FtpInfo.DiretorioInspecaoLocal, diretorioCippRemoto);
+                            DownloadInspecao(organismo.FtpInfo, diretorioLocal2, diretorioCippRemoto, usuario);
+                            ExcluirArquivoCompactadoECsv(diretorioLocal2, diretorioCippRemoto);
+                        }
+                       
                     }
                     catch (Exception e)
                     {
@@ -119,11 +125,12 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                     InspecoesGravadas = _listaInspecoesParaEnvio,
                     Excecao = new ExcecaoService
                     {
-                        ExisteExcecao = false,
-                        Mensagem = string.Format(MensagemSistema.SucessoDownloadCodigoOia, codigoOia)
+                        ExisteExcecao = true,
+                        Mensagem = string.Format(MensagemSistema.NenhumInspecaoEncontradoParaCodigoOiAeCipp, codigoOia, cipp)
                     }
 
                 };
+
             }
             catch (Exception ex)
             {
@@ -231,7 +238,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 if (!GravarInspecao(Conversao.ConverterParaDominio(inspecao))) return;
                 _listaInspecoesParaEnvio.Add(inspecao);
                 if (!GravarHistoricoDownload(diretorioRemoto, usuario)) return;
-                ExcluirArquivoCompactadoECsv(diretorioLocal, diretorioRemoto);
+               
 
 
             }
@@ -324,9 +331,8 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         {
             try
             {
-                if (!_descompactar.ExcluirArquivoLocal(diretorioLocal, file)) return;
                 _csv.ExcluirArquivoCippCsv(diretorioLocal);
-
+               if(!_descompactar.ExcluirArquivoLocal(diretorioLocal, file))return;
             }
             catch (Exception e)
             {
@@ -382,7 +388,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                     CodigoCipp = item.CodigoCipp,
                     CodigoOia = item.CodigoOia,
                     PlacaLicenca = item.Placa,
-                    NumeroEquipamento = Convert.ToInt32(item.Equipamento),
+                    NumeroEquipamento = item.Equipamento,
                     DataInspecao = item.DataInspecao
                  
                 };

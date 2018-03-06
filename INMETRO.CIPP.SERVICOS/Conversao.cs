@@ -16,7 +16,7 @@ namespace INMETRO.CIPP.SERVICOS
             return new Inspecao
             {
                 CodigoCIPP = value.CodigoCipp,
-                CodigoOIA = value.CodigoOia,
+                CodigoOIA = Convert.ToInt32(value.CodigoOia),
                 PlacaLicenca = value.PlacaLicenca,
                 NumeroEquipamento = value.NumeroEquipamento,
                 DataInspecao = value.DataInspecao.Date
@@ -31,9 +31,9 @@ namespace INMETRO.CIPP.SERVICOS
             return new InspecaoCsvModel()
             {
                 CodigoCipp = value.CodigoCIPP,
-                CodigoOia = value.CodigoOIA,
+                CodigoOia = value.CodigoOIA.ToString(),
                 PlacaLicenca = value.PlacaLicenca,
-                NumeroEquipamento = value.NumeroEquipamento,
+                NumeroEquipamento = value.NumeroEquipamento.ToString(),
                 DataInspecao = value.DataInspecao
               
             };
@@ -110,7 +110,7 @@ namespace INMETRO.CIPP.SERVICOS
                 {
                     new InspecaoModelServico
                     {
-                        CodigoOia = value.CodigoOIA,
+                        CodigoOia = value.CodigoOIA.ToString(),
                         CodigoCipp = value.CodigoCIPP,
                         Equipamento = value.NumeroEquipamento.ToString(),
                         Placa = value.PlacaLicenca,
@@ -133,9 +133,9 @@ namespace INMETRO.CIPP.SERVICOS
             return new Inspecao
             {
                 CodigoCIPP = value.CodigoCipp,
-                CodigoOIA = value.CodigoOia,
+                CodigoOIA = Convert.ToInt32(value.CodigoOia),
                 PlacaLicenca = value.Placa,
-                NumeroEquipamento = Convert.ToInt32(value.Equipamento),
+                NumeroEquipamento = value.Equipamento,
                 DataInspecao = value.DataInspecao.Date
                 
             };
@@ -150,7 +150,7 @@ namespace INMETRO.CIPP.SERVICOS
                 CodigoCipp = value.CodigoCipp,
                 CodigoOia = value.CodigoOia,
                 Placa = value.PlacaLicenca,
-                Equipamento = value.NumeroEquipamento.ToString(),
+                Equipamento = value.NumeroEquipamento,
                 DataInspecao = value.DataInspecao.Date
                
             };
@@ -165,7 +165,7 @@ namespace INMETRO.CIPP.SERVICOS
                 CodigoCipp = value.CodigoCipp,
                 CodigoOia = value.CodigoOia,
                 PlacaLicenca = value.Placa,
-                NumeroEquipamento = Convert.ToInt32(value.Equipamento),
+                NumeroEquipamento =value.Equipamento,
                 DataInspecao = value.DataInspecao.Date
               
             };
@@ -178,7 +178,7 @@ namespace INMETRO.CIPP.SERVICOS
             {
                 var inspecao = new InspecaoModelServico
                 {
-                    CodigoOia = item.CodigoOIA,
+                    CodigoOia = item.CodigoOIA.ToString(),
                     CodigoCipp = item.CodigoCIPP,
                     Placa = item.PlacaLicenca,
                     Equipamento = item.NumeroEquipamento.ToString(),
@@ -239,7 +239,7 @@ namespace INMETRO.CIPP.SERVICOS
             {
                 InspecoesGravadas = value.Inspecoes.Select(s => new InspecaoModelServico()
                 {
-                    CodigoOia = s.CodigoOIA,
+                    CodigoOia = s.CodigoOIA.ToString(),
                     CodigoCipp = s.CodigoCIPP,
                     DataInspecao = s.DataInspecao.Date,
                     Equipamento = s.NumeroEquipamento.ToString(),

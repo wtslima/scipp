@@ -36,7 +36,6 @@ namespace INMETRO.CIPP.WEB.Controllers
                 retorno.Inspecoes.ToList().Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize);
                 pager = new Pager(retorno.Inspecoes.ToList().Count, page);
                 retorno.Pager = pager;
-                //ModelState.Clear();
                 return View(retorno);
 
             }
@@ -53,12 +52,16 @@ namespace INMETRO.CIPP.WEB.Controllers
 
         private InspecoesGravadasModel RetornarInspecoes(DownloadModel model)
         {
-            if (!string.IsNullOrEmpty(model.DataInspecao))
-                return ObterInspecoesPorData(model.DataInspecao);
-            if (!string.IsNullOrEmpty(model.PlacaLicenca))
-                return ObterInspecoesPorPlaca(model.PlacaLicenca);
-            if (!string.IsNullOrEmpty(model.CodigoOia) || !string.IsNullOrEmpty(model.CodigoCipp))
-                return ObterInspecaoPorCodigoInformado(model.CodigoOia, model.CodigoCipp);
+            if (model != null)
+            {
+                if (!string.IsNullOrEmpty(model.DataInspecao))
+                    return ObterInspecoesPorData(model.DataInspecao);
+                if (!string.IsNullOrEmpty(model.PlacaLicenca))
+                    return ObterInspecoesPorPlaca(model.PlacaLicenca);
+                if (!string.IsNullOrEmpty(model.CodigoOia) || !string.IsNullOrEmpty(model.CodigoCipp))
+                    return ObterInspecaoPorCodigoInformado(model.CodigoOia, model.CodigoCipp);
+            }
+          
 
             return ObterInspecoes();
 

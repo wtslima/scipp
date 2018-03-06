@@ -17,7 +17,7 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
 
         [Required]
         [Column("CDA_CODIGO_OIA")]
-        public string CodigoOIA { get; set; }
+        public int CodigoOIA { get; set; }
 
         [Column("CDA_ATIVO")]
         public bool EhAtivo { get; set; }
@@ -33,14 +33,14 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
         {
             
         }
-        public Organismo(int id, string nome,string codigo)
+        public Organismo(int id, string nome,int codigo)
         {
             Id = id;
             Nome = nome;
             CodigoOIA = codigo;
         }
 
-        public Organismo(string codigo, FTPInfo ftpInfo)
+        public Organismo(int codigo, FTPInfo ftpInfo)
         {
             CodigoOIA = codigo;
             FtpInfo = ftpInfo;
