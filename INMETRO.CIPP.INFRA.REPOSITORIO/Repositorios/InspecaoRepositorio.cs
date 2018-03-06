@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity.Migrations;
-using System.Globalization;
+using System.Data.SqlClient;
 using System.Linq;
 using INMETRO.CIPP.DOMINIO.Interfaces.Repositorios;
 using INMETRO.CIPP.DOMINIO.Modelos;
@@ -78,15 +79,15 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                         .Where(s => s.CodigoOIA == codigoOia)
                         .ToList()
                         .Select(
-                    item => new Inspecao
-                    {
-                        Id = item.Id,
-                        CodigoOIA = item.CodigoOIA,
-                        CodigoCIPP = item.CodigoCIPP,
-                        NumeroEquipamento = item.NumeroEquipamento,
-                        PlacaLicenca = item.PlacaLicenca,
-                        DataInspecao = item.DataInspecao
-                    }).ToList();
+                            item => new Inspecao
+                            {
+                                Id = item.Id,
+                                CodigoOIA = item.CodigoOIA,
+                                CodigoCIPP = item.CodigoCIPP,
+                                NumeroEquipamento = item.NumeroEquipamento,
+                                PlacaLicenca = item.PlacaLicenca,
+                                DataInspecao = item.DataInspecao
+                            }).ToList();
 
                     return resultado;
                 }
@@ -99,7 +100,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
 
         }
 
-       
+
 
         public IEnumerable<Inspecao> ObterInspecaosPorPlacaLicenca(string placaLicenca)
         {
@@ -109,7 +110,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                 {
                     if (string.IsNullOrEmpty(placaLicenca)) return new List<Inspecao>();
 
-                    return contexto.Inspecoes.Where(s => s.PlacaLicenca == placaLicenca ).ToList()
+                    return contexto.Inspecoes.Where(s => s.PlacaLicenca == placaLicenca).ToList()
                         .Select(
                             item => new Inspecao
                             {
@@ -135,22 +136,13 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
         {
             using (var contexto = new CippContexto())
             {
+
                 try
                 {
-                    var str = Convert.ToString(dataInspecao);
-                    DateTime condate2 = DateTime.ParseExact(str, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
-                    var consulta = contexto.Inspecoes.Where(s => s.DataInspecao == condate2);
+                    
+                    var data = $"{dataInspecao:yyyy-MM-dd}";
 
-                    return consulta.Select(i => new Inspecao
-                    {
-                        Id = i.Id,
-                        CodigoCIPP = i.CodigoCIPP,
-                        CodigoOIA = i.CodigoOIA,
-                        NumeroEquipamento = i.NumeroEquipamento,
-                        PlacaLicenca = i.PlacaLicenca,
-                        DataInspecao = i.DataInspecao
-                        
-                    });
+                    return  BuscarInspecaoPorData(data);
 
                 }
                 catch (Exception e)
@@ -167,7 +159,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
             {
                 try
                 {
-
+                    
                     var consulta = contexto.Inspecoes.ToList();
 
                     return consulta.Select(i => new Inspecao
@@ -178,8 +170,8 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                         NumeroEquipamento = i.NumeroEquipamento,
                         PlacaLicenca = i.PlacaLicenca,
                         DataInspecao = i.DataInspecao.Date
-                      
-                       
+
+
                     });
 
                 }
@@ -190,6 +182,44 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
 
             }
         }
-        
+
+
+        private List<Inspecao> BuscarInspecaoPorData(string data)
+        {
+            string sql = string.Empty;
+            sql =
+                "SELECT *  FROM [INSPECOES].[dbo].[TB_INSPECAO_CIPP] where DAT_INSPECAO ='" + data + "'";
+            var connectionString = ConfigurationManager.ConnectionStrings["CIPP_CONTEXTO"].ConnectionString;
+
+            var list = new List<Inspecao>();
+            using (var connection = new SqlConnection(connectionString))
+            {
+                using (var cmd = new SqlCommand(sql, connection))
+                {
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                    var result = cmd.ExecuteReader();
+
+                    while (result.Read())
+                    {
+
+                        var inspecao = new Inspecao
+                        {
+                            Id = (int) result["IDT_INSPECAO"],
+                            CodigoCIPP = result["CDN_CIPP"].ToString(),
+                            CodigoOIA = result["CDA_CODIGO_OIA"].ToString(),
+                            NumeroEquipamento = (int) result["NUM_EQUIPAMENTO"],
+                            PlacaLicenca = result["DES_PLACA_LICENCA"].ToString(),
+                            DataInspecao = Convert.ToDateTime(result["DAT_INSPECAO"])
+                        };
+                        list.Add(inspecao);
+                    }
+
+
+                    connection.Close();
+                }
+                return list;
+            }
+        }
     }
 }

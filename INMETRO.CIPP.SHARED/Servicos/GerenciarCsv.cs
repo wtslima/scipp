@@ -83,7 +83,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
             Linhas = File.ReadAllLines(files[0]).Where(l => !string.IsNullOrWhiteSpace(l) && !l.StartsWith("//")).ToList();
 
-            for (var i = 1; i < Linhas.Count; i++)
+            for (var i = 0; i < Linhas.Count; i++)
             {
                 inspecaoLinha = Linhas[i];
             }
