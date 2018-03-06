@@ -138,19 +138,19 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                 try
                 {
                     var str = Convert.ToString(dataInspecao);
-                    DateTime condate2 = DateTime.ParseExact(str, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
-                    var consulta = contexto.Inspecoes.Where(s => s.DataInspecao == condate2);
 
-                    return consulta.Select(i => new Inspecao
+                    var consulta = contexto.Inspecoes.Find().DataInspecao;
+
+                    return  new List<Inspecao>
                     {
-                        Id = i.Id,
-                        CodigoCIPP = i.CodigoCIPP,
-                        CodigoOIA = i.CodigoOIA,
-                        NumeroEquipamento = i.NumeroEquipamento,
-                        PlacaLicenca = i.PlacaLicenca,
-                        DataInspecao = i.DataInspecao
+                        //Id = i.Id,
+                        //CodigoCIPP = i.CodigoCIPP,
+                        //CodigoOIA = i.CodigoOIA,
+                        //NumeroEquipamento = i.NumeroEquipamento,
+                        //PlacaLicenca = i.PlacaLicenca,
+                        //DataInspecao = i.DataInspecao
                         
-                    });
+                    };
 
                 }
                 catch (Exception e)
