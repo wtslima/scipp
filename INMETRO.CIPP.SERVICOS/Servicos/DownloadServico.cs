@@ -472,7 +472,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
         private InspecoesGravadasModelServico TemCippParaOrganismoInformado(Inspecao inspecao)
         {
-            if (!inspecao.ExcecaoDominio.ExisteExcecao)
+            if (inspecao.ExcecaoDominio.ExisteExcecao)
             {
                 return new InspecoesGravadasModelServico
                 {
