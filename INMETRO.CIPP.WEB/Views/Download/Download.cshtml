@@ -51,22 +51,16 @@
             @if(IsPost && Model.DownloadModel.CodigoOia != null)
             {
                 <div class="jumbotron">
-                    @{
+                   
                         
-                        if (Model.Inspecoes != null)
+                        @if (Model.Inspecoes != null)
                         {
-                            @Html.Label("CIPP(s) gravado(s):" )
-
-                            foreach (var item in Model.Inspecoes)
-                            {
-                                
-                                    
-                                <string>@Html.DisplayFor(modelItem => item.CodigoCipp),</string>    
-                                
-                            }
+                            @Html.Label("CIPP(s) gravado(s):") <label>@Model.Inspecoes.Count()</label>
+                           
+                            <p>@String.Join(", ", Model.Inspecoes.Select(p => p.CodigoCipp).ToArray())</p> 
                         }
 
-                    }
+                    
                 </div>
             }
         </div>

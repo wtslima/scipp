@@ -125,8 +125,8 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                     InspecoesGravadas = _listaInspecoesParaEnvio,
                     Excecao = new ExcecaoService
                     {
-                        ExisteExcecao = true,
-                        Mensagem = string.Format(MensagemSistema.NenhumInspecaoEncontradoParaCodigoOiAeCipp, codigoOia, cipp)
+                        ExisteExcecao = false,
+                        Mensagem = string.Format(MensagemSistema.SucessoDownloadCodigoOia, codigoOia)
                     }
 
                 };

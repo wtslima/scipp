@@ -35,7 +35,7 @@ namespace INMETRO.CIPP.INFRA.ENTITYFRAMEWORK.Migrations
             //    new Organismo() { CodigoOIA = 0351, Nome = "ITESV - Instituto Tecnologia de Engenharia e Segurança Veicular Ltda." },
             //    new Organismo() { CodigoOIA = 0368, Nome = "BUREAU BRASILEIRO DE INSPEÇÃO LTDA" },
             //    new Organismo() { CodigoOIA = 0420, Nome = "ATIVE OURINHOS INSPEÇÕES VEICULARES LTDA." },
-            //    new Organismo() { CodigoOIA = 0424,Nome = "IVECAR CENTRO INSPEÇÃO VEICULAR LTDA.	" },
+            //    new Organismo() { CodigoOIA = 0424, Nome = "IVECAR CENTRO INSPEÇÃO VEICULAR LTDA.	" },
             //    new Organismo() { CodigoOIA = 0426, Nome = "SINTEV - Sistema de Inspeção Técnica Veicular Ltda" },
             //    new Organismo() { CodigoOIA = 0427, Nome = "GCL - INSPEÇÕES VEICULAR LTDA" },
             //    new Organismo() { CodigoOIA = 0430, Nome = "CTV - Centro de Tecnologia Veicular Ltda." },
@@ -180,19 +180,19 @@ namespace INMETRO.CIPP.INFRA.ENTITYFRAMEWORK.Migrations
 
             #region FtpInfo
 
-            context.IntegracaoInfo.AddOrUpdate(
-                new FTPInfo()
-                {
-                    OrganismoId = 2,
-                    HostURI = $"ftp://transtechmga.ddns.net:21/",
-                    Usuario = $"TRANSTECHLI03",
-                    Senha = $"000316",
-                    DiretorioInspecao = $"/Inspecoes/",
-                    DiretorioInspecaoLocal = $"82\\",
-                    DiretorioInspecaoRemoto = $"/New/"
-                });
+            //context.IntegracaoInfo.AddOrUpdate(
+            //    new FTPInfo()
+            //    {
+            //        OrganismoId = 2,
+            //        HostURI = $"ftp://transtechmga.ddns.net:21/",
+            //        Usuario = $"TRANSTECHLI03",
+            //        Senha = $"000316",
+            //        DiretorioInspecao = $"/Inspecoes/",
+            //        DiretorioInspecaoLocal = $"82\\",
+            //        DiretorioInspecaoRemoto = $"/New/"
+            //    },
 
-            //new FTPInfo() { OrganismoId = 156, HostURI = $"ftp://184.168.109.66:2112/", Usuario = $"nakoa_ftp", Senha = $"n@k@412!", DiretorioInspecao = $"/new-orders/", DiretorioInspecaoLocal = $"7777\\", DiretorioInspecaoRemoto = $"/New/" },
+            //    new FTPInfo() { OrganismoId = 156, HostURI = $"ftp://184.168.109.66:2112/", Usuario = $"nakoa_ftp", Senha = $"n@k@412!", DiretorioInspecao = $"/new-orders/", DiretorioInspecaoLocal = $"7777\\", DiretorioInspecaoRemoto = $"/New/" },
             //    new FTPInfo() { OrganismoId = 157, HostURI = $"ftp://200.20.212.163/", Usuario = $"diois_ftp", Senha = $"d!@15#admin", DiretorioInspecao = $"/Inspecoes/", DiretorioInspecaoLocal = $"0001\\", DiretorioInspecaoRemoto = $"/New/" });
 
             #endregion

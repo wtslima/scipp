@@ -4,12 +4,13 @@ using System.IO.Compression;
 using INMETRO.CIPP.SHARED.Interfaces;
 using NUnrar.Archive;
 using NUnrar.Common;
+using NUnrar.Reader;
 
 namespace INMETRO.CIPP.SHARED.Servicos
 {
     public class GerenciarArquivoCompactado : IGerenciarArquivoCompactado
     {
-       
+
         public bool DescompactarArquivo(string diretorio, string file)
         {
             string fileExt = Path.GetExtension(file);
@@ -25,10 +26,10 @@ namespace INMETRO.CIPP.SHARED.Servicos
             }
             catch (Exception e)
             {
-                
+
                 throw e;
             }
-            
+
         }
 
         public bool ExcluirArquivoLocal(string diretorio, string file)
@@ -49,7 +50,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
             }
             catch (Exception e)
             {
-                
+
                 throw e;
             }
 
@@ -88,7 +89,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
             }
             catch (Exception e)
             {
-                
+
                 throw e;
             }
 
@@ -99,32 +100,37 @@ namespace INMETRO.CIPP.SHARED.Servicos
         {
             string fileNamePath = diretorio + file;
 
-            RarArchive ArchiveRar = RarArchive.Open(fileNamePath);
+
+                RarArchive ArchiveRar = RarArchive.Open(fileNamePath);
             
-            foreach (RarArchiveEntry entry in ArchiveRar.Entries)
-            {
-                try
+                foreach (RarArchiveEntry entry in ArchiveRar.Entries)
                 {
-                    string fileName = Path.GetFileName(entry.FilePath);
-                    string rootToFile = Path.GetFullPath(entry.FilePath).Replace(fileName, fileNamePath);
-
-                    if (!Directory.Exists(diretorio))
+                    try
                     {
-                        Directory.CreateDirectory(rootToFile);
-                    }
-                    entry.WriteToFile(diretorio + fileName, ExtractOptions.ExtractFullPath | ExtractOptions.Overwrite);
+
+
+                        string fileName = Path.GetFileName(entry.FilePath);
+                        string rootToFile = Path.GetFullPath(entry.FilePath).Replace(fileName, fileNamePath);
+
+                        if (!Directory.Exists(diretorio))
+                        {
+                            Directory.CreateDirectory(rootToFile);
+                        }
+                        entry.WriteToFile(diretorio + fileName, ExtractOptions.ExtractFullPath | ExtractOptions.Overwrite);
+
                     
-                }
-                catch (Exception e)
-                {
 
-                    throw e;
-                }
+                    }
+                    catch (Exception e)
+                    {
 
-                
-            }
+                        throw e;
+                    }
+
+
+                }
+          
         }
-
-
+        
     }
 }

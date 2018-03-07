@@ -108,9 +108,6 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
                 var date = DateTime.ParseExact(_inputColumns[4], "ddMMyyyy", CultureInfo.InvariantCulture);
                 inspecao.DataInspecao = date;
-
-
-
                 break;
             }
 
