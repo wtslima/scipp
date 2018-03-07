@@ -96,7 +96,17 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
                             Mensagem = string.Empty,
                             ExisteExcecao = false
                         };
-                        return item;
+                        return new Inspecao
+                        {
+
+                            ExcecaoDominio = new ExcecaoDominio
+                            {
+                                ExisteExcecao = true,
+                                Mensagem = string.Format(MensagemNegocio.InspecaoJaGravadaParaCippEOia)
+
+                            }
+
+                        };
                     }
                 }
 
@@ -105,8 +115,8 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
 
                     ExcecaoDominio = new ExcecaoDominio
                     {
-                        ExisteExcecao = true,
-                        Mensagem = string.Format(MensagemNegocio.InspecaoJaGravadaParaCippEOia)
+                        ExisteExcecao = false,
+                        Mensagem = string.Empty
 
                     }
 

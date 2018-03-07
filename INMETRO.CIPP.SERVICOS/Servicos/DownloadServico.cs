@@ -45,9 +45,9 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             _inspecaoServico = inspecaoServico;
             IHistoricoRepositorio historicoRepositorio = new HistoricoDownloadRepositorio();
             _historicoServico = new HistoricoServico(historicoRepositorio);
-          
+
         }
-         
+
 
         #region Download Por CIPP
 
@@ -60,13 +60,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 var existeExcecaoInspecao = TemOrganismo(organismo);
                 if (existeExcecaoInspecao.Excecao.ExisteExcecao)
                     return existeExcecaoInspecao;
-                if (!string.IsNullOrEmpty(cipp))
-                {
-                    var retorno = _inspecaoServico.ObterInspecaoParaCippECodigoOiaInformado(codigoOia, cipp);
-                    var existeCippParaCodigoOia = TemCippParaOrganismoInformado(retorno);
-                    if (existeCippParaCodigoOia.Excecao.ExisteExcecao)
-                        return existeCippParaCodigoOia;
-                }
+
 
                 var ftpValido = VerificarFtpValido(organismo.FtpInfo, codigoOia);
 
@@ -80,16 +74,27 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 if (existeExcecaoInspecao.Excecao.ExisteExcecao)
                     return existeExcecaoInspecao;
 
+                if (!string.IsNullOrEmpty(cipp))
+                {
+                    var retorno = _inspecaoServico.ObterInspecaoParaCippECodigoOiaInformado(codigoOia, cipp);
+                    var existeCippParaCodigoOia = TemCippParaOrganismoInformado(retorno);
+                    if (existeCippParaCodigoOia.Excecao.ExisteExcecao)
+                        return existeCippParaCodigoOia;
+
+                }
 
                 foreach (var diretorioCippRemoto in diretoriosCippRemoto)
                 {
 
                     try
                     {
-
-                        if (TemCipp(cipp, diretorioCippRemoto))
+                        if (!string.IsNullOrEmpty(cipp))
                         {
-                            if (TemInspecaoValida(diretorioCippRemoto)) continue;
+                            existeExcecaoInspecao = TemCipp(cipp, diretorioCippRemoto);
+                            if (existeExcecaoInspecao.Excecao.ExisteExcecao)
+                                return existeExcecaoInspecao;
+
+                            //if (TemInspecaoValida(diretorioCippRemoto)) continue;
                             var diretorioLocal = ObterDiretorioLocal(organismo.FtpInfo.DiretorioInspecaoLocal,
                                 diretorioCippRemoto);
                             DownloadInspecao(organismo.FtpInfo, diretorioLocal, diretorioCippRemoto, usuario);
@@ -105,16 +110,18 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
                             };
                         }
-                        if(!TemInspecaoValida(diretorioCippRemoto) && string.IsNullOrEmpty(cipp))
+                        if (!TemInspecaoValida(diretorioCippRemoto) && string.IsNullOrEmpty(cipp))
                         {
                             var diretorioLocal2 = ObterDiretorioLocal(organismo.FtpInfo.DiretorioInspecaoLocal, diretorioCippRemoto);
                             DownloadInspecao(organismo.FtpInfo, diretorioLocal2, diretorioCippRemoto, usuario);
                             ExcluirArquivoCompactadoECsv(diretorioLocal2, diretorioCippRemoto);
                         }
-                       
+
                     }
                     catch (Exception e)
                     {
+                        _enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br", e.Message);
+                        _enviar.EnviarEmail("astrindade@colaborador.inmetro.gov.br", e.Message);
                         throw e;
 
                     }
@@ -147,7 +154,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             try
             {
                 var organismos = await _organismoDomainService.BuscarTodosOrganismos();
-               
+
                 if (!organismos.GroupBy(f => f.FtpInfo).Any()) return false;
 
                 foreach (var item in organismos.GroupBy(c => c.FtpInfo))
@@ -160,13 +167,13 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                     }
                     catch (Exception e)
                     {
-                        _enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br",  e.Message);
+                        _enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br", e.Message);
                         _enviar.EnviarEmail("astrindade@colaborador.inmetro.gov.br", e.Message);
                     }
 
 
                 }
-               
+
                 EnviarInspecoes(_listaInspecoesParaEnvio);
                 return true;
 
@@ -238,7 +245,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 if (!GravarInspecao(Conversao.ConverterParaDominio(inspecao))) return;
                 _listaInspecoesParaEnvio.Add(inspecao);
                 if (!GravarHistoricoDownload(diretorioRemoto, usuario)) return;
-               
+
 
 
             }
@@ -251,7 +258,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
         private InspecoesGravadasModelServico VerificarDiretorios(string[] diretorios, string codigo)
         {
-           
+
             var inspecoes = ExisteInspecoesGravadas(diretorios);
             if (diretorios.Length != 0 && inspecoes > 0) return new InspecoesGravadasModelServico
             {
@@ -275,9 +282,9 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
         private static InspecoesGravadasModelServico VerificarFtpValido(FTPInfo ftpInfos, string codigo)
         {
-           
 
-            if (ftpInfos != null)return new InspecoesGravadasModelServico
+
+            if (ftpInfos != null) return new InspecoesGravadasModelServico
             {
                 InspecoesGravadas = new List<InspecaoModelServico>(),
                 Excecao = new ExcecaoService
@@ -332,7 +339,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             try
             {
                 _csv.ExcluirArquivoCippCsv(diretorioLocal);
-               if(!_descompactar.ExcluirArquivoLocal(diretorioLocal, file))return;
+                if (!_descompactar.ExcluirArquivoLocal(diretorioLocal, file)) return;
             }
             catch (Exception e)
             {
@@ -342,16 +349,31 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
         }
 
-        private static bool TemCipp(string cipp, string cippServer)
+        private InspecoesGravadasModelServico TemCipp(string cipp, string cippServer)
         {
             var cippServe = Path.GetFileNameWithoutExtension(cippServer);
-            if (string.IsNullOrWhiteSpace(cipp)) return false;
             bool combinam = cipp.Equals(cippServe);
             if (combinam)
             {
-                return true;
+                return new InspecoesGravadasModelServico
+                {
+                    InspecoesGravadas = new List<InspecaoModelServico>(),
+                    Excecao = new ExcecaoService
+                    {
+                        ExisteExcecao = false,
+                        Mensagem = string.Empty
+                    }
+                };
             }
-            return false;
+            return new InspecoesGravadasModelServico
+            {
+                InspecoesGravadas = new List<InspecaoModelServico>(),
+                Excecao = new ExcecaoService
+                {
+                    ExisteExcecao = true,
+                    Mensagem = string.Format(MensagemSistema.NenhumInspecaoEncontradoParaCodigoCipp, cipp)
+                }
+            };
         }
 
         private string ObterDiretorioLocal(string localDiretorio, string fileCipp)
@@ -367,7 +389,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             }
             return path;
         }
-        
+
 
         private bool TemInspecaoValida(string cipp)
         {
@@ -390,7 +412,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                     PlacaLicenca = item.Placa,
                     NumeroEquipamento = item.Equipamento,
                     DataInspecao = item.DataInspecao
-                 
+
                 };
 
                 lista.Add(inspecaoModelServico);
@@ -404,7 +426,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 _enviar.EnviarEmail("astrindade@colaborador.inmetro.gov.br", string.Format(MensagemSistema.NenhumArquivoEncontrado));
                 _enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br", string.Format(MensagemSistema.NenhumArquivoEncontrado));
             }
-           
+
 
 
         }
@@ -421,7 +443,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             return inspecoesNaoGravadas.Count;
         }
 
-        private InspecoesGravadasModelServico TemOrganismo (Organismo organismo)
+        private InspecoesGravadasModelServico TemOrganismo(Organismo organismo)
         {
             if (organismo.ExcecaoDominio.ExisteExcecao)
             {
