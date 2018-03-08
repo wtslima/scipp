@@ -75,6 +75,7 @@
     <Compile Include="Conversao.cs" />
     <Compile Include="Interfaces\IDownloadServico.cs" />
     <Compile Include="Interfaces\IInspecaoServico.cs" />
+    <Compile Include="ModelService\Enumeracao\Enum.cs" />
     <Compile Include="ModelService\ExcecaoService.cs" />
     <Compile Include="ModelService\HistoricoDeExclusaoModelService.cs" />
     <Compile Include="ModelService\HistoricoExclusaoServiceModel.cs" />
