@@ -15,6 +15,7 @@ namespace INMETRO.CIPP.WEB.Agendamento
         private readonly GerenciarFtp _ftp;
         private readonly GerenciarCsv _csv;
         private readonly InspecaoDominioServico _inspecao;
+        private readonly GerenciarSftp _sftp;
        
 
 
@@ -27,12 +28,13 @@ namespace INMETRO.CIPP.WEB.Agendamento
             _descompactar = new GerenciarArquivoCompactado();
             _ftp = new GerenciarFtp();
             _csv = new GerenciarCsv();
+            _sftp = new GerenciarSftp();
           
         }
 
         public void Execute(IJobExecutionContext context)
         {
-            var servico = new DownloadServico(_domainService, _ftp, _descompactar, _csv, _inspecao);
+            var servico = new DownloadServico(_domainService, _ftp, _descompactar, _csv, _inspecao, _sftp);
             servico.DownloadInspecoesPorRotinaAutomatica().ConfigureAwait(true);
         }
     }

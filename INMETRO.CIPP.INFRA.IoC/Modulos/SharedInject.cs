@@ -12,6 +12,7 @@ namespace INMETRO.CIPP.INFRA.IoC.Modulos
             container.Register<IGerenciarFtp, GerenciarFtp>(Lifestyle.Scoped);
             container.Register<IGerenciarArquivoCompactado, GerenciarArquivoCompactado>(Lifestyle.Scoped);
             container.Register<IGerenciarCsv, GerenciarCsv>(Lifestyle.Scoped);
+            container.Register<IGerenciarSftp, GerenciarSftp>(Lifestyle.Scoped);
             return container;
         }
     }

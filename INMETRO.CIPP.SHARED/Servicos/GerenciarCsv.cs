@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlTypes;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -71,9 +69,9 @@ namespace INMETRO.CIPP.SHARED.Servicos
             inspecaoCsv.ExportToFile(path);
             
             //todo:Informar emails que irão receber emails da rotina automática
-            email.EnviarEmailComAnexo("wtslima@gmail.com", path);
+            //email.EnviarEmailComAnexo("wtslima@gmail.com", path);
             email.EnviarEmailComAnexo("astrindade@colaborador.inmetro.gov.br", path);
-           // email.EnviarEmailComAnexo("recebe@.inmetro.gov.br", path);
+            email.EnviarEmailComAnexo("recebe@.inmetro.gov.br", path);
             return path;
         }
 

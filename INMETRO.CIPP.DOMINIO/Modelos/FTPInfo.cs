@@ -12,8 +12,8 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
         public string DiretorioInspecao { get; set; }
 
         [Required]
-        [Column("DES_DIRETORIO_REMOTO_CIPP")] //123456.zip
-        public string DiretorioInspecaoRemoto  { get; set; }
+        [Column("CDN_TIPO_INTEGRACAO")] //1 ou 2.zip
+        public int TipoIntegracao  { get; set; }
 
         [Required]
         [Column("DES_DIRETORIO_LOCAL_CIPP")]  //c:\Inspecao\NomeOraganismo
@@ -37,10 +37,10 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
 
         public virtual Organismo Organismo { get; set; }
 
-        public FTPInfo(int organismoId, string diretorioInspecao, string diretorioInspecaoRemoto, string diretorioInspecaoLocal, string host, string usuario, string senha)
+        public FTPInfo(int organismoId, string diretorioInspecao, int tipoIntegracao, string diretorioInspecaoLocal, string host, string usuario, string senha)
         {
             DiretorioInspecao = diretorioInspecao;
-            DiretorioInspecaoRemoto = diretorioInspecaoRemoto;
+            TipoIntegracao = tipoIntegracao;
             DiretorioInspecaoLocal = diretorioInspecaoLocal;
             HostURI = host;
             Usuario = usuario;

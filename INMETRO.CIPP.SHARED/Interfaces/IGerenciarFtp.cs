@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using INMETRO.CIPP.DOMINIO.Modelos;
 
 namespace INMETRO.CIPP.SHARED.Interfaces
