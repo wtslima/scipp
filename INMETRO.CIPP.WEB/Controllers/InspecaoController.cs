@@ -21,6 +21,8 @@ namespace INMETRO.CIPP.WEB.Controllers
             var user = HttpContext.Session["Usuario"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
+
+           
             return View();
         }
 
@@ -30,11 +32,11 @@ namespace INMETRO.CIPP.WEB.Controllers
             try
             {
                 
-                var pager = new Pager(0, page);
+                
                 var retorno = RetornarInspecoes(model.DownloadModel);
-
+                var pager = new Pager(retorno.Inspecoes.Count(), page);
                 retorno.Inspecoes.ToList().Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize);
-                pager = new Pager(retorno.Inspecoes.ToList().Count, page);
+                
                 retorno.Pager = pager;
                 return View(retorno);
 

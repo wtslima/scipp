@@ -1,88 +1,93 @@
 ﻿@model INMETRO.CIPP.WEB.Models.InspecoesGravadasModel
 
-<table class="table table-striped table-bordered table-hover" >
-    <thead  >
-    <tr>
-        <th style="text-align:center">
-            @Html.DisplayName("CÓDIGO OIA-PP")
-        </th>
-        <th style="text-align:center">
-            @Html.DisplayName("CIPP")
-        </th>
-        <th style="text-align:center">
-            @Html.DisplayName("PLACA")
-        </th>
-        <th style="text-align:center">
-            @Html.DisplayName("EQUIPAMENTO")
-        </th>
-       <th style="text-align:center" >
-            @Html.DisplayName("DATA INSPEÇÃO")
-        </th>
-           
-    </tr>
-    </thead>
-    <tbody>
-    @if (Model.Inspecoes != null)
-    {
-        foreach (var item in Model.Inspecoes.ToList())
-        {
-            <tr >
-                <td align="center">
-                    @Html.DisplayFor(modelItem => item.CodigoOia)
-                </td>
-                <td align="center">
-                    @Html.DisplayFor(modelItem => item.CodigoCipp)
-                </td>
-                <td align="center">
-                    @Html.DisplayFor(modelItem => item.Placa)
-                </td>
-                <td align="center">
-                    @Html.DisplayFor(modelItem => item.Equipamento)
-                </td>
-               <td align="center">
-                    @Html.DisplayFor(modelItem => item.DataInspecao)
-                </td>
-               
-            </tr>
-        }
-    }
-    </tbody>
-</table>
-
-<br />
-
-<!-- pager -->
-@*@if (Model.Pager.EndPage > 1)
+@using (Html.BeginForm("ConsultaInspecao", "Inspecao", FormMethod.Post))
 {
-    <ul class="pagination">
-        @if (Model.Pager.CurrentPage > 1)
-        {
-            <li>
-                <a href="~/Inspecao/ConsultaInspecao">First</a>
-            </li>
-            <li>
-                <a href="~/Inspecao/ConsultaInspecao?page@(Model.Pager.CurrentPage - 1)">Previous</a>
-            </li>
-        }
 
-        @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
-        {
-            <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
-                <a href="~/Inspecao/ConsultaInspecao?page=@page">@page</a>
-            </li>
-        }
 
-        @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
-        {
-            <li>
-                <a href="~/Inspecao/ConsultaInspecao?page=@(Model.Pager.CurrentPage + 1)">Next</a>
-            </li>
-            <li>
-                <a href="~/Inspecao/ConsultaInspecao?page=@(Model.Pager.TotalPages)">Last</a>
-            </li>
-        }
-    </ul>
-}*@
+    <table class="table table-striped table-bordered table-hover">
+        <thead>
+            <tr>
+                <th style="text-align:center">
+                    @Html.DisplayName("CÓDIGO OIA-PP")
+                </th>
+                <th style="text-align:center">
+                    @Html.DisplayName("CIPP")
+                </th>
+                <th style="text-align:center">
+                    @Html.DisplayName("PLACA")
+                </th>
+                <th style="text-align:center">
+                    @Html.DisplayName("EQUIPAMENTO")
+                </th>
+                <th style="text-align:center">
+                    @Html.DisplayName("DATA INSPEÇÃO")
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Inspecoes != null)
+            {
+                foreach (var item in Model.Inspecoes.ToList())
+                {
+                    <tr>
+                        <td align="center">
+                            @Html.DisplayFor(modelItem => item.CodigoOia)
+                        </td>
+                        <td align="center">
+                            @Html.DisplayFor(modelItem => item.CodigoCipp)
+                        </td>
+                        <td align="center">
+                            @Html.DisplayFor(modelItem => item.Placa)
+                        </td>
+                        <td align="center">
+                            @Html.DisplayFor(modelItem => item.Equipamento)
+                        </td>
+                        <td align="center">
+                            @Html.DisplayFor(modelItem => item.DataInspecao)
+                        </td>
+
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+    <br />
+
+    <!-- pager -->
+    @*if (Model.Pager.EndPage > 1)
+    {
+        <ul class="pagination">
+            @if (Model.Pager.CurrentPage > 1)
+            {
+                <li>
+                    <a href="~/Inspecao/ConsultaInspecao">First</a>
+                </li>
+                <li>
+                    <a href="~/Inspecao/ConsultaInspecao?page@(Model.Pager.CurrentPage - 1)">Previous</a>
+                </li>
+            }
+
+            @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+            {
+                <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
+                    <a href="~/Inspecao/ConsultaInspecao?page=@page">@page</a>
+                </li>
+            }
+
+            @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+            {
+                <li>
+                    <a href="~/Inspecao/ConsultaInspecao?page=@(Model.Pager.CurrentPage + 1)">Next</a>
+                </li>
+                <li>
+                    <a href="~/Inspecao/ConsultaInspecao?page=@(Model.Pager.TotalPages)">Last</a>
+                </li>
+            }
+        </ul>*@
+    }
+}
 
 
 

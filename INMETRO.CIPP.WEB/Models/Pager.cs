@@ -6,9 +6,9 @@ namespace INMETRO.CIPP.WEB.Models
     {
         public Pager(int totalItems, int? page, int pageSize = 10)
         {
-            
-            var totalPages = (int)Math.Ceiling(totalItems / (decimal)pageSize);
-            var currentPage = page ?? 1;
+
+            var totalPages = (int)Math.Ceiling((decimal)totalItems / (decimal)pageSize);
+            var currentPage = page != null ? (int)page : 1;
             var startPage = currentPage - 5;
             var endPage = currentPage + 4;
             if (startPage <= 0)
