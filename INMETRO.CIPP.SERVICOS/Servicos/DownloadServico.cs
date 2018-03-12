@@ -211,11 +211,16 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
         private void DownloadInspecaoAutomatica(FTPInfo ftpInfo, IEnumerable<string> diretorios)
         {
-
-            foreach (var item in diretorios)
+            List<string> diretoriosValidos = new List<string>();
+            if (diretorios != null)
+            {
+                 diretoriosValidos = ObterSomenteDiretoriosValidos(diretorios);
+            }
+            foreach (var item in diretoriosValidos)
             {
                 try
                 {
+                    
                     var diretorioLocal = ObterDiretorioLocal(ftpInfo.DiretorioInspecaoLocal, item);
                     if (!DownloadArquivo(item, diretorioLocal, ftpInfo)) continue;
                     if (!_descompactar.DescompactarArquivo(diretorioLocal, item)) continue;
@@ -232,7 +237,6 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 }
 
             }
-
         }
 
         private void DownloadInspecao(FTPInfo ftpInfo, string diretorioLocal, string diretorioRemoto, string usuario)
