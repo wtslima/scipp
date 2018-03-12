@@ -32,7 +32,6 @@ namespace INMETRO.CIPP.WEB.Controllers
             try
             {
                 
-                
                 var retorno = RetornarInspecoes(model.DownloadModel);
                 var pager = new Pager(retorno.Inspecoes.Count(), page);
                 retorno.Inspecoes.ToList().Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize);
@@ -45,7 +44,7 @@ namespace INMETRO.CIPP.WEB.Controllers
             {
                 ModelState.Clear();
                 var exception = new ExceptionSystem();
-                if (e.Message != null && e.Message != null) exception.Mensagem = e.Message;
+                if (e.Message != null) exception.Mensagem = e.Message;
                 return PartialView("_Error", exception);
             }
 

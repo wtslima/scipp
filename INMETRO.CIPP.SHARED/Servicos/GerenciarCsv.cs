@@ -94,7 +94,9 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
         private InspecaoCsvModel ObterInspecao(string inputLine)
         {
-         
+            string format;
+            CultureInfo provider = CultureInfo.InvariantCulture;
+            format = "ddMMyyyy";
             string inputLineWithoutExtraCommas = ReplaceDelimitersWithinQuotes(inputLine);
             _inputColumns = inputLineWithoutExtraCommas.Split(',').ToList();
 
@@ -106,9 +108,16 @@ namespace INMETRO.CIPP.SHARED.Servicos
                 inspecao.CodigoCipp = _inputColumns[1];
                 inspecao.PlacaLicenca = _inputColumns[2];
                 inspecao.NumeroEquipamento =  _inputColumns[3];
-
-                var date = DateTime.ParseExact(_inputColumns[4], "ddMMyyyy", CultureInfo.InvariantCulture);
-                inspecao.DataInspecao = date;
+                if (_inputColumns[4].Length == 7)
+                {
+                    var newDate = "0" + _inputColumns[4];
+                    inspecao.DataInspecao = DateTime.ParseExact(newDate, format, provider);
+                }
+                else
+                {
+                    inspecao.DataInspecao = DateTime.ParseExact(_inputColumns[4], format, provider);
+                }
+               
                 break;
             }
 

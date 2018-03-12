@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Conversao.cs" />
+    <Compile Include="ExcecaoServico\DownloadExcecaoService.cs" />
     <Compile Include="Interfaces\IDownloadServico.cs" />
     <Compile Include="Interfaces\IInspecaoServico.cs" />
     <Compile Include="ModelService\Enumeracao\Enum.cs" />

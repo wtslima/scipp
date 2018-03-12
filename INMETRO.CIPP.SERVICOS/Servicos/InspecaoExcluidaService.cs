@@ -18,6 +18,8 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         private readonly IHistoricoExclusao _historicoInspecaoExcluida;
         private readonly IOrganismoRepositorio _organismoRepositorio;
         private readonly IGerenciarFtp _ftp;
+        List<Exception> _listExcecao = new List<Exception>();
+
 
         public InspecaoExcluidaService(IHistoricoExclusao hIstoricoInspecaoExcluida, IOrganismoRepositorio organismoRepositorio, IGerenciarFtp ftp)
         {
@@ -49,8 +51,8 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             catch (Exception e)
             {
 
-                enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br", e.Message);
-                enviar.EnviarEmail("astrindade@colaborador.inmetro.gov.br", e.Message);
+                enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br", _listExcecao, "");
+                enviar.EnviarEmail("astrindade@colaborador.inmetro.gov.br", _listExcecao,"");
                
             }
             return false;
@@ -75,8 +77,10 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             }
             catch (Exception e)
             {
-                throw e;
+                _listExcecao.Add(e);
+                throw;
             }
+            
         }
 
         public HistoricoDeExclusaoModelService ObterTodasInspecoesExcluidas()

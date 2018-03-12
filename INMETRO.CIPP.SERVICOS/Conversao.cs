@@ -112,7 +112,7 @@ namespace INMETRO.CIPP.SERVICOS
                     {
                         CodigoOia = value.CodigoOIA.ToString(),
                         CodigoCipp = value.CodigoCIPP,
-                        Equipamento = value.NumeroEquipamento.ToString(),
+                        Equipamento = value.NumeroEquipamento,
                         Placa = value.PlacaLicenca,
                         DataInspecao = value.DataInspecao.Date
                         

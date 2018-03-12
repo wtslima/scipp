@@ -18,5 +18,7 @@
         public const string NenhumArquivoEncontrado = "Nenhum Inspeção foi encontrado ao realizar a Rotina Automática";
 
         public const string ErroIntegracaoObterArquivoc = "Nenhum Inspeção foi encontrado ao realizar a Rotina Automática";
+
+        public const string DiretoriosInvalidos = "Não existem diretórios válidos disponíveis para o CÓDIGO-OI-PP{0}.";
     }
 }

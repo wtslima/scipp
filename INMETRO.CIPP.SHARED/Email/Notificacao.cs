@@ -35,8 +35,6 @@ namespace INMETRO.CIPP.SHARED.Email
 
             };
 
-        
-
             using (var message = new MailMessage(fromAddress, toAddress)
             {
 
@@ -63,13 +61,8 @@ namespace INMETRO.CIPP.SHARED.Email
         }
 
 
-        public void EnviarEmail(string email, string mensagem)
+        public void EnviarEmail(string email,  List<Exception> erros, string codigo)
         {
-
-            var fromAddress = new MailAddress("cipp_naoresponda@inmetro.gov.br", "CIPP");
-            var toAddress = new MailAddress(email);
-            string mensagemErro = mensagem;
-
             
             var smtp = new SmtpClient
             {
@@ -83,19 +76,23 @@ namespace INMETRO.CIPP.SHARED.Email
 
             };
 
+            var MessageErro = new MailMessage();
 
+            MessageErro.To.Add(email);
+            MessageErro.Subject = "Erro na realização da inspeções automáticas";
+            MessageErro.From = new MailAddress("cipp_naoresponda@inmetro.gov.br", "CIPP");
+            MessageErro.IsBodyHtml = true;
 
-            using (var message = new MailMessage(fromAddress, toAddress)
+            foreach (var item in erros)
             {
-                Subject = "Erro na realização da inspeções automáticas",
-                Body = mensagemErro,
-                IsBodyHtml = false
-            })
-            {
+                MessageErro.Body += item +" "+ codigo;
+            }
+
+           
 
                 try
                 {
-                    smtp.Send(message);
+                    smtp.Send(MessageErro);
 
                 }
                 catch (Exception ex)
@@ -103,7 +100,6 @@ namespace INMETRO.CIPP.SHARED.Email
                     //await SendEmail("ryan@rrichardsconsulting.com", "Failed To Send Notification Email - DHI", String.Format("Failed to send email\n\n Exception: {0}\n\n to {1}\n\n, subject: {2}\n\n text: {3}", ex.Message, email, subject, text));
                 }
 
-            }
 
         }
     }

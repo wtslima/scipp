@@ -6,6 +6,7 @@ namespace INMETRO.CIPP.SERVICOS.ModelService
     {
         public IEnumerable<InspecaoModelServico> InspecoesGravadas { get; set; }
         public ExcecaoService Excecao { get; set; }
+        public List<string> DiretoriosValidos { get; set; }
         
     }
 }
