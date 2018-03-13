@@ -40,7 +40,11 @@
 
                 $("#combo").change(function () {
 
-                    if ($("#combo :selected").val() != 0) {
+                    if (valueCombo !== 0) {
+                        $("#" + $("#combo :valueCombo").val()).show();
+                    }
+
+                    if ($("#combo :selected").val() !== 0) {
                         $("#" + $("#combo :selected").val()).show();
                         $("#btnBuscar").show();
                         $("#Cancelar").show();

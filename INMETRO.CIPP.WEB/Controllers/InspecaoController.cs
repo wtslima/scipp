@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using INMETRO.CIPP.DOMINIO.Modelos;
 using INMETRO.CIPP.SERVICOS.Interfaces;
 using INMETRO.CIPP.WEB.Models;
 
@@ -17,29 +16,31 @@ namespace INMETRO.CIPP.WEB.Controllers
         }
 
         // GET: Inspecao
-        public ActionResult ConsultaInspecao(int? page)
+        public ActionResult ConsultaInspecao()
         {
+            
             var user = HttpContext.Session["Usuario"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
-
+           
            
             return View();
         }
 
         [HttpPost]
-        public ActionResult ConsultaInspecao(InspecoesGravadasModel model, int? page)
+        public ActionResult ConsultaInspecao(InspecoesGravadasModel model)
         {
             try
             {
                 
                 var retorno = RetornarInspecoes(model.DownloadModel);
-                var pager = new Pager(retorno.Inspecoes.Count(), page);
+                
+                var pager = new Pager(retorno.Inspecoes.Count(), model.Page);
 
 
                 var viewModel = new InspecoesGravadasModel()
                 {
-                    Inspecoes = retorno.Inspecoes.Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize),
+                    Inspecoes = retorno.Inspecoes.Skip(((pager.CurrentPage - 1) * pager.PageSize)).Take(pager.PageSize),
                     Pager = pager,
                     Mensagem = new MensagemModel
                     {
@@ -52,10 +53,12 @@ namespace INMETRO.CIPP.WEB.Controllers
                         CodigoCipp = model.DownloadModel.CodigoCipp,
                         DataInspecao = model.DownloadModel.DataInspecao,
                         PlacaLicenca = model.DownloadModel.PlacaLicenca
-                    }
+                    },
+                    Page = model.Page
                 };
-
-                return View(viewModel);
+                
+                    return View(viewModel);
+               
 
             }
             catch (Exception e)
@@ -141,7 +144,6 @@ namespace INMETRO.CIPP.WEB.Controllers
                 throw e;
             }
         }
-
 
     }
 }

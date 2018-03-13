@@ -1,61 +1,63 @@
-﻿@model INMETRO.CIPP.WEB.Models.InspecoesGravadasModel
+﻿
+@model INMETRO.CIPP.WEB.Models.InspecoesGravadasModel
 
 @using (Html.BeginForm("ConsultaInspecao", "Inspecao", FormMethod.Post))
 {
 
 
-    <table class="table table-striped table-bordered table-hover">
+    <table id="idtable" class="table table-striped table-bordered table-hover">
         <thead>
-            <tr>
-                <th style="text-align:center">
-                    @Html.DisplayName("CÓDIGO OIA-PP")
-                </th>
-                <th style="text-align:center">
-                    @Html.DisplayName("CIPP")
-                </th>
-                <th style="text-align:center">
-                    @Html.DisplayName("PLACA")
-                </th>
-                <th style="text-align:center">
-                    @Html.DisplayName("EQUIPAMENTO")
-                </th>
-                <th style="text-align:center">
-                    @Html.DisplayName("DATA INSPEÇÃO")
-                </th>
+        <tr>
+            <th style="text-align: center">
+                @Html.DisplayName("CÓDIGO OIA-PP")
+            </th>
+            <th style="text-align: center">
+                @Html.DisplayName("CIPP")
+            </th>
+            <th style="text-align: center">
+                @Html.DisplayName("PLACA")
+            </th>
+            <th style="text-align: center">
+                @Html.DisplayName("EQUIPAMENTO")
+            </th>
+            <th style="text-align: center">
+                @Html.DisplayName("DATA INSPEÇÃO")
+            </th>
 
-            </tr>
+        </tr>
         </thead>
         <tbody>
-            @if (Model.Inspecoes != null)
+        @if (Model.Inspecoes != null)
+        {
+            foreach (var item in Model.Inspecoes
+                )
             {
-                foreach (var item in Model.Inspecoes
-                    )
-                {
-                    <tr>
-                        <td align="center">
-                            @Html.DisplayFor(modelItem => item.CodigoOia)
-                        </td>
-                        <td align="center">
-                            @Html.DisplayFor(modelItem => item.CodigoCipp)
-                        </td>
-                        <td align="center">
-                            @Html.DisplayFor(modelItem => item.Placa)
-                        </td>
-                        <td align="center">
-                            @Html.DisplayFor(modelItem => item.Equipamento)
-                        </td>
-                        <td align="center">
-                            @Html.DisplayFor(modelItem => item.DataInspecao)
-                        </td>
+                <tr>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.CodigoOia)
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.CodigoCipp)
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.Placa)
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.Equipamento)
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.DataInspecao)
+                    </td>
 
-                    </tr>
-                }
+                </tr>
             }
+        }
         </tbody>
     </table>
-
-    <br />
-    @*<table cellpadding="0" cellspacing="0">
+   
+    <br/>
+    <!-- pager -->
+    <table cellpadding="0" cellspacing="0">
         <tr>
             @for (int i = 1; i <= Model.Pager.TotalPages; i++)
             {
@@ -71,60 +73,46 @@
                 </td>
             }
         </tr>
-    </table>*@
-    @*<input type="hidden" id="hfCurrentPageIndex" name="currentPageIndex"/>*@
+    </table>
+    <input type="hidden" id="hfCurrentPageIndex" value="2" name="@Model.Page"/>
+   
+    <script type="text/javascript">
 
-@*<script type="text/javascript">
+        function PagerClick(index) {
+            var urlSave = '@Url.Action("ConsultaInspecao")';
+            var cod = $("#codigoId").val();
 
-    function PagerClick(index) {
+            var download =
+            {
+                codigoOia : cod
+            }
+            //replicated structure as the emnployee class in server C# code
+            var emp = {
+                DownloadModel: download,
+                Page: index
+              
+            };
+            $.ajax({
+                    type:"POST",
+                    url:urlSave,
+                    data:JSON.stringify(emp),//use this in order to MVC binding to take place 
+                    datatype:"JSON",
+                    contentType: "application/json; charset=utf-8",
+                    success: function(data) {
+                         
+                    } 
+                   
+            }
+                
+            );
+           
+        }
 
-        
-        document.getElementById("hfCurrentPageIndex").value = index;
-        document.forms[].submit();
-    }
-
-</script>*@
+    </script>
 
 
-    <!-- pager -->
-    if (Model.Pager.EndPage > 1)
-     {
-         <ul class="pagination">
-             @if (Model.Pager.CurrentPage > 1)
-             {
-                 <li>
-                     <a href="~/Inspecao/ConsultaInspecao">First</a>
-                 </li>
-                 <li>
-                     <a href="~/Inspecao/ConsultaInspecao?model=@Model?page@(Model.Pager.CurrentPage - 1)">Previous</a>
-                 </li>
-             }
-
-             @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
-             {
-                 <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
-                    
-                    <a href="~/Inspecao/ConsultaInspecao?{model=@Model}?page=@page">@page</a> 
-                 </li>
-             }
-
-             @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
-             {
-                 <li>
-                     @*@Html.ActionLink("Next","ConsultaInspecao", "Inspecao", new { Model, page = Model.Pager.CurrentPage }, 
-                         null)*@
-                     <a href="~/Inspecao/ConsultaInspecao?model=@Model?page=@(Model.Pager.CurrentPage + 1)">Next</a>
-                 </li>
-                 <li>
-                     @*@Ajax.ActionLink("Next","ConsultaInspecao", "Inspecao", new { Model, page = Model.Pager.CurrentPage }, 
-                         null)*@ 
-                <a href="~/Inspecao/ConsultaInspecao?model=@Model?page=@(Model.Pager.TotalPages)">Last</a>
-                 </li>
-             }
-         </ul>
-     }
 }
-
+    
 
    
     
