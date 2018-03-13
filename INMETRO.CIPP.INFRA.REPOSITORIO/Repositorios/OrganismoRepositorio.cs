@@ -55,7 +55,8 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                             DiretorioInspecaoLocal = item.FtpInfo.DiretorioInspecaoLocal,
                             HostURI = item.FtpInfo.HostURI,
                             Usuario = item.FtpInfo.Usuario,
-                            Senha = item.FtpInfo.Senha
+                            Senha = item.FtpInfo.Senha,
+                            TipoIntegracao = item.FtpInfo.TipoIntegracao
                         }
                     }).ToList();
 
