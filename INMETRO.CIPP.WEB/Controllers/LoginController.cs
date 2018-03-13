@@ -39,7 +39,7 @@ namespace INMETRO.CIPP.WEB.Controllers
 
                 try
                 {
-#if !DEBUG
+
                     var usuario = autenticacao.Autenticar(token,
                         new Login { UserName = model.Usuario, Senha = model.Senha });
 
@@ -57,8 +57,8 @@ namespace INMETRO.CIPP.WEB.Controllers
                             return RedirectToAction(returnUrl);
                         }
                     }
-#endif
-                    Session["Usuario"] = "Wellington";
+
+                   // Session["Usuario"] = "Wellington";
                     usuarioCorrente = Session["Usuario"].ToString();
                     return RedirectToAction("Download", "Download", usuarioCorrente);
 
@@ -66,7 +66,7 @@ namespace INMETRO.CIPP.WEB.Controllers
                 catch (Exception ex)
                 {
                     var exception = new ExceptionSystem();
-                    if (ex.InnerException != null) exception.Mensagem = ex.InnerException.ToString();
+                    if (ex.Message != null) exception.Mensagem = ex.Message.ToString();
                     return PartialView("_Error", exception);
                 }
             }

@@ -28,7 +28,8 @@
         <tbody>
             @if (Model.Inspecoes != null)
             {
-                foreach (var item in Model.Inspecoes.ToList())
+                foreach (var item in Model.Inspecoes
+                    )
                 {
                     <tr>
                         <td align="center">
@@ -54,40 +55,80 @@
     </table>
 
     <br />
+    @*<table cellpadding="0" cellspacing="0">
+        <tr>
+            @for (int i = 1; i <= Model.Pager.TotalPages; i++)
+            {
+                <td>
+                    @if (i != Model.Pager.CurrentPage)
+                    {
+                        <a href="javascript:PagerClick(@i);">@i</a>
+                    }
+                    else
+                    {
+                        <span>@i</span>
+                    }
+                </td>
+            }
+        </tr>
+    </table>*@
+    @*<input type="hidden" id="hfCurrentPageIndex" name="currentPageIndex"/>*@
+
+@*<script type="text/javascript">
+
+    function PagerClick(index) {
+
+        
+        document.getElementById("hfCurrentPageIndex").value = index;
+        document.forms[].submit();
+    }
+
+</script>*@
+
 
     <!-- pager -->
-    @*if (Model.Pager.EndPage > 1)
-    {
-        <ul class="pagination">
-            @if (Model.Pager.CurrentPage > 1)
-            {
-                <li>
-                    <a href="~/Inspecao/ConsultaInspecao">First</a>
-                </li>
-                <li>
-                    <a href="~/Inspecao/ConsultaInspecao?page@(Model.Pager.CurrentPage - 1)">Previous</a>
-                </li>
-            }
+    if (Model.Pager.EndPage > 1)
+     {
+         <ul class="pagination">
+             @if (Model.Pager.CurrentPage > 1)
+             {
+                 <li>
+                     <a href="~/Inspecao/ConsultaInspecao">First</a>
+                 </li>
+                 <li>
+                     <a href="~/Inspecao/ConsultaInspecao?model=@Model?page@(Model.Pager.CurrentPage - 1)">Previous</a>
+                 </li>
+             }
 
-            @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
-            {
-                <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
-                    <a href="~/Inspecao/ConsultaInspecao?page=@page">@page</a>
-                </li>
-            }
+             @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+             {
+                 <li class="@(page == Model.Pager.CurrentPage ? "active" : "")">
+                    
+                    <a href="~/Inspecao/ConsultaInspecao?{model=@Model}?page=@page">@page</a> 
+                 </li>
+             }
 
-            @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
-            {
-                <li>
-                    <a href="~/Inspecao/ConsultaInspecao?page=@(Model.Pager.CurrentPage + 1)">Next</a>
-                </li>
-                <li>
-                    <a href="~/Inspecao/ConsultaInspecao?page=@(Model.Pager.TotalPages)">Last</a>
-                </li>
-            }
-        </ul>
-    }*@
+             @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+             {
+                 <li>
+                     @*@Html.ActionLink("Next","ConsultaInspecao", "Inspecao", new { Model, page = Model.Pager.CurrentPage }, 
+                         null)*@
+                     <a href="~/Inspecao/ConsultaInspecao?model=@Model?page=@(Model.Pager.CurrentPage + 1)">Next</a>
+                 </li>
+                 <li>
+                     @*@Ajax.ActionLink("Next","ConsultaInspecao", "Inspecao", new { Model, page = Model.Pager.CurrentPage }, 
+                         null)*@ 
+                <a href="~/Inspecao/ConsultaInspecao?model=@Model?page=@(Model.Pager.TotalPages)">Last</a>
+                 </li>
+             }
+         </ul>
+     }
 }
+
+
+   
+    
+
 
 
 

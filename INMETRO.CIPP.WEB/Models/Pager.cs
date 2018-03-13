@@ -7,6 +7,7 @@ namespace INMETRO.CIPP.WEB.Models
         public Pager(int totalItems, int? page, int pageSize = 10)
         {
 
+        // calculate total, start and end pages
             var totalPages = (int)Math.Ceiling((decimal)totalItems / (decimal)pageSize);
             var currentPage = page != null ? (int)page : 1;
             var startPage = currentPage - 5;
@@ -33,11 +34,12 @@ namespace INMETRO.CIPP.WEB.Models
             EndPage = endPage;
         }
 
-        public int TotalItems { get; }
-        public int CurrentPage { get; }
-        public int PageSize { get; }
-        public int TotalPages { get; }
-        public int StartPage { get; }
-        public int EndPage { get; }
+
+        public int TotalItems { get; private set; }
+        public int CurrentPage { get; private set; }
+        public int PageSize { get; private set; }
+        public int TotalPages { get; private set; }
+        public int StartPage { get; private set; }
+        public int EndPage { get; private set; }
     }
 }

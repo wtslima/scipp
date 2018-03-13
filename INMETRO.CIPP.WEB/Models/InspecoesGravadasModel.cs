@@ -8,5 +8,6 @@ namespace INMETRO.CIPP.WEB.Models
         public Pager Pager { get; set; }
         public MensagemModel Mensagem { get; set; }
         public DownloadModel DownloadModel { get; set; }
+      
     }
 }

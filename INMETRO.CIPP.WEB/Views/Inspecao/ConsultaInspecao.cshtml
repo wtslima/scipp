@@ -77,13 +77,13 @@
         @Html.AntiForgeryToken()
     
        <form name="contact-form" action="@Url.Action("ConsultaInspecao", "Inspecao")" class="form form-inline" id="download" method="post" novalidate="novalidate">
-           @Html.Label("Consultar por") <select id="combo" class="form-control">
-               <option value="0">- Selecione -</option>
+           @Html.Label("CONSULTAR POR") <select id="combo" class="form-control">
+               <option value="0">- SELECIONE -</option>
                <option value="idCodigoOia">CÓDIGO OIA-PP</option>
                <option value="idCipp">Nº CIPP</option>
                <option value="idDateInsp">DATA DA INSPECÃO</option>
                <option value="idPlaca">PLACA DE LICENCIAMENTO</option>
-               <option value="4">Buscar Todos</option>
+               <option value="4">BUSCAR TODOS</option>
            </select>
     
             <div id="idCodigoOia" class="form-group campo-insp" style="margin-left: 25px">
@@ -99,12 +99,12 @@
                 @Html.ValidationMessage("CodigoCipp")
             </div>
             <div id="idDateInsp" class="form-group campo-insp" style="margin-left: 25px" hidden>
-                @Html.Label("Data da Inspeção")
+                @Html.Label("DATA DA INSPEÇÃO")
                 @Html.EditorFor(model => model.DownloadModel.DataInspecao, new {htmlAttributes = new {@class = "form-control date", Type = "text"}})
                 @Html.ValidationMessage("DataInspecao")
             </div>
             <div id="idPlaca" class="form-group campo-insp" style="margin-left: 25px" hidden>
-                @Html.Label("Placa de Licença")
+                @Html.Label("PLACA DE LICENÇA")
                 @Html.TextBoxFor(model => model.DownloadModel.PlacaLicenca, new {@class = "num form-control", maxlength = "10" })
                 @Html.ValidationMessage("PlacaLicenca")
             </div>
