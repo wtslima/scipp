@@ -40,10 +40,6 @@
 
                 $("#combo").change(function () {
 
-                    if (valueCombo !== 0) {
-                        $("#" + $("#combo :valueCombo").val()).show();
-                    }
-
                     if ($("#combo :selected").val() !== 0) {
                         $("#" + $("#combo :selected").val()).show();
                         $("#btnBuscar").show();
@@ -73,8 +69,10 @@
                 $("#Cippid").val("");
                 $("#DownloadModel_DataInspecao").val("");
                 $("#DownloadModel_PlacaLicenca").val("");
+                $("#hfCurrentPageIndex").val("");
             }
 
+            
         </script>
       
     
@@ -112,7 +110,7 @@
                 @Html.TextBoxFor(model => model.DownloadModel.PlacaLicenca, new {@class = "num form-control", maxlength = "10" })
                 @Html.ValidationMessage("PlacaLicenca")
             </div>
-
+           @Html.HiddenFor(s => s.Page, new {id="hfCurrentPageIndex" })
             <input type="submit" class="btn btn-primary bg-primary campo-insp" value="Buscar" title="Download"  id="btnBuscar" hidden>
             <input type="reset" class="btn btn-basic campo-insp" value="Limpar" title="Cancelar" id="Cancelar" hidden>
         </form>

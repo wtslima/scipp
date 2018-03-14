@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.UI;
 using INMETRO.CIPP.SERVICOS.Interfaces;
 using INMETRO.CIPP.WEB.Models;
 
@@ -28,7 +29,8 @@ namespace INMETRO.CIPP.WEB.Controllers
         }
 
         [HttpPost]
-        public ActionResult ConsultaInspecao(InspecoesGravadasModel model)
+        [ActionName("ConsultaInspecao")]
+        public ActionResult ConsultaInspecaoPost(InspecoesGravadasModel model)
         {
             try
             {
@@ -56,7 +58,7 @@ namespace INMETRO.CIPP.WEB.Controllers
                     },
                     Page = model.Page
                 };
-                
+                ModelState.Clear();
                     return View(viewModel);
                
 
