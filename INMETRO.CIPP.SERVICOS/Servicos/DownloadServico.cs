@@ -107,6 +107,15 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 diretorioRemoto);
             DownloadInspecao(organismo.FtpInfo, diretorioLocal, diretorioRemoto, usuario);
 
+            var listaErros = _listExcecao;
+
+            if (listaErros.Count > 0)
+            {
+                _enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br", _listExcecao, organismo.CodigoOIA.ToString());
+                //_enviar.EnviarEmail("astrindade@colaborador.inmetro.gov.br", _listExcecao, organismo.CodigoOIA.ToString());
+            }
+                
+
             return new InspecoesGravadasModelServico
             {
                 InspecoesGravadas = _listaInspecoesParaEnvio,
@@ -126,7 +135,12 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 var diretorioLocal = ObterDiretorioLocal(organismo.FtpInfo.DiretorioInspecaoLocal,
                     diretorioRemoto);
                 DownloadInspecao(organismo.FtpInfo, diretorioLocal, diretorioRemoto, usuario);
-
+                var listaErros = _listExcecao;
+                if (listaErros.Count > 0)
+                {
+                    _enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br", _listExcecao, organismo.CodigoOIA.ToString());
+                    //_enviar.EnviarEmail("astrindade@colaborador.inmetro.gov.br", _listExcecao, organismo.CodigoOIA.ToString());
+                }
 
             }
             return new InspecoesGravadasModelServico
@@ -232,10 +246,12 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 }
                 catch (Exception e)
                 {
-                    throw e;
+                    _listExcecao.Add(e);
                 }
 
             }
+
+            
         }
 
         private void DownloadInspecao(FTPInfo ftpInfo, string diretorioLocal, string diretorioRemoto, string usuario)
