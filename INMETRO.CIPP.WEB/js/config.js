@@ -13,4 +13,9 @@ $("document").ready(function () {
     $(".date").mask('00/00/0000');
     $(".num").mask('##');
 
+
+    //$(".pagination").find("a").click(function () {
+    //    $(this).parent("li").addClass("active");
+    //});
+
 });
