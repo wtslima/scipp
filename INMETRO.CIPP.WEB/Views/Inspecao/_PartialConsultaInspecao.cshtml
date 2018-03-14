@@ -56,14 +56,14 @@
 
     <br />
     <!-- pager -->
-    <table class="pagination">
+    @*<table class="pagination">
         <tr>
             @for (int i = 1; i <= Model.Pager.TotalPages; i++)
             {
                 <td>
                     @if (i != Model.Pager.CurrentPage)
                     {
-                       <a href="javascript:PagerClick(@i);">@i</a>
+                        <a href="javascript:PagerClick(@i);">@i</a>
                     }
                     else
                     {
@@ -72,9 +72,24 @@
                 </td>
             }
         </tr>
-    </table>
-    <input type="hidden" id="hfCurrentPageIndex"  name="Page" />
-    @Html.HiddenFor(s => s.Page, new {id="hfCurrentPageIndex" })
+    </table>*@
+
+    <ul class="pagination">
+        @for (int i = 1; i <= Model.Pager.TotalPages; i++)
+        {
+            if (i != Model.Pager.CurrentPage)
+            {
+                <li><a href="javascript:PagerClick(@i);">@i</a></li>
+            }
+            else
+            {
+                <li class="active"><span>@i</span></li>
+            }
+        }
+    </ul>
+
+    <input type="hidden" id="hfCurrentPageIndex" name="Page" />
+    @Html.HiddenFor(s => s.Page, new { id = "hfCurrentPageIndex" })
 </form>
 <script type="text/javascript">
 
