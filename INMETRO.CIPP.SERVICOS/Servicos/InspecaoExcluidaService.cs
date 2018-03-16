@@ -52,7 +52,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             {
 
                 enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br", _listExcecao, "");
-                enviar.EnviarEmail("astrindade@colaborador.inmetro.gov.br", _listExcecao,"");
+              //enviar.EnviarEmail("astrindade@colaborador.inmetro.gov.br", _listExcecao,"");
                
             }
             return false;
@@ -166,7 +166,6 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             }
             catch (Exception e)
             {
-
                 throw e;
             }
 
@@ -194,7 +193,6 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
         private bool TemMaisDe30Dias(DateTime fileDate)
         {
-           
             var limite = fileDate.AddDays(30);
             return DateTime.Now > limite;
         }
