@@ -120,7 +120,7 @@
     <br />
     <div class="col-md-10 col-md-offset-1">
 
-        @if (Model != null)
+        @if (Model != null && !Model.Mensagem.ExisteExcecao)
         {
 
             foreach (var item in Model.Inspecoes)
