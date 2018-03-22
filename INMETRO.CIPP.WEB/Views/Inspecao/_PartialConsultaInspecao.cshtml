@@ -74,7 +74,7 @@
         </tr>
     </table>*@
 
-    <ul class="pagination">
+    <ul id="idPagination" class="pagination">
         @for (int i = 1; i <= Model.Pager.TotalPages; i++)
         {
             if (i != Model.Pager.CurrentPage)

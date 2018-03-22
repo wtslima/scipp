@@ -13,8 +13,9 @@ namespace INMETRO.CIPP.WEB.Conversao
 
             if (value == null) return new InspecoesGravadasModel();
 
-            return new InspecoesGravadasModel
+            var inspecao = new InspecoesGravadasModel
             {
+
                 Inspecoes = value.InspecoesGravadas.Select(s => new InspecaoModel()
                 {
                     CodigoOia = s.CodigoOia,
@@ -29,8 +30,10 @@ namespace INMETRO.CIPP.WEB.Conversao
                     ExisteExcecao = value.Excecao.ExisteExcecao,
                     Mensagem = value.Excecao.Mensagem
                 }
-
             };
+
+            return inspecao;
+
         }
 
         public static List<HistoricoDeExclusaoModel> ConverterParaModelo(List<HistoricoExclusaoServiceModel> list)

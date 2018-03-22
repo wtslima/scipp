@@ -36,8 +36,10 @@ namespace INMETRO.CIPP.WEB.Controllers
             {
                 
                 var retorno = RetornarInspecoes(model.DownloadModel);
-                
-                var pager = new Pager(retorno.Inspecoes.Count(), model.Page);
+                if (model.Page == null)
+                    model.Page = 1;
+
+                var pager = new Pager(retorno.Inspecoes.ToList().Count, model.Page);
 
 
                 var viewModel = new InspecoesGravadasModel()
