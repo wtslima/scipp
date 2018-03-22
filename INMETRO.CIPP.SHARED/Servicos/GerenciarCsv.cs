@@ -71,7 +71,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
             //todo:Informar emails que irão receber emails da rotina automática
             //email.EnviarEmailComAnexo("wtslima@gmail.com", path);
             email.EnviarEmailComAnexo("wslima@colaborador.inmetro.gov.br", path);
-            email.EnviarEmailComAnexo("recebe@.inmetro.gov.br", path);
+            email.EnviarEmailComAnexo("scipp-recebe@.inmetro.gov.br", path);
             return path;
         }
 
@@ -94,34 +94,42 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
         private InspecaoCsvModel ObterInspecao(string inputLine)
         {
-            string format;
-            CultureInfo provider = CultureInfo.InvariantCulture;
-            format = "ddMMyyyy";
-            string inputLineWithoutExtraCommas = ReplaceDelimitersWithinQuotes(inputLine);
-            _inputColumns = inputLineWithoutExtraCommas.Split(',').ToList();
-
-            var inspecao = new InspecaoCsvModel();
-
-            for (var i = 0; i < _inputColumns.Count; )
+            try
             {
-                inspecao.CodigoOia = _inputColumns[0];
-                inspecao.CodigoCipp = _inputColumns[1];
-                inspecao.PlacaLicenca = _inputColumns[2];
-                inspecao.NumeroEquipamento =  _inputColumns[3];
-                if (_inputColumns[4].Length == 7)
-                {
-                    var newDate = "0" + _inputColumns[4];
-                    inspecao.DataInspecao = DateTime.ParseExact(newDate, format, provider);
-                }
-                else
-                {
-                    inspecao.DataInspecao = DateTime.ParseExact(_inputColumns[4], format, provider);
-                }
-               
-                break;
-            }
+                string format;
+                CultureInfo provider = CultureInfo.InvariantCulture;
+                format = "ddMMyyyy";
+                string inputLineWithoutExtraCommas = ReplaceDelimitersWithinQuotes(inputLine);
+                _inputColumns = inputLineWithoutExtraCommas.Split(',').ToList();
 
-            return inspecao;
+                var inspecao = new InspecaoCsvModel();
+
+                for (var i = 0; i < _inputColumns.Count;)
+                {
+                    inspecao.CodigoOia = _inputColumns[0];
+                    inspecao.CodigoCipp = _inputColumns[1];
+                    inspecao.PlacaLicenca = _inputColumns[2];
+                    inspecao.NumeroEquipamento = _inputColumns[3];
+                    if (_inputColumns[4].Length == 7)
+                    {
+                        var newDate = "0" + _inputColumns[4];
+                        inspecao.DataInspecao = DateTime.ParseExact(newDate, format, provider);
+                    }
+                    else
+                    {
+                        inspecao.DataInspecao = DateTime.ParseExact(_inputColumns[4], format, provider);
+                    }
+
+                    break;
+                }
+
+                return inspecao;
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Erro ao obter dados da Inspeção. Exceção {e}");
+            }
+            
         }
 
         private static string ReplaceDelimitersWithinQuotes(string inputLine)

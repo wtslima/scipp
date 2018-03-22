@@ -79,16 +79,16 @@ namespace INMETRO.CIPP.SHARED.Email
             var MessageErro = new MailMessage();
 
             MessageErro.To.Add(email);
-            MessageErro.Subject = "Erro na realização da inspeções automáticas";
+            MessageErro.Subject = "Erro na realização da inspeções automáticas ";
             MessageErro.From = new MailAddress("cipp_naoresponda@inmetro.gov.br", "CIPP");
             MessageErro.IsBodyHtml = true;
 
             foreach (var item in erros)
             {
-                MessageErro.Body += item +" "+ codigo;
+                MessageErro.Body += codigo + "</br>" +
+                    item.Message + "</br>";
             }
 
-           
 
                 try
                 {

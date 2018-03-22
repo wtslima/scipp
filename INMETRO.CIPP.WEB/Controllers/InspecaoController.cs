@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.UI;
 using INMETRO.CIPP.SERVICOS.Interfaces;
 using INMETRO.CIPP.WEB.Models;
 
@@ -36,14 +35,7 @@ namespace INMETRO.CIPP.WEB.Controllers
             {
                 
                 var retorno = RetornarInspecoes(model.DownloadModel);
-<<<<<<< HEAD
-                if (model.Page == null)
-                    model.Page = 1;
 
-=======
-
-               
->>>>>>> 1773da2b6a799fa10ec0eb024a8b56e8f43e24dc
                 var pager = new Pager(retorno.Inspecoes.ToList().Count, model.Page);
 
 

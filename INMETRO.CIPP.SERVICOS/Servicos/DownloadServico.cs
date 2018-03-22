@@ -167,9 +167,10 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 var organismos = await _organismoDomainService.BuscarTodosOrganismos();
 
                 if (!organismos.GroupBy(f => f.FtpInfo).Any()) return false;
-
                 foreach (var item in organismos.GroupBy(c => c.FtpInfo))
                 {
+                    var cod = item.Key.DiretorioInspecaoLocal.Replace("\\", "");
+                     var name = _organismoDomainService.BuscarOrganismoPorId(cod).Nome;
                     try
                     {
                         var diretoriosCippRemoto = ObterListaDiretoriosPorOrganismo(item.Key);
@@ -181,11 +182,10 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                     catch (Exception e)
                     {
                         _listExcecao.Add(e);
-                        _enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br", _listExcecao, item.Key.DiretorioInspecaoLocal);
-                       // _enviar.EnviarEmail("astrindade@colaborador.inmetro.gov.br", _listExcecao, item.Key.DiretorioInspecaoLocal);
+                        _enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br", _listExcecao, name);
                     }
                 }
-
+               
                 EnviarInspecoes(_listaInspecoesParaEnvio);
                 return true;
 
@@ -258,8 +258,6 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         {
             try
             {
-              
-
                 if (!DownloadArquivo(diretorioRemoto, diretorioLocal, ftpInfo)) return;
                 if (!_descompactar.DescompactarArquivo(diretorioLocal, diretorioRemoto)) return;
                 var inspecao = Conversao.ConverterParaModeloServico(_csv.ObterDadosInspecao(diretorioLocal));
@@ -387,7 +385,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             catch (Exception e)
             {
 
-                throw e;
+                throw new Exception($"Erro ao Excluir arquivo. Exceção {e}");
             }
 
         }
@@ -466,7 +464,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             }
             else
             {
-                //_enviar.EnviarEmail("astrindade@colaborador.inmetro.gov.br", _listExcecao,"");
+                _enviar.EnviarEmail("scipp-recebe@inmetro.gov.br", _listExcecao,"");
                 _enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br", _listExcecao, "" );
             }
 
