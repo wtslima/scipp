@@ -15,13 +15,18 @@ namespace INMETRO.CIPP.WEB.Conversao
 
             var inspecao = new InspecoesGravadasModel
             {
+<<<<<<< HEAD
 
                 Inspecoes = value.InspecoesGravadas.Select(s => new InspecaoModel()
+=======
+                
+                Inspecoes = value.InspecoesGravadas.ToList().Select(s => new InspecaoModel()
+>>>>>>> 1773da2b6a799fa10ec0eb024a8b56e8f43e24dc
                 {
                     CodigoOia = s.CodigoOia,
                     CodigoCipp = s.CodigoCipp,
                     DataInspecao = s.DataInspecao.ToString("d"),
-                    Equipamento = s.Equipamento.ToString(),
+                    Equipamento = s.Equipamento,
                     Placa = s.Placa
 
                 }),
