@@ -96,7 +96,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             catch (Exception ex)
             {
                 _enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br", _listExcecao, codigoOia);
-                _enviar.EnviarEmail("astrindade@colaborador.inmetro.gov.br", _listExcecao, codigoOia);
+               // _enviar.EnviarEmail("astrindade@colaborador.inmetro.gov.br", _listExcecao, codigoOia);
 
                 throw new Exception($"Erro no Download de Inspeção pelo usuário {usuario}. Exceção {ex.Message}");
             }
@@ -182,7 +182,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                     {
                         _listExcecao.Add(e);
                         _enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br", _listExcecao, item.Key.DiretorioInspecaoLocal);
-                        _enviar.EnviarEmail("astrindade@colaborador.inmetro.gov.br", _listExcecao, item.Key.DiretorioInspecaoLocal);
+                       // _enviar.EnviarEmail("astrindade@colaborador.inmetro.gov.br", _listExcecao, item.Key.DiretorioInspecaoLocal);
                     }
                 }
 
@@ -215,7 +215,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             }
             catch (Exception e)
             {
-
+                _listExcecao.Add(e);
                 throw e;
             }
 
@@ -466,7 +466,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             }
             else
             {
-                _enviar.EnviarEmail("astrindade@colaborador.inmetro.gov.br", _listExcecao,"");
+                //_enviar.EnviarEmail("astrindade@colaborador.inmetro.gov.br", _listExcecao,"");
                 _enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br", _listExcecao, "" );
             }
 

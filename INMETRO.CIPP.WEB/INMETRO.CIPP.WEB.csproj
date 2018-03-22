@@ -369,6 +369,12 @@
     <None Include="Web.Hologacao.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <None Include="Web.Local.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Producao.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
