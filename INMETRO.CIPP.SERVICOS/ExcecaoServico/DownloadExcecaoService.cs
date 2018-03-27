@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using INMETRO.CIPP.DOMINIO.Mensagens;
 using INMETRO.CIPP.SERVICOS.ModelService;
@@ -52,7 +53,8 @@ namespace INMETRO.CIPP.SERVICOS.ExcecaoServico
 
             foreach (var item in inspecoesValidas)
             {
-                if (item.Equals(codigoCipp))
+                var inspecaoValor = Path.GetFileNameWithoutExtension(item);
+                if (inspecaoValor.Equals(codigoCipp))
                 {
                     return new InspecoesGravadasModelServico
                     {
