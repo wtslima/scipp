@@ -6,7 +6,7 @@ namespace INMETRO.CIPP.SHARED.Interfaces
 {
     public interface IGerenciarCsv
     {
-        InspecaoCsvModel ObterDadosInspecao(string diretorio, FTPInfo ftpInfo);
+        InspecaoCsvModel ObterDadosInspecao(string diretorio, FtpInfo ftpInfo);
 
         bool ExcluirArquivoCippCsv(string diretorio);
 

@@ -48,7 +48,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                         CodigoOIA = item.CodigoOIA,
                         Nome = item.Nome,
                         EhAtivo = item.EhAtivo,
-                        FtpInfo = item.FtpInfo == null ? null : new FTPInfo
+                        FtpInfo = item.FtpInfo == null ? null : new FtpInfo
                         {
                             DiretorioInspecao = item.FtpInfo.DiretorioInspecao,
                             OrganismoId = item.FtpInfo.OrganismoId,
@@ -56,7 +56,8 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                             HostURI = item.FtpInfo.HostURI,
                             Usuario = item.FtpInfo.Usuario,
                             Senha = item.FtpInfo.Senha,
-                            TipoIntegracao = item.FtpInfo.TipoIntegracao
+                            TipoIntegracao = item.FtpInfo.TipoIntegracao,
+                            PrivateKey = item.FtpInfo.PrivateKey
                         }
                     }).ToList();
 

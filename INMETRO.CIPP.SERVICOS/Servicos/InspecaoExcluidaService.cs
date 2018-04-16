@@ -153,7 +153,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
         }
 
-        private void RemoverInspecaoComMaisDe30Dias(List<string> lista, FTPInfo ftpInfo)
+        private void RemoverInspecaoComMaisDe30Dias(List<string> lista, FtpInfo ftpInfo)
         {
             try
             {
@@ -171,7 +171,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
         }
 
-        private IList<string> ObterInspecoesComMaisDeTrintaDias(FTPInfo ftpInfo)
+        private IList<string> ObterInspecoesComMaisDeTrintaDias(FtpInfo ftpInfo)
         {
             var listaDiretoriosParaExclusaoComMais30Dias = new List<string>();
 

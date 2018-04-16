@@ -19,7 +19,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
         private static string commaReplacement = "_;)(*_";
         private List<string> _inputColumns;
 
-        public InspecaoCsvModel ObterDadosInspecao(string diretorio, FTPInfo ftpInfo)
+        public InspecaoCsvModel ObterDadosInspecao(string diretorio, FtpInfo ftpInfo)
         {
             var inspecaoLine = LerLinhasCsv(diretorio);
             var inspecaoModel = ObterInspecao(inspecaoLine, ftpInfo);
@@ -132,7 +132,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
             return string.IsNullOrWhiteSpace(inspecaoLinha) ? string.Empty : inspecaoLinha;
         }
 
-        private InspecaoCsvModel ObterInspecao(string inputLine, FTPInfo ftpInfo)
+        private InspecaoCsvModel ObterInspecao(string inputLine, FtpInfo ftpInfo)
         {
             try
             {

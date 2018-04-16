@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,8 +18,6 @@ using INMETRO.CIPP.SHARED;
 using INMETRO.CIPP.SHARED.Email;
 using INMETRO.CIPP.SHARED.Interfaces;
 using INMETRO.CIPP.SHARED.ModelShared;
-using System.Diagnostics;
-using System.Net;
 using log4net;
 
 namespace INMETRO.CIPP.SERVICOS.Servicos
@@ -188,6 +187,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                     {
                         _listExcecao.Add(e);
                         _enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br", _listExcecao, name);
+                         EnviarLogParaOrganismo(CriarArquivoDeLog(_listExcecao), item.Key);
                     }
                 }
                
@@ -205,7 +205,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         #endregion
 
 
-        private string[] ObterListaDiretoriosPorOrganismo(FTPInfo ftpInfo)
+        private string[] ObterListaDiretoriosPorOrganismo(FtpInfo ftpInfo)
         {
             try
             {
@@ -228,7 +228,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         }
 
 
-        private void DownloadInspecaoAutomatica(FTPInfo ftpInfo, IEnumerable<string> diretorios)
+        private void DownloadInspecaoAutomatica(FtpInfo ftpInfo, IEnumerable<string> diretorios)
         {
             var diretoriosValidos = new List<string>();
             if (diretorios != null)
@@ -253,6 +253,8 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 catch (Exception e)
                 {
                     _listExcecao.Add(e);
+                   
+                    EnviarLogParaOrganismo(CriarArquivoDeLog(_listExcecao), ftpInfo);
                 }
 
             }
@@ -260,7 +262,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             
         }
 
-        private void DownloadInspecao(FTPInfo ftpInfo, string diretorioLocal, string diretorioRemoto, string usuario)
+        private void DownloadInspecao(FtpInfo ftpInfo, string diretorioLocal, string diretorioRemoto, string usuario)
         {
             try
             {
@@ -319,7 +321,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
 
 
-        private static InspecoesGravadasModelServico VerificarFtpValido(FTPInfo ftpInfos, string codigo)
+        private static InspecoesGravadasModelServico VerificarFtpValido(FtpInfo ftpInfos, string codigo)
         {
 
 
@@ -379,6 +381,38 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             }
 
 
+        }
+
+        private string CriarArquivoDeLog(List<Exception> erros)
+        {
+            var dataLog = DateTime.Now.ToString("yyyy-MM-dd_HH-mm", CultureInfo.InvariantCulture);
+            string diretorioTemporario = Environment.GetEnvironmentVariable("TEMP");
+            string fileName = diretorioTemporario + "Log" + dataLog  +".csv";
+
+            FileInfo file = new FileInfo(fileName);
+
+            if (file.Exists)
+            {
+                file.Delete();
+            }
+            
+            using (StreamWriter sw = new StreamWriter(fileName, true))
+            {
+                foreach (var item in erros)
+                {
+                    sw.WriteLine("Data e hora {0}", DateTime.Now.ToString("yyyy-MM-dd_HH-mm", CultureInfo.InvariantCulture));
+                    sw.WriteLine("Erro : {0}", item.Message);
+                }
+               
+            }
+
+            return fileName;
+        }
+
+        private bool EnviarLogParaOrganismo(string fileName, FtpInfo sftp)
+        {
+            if (sftp.TipoIntegracao != 1) return _sftp.UploadFile(fileName, sftp);
+            return _sftp.UploadFile(fileName, sftp);
         }
 
         private void ExcluirArquivoCompactadoECsv(string diretorioLocal, string file)
@@ -543,7 +577,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             };
         }
 
-        private bool DownloadArquivo(string file, string diretorioLocal, FTPInfo integracao)
+        private bool DownloadArquivo(string file, string diretorioLocal, FtpInfo integracao)
         {
             if (integracao.TipoIntegracao != 1) return _sftp.DownloadArquivo(file, diretorioLocal + file, integracao);
             return _ftp.DownloadInspecaoFtp(file, diretorioLocal, integracao);

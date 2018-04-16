@@ -5,14 +5,14 @@ namespace INMETRO.CIPP.SHARED.Interfaces
 {
     public interface IGerenciarFtp
     {
-        string[] ObterListaDiretoriosInspecoesFtp(FTPInfo ftpInfo);
+        string[] ObterListaDiretoriosInspecoesFtp(FtpInfo ftpInfo);
 
-        bool DownloadInspecaoFtp(string file, string diretorioLocal, FTPInfo ftpInfo);
+        bool DownloadInspecaoFtp(string file, string diretorioLocal, FtpInfo ftpInfo);
 
-        long ObterTamanhoArquivoInspecao(FTPInfo ftpInfo);
+        long ObterTamanhoArquivoInspecao(FtpInfo ftpInfo);
 
-        DateTime ObterDataEntradaFtp(FTPInfo ftpInfo, string diretorioInspecaoRemoto);
+        DateTime ObterDataEntradaFtp(FtpInfo ftpInfo, string diretorioInspecaoRemoto);
 
-        bool ExcluirInspecao(FTPInfo ftpInfo, string inspecao);
+        bool ExcluirInspecao(FtpInfo ftpInfo, string inspecao);
     }
 }

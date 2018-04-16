@@ -22,7 +22,7 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
         [Column("CDA_ATIVO")]
         public bool EhAtivo { get; set; }
 
-        public virtual FTPInfo FtpInfo { get; set; }
+        public virtual FtpInfo FtpInfo { get; set; }
        
         public virtual IEnumerable<Inspecao> Inspecaoes { get; set; }
 
@@ -40,7 +40,7 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
             CodigoOIA = codigo;
         }
 
-        public Organismo(int codigo, FTPInfo ftpInfo)
+        public Organismo(int codigo, FtpInfo ftpInfo)
         {
             CodigoOIA = codigo;
             FtpInfo = ftpInfo;

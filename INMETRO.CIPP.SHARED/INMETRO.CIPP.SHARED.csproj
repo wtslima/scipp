@@ -94,6 +94,7 @@
     <Compile Include="Interfaces\IGerenciarSftp.cs" />
     <Compile Include="MensagemSistema.cs" />
     <Compile Include="ModelShared\InspecaoCsvModel.cs" />
+    <Compile Include="ModelShared\SftpModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Servicos\GerenciarArquivoCompactado.cs" />
     <Compile Include="Servicos\GerenciarCsv.cs" />

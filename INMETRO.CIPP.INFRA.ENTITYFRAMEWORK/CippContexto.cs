@@ -29,7 +29,7 @@ namespace INMETRO.CIPP.INFRA.ENTITYFRAMEWORK
                 .IsUnique();
 
             // Configura OrganismoId como PK para FTPInfo
-            modelBuilder.Entity<FTPInfo>()
+            modelBuilder.Entity<FtpInfo>()
                 .HasKey(e => e.OrganismoId);
 
             // Configura OrganismoId como FK for Ftpinfo
@@ -51,7 +51,7 @@ namespace INMETRO.CIPP.INFRA.ENTITYFRAMEWORK
 
         public DbSet<Inspecao> Inspecoes { get; set; }
 
-        public DbSet<FTPInfo> IntegracaoInfo { get; set; }
+        public DbSet<FtpInfo> IntegracaoInfo { get; set; }
 
         public DbSet<Historico> Historico { get; set; }
 
