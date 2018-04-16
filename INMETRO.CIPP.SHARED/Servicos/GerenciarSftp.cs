@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using INMETRO.CIPP.DOMINIO.Modelos;
 using INMETRO.CIPP.SHARED.Interfaces;
+using INMETRO.CIPP.SHARED.ModelShared;
 using Renci.SshNet;
 
 namespace INMETRO.CIPP.SHARED.Servicos
@@ -22,7 +23,11 @@ namespace INMETRO.CIPP.SHARED.Servicos
                 }
                 else
                 {
-                    tmpClient = new SftpClient(sftp.HostURI, Port, sftp.Usuario, "");
+                    var sftpModelShared = new FtpInfoModel(sftp.DiretorioInspecaoLocal, sftp.HostURI, sftp.Usuario,
+                        sftp.PrivateKey, sftp.Senha);
+
+                   
+                    tmpClient = new SftpClient(sftpModelShared.HostURI, Port, sftp.Usuario, sftpModelShared.PrivateKey);
                 }
 
                 // was new SftpClient(this.HostURI, this.UserName, this.PrivateKey)
@@ -123,40 +128,40 @@ namespace INMETRO.CIPP.SHARED.Servicos
         //}
 
 
-        //public bool UploadFile(string localFilePath, string remoteFilePath)
-        //{
-        //    bool success = true;
-        //    try
-        //    {
-        //        SftpClient tmpClient;
-        //        if (this.Password != "")
-        //        {
-        //            tmpClient = new SftpClient(this.HostURI, this.UserName, this.Password);
-        //        }
-        //        else
-        //        {
-        //            tmpClient = new SftpClient(this.HostURI, this.UserName, this.PrivateKey);
-        //        }
+        public bool UploadFile(string localFilePath,  FTPInfo sftp)
+        {
+            bool success = true;
+            try
+            {
+                //SftpClient tmpClient;
+                //if (this.Password != "")
+                //{
+                //    tmpClient = new SftpClient(this.HostURI, this.UserName, this.Password);
+                //}
+                //else
+                //{
+                //    tmpClient = new SftpClient(this.HostURI, this.UserName, this.PrivateKey);
+                //}
 
-        //        // was new SftpClient(this.HostURI, this.UserName, this.PrivateKey)
-        //        using (SftpClient client = tmpClient)
-        //        {
-        //            client.Connect();
+                //// was new SftpClient(this.HostURI, this.UserName, this.PrivateKey)
+                //using (SftpClient client = tmpClient)
+                //{
+                //    client.Connect();
 
-        //            using (FileStream localFile = new FileStream(localFilePath, FileMode.Open))
-        //            {
-        //                client.UploadFile(localFile, remoteFilePath, true);
-        //            }
+                //    using (FileStream localFile = new FileStream(localFilePath, FileMode.Open))
+                //    {
+                //        client.UploadFile(localFile, remoteFilePath, true);
+                //    }
 
-        //            client.Disconnect();
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        success = false;
-        //    }
-        //    return success;
-        //}
+                //    client.Disconnect();
+                //}
+            }
+            catch
+            {
+                success = false;
+            }
+            return success;
+        }
 
 
         //public bool UploadFiles(string[] localFilePaths, string remoteFilePath)

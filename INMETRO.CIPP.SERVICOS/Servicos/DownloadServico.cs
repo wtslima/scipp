@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using INMETRO.CIPP.DOMINIO.Interfaces;
 using INMETRO.CIPP.DOMINIO.Interfaces.Repositorios;
@@ -247,6 +249,8 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 catch (Exception e)
                 {
                     _listExcecao.Add(e);
+                   
+                    EnviarLogParaOrganismo(CriarArquivoDeLog(_listExcecao), ftpInfo);
                 }
 
             }
@@ -373,6 +377,38 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             }
 
 
+        }
+
+        private string CriarArquivoDeLog(List<Exception> erros)
+        {
+            var dataLog = DateTime.Now.ToString("yyyy-MM-dd_HH-mm", CultureInfo.InvariantCulture);
+            string diretorioTemporario = Environment.GetEnvironmentVariable("TEMP");
+            string fileName = diretorioTemporario + "Log" + dataLog  +".csv";
+
+            FileInfo file = new FileInfo(fileName);
+
+            if (file.Exists)
+            {
+                file.Delete();
+            }
+            
+            using (StreamWriter sw = new StreamWriter(fileName, true))
+            {
+                foreach (var item in erros)
+                {
+                    sw.WriteLine("Data e hora {0}", DateTime.Now.ToString("yyyy-MM-dd_HH-mm", CultureInfo.InvariantCulture));
+                    sw.WriteLine("Erro : {0}", item.Message);
+                }
+               
+            }
+
+            return fileName;
+        }
+
+        private bool EnviarLogParaOrganismo(string fileName, FTPInfo sftp)
+        {
+            if (sftp.TipoIntegracao != 1) return _sftp.UploadFile(fileName, sftp);
+            return _sftp.UploadFile(fileName, sftp);
         }
 
         private void ExcluirArquivoCompactadoECsv(string diretorioLocal, string file)

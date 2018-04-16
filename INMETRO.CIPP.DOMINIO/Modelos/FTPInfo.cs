@@ -35,9 +35,14 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
         [Column("IDT_ORGANISMO")]
         public int OrganismoId { get; set; }
 
+        [Column("DES_CHAVE_PRIVADA")]
+        public string PrivateKey { get; set; }
+
+
+
         public virtual Organismo Organismo { get; set; }
 
-        public FTPInfo(int organismoId, string diretorioInspecao, int tipoIntegracao, string diretorioInspecaoLocal, string host, string usuario, string senha)
+        public FTPInfo(int organismoId, string diretorioInspecao, int tipoIntegracao, string diretorioInspecaoLocal, string host, string usuario, string senha, string chave)
         {
             DiretorioInspecao = diretorioInspecao;
             TipoIntegracao = tipoIntegracao;
@@ -46,6 +51,7 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
             Usuario = usuario;
             Senha = senha;
             OrganismoId = organismoId;
+            PrivateKey = chave;
         }
 
         public FTPInfo()

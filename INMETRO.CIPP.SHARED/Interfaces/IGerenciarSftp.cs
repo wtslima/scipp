@@ -6,5 +6,6 @@ namespace INMETRO.CIPP.SHARED.Interfaces
     {
         string[] ObterArquvosNoDiretorioRemotoSftp(FTPInfo sftp);
         bool DownloadArquivo(string file, string diretorioLocal, FTPInfo sftpInfo);
+        bool UploadFile(string file, FTPInfo sftpInfo);
     }
 }
