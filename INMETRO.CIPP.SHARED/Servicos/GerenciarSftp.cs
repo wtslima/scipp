@@ -4,6 +4,7 @@ using System.IO;
 using INMETRO.CIPP.DOMINIO.Modelos;
 using INMETRO.CIPP.SHARED.Interfaces;
 using Renci.SshNet;
+using Renci.SshNet.Sftp;
 
 namespace INMETRO.CIPP.SHARED.Servicos
 {
@@ -15,14 +16,20 @@ namespace INMETRO.CIPP.SHARED.Servicos
             int Port = 22;
             try
             {
-                SftpClient tmpClient = null;
+               
+
+                SftpClient tmpClient;
+
+               
                 if (!string.IsNullOrEmpty(sftp.Senha))
                 {
                     tmpClient = new SftpClient(sftp.HostURI,Port, sftp.Usuario, sftp.Senha);
+                   
                 }
                 else
                 {
-                    tmpClient = new SftpClient(sftp.HostURI, Port, sftp.Usuario, "");
+                    
+                    tmpClient = new SftpClient(sftp.HostURI, Port, sftp.Usuario, sftp.ChavePrivada);
                 }
 
                 // was new SftpClient(this.HostURI, this.UserName, this.PrivateKey)
@@ -47,7 +54,8 @@ namespace INMETRO.CIPP.SHARED.Servicos
             }
             catch (Exception e)
             {
-                throw new Exception($"Erro ao Obter Inspeções no servidor FTP para o Organismo {sftp.OrganismoId}, Exceção :"+e.Message);
+
+                throw new Exception($"Erro ao Obter Inspeções no servidor SFTP para o Organismo {sftp.OrganismoId}, Exceção :"+e.Message);
             }
             
         }
@@ -65,7 +73,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                 }
                 else
                 {
-                    tmpClient = new SftpClient(sftpInfo.HostURI, Port, sftpInfo.Usuario, "");
+                    tmpClient = new SftpClient(sftpInfo.HostURI, Port, sftpInfo.Usuario, sftpInfo.ChavePrivada);
                 }
 
                 // was new SftpClient(this.HostURI, this.UserName, this.PrivateKey)
@@ -90,73 +98,75 @@ namespace INMETRO.CIPP.SHARED.Servicos
         }
 
         //// They want us to delete the files that we've successfully processed. Use this.
-        //public bool DeleteFile(string fileName)
-        //{
-        //    bool success = true;
-        //    try
-        //    {
-        //        SftpClient tmpClient;
-        //        if (this.Password != "")
-        //        {
-        //            tmpClient = new SftpClient(this.HostURI, this.UserName, this.Password);
-        //        }
-        //        else
-        //        {
-        //            tmpClient = new SftpClient(this.HostURI, this.UserName, this.PrivateKey);
-        //        }
+        public bool DeleteFile( string file, string diretorioLocal, FTPInfo sftpInfo)
+        {
+            bool success = true;
+            try
+            {
+                SftpClient tmpClient;
+                if (sftpInfo.Senha != "")
+                {
+                    tmpClient = new SftpClient(sftpInfo.HostURI, sftpInfo.Usuario, sftpInfo.Senha);
+                }
+                else
+                {
+                    tmpClient = new SftpClient(sftpInfo.HostURI, sftpInfo.Usuario, sftpInfo.ChavePrivada);
+                }
 
-        //        // was new SftpClient(this.HostURI, this.UserName, this.PrivateKey)
-        //        using (SftpClient client = tmpClient)
-        //        {
-        //            client.Connect();
+                // was new SftpClient(this.HostURI, this.UserName, this.PrivateKey)
+                using (SftpClient client = tmpClient)
+                {
+                    client.Connect();
 
-        //            client.DeleteFile(fileName);
+                    client.DeleteFile(diretorioLocal + file);
+                    
 
-        //            client.Disconnect();
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        success = false;
-        //    }
-        //    return success;
-        //}
+                    client.Disconnect();
+                }
+            }
+            catch
+            {
+                success = false;
+            }
+            return success;
+        }
 
 
-        //public bool UploadFile(string localFilePath, string remoteFilePath)
-        //{
-        //    bool success = true;
-        //    try
-        //    {
-        //        SftpClient tmpClient;
-        //        if (this.Password != "")
-        //        {
-        //            tmpClient = new SftpClient(this.HostURI, this.UserName, this.Password);
-        //        }
-        //        else
-        //        {
-        //            tmpClient = new SftpClient(this.HostURI, this.UserName, this.PrivateKey);
-        //        }
+        public bool UploadFile(string localFilePath, string remoteFilePath, FTPInfo info)
+        {
+            bool success = true;
+            try
+            {
+                SftpClient tmpClient;
+                if (info.Senha != "")
+                {
+                    tmpClient = new SftpClient(info.HostURI, info.Usuario, info.Senha);
+                }
+                else
+                {
+                    //todo: privateKey
+                    tmpClient = new SftpClient(info.HostURI, info.Usuario, info.ChavePrivada);
+                }
 
-        //        // was new SftpClient(this.HostURI, this.UserName, this.PrivateKey)
-        //        using (SftpClient client = tmpClient)
-        //        {
-        //            client.Connect();
+                // was new SftpClient(this.HostURI, this.UserName, this.PrivateKey)
+                using (SftpClient client = tmpClient)
+                {
+                    client.Connect();
 
-        //            using (FileStream localFile = new FileStream(localFilePath, FileMode.Open))
-        //            {
-        //                client.UploadFile(localFile, remoteFilePath, true);
-        //            }
+                    using (FileStream localFile = new FileStream(localFilePath, FileMode.Open))
+                    {
+                        client.UploadFile(localFile, remoteFilePath, true);
+                    }
 
-        //            client.Disconnect();
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        success = false;
-        //    }
-        //    return success;
-        //}
+                    client.Disconnect();
+                }
+            }
+            catch
+            {
+                success = false;
+            }
+            return success;
+        }
 
 
         //public bool UploadFiles(string[] localFilePaths, string remoteFilePath)

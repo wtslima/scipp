@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using INMETRO.CIPP.DOMINIO.Modelos;
 using INMETRO.CIPP.SHARED.Email;
 using INMETRO.CIPP.SHARED.Helper;
 using INMETRO.CIPP.SHARED.Interfaces;
@@ -18,10 +19,10 @@ namespace INMETRO.CIPP.SHARED.Servicos
         private static string commaReplacement = "_;)(*_";
         private List<string> _inputColumns;
 
-        public InspecaoCsvModel ObterDadosInspecao(string diretorio)
+        public InspecaoCsvModel ObterDadosInspecao(string diretorio, FTPInfo ftpInfo)
         {
             var inspecaoLine = LerLinhasCsv(diretorio);
-            var inspecaoModel = ObterInspecao(inspecaoLine);
+            var inspecaoModel = ObterInspecao(inspecaoLine, ftpInfo);
             return inspecaoModel ?? new InspecaoCsvModel();
         }
 
@@ -46,6 +47,45 @@ namespace INMETRO.CIPP.SHARED.Servicos
             return false;
 
         }
+
+        public string CriarArquivoDeLogParaOrganismo(List<string> erros, string[] cipps)
+        {
+            string diretorioTemporario = Environment.GetEnvironmentVariable("TEMP");
+            var log = "Log" + ".txt";
+            var date = DateTime.Now.ToString("yyyy-MM-dd_HH-mm", CultureInfo.InvariantCulture);
+            var path = diretorioTemporario + log + date;
+
+            FileInfo arquivo = new FileInfo(path);
+
+
+            try
+            {
+                if (arquivo.Exists)
+                {
+                    arquivo.Delete();
+                }
+
+                using (StreamWriter sw = arquivo.CreateText())
+                {
+                    foreach (var item in erros)
+                    {
+                        sw.WriteLine("Log criado {0}", DateTime.Now.ToString("yyyy-MM-dd_HH-mm", CultureInfo.InvariantCulture));
+                        sw.WriteLine("Erro: {0}", item );
+                    }
+                   
+                   
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+
+            return string.Empty;
+        }
+
 
         public string CriarArquivoInspecoesAnexo(IList<InspecaoCsvModel> inspecoes)
         {
@@ -92,7 +132,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
             return string.IsNullOrWhiteSpace(inspecaoLinha) ? string.Empty : inspecaoLinha;
         }
 
-        private InspecaoCsvModel ObterInspecao(string inputLine)
+        private InspecaoCsvModel ObterInspecao(string inputLine, FTPInfo ftpInfo)
         {
             try
             {
@@ -102,18 +142,19 @@ namespace INMETRO.CIPP.SHARED.Servicos
                 string inputLineWithoutExtraCommas = ReplaceDelimitersWithinQuotes(inputLine);
                 _inputColumns = inputLineWithoutExtraCommas.Split(',').ToList();
 
+
                 var inspecao = new InspecaoCsvModel();
 
                 for (var i = 0; i < _inputColumns.Count;)
                 {
-                    inspecao.CodigoOia = _inputColumns[0];
+                    inspecao.CodigoOia = !string.IsNullOrEmpty(_inputColumns[0]) ? _inputColumns[0] : ftpInfo.Organismo.CodigoOIA.ToString();
                     inspecao.CodigoCipp = _inputColumns[1];
                     inspecao.PlacaLicenca = _inputColumns[2];
                     inspecao.NumeroEquipamento = _inputColumns[3];
                     inspecao.DataInspecao = DateTime.ParseExact(_inputColumns[4], format, provider);
                     break;
                 }
-
+                
                 return inspecao;
             }
             catch (Exception e)

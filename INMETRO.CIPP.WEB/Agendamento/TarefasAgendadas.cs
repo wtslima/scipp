@@ -1,4 +1,6 @@
-﻿using Quartz;
+﻿using System;
+using System.Configuration;
+using Quartz;
 using Quartz.Impl;
 
 namespace INMETRO.CIPP.WEB.Agendamento
@@ -20,6 +22,8 @@ namespace INMETRO.CIPP.WEB.Agendamento
 
         }
 
+        private static readonly string HoraAgendada =  ConfigurationManager.AppSettings["HoraAgendadaDownload"];
+        private static readonly string MinutosAgendados = ConfigurationManager.AppSettings["MinutosAgendadosDownload"];
 
         private static void DownloadPorRotinaAutomaticaScheduled(IScheduler scheduler)
         {
@@ -33,7 +37,7 @@ namespace INMETRO.CIPP.WEB.Agendamento
                 .WithDailyTimeIntervalSchedule
                 (s => s.WithIntervalInHours(24)
                             .OnEveryDay()
-                            .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(0,0
+                            .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(Convert.ToInt32(HoraAgendada),Convert.ToInt32(MinutosAgendados)
                             )))
                             .ForJob(jobDownloadPorRotinaAutomatica)
                             .Build();
@@ -43,6 +47,7 @@ namespace INMETRO.CIPP.WEB.Agendamento
 
         private static void ExclusaoPorRotinaAutomaticaScheduled(IScheduler scheduler)
         {
+           
             var jobExclusaoPorRotinaAutomatica = JobBuilder.Create<ExclusaoPorRotinaAutomaticaJob>()
                 .WithIdentity("jobExclusaoPorRotinaAutomatica", "group1")
                 .Build();

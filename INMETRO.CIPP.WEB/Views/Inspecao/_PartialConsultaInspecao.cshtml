@@ -22,15 +22,14 @@
                 <th style="text-align: center">
                     @Html.DisplayName("DATA INSPEÇÃO")
                 </th>
-
             </tr>
         </thead>
         <tbody>
             @if (Model.Inspecoes != null)
             {
-                foreach (var item in Model.Inspecoes
-                    )
+                foreach (var item in Model.Inspecoes)
                 {
+                    
                     <tr>
                         <td align="center">
                             @Html.DisplayFor(modelItem => item.CodigoOia)
@@ -47,7 +46,7 @@
                         <td align="center">
                             @Html.DisplayFor(modelItem => item.DataInspecao)
                         </td>
-
+                       
                     </tr>
                 }
             }
@@ -55,77 +54,34 @@
     </table>
 
     <br />
-    <!-- pager -->
-    @*<table class="pagination">
-        <tr>
+    
+    @if (Model.Pager.TotalPages > 1)
+    {
+        <ul id="idPagination" class="pagination">
             @for (int i = 1; i <= Model.Pager.TotalPages; i++)
             {
-                <td>
-                    @if (i != Model.Pager.CurrentPage)
-                    {
-                        <a href="javascript:PagerClick(@i);">@i</a>
-                    }
-                    else
-                    {
-                        <span>@i</span>
-                    }
-                </td>
+                if (i != Model.Pager.CurrentPage)
+                {
+                    <li><a href="javascript:PagerClick(@i);">@i</a></li>
+                }
+                else
+                {
+                    <li class="active"><span>@i</span></li>
+                }
             }
-        </tr>
-    </table>*@
+        </ul>
 
-    <ul id="idPagination" class="pagination">
-        @for (int i = 1; i <= Model.Pager.TotalPages; i++)
-        {
-            if (i != Model.Pager.CurrentPage)
-            {
-                <li><a href="javascript:PagerClick(@i);">@i</a></li>
-            }
-            else
-            {
-                <li class="active"><span>@i</span></li>
-            }
-        }
-    </ul>
-
-    <input type="hidden" id="hfCurrentPageIndex" name="Page" />
-    @Html.HiddenFor(s => s.Page, new { id = "hfCurrentPageIndex" })
+        <input type="hidden" id="hfCurrentPageIndex" name="Page"/>
+        @Html.HiddenFor(s => s.Page, new {id = "hfCurrentPageIndex"})
+    }
 </form>
 <script type="text/javascript">
 
     function PagerClick(index) {
 
-
         document.getElementById('hfCurrentPageIndex').value = index;
         document.forms[0].submit();
-        @*var urlSave = '@Url.Action("ConsultaInspecao")';
-            var cod = $("#codigoId").val();
-
-            var download =
-            {
-                codigoOia : cod
-            }
-            //replicated structure as the emnployee class in server C# code
-            var emp = {
-                DownloadModel: download,
-                Page: index
-
-            };
-
-            $.ajax({
-                    type:"POST",
-                    url:urlSave,
-                    data:JSON.stringify(emp),//use this in order to MVC binding to take place
-                    datatype:"JSON",
-                    contentType: "application/json; charset=utf-8",
-                    success: function(response) {
-
-                        $("#idtable").load();
-                    }
-
-            }
-
-            );*@
+       
 
     }
 

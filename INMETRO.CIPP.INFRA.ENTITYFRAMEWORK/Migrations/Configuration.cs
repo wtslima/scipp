@@ -184,13 +184,13 @@ namespace INMETRO.CIPP.INFRA.ENTITYFRAMEWORK.Migrations
 
             //new FTPInfo()
             //{
-            //    OrganismoId = 2,
-            //    HostURI = $"ftp://transtechmga.ddns.net:21/",
-            //    Usuario = $"TRANSTECHLI03",
-            //    Senha = $"000316",
+            //    OrganismoId = 96,
+            //    HostURI = $"ftpq.ibratan.com.br/",
+            //    Usuario = $"diois",
+            //    Senha = $"gtd3NRzVjk9pJLfr3Cjshkqn",
             //    DiretorioInspecao = $"/Inspecoes/",
-            //    DiretorioInspecaoLocal = $"82\\",
-            //    DiretorioInspecaoRemoto = $"/New/"
+            //    DiretorioInspecaoLocal = $"622\\",
+            //    TipoIntegracao = 1
             //});
 
             //    new FTPInfo() { OrganismoId = 156, HostURI = $"ftp://184.168.109.66:2112/", Usuario = $"nakoa_ftp", Senha = $"n@k@412!", DiretorioInspecao = $"/new-orders/", DiretorioInspecaoLocal = $"7777\\", DiretorioInspecaoRemoto = $"/New/" },
@@ -207,16 +207,16 @@ namespace INMETRO.CIPP.INFRA.ENTITYFRAMEWORK.Migrations
             //},
 
             ////    new FTPInfo() { OrganismoId = 156, HostURI = $"ftp://184.168.109.66:2112/", Usuario = $"nakoa_ftp", Senha = $"n@k@412!", DiretorioInspecao = $"/new-orders/", DiretorioInspecaoLocal = $"7777\\", DiretorioInspecaoRemoto = $"/New/" },
-                //new FTPInfo()
-                //{
-                //    OrganismoId = 92,
-                //    HostURI = $"35.170.103.199",
-                //    Usuario = $"ciautoinmetro",
-                //    Senha = $"otmws@123",
-                //    DiretorioInspecao = $"/INSPECOES/",
-                //    DiretorioInspecaoLocal = $"612\\",
-                //    TipoIntegracao = 2
-                //});
+            //new FTPInfo()
+            //{
+            //    OrganismoId = 92,
+            //    HostURI = $"35.170.103.199",
+            //    Usuario = $"ciautoinmetro",
+            //    Senha = $"otmws@123",
+            //    DiretorioInspecao = $"/INSPECOES/",
+            //    DiretorioInspecaoLocal = $"612\\",
+            //    TipoIntegracao = 2
+            //});
 
 
             #endregion

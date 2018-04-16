@@ -206,9 +206,12 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="img\icon_images_scipp.png" />
     <Content Include="img\logo-scipp.png" />
     <Content Include="img\logotipo-inmetro-horizontal-traco-azul-24h.png" />
     <Content Include="img\logotipo-siadi.png" />
+    <Content Include="img\pictures.png" />
+    <Content Include="img\pictures_image_icon_scipp.png" />
     <Content Include="js\bootstrap.js" />
     <Content Include="js\bootstrap.min.js" />
     <Content Include="js\jquery-ui\AUTHORS.txt" />
@@ -350,15 +353,18 @@
     <Content Include="Views\HistoricoInspecaoExcluida\_HistoricoExclusaoErro.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Web.Hologacao.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Local.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Web.Producao.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>

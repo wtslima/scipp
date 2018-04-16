@@ -17,6 +17,9 @@ using INMETRO.CIPP.SHARED;
 using INMETRO.CIPP.SHARED.Email;
 using INMETRO.CIPP.SHARED.Interfaces;
 using INMETRO.CIPP.SHARED.ModelShared;
+using System.Diagnostics;
+using System.Net;
+using log4net;
 
 namespace INMETRO.CIPP.SERVICOS.Servicos
 {
@@ -36,7 +39,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
         readonly Notificacao _enviar = new Notificacao();
         List<Exception> _listExcecao = new List<Exception>();
-
+        private static readonly ILog log = LogManager.GetLogger(typeof(DownloadServico));
 
         public DownloadServico(IOrganismoDominioService organismoDomainService, IGerenciarFtp ftp, IGerenciarArquivoCompactado descompactar, IGerenciarCsv csv, IInspecaoDominioService inspecaoServico, IGerenciarSftp sftp)
         {
@@ -84,22 +87,26 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 if (existeExcecaoInspecao.Excecao.ExisteExcecao)
                     return existeExcecaoInspecao;
 
-                        if (!string.IsNullOrEmpty(cipp))
-                        {
-                           return DownloadInspecoaPorCippInformado( organismo, existeExcecaoInspecao.DiretoriosValidos.FirstOrDefault(), usuario);
-                        }
+                if (!string.IsNullOrEmpty(cipp))
+                {
+                    return DownloadInspecoaPorCippInformado(organismo,
+                        existeExcecaoInspecao.DiretoriosValidos.FirstOrDefault(), usuario);
+                }
 
-                       return DownloadInspecoaPorCodigoOiaInformado(organismo, existeExcecaoInspecao.DiretoriosValidos, usuario);
-               
+                return DownloadInspecoaPorCodigoOiaInformado(organismo, existeExcecaoInspecao.DiretoriosValidos,
+                    usuario);
+
 
             }
-            catch (Exception ex)
+         
+            catch (Exception exec)
             {
+                 
                 _enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br", _listExcecao, codigoOia);
-               // _enviar.EnviarEmail("astrindade@colaborador.inmetro.gov.br", _listExcecao, codigoOia);
 
-                throw new Exception($"Erro no Download de Inspeção pelo usuário {usuario}. Exceção {ex.Message}");
+                throw new Exception($"Erro no Download de Inspeção pelo usuário {usuario}. Exceção {exec.Message}");
             }
+           
         }
         private InspecoesGravadasModelServico DownloadInspecoaPorCippInformado(Organismo organismo, string diretorioRemoto, string usuario)
         {
@@ -112,7 +119,6 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             if (listaErros.Count > 0)
             {
                 _enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br", _listExcecao, organismo.CodigoOIA.ToString());
-                //_enviar.EnviarEmail("astrindade@colaborador.inmetro.gov.br", _listExcecao, organismo.CodigoOIA.ToString());
             }
                 
 
@@ -139,7 +145,6 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 if (listaErros.Count > 0)
                 {
                     _enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br", _listExcecao, organismo.CodigoOIA.ToString());
-                    //_enviar.EnviarEmail("astrindade@colaborador.inmetro.gov.br", _listExcecao, organismo.CodigoOIA.ToString());
                 }
 
             }
@@ -204,6 +209,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         {
             try
             {
+                //ftps ou ftp
                 if (ftpInfo.TipoIntegracao == 1)
                 {
                     var diretorios = _ftp.ObterListaDiretoriosInspecoesFtp(ftpInfo);
@@ -237,7 +243,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                     var diretorioLocal = ObterDiretorioLocal(ftpInfo.DiretorioInspecaoLocal, item);
                     if (!DownloadArquivo(item, diretorioLocal, ftpInfo)) continue;
                     if (!_descompactar.DescompactarArquivo(diretorioLocal, item)) continue;
-                    var inspecao = Conversao.ConverterParaModeloServico(_csv.ObterDadosInspecao(diretorioLocal));
+                    var inspecao = Conversao.ConverterParaModeloServico(_csv.ObterDadosInspecao(diretorioLocal, ftpInfo));
                     if (!GravarInspecao(Conversao.ConverterParaDominio(inspecao))) return;
                     _listaInspecoesParaEnvio.Add(inspecao);
                     if (!GravarHistoricoDownload(item, "Rotina Automática")) continue;
@@ -260,7 +266,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             {
                 if (!DownloadArquivo(diretorioRemoto, diretorioLocal, ftpInfo)) return;
                 if (!_descompactar.DescompactarArquivo(diretorioLocal, diretorioRemoto)) return;
-                var inspecao = Conversao.ConverterParaModeloServico(_csv.ObterDadosInspecao(diretorioLocal));
+                var inspecao = Conversao.ConverterParaModeloServico(_csv.ObterDadosInspecao(diretorioLocal, ftpInfo));
                 if (!GravarInspecao(Conversao.ConverterParaDominio(inspecao))) return;
                 _listaInspecoesParaEnvio.Add(inspecao);
                 if (!GravarHistoricoDownload(diretorioRemoto, usuario)) return;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Text;
 using INMETRO.CIPP.DOMINIO.Modelos;
 using INMETRO.CIPP.SHARED.Interfaces;
 
@@ -16,8 +17,9 @@ namespace INMETRO.CIPP.SHARED.Servicos
             {
                 var request = (FtpWebRequest)WebRequest.Create(ftp.HostURI + ftp.DiretorioInspecao);
 
-                request.Method = WebRequestMethods.Ftp.ListDirectory; // Details
+                request.Method = WebRequestMethods.Ftp.ListDirectory; 
                 request.Credentials = new NetworkCredential(ftp.Usuario, ftp.Senha);
+                request.UsePassive = false;
 
                 using (var response = (FtpWebResponse)request.GetResponse())
                 {
@@ -38,6 +40,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
             }
             catch (Exception e)
             {
+                
                 throw e;
             }
 
@@ -157,6 +160,44 @@ namespace INMETRO.CIPP.SHARED.Servicos
             }
             return success;
         }
+
+        public bool UploadFile(string path)
+        {
+            bool success = true;
+            try
+            {
+                var filename = Path.GetFileName(path);
+                FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://184.168.109.66:2121/update/" + filename);
+                request.Method = WebRequestMethods.Ftp.UploadFile;
+
+                // This example assumes the FTP site uses anonymous logon.
+                request.Credentials = new NetworkCredential("zervita_ftp", "zvt@22F1");
+
+                //Copy the contents of the file to the request stream.
+
+                StreamReader sourceStream = new StreamReader(path);
+                byte[] fileContents = Encoding.UTF8.GetBytes(sourceStream.ReadToEnd());
+                sourceStream.Close();
+                request.ContentLength = fileContents.Length;
+
+                Stream requestStream = request.GetRequestStream();
+                requestStream.Write(fileContents, 0, fileContents.Length);
+                requestStream.Close();
+
+                FtpWebResponse response = (FtpWebResponse)request.GetResponse();
+
+                Console.WriteLine("Upload File Complete, status {0}", response.StatusDescription);
+
+                response.Close();
+            }
+            catch
+            {
+                success = false;
+            }
+            return success;
+        }
+
+
 
 
     }
