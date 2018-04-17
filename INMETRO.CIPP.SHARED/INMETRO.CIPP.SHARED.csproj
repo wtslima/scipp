@@ -70,6 +70,7 @@
       <HintPath>..\packages\SSH.NET.2016.0.0\lib\net40\Renci.SshNet.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
@@ -86,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyExtensions.cs" />
+    <Compile Include="Configurations.cs" />
     <Compile Include="Email\Notificacao.cs" />
     <Compile Include="Helper\ExportarCSV.cs" />
     <Compile Include="Interfaces\IGerenciarArquivoCompactado.cs" />

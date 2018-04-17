@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net;
 using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace INMETRO.CIPP.SHARED.Email
 {
@@ -13,7 +10,7 @@ namespace INMETRO.CIPP.SHARED.Email
         public void EnviarEmailComAnexo(string email, string path)
         {
 
-            var fromAddress = new MailAddress("cipp_naoresponda@inmetro.gov.br", "CIPP");
+            var fromAddress = new MailAddress(Configurations.EmailSCIPPAdministrativo(), "CIPP");
             var toAddress = new MailAddress(email);
             Attachment attachment = null;
 
@@ -25,13 +22,13 @@ namespace INMETRO.CIPP.SHARED.Email
 
             var smtp = new SmtpClient
             {
-                
-                Host = "webmail.inmetro.gov.br",
+
+                Host = Configurations.HostEmail(),
                 Port = 25,
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = true,
-                Credentials = new NetworkCredential("cipp_naoresponda", "#@cert!654#@")
+                Credentials = new NetworkCredential(Configurations.CredentialMailUsername(), Configurations.CredentialMailPassword())
 
             };
 
@@ -48,59 +45,56 @@ namespace INMETRO.CIPP.SHARED.Email
 
                 try
                 {
-                     smtp.Send(message);
+                    smtp.Send(message);
 
                 }
                 catch (Exception ex)
                 {
-                    //await SendEmail("ryan@rrichardsconsulting.com", "Failed To Send Notification Email - DHI", String.Format("Failed to send email\n\n Exception: {0}\n\n to {1}\n\n, subject: {2}\n\n text: {3}", ex.Message, email, subject, text));
+                    // ignored
                 }
-
             }
 
         }
 
 
-        public void EnviarEmail(string email,  List<Exception> erros, string codigo)
+        public void EnviarEmail(string email, List<Exception> erros, string codigo)
         {
-            
+
             var smtp = new SmtpClient
             {
 
-                Host = "webmail.inmetro.gov.br",
+                Host = Configurations.HostEmail(),
                 Port = 25,
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = true,
-                Credentials = new NetworkCredential("cipp_naoresponda", "#@cert!654#@")
+                Credentials = new NetworkCredential(Configurations.CredentialMailUsername(), Configurations.CredentialMailUsername())
 
             };
 
-            var MessageErro = new MailMessage();
+            var messageErro = new MailMessage();
 
-            MessageErro.To.Add(email);
-            MessageErro.Subject = "Erro na realização da inspeções automáticas ";
-            MessageErro.From = new MailAddress("cipp_naoresponda@inmetro.gov.br", "CIPP");
-            MessageErro.IsBodyHtml = true;
+            messageErro.To.Add(email);
+            messageErro.Subject = "Erro na realização da inspeções automáticas ";
+            messageErro.From = new MailAddress(Configurations.EmailSCIPPAdministrativo(), "CIPP");
+            messageErro.IsBodyHtml = true;
 
             foreach (var item in erros)
             {
-                MessageErro.Body += codigo + "</br>" +
+                messageErro.Body += codigo + "</br>" +
                     item.Message + "</br>";
             }
 
 
-                try
-                {
-                    smtp.Send(MessageErro);
+            try
+            {
+                smtp.Send(messageErro);
 
-                }
-                catch (Exception ex)
-                {
-                    //await SendEmail("ryan@rrichardsconsulting.com", "Failed To Send Notification Email - DHI", String.Format("Failed to send email\n\n Exception: {0}\n\n to {1}\n\n, subject: {2}\n\n text: {3}", ex.Message, email, subject, text));
-                }
-
-
+            }
+            catch (Exception ex)
+            {
+                // ignored
+            }
         }
     }
 }

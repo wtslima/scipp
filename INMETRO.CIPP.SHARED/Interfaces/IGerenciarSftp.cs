@@ -4,8 +4,9 @@ namespace INMETRO.CIPP.SHARED.Interfaces
 {
     public interface IGerenciarSftp
     {
-        string[] ObterArquvosNoDiretorioRemotoSftp(FtpInfo sftp);
+        string[] ObterArquivosNoDiretorioRemotoSftp(FtpInfo sftp);
         bool DownloadArquivo(string file, string diretorioLocal, FtpInfo sftpInfo);
         bool UploadFile(string file, FtpInfo sftpInfo);
+        void CreateDirectory(FtpInfo sFtpInfo);
     }
 }

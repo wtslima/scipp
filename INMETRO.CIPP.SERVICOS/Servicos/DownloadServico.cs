@@ -32,13 +32,13 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         private readonly IHistorico _historicoServico;
         private readonly IGerenciarSftp _sftp;
 
-        private readonly string _pathLocal = ConfigurationManager.AppSettings["LocalPath"];
 
         private readonly List<InspecaoModelServico> _listaInspecoesParaEnvio = new List<InspecaoModelServico>();
 
         readonly Notificacao _enviar = new Notificacao();
         List<Exception> _listExcecao = new List<Exception>();
         private static readonly ILog log = LogManager.GetLogger(typeof(DownloadServico));
+     
 
         public DownloadServico(IOrganismoDominioService organismoDomainService, IGerenciarFtp ftp, IGerenciarArquivoCompactado descompactar, IGerenciarCsv csv, IInspecaoDominioService inspecaoServico, IGerenciarSftp sftp)
         {
@@ -59,6 +59,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         {
             try
             {
+               
                 var organismo = _organismoDomainService.BuscarOrganismoPorId(codigoOia);
 
                 var existeExcecaoInspecao = TemOrganismo(organismo);
@@ -101,7 +102,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             catch (Exception exec)
             {
                  
-                _enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br", _listExcecao, codigoOia);
+                _enviar.EnviarEmail(Configurations.EmailAdministrador(), _listExcecao, codigoOia);
 
                 throw new Exception($"Erro no Download de Inspeção pelo usuário {usuario}. Exceção {exec.Message}");
             }
@@ -117,7 +118,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
             if (listaErros.Count > 0)
             {
-                _enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br", _listExcecao, organismo.CodigoOIA.ToString());
+                _enviar.EnviarEmail(Configurations.EmailAdministrador(), _listExcecao, organismo.CodigoOIA.ToString());
             }
                 
 
@@ -143,7 +144,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 var listaErros = _listExcecao;
                 if (listaErros.Count > 0)
                 {
-                    _enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br", _listExcecao, organismo.CodigoOIA.ToString());
+                    _enviar.EnviarEmail(Configurations.EmailAdministrador(), _listExcecao, organismo.CodigoOIA.ToString());
                 }
 
             }
@@ -186,14 +187,13 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                     catch (Exception e)
                     {
                         _listExcecao.Add(e);
-                        _enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br", _listExcecao, name);
+                        _enviar.EnviarEmail(Configurations.EmailAdministrador(), _listExcecao, name);
                          EnviarLogParaOrganismo(CriarArquivoDeLog(_listExcecao), item.Key);
                     }
                 }
                
                 EnviarInspecoes(_listaInspecoesParaEnvio);
                 return true;
-
 
             }
             catch (Exception e)
@@ -216,7 +216,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                     return diretorios;
                 }
 
-                return _sftp.ObterArquvosNoDiretorioRemotoSftp(ftpInfo);
+                return _sftp.ObterArquivosNoDiretorioRemotoSftp(ftpInfo);
 
             }
             catch (Exception e)
@@ -316,7 +316,6 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
             return DownloadExcecaoService.ObterInspecaoValidaParaCippInformado(inspecoes, cipp, codigo);
 
-
         }
 
 
@@ -387,7 +386,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         {
             var dataLog = DateTime.Now.ToString("yyyy-MM-dd_HH-mm", CultureInfo.InvariantCulture);
             string diretorioTemporario = Environment.GetEnvironmentVariable("TEMP");
-            string fileName = diretorioTemporario + "Log" + dataLog  +".csv";
+            string fileName = diretorioTemporario + "Log" + dataLog  +".txt";
 
             FileInfo file = new FileInfo(fileName);
 
@@ -409,10 +408,13 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             return fileName;
         }
 
-        private bool EnviarLogParaOrganismo(string fileName, FtpInfo sftp)
+        private void EnviarLogParaOrganismo(string fileName, FtpInfo sftp)
         {
-            if (sftp.TipoIntegracao != 1) return _sftp.UploadFile(fileName, sftp);
-            return _sftp.UploadFile(fileName, sftp);
+            if (sftp.TipoIntegracao != 1)
+            {
+                _sftp.CreateDirectory(sftp);
+                _sftp.UploadFile(fileName, sftp);
+            }
         }
 
         private void ExcluirArquivoCompactadoECsv(string diretorioLocal, string file)
@@ -424,7 +426,6 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             }
             catch (Exception e)
             {
-
                 throw new Exception($"Erro ao Excluir arquivo. Exceção {e}");
             }
 
@@ -460,7 +461,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         private string ObterDiretorioLocal(string localDiretorio, string fileCipp)
         {
             var cippServe = Path.GetFileNameWithoutExtension(fileCipp);
-            var path = _pathLocal + localDiretorio + "\\" + cippServe + "\\";
+            var path = Configurations.DiretorioRaiz() + localDiretorio + "\\" + cippServe + "\\";
             bool folderExists = Directory.Exists(path);
 
             if (!folderExists)
@@ -504,8 +505,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             }
             else
             {
-                _enviar.EnviarEmail("scipp-recebe@inmetro.gov.br", _listExcecao,"");
-                _enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br", _listExcecao, "" );
+                _enviar.EnviarEmail(Configurations.EmailAdministrador(), _listExcecao,"");
             }
 
         }

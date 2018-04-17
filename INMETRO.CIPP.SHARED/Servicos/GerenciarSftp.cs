@@ -5,27 +5,28 @@ using INMETRO.CIPP.DOMINIO.Modelos;
 using INMETRO.CIPP.SHARED.Interfaces;
 using INMETRO.CIPP.SHARED.ModelShared;
 using Renci.SshNet;
+using Renci.SshNet.Common;
 using Renci.SshNet.Sftp;
 
 namespace INMETRO.CIPP.SHARED.Servicos
 {
     public class GerenciarSftp : IGerenciarSftp
     {
-        public string[] ObterArquvosNoDiretorioRemotoSftp(FtpInfo sftp)
+        public string[] ObterArquivosNoDiretorioRemotoSftp(FtpInfo sftp)
         {
             var tmpFiles = new List<string>();
             int Port = 22;
             try
             {
-               
+
 
                 SftpClient tmpClient;
 
-               
+
                 if (!string.IsNullOrEmpty(sftp.Senha))
                 {
-                    tmpClient = new SftpClient(sftp.HostURI,Port, sftp.Usuario, sftp.Senha);
-                   
+                    tmpClient = new SftpClient(sftp.HostURI, Port, sftp.Usuario, sftp.Senha);
+
                 }
                 else
                 {
@@ -54,14 +55,14 @@ namespace INMETRO.CIPP.SHARED.Servicos
                     client.Disconnect();
                 }
                 return tmpFiles.Count > 0 ? tmpFiles.ToArray() : new string[] { };
-               
+
             }
             catch (Exception e)
             {
 
-                throw new Exception($"Erro ao Obter Inspeções no servidor SFTP para o Organismo {sftp.OrganismoId}, Exceção :"+e.Message);
+                throw new Exception($"Erro ao Obter Inspeções no servidor SFTP para o Organismo {sftp.OrganismoId}, Exceção :" + e.Message);
             }
-            
+
         }
 
         public bool DownloadArquivo(string file, string diretorioLocal, FtpInfo sftpInfo)
@@ -73,7 +74,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                 SftpClient tmpClient;
                 if (!string.IsNullOrEmpty(sftpInfo.Senha))
                 {
-                    tmpClient = new SftpClient(sftpInfo.HostURI, Port,sftpInfo.Usuario, sftpInfo.Senha);
+                    tmpClient = new SftpClient(sftpInfo.HostURI, Port, sftpInfo.Usuario, sftpInfo.Senha);
                 }
                 else
                 {
@@ -98,13 +99,13 @@ namespace INMETRO.CIPP.SHARED.Servicos
             catch (Exception e)
             {
                 throw new Exception($"Erro ao fazer Download das Inspeções no servidor FTP para o Organismo {sftpInfo.OrganismoId}, Exceção :" + e.Message);
-               
+
             }
             return success;
         }
 
         //// They want us to delete the files that we've successfully processed. Use this.
-        public bool DeleteFile( string file, string diretorioLocal, FtpInfo sftpInfo)
+        public bool DeleteFile(string file, string diretorioLocal, FtpInfo sftpInfo)
         {
             bool success = true;
             try
@@ -127,7 +128,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                     client.Connect();
 
                     client.DeleteFile(diretorioLocal + file);
-                    
+
 
                     client.Disconnect();
                 }
@@ -139,7 +140,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
             return success;
         }
 
-        public bool UploadFile(string localFilePath,  FtpInfo sftp)
+        public bool UploadFile(string localFilePath, FtpInfo sftp)
 
         {
             bool success = true;
@@ -164,14 +165,11 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
                     using (FileStream localFile = new FileStream(localFilePath, FileMode.Open))
                     {
-                        client.UploadFile(localFile, sftp.DiretorioInspecao, true);
+                        client.UploadFile(localFile, sftp.DiretorioInspecao + "Log", true);
                     }
 
                     client.Disconnect();
                 }
-
-                
-
             }
             catch
             {
@@ -180,6 +178,55 @@ namespace INMETRO.CIPP.SHARED.Servicos
             return success;
         }
 
+        public void CreateDirectory(FtpInfo sftpInfo)
+        {
+
+            bool success = true;
+            int Port = 22;
+            string path = "Log";
+
+            SftpClient tmpClient;
+                if (!string.IsNullOrEmpty(sftpInfo.Senha))
+                {
+                    tmpClient = new SftpClient(sftpInfo.HostURI, Port, sftpInfo.Usuario, sftpInfo.Senha);
+                }
+                else
+                {
+                    var sftpModelShared = new SftpModel(sftpInfo.DiretorioInspecaoLocal, sftpInfo.HostURI,
+                        sftpInfo.Usuario,
+                        sftpInfo.PrivateKey, sftpInfo.Senha);
+                    tmpClient = new SftpClient(sftpModelShared.HostURI, Port, sftpModelShared.Usuario,
+                        sftpModelShared.PrivateKey);
+                }
+
+                string current = sftpInfo.DiretorioInspecao + path;
+                using (SftpClient client = tmpClient)
+                {
+                    try
+                    {
+
+                        client.Connect();
+
+                        SftpFileAttributes attrs = client.GetAttributes(current);
+                        if (!attrs.IsDirectory)
+                        {
+                            throw new Exception("not directory");
+                        }
+                        client.CreateDirectory(current);
+
+
+                      
+                    }
+
+                    catch (SftpPathNotFoundException)
+                    {
+                        client.CreateDirectory(current);
+                    }
+
+                    client.Disconnect();
+                }
+            
+        }
 
         //public bool UploadFiles(string[] localFilePaths, string remoteFilePath)
         //{
