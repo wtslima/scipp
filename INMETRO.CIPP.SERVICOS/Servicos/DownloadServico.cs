@@ -18,7 +18,8 @@ using INMETRO.CIPP.SHARED;
 using INMETRO.CIPP.SHARED.Email;
 using INMETRO.CIPP.SHARED.Interfaces;
 using INMETRO.CIPP.SHARED.ModelShared;
-using log4net;
+
+
 
 namespace INMETRO.CIPP.SERVICOS.Servicos
 {
@@ -37,9 +38,8 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
         readonly Notificacao _enviar = new Notificacao();
         List<Exception> _listExcecao = new List<Exception>();
-        private static readonly ILog log = LogManager.GetLogger(typeof(DownloadServico));
-     
 
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         public DownloadServico(IOrganismoDominioService organismoDomainService, IGerenciarFtp ftp, IGerenciarArquivoCompactado descompactar, IGerenciarCsv csv, IInspecaoDominioService inspecaoServico, IGerenciarSftp sftp)
         {
             _organismoDomainService = organismoDomainService;
@@ -209,6 +209,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         {
             try
             {
+               
                 //ftps ou ftp
                 if (ftpInfo.TipoIntegracao == 1)
                 {
