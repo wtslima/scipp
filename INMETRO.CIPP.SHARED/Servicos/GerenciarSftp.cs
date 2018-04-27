@@ -12,7 +12,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
 {
     public class GerenciarSftp : IGerenciarSftp
     {
-        public string[] ObterArquivosNoDiretorioRemotoSftp(FtpInfo sftp)
+        public string[] ObterArquivosNoDiretorioRemotoSftp(IntegracaoInfos sftp)
         {
             var tmpFiles = new List<string>();
             int Port = 22;
@@ -65,7 +65,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
         }
 
-        public bool DownloadArquivo(string file, string diretorioLocal, FtpInfo sftpInfo)
+        public bool DownloadArquivo(string file, string diretorioLocal, IntegracaoInfos sftpInfo)
         {
             bool success = true;
             int Port = 22;
@@ -105,7 +105,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
         }
 
         //// They want us to delete the files that we've successfully processed. Use this.
-        public bool DeleteFile(string file, string diretorioLocal, FtpInfo sftpInfo)
+        public bool DeleteFile(string file, string diretorioLocal, IntegracaoInfos sftpInfo)
         {
             bool success = true;
             try
@@ -140,7 +140,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
             return success;
         }
 
-        public bool UploadFile(string localFilePath, FtpInfo sftp)
+        public bool UploadFile(string localFilePath, IntegracaoInfos sftp)
 
         {
             bool success = true;
@@ -178,7 +178,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
             return success;
         }
 
-        public void CreateDirectory(FtpInfo sftpInfo)
+        public void CreateDirectory(IntegracaoInfos sftpInfo)
         {
 
             bool success = true;

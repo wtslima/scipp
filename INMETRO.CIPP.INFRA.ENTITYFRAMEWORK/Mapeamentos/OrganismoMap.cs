@@ -18,7 +18,7 @@ namespace INMETRO.CIPP.INFRA.ENTITYFRAMEWORK.Mapeamentos
             Property(o => o.Nome).HasColumnName("NOM_ORGANISMO").IsRequired();
 
             Property(o => o.EhAtivo).HasColumnName("CDA_ATIVO");
-            HasRequired(o => o.FtpInfo);
+            HasRequired(o => o.IntegracaoInfo);
 
         }
     }

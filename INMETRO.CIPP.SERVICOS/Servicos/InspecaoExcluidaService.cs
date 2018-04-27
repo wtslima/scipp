@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using INMETRO.CIPP.DOMINIO.Interfaces;
 using INMETRO.CIPP.DOMINIO.Interfaces.Repositorios;
@@ -38,11 +37,11 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 if (organismos.Count <= 0) return false;
                 foreach (var item in organismos)
                 {
-                    var lista = ObterInspecoesComMaisDeTrintaDias(item.FtpInfo);
+                    var lista = ObterInspecoesComMaisDeTrintaDias(item.IntegracaoInfo);
 
                     if (lista.Count > 0)
                     {
-                        RemoverInspecaoComMaisDe30Dias(lista.ToList(), item.FtpInfo);
+                        RemoverInspecaoComMaisDe30Dias(lista.ToList(), item.IntegracaoInfo);
                     }
                 }
                 return true;
@@ -52,8 +51,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             {
 
                 enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br", _listExcecao, "");
-              //enviar.EnviarEmail("astrindade@colaborador.inmetro.gov.br", _listExcecao,"");
-               
+             
             }
             return false;
         }
@@ -63,7 +61,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         {
             try
             {
-                if (!string.IsNullOrEmpty(codigoOia) && !string.IsNullOrEmpty(cipp))
+                if (!string.IsNullOrEmpty(codigoOia))
                 {
                     return Conversao.ConverterParaModeloServico(_historicoInspecaoExcluida.ObterInspecaoParaCippECodigoOiaInformado(codigoOia, cipp));
                 }
@@ -102,7 +100,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         }
 
 
-        private void AddRegistrosExclusao(int codigoOia, string diretorio)
+        private void AddRegistrosExclusao(string codigoOia, string diretorio)
         {
             try
             {
@@ -153,7 +151,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
         }
 
-        private void RemoverInspecaoComMaisDe30Dias(List<string> lista, FtpInfo ftpInfo)
+        private void RemoverInspecaoComMaisDe30Dias(List<string> lista, IntegracaoInfos ftpInfo)
         {
             try
             {
@@ -171,7 +169,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
         }
 
-        private IList<string> ObterInspecoesComMaisDeTrintaDias(FtpInfo ftpInfo)
+        private IList<string> ObterInspecoesComMaisDeTrintaDias(IntegracaoInfos ftpInfo)
         {
             var listaDiretoriosParaExclusaoComMais30Dias = new List<string>();
 

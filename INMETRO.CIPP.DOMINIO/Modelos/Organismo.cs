@@ -17,12 +17,19 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
 
         [Required]
         [Column("CDA_CODIGO_OIA")]
-        public int CodigoOIA { get; set; }
+        public string CodigoOIA { get; set; }
+
+        [Required]
+        [Column("CDA_LI")]
+        public string Nivel_Li { get; set; }
+
+        [NotMapped]
+        public string CodigoOiaLi { get; set; }
 
         [Column("CDA_ATIVO")]
         public bool EhAtivo { get; set; }
 
-        public virtual FtpInfo FtpInfo { get; set; }
+        public virtual IntegracaoInfos IntegracaoInfo { get; set; }
        
         public virtual IEnumerable<Inspecao> Inspecaoes { get; set; }
 
@@ -33,20 +40,13 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
         {
             
         }
-        public Organismo(int id, string nome,int codigo)
+
+        public Organismo(string nome, int codigoOia, string nivel)
         {
-            Id = id;
             Nome = nome;
-            CodigoOIA = codigo;
-        }
-
-        public Organismo(int codigo, FtpInfo ftpInfo)
-        {
-            CodigoOIA = codigo;
-            FtpInfo = ftpInfo;
+            CodigoOiaLi = codigoOia.ToString() + "-" + nivel; 
         }
 
 
-      
     }
 }

@@ -28,16 +28,20 @@ namespace INMETRO.CIPP.INFRA.ENTITYFRAMEWORK
             modelBuilder.Entity<HistoricoExclusao>().HasIndex(o => o.Cipp)
                 .IsUnique();
 
+
             // Configura OrganismoId como PK para FTPInfo
-            modelBuilder.Entity<FtpInfo>()
-                .HasKey(e => e.OrganismoId);
+            //modelBuilder.Entity<IntegracaoInfos>()
+            //    .HasKey(e => e.OrganismoId);
 
-            // Configura OrganismoId como FK for Ftpinfo
-            modelBuilder.Entity<Organismo>()
-                .HasRequired(s => s.FtpInfo)
-                .WithRequiredPrincipal(ad => ad.Organismo);
 
-            modelBuilder.Entity<Historico>()
+
+            //Configura OrganismoId como FK for Ftpinfo
+
+           modelBuilder.Entity<Organismo>()
+               .HasRequired(s => s.IntegracaoInfo)
+               .WithRequiredPrincipal(ad => ad.Organismo);
+
+           modelBuilder.Entity<Historico>()
                 .HasKey(e => e.InspecaoId);
 
             modelBuilder.Entity<Inspecao>()
@@ -51,7 +55,7 @@ namespace INMETRO.CIPP.INFRA.ENTITYFRAMEWORK
 
         public DbSet<Inspecao> Inspecoes { get; set; }
 
-        public DbSet<FtpInfo> IntegracaoInfo { get; set; }
+        public DbSet<IntegracaoInfos> IntegracaoInfo { get; set; }
 
         public DbSet<Historico> Historico { get; set; }
 

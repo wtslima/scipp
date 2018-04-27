@@ -7,9 +7,9 @@ namespace INMETRO.CIPP.DOMINIO.Interfaces.Repositorios
     public interface IInspecaoRepositorio
     {
         bool AdicionarDadosInspecao(Inspecao inspecao);
-        Inspecao ObterDadosInspecao(string Cipp);
+        Inspecao ObterDadosInspecao(string cipp);
         bool BuscarInspecaoPorCodigoCipp(string cipp);
-        IList<Inspecao> ObterInspecaosPorCodigoOia(int codigoOia);
+        IList<Inspecao> ObterInspecaosPorCodigoOia(string codigoOia);
         IEnumerable<Inspecao> ObterInspecaosPorPlacaLicenca(string placaLicenca);
 
         IEnumerable<Inspecao> ObterInspecoesPorDataInspecao(DateTime dataInspecao);

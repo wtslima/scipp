@@ -67,7 +67,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
 
         }
 
-        public IList<Inspecao> ObterInspecaosPorCodigoOia(int codigoOia)
+        public IList<Inspecao> ObterInspecaosPorCodigoOia(string codigoOia)
         {
             using (var ctx = new CippContexto())
             {
@@ -75,7 +75,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                 {
 
                     var resultado = ctx.Inspecoes
-                        .Where(s => s.CodigoOIA == codigoOia)
+                        .Where(s => s.CodigoOIA.Equals(Convert.ToString(codigoOia)))
                         .ToList()
                         .Select(
                             item => new Inspecao
@@ -208,7 +208,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                         {
                             Id = (int) result["IDT_INSPECAO"],
                             CodigoCIPP = result["CDN_CIPP"].ToString(),
-                            CodigoOIA = Convert.ToInt32(result["CDA_CODIGO_OIA"]),
+                            CodigoOIA = result["CDA_CODIGO_OIA"].ToString(),
                             NumeroEquipamento =  result["NUM_EQUIPAMENTO"].ToString(),
                             PlacaLicenca = result["DES_PLACA_LICENCA"].ToString(),
                             DataInspecao = Convert.ToDateTime(result["DAT_INSPECAO"])

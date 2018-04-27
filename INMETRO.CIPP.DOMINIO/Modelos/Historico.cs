@@ -7,6 +7,10 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
     [Table("TB_HISTORICO_DOWNLOAD_INSPECAO")]
     public class Historico
     {
+        [Key]
+        [Column("IDT_HISTORICO_DOWNLOAD_INSPECAO")]
+        public int Id { get; set; }
+
         [Required]
         [Column("IDT_INSPECAO")]
         public int InspecaoId { get; set; }

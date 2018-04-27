@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using INMETRO.CIPP.DOMINIO.Modelos;
 using INMETRO.CIPP.SERVICOS.ModelService;
@@ -16,7 +15,7 @@ namespace INMETRO.CIPP.SERVICOS
             return new Inspecao
             {
                 CodigoCIPP = value.CodigoCipp,
-                CodigoOIA = Convert.ToInt32(value.CodigoOia),
+                CodigoOIA = value.CodigoOia,
                 PlacaLicenca = value.PlacaLicenca,
                 NumeroEquipamento = value.NumeroEquipamento,
                 DataInspecao = value.DataInspecao.Date
@@ -133,7 +132,7 @@ namespace INMETRO.CIPP.SERVICOS
             return new Inspecao
             {
                 CodigoCIPP = value.CodigoCipp,
-                CodigoOIA = Convert.ToInt32(value.CodigoOia),
+                CodigoOIA = value.CodigoOia,
                 PlacaLicenca = value.Placa,
                 NumeroEquipamento = value.Equipamento,
                 DataInspecao = value.DataInspecao.Date

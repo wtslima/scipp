@@ -32,14 +32,14 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
        
         [Required]
         [Column("CDA_CODIGO_OIA")]
-        public int CodigoOIA { get; set; }
+        public string CodigoOIA { get; set; }
 
         public virtual Historico Historico { get; set; }
 
         [NotMapped]
         public virtual ExcecaoDominio ExcecaoDominio { get; set; }
 
-        public Inspecao(string codigoCipp, string placa, string equipamento, DateTime dataInspecao,  int codigoOIA)
+        public Inspecao(string codigoCipp, string placa, string equipamento, DateTime dataInspecao,  string codigoOIA)
         {
             CodigoCIPP = codigoCipp;
             PlacaLicenca = placa;

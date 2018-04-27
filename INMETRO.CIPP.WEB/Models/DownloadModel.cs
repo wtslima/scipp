@@ -4,9 +4,9 @@ namespace INMETRO.CIPP.WEB.Models
 {
     public class DownloadModel
     {
-        [Required(ErrorMessage = "O campo Usuário é obrigatório")]
-        [RegularExpression("([0-9]+)", ErrorMessage = "Por favor digite um numero válido.")]
-        [MaxLength(4)]
+        [Required(ErrorMessage = "O campo é obrigatório")]
+        //[RegularExpression("([0-9]+)", ErrorMessage = "Por favor digite um numero válido.")]
+        [MaxLength(7)]
         public string CodigoOia { get; set; }
         [RegularExpression("([0-9]+)", ErrorMessage = "Por favor digite um numero válido.")]
         public string CodigoCipp { get; set; }

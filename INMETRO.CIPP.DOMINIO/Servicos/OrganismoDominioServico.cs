@@ -16,8 +16,8 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
         }
         public  Organismo BuscarOrganismoPorId(string codigoOia)
         {
-            var _codigo = Convert.ToInt32(codigoOia);
-            var resultado =  _repositorio.BuscarOrganismoPorId(_codigo);
+           
+            var resultado =  _repositorio.BuscarOrganismoPorId(codigoOia);
 
             if (resultado.Id <= 0)
                 return new Organismo

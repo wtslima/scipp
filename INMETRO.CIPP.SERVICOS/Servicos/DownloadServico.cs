@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using INMETRO.CIPP.DOMINIO.Interfaces;
 using INMETRO.CIPP.DOMINIO.Interfaces.Repositorios;
@@ -59,15 +60,18 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         {
             try
             {
-               
+                //var resultado = ObterCodigoOia(codigoOia);
+
                 var organismo = _organismoDomainService.BuscarOrganismoPorId(codigoOia);
+
+              
 
                 var existeExcecaoInspecao = TemOrganismo(organismo);
                 if (existeExcecaoInspecao.Excecao.ExisteExcecao)
                     return existeExcecaoInspecao;
 
 
-                existeExcecaoInspecao = VerificarFtpValido(organismo.FtpInfo, codigoOia);
+                existeExcecaoInspecao = VerificarFtpValido(organismo.IntegracaoInfo, codigoOia);
 
                 if (existeExcecaoInspecao.Excecao.ExisteExcecao)
                     return existeExcecaoInspecao;
@@ -81,7 +85,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 }
 
 
-                var diretoriosCippRemoto = ObterListaDiretoriosPorOrganismo(organismo.FtpInfo);
+                var diretoriosCippRemoto = ObterListaDiretoriosPorOrganismo(organismo.IntegracaoInfo);
 
                 existeExcecaoInspecao = VerificarDiretorios(diretoriosCippRemoto, codigoOia, cipp);
                 if (existeExcecaoInspecao.Excecao.ExisteExcecao)
@@ -108,11 +112,24 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             }
            
         }
+
+        private int ObterCodigoOia(string valor)
+        {
+            string pattern = "-";            // Split on hyphens
+
+            string[] substrings = Regex.Split(valor, pattern);
+            foreach (string match in substrings)
+            {
+                return Convert.ToInt32(match);
+            }
+
+            return 0;
+        }
         private InspecoesGravadasModelServico DownloadInspecoaPorCippInformado(Organismo organismo, string diretorioRemoto, string usuario)
         {
-            var diretorioLocal = ObterDiretorioLocal(organismo.FtpInfo.DiretorioInspecaoLocal,
+            var diretorioLocal = ObterDiretorioLocal(organismo.IntegracaoInfo.DiretorioInspecaoLocal,
                 diretorioRemoto);
-            DownloadInspecao(organismo.FtpInfo, diretorioLocal, diretorioRemoto, usuario);
+            DownloadInspecao(organismo.IntegracaoInfo, diretorioLocal, diretorioRemoto, usuario);
 
             var listaErros = _listExcecao;
 
@@ -138,9 +155,9 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         {
             foreach (var diretorioRemoto in diretoriosRemotoValidos)
             {
-                var diretorioLocal = ObterDiretorioLocal(organismo.FtpInfo.DiretorioInspecaoLocal,
+                var diretorioLocal = ObterDiretorioLocal(organismo.IntegracaoInfo.DiretorioInspecaoLocal,
                     diretorioRemoto);
-                DownloadInspecao(organismo.FtpInfo, diretorioLocal, diretorioRemoto, usuario);
+                DownloadInspecao(organismo.IntegracaoInfo, diretorioLocal, diretorioRemoto, usuario);
                 var listaErros = _listExcecao;
                 if (listaErros.Count > 0)
                 {
@@ -171,8 +188,8 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             {
                 var organismos = await _organismoDomainService.BuscarTodosOrganismos();
 
-                if (!organismos.GroupBy(f => f.FtpInfo).Any()) return false;
-                foreach (var item in organismos.GroupBy(c => c.FtpInfo))
+                if (!organismos.GroupBy(f => f.IntegracaoInfo).Any()) return false;
+                foreach (var item in organismos.GroupBy(c => c.IntegracaoInfo))
                 {
                     var cod = item.Key.DiretorioInspecaoLocal.Replace("\\", "");
                      var name = _organismoDomainService.BuscarOrganismoPorId(cod).Nome;
@@ -205,7 +222,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         #endregion
 
 
-        private string[] ObterListaDiretoriosPorOrganismo(FtpInfo ftpInfo)
+        private string[] ObterListaDiretoriosPorOrganismo(IntegracaoInfos ftpInfo)
         {
             try
             {
@@ -229,7 +246,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         }
 
 
-        private void DownloadInspecaoAutomatica(FtpInfo ftpInfo, IEnumerable<string> diretorios)
+        private void DownloadInspecaoAutomatica(IntegracaoInfos ftpInfo, IEnumerable<string> diretorios)
         {
             var diretoriosValidos = new List<string>();
             if (diretorios != null)
@@ -263,7 +280,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             
         }
 
-        private void DownloadInspecao(FtpInfo ftpInfo, string diretorioLocal, string diretorioRemoto, string usuario)
+        private void DownloadInspecao(IntegracaoInfos ftpInfo, string diretorioLocal, string diretorioRemoto, string usuario)
         {
             try
             {
@@ -321,7 +338,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
 
 
-        private static InspecoesGravadasModelServico VerificarFtpValido(FtpInfo ftpInfos, string codigo)
+        private static InspecoesGravadasModelServico VerificarFtpValido(IntegracaoInfos ftpInfos, string codigo)
         {
 
 
@@ -409,7 +426,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             return fileName;
         }
 
-        private void EnviarLogParaOrganismo(string fileName, FtpInfo sftp)
+        private void EnviarLogParaOrganismo(string fileName, IntegracaoInfos sftp)
         {
             if (sftp.TipoIntegracao != 1)
             {
@@ -578,7 +595,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             };
         }
 
-        private bool DownloadArquivo(string file, string diretorioLocal, FtpInfo integracao)
+        private bool DownloadArquivo(string file, string diretorioLocal, IntegracaoInfos integracao)
         {
             if (integracao.TipoIntegracao != 1) return _sftp.DownloadArquivo(file, diretorioLocal + file, integracao);
             return _ftp.DownloadInspecaoFtp(file, diretorioLocal, integracao);

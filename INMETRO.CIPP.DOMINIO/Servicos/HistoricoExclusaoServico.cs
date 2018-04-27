@@ -47,8 +47,7 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
 
         public HistoricoExclusao ObterInspecaoParaCippECodigoOiaInformado(string codigoOia, string cipp)
         {
-            var codigo = Convert.ToInt32(codigoOia);
-            var organismo = _organismoRepositorio.BuscarOrganismoPorId(codigo);
+            var organismo = _organismoRepositorio.BuscarOrganismoPorId(codigoOia);
             if (organismo.Id <= 0)
                 return new HistoricoExclusao
                 {
@@ -75,9 +74,9 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
         {
             try
             {
-                var codigo = Convert.ToInt32(codigoOia);
+               
 
-                var organismo = _organismoRepositorio.BuscarOrganismoPorId(codigo);
+                var organismo = _organismoRepositorio.BuscarOrganismoPorId(codigoOia);
                 if (organismo.Id <= 0)
                     return new HistoricoDeInspecoesExcluidas
                     {

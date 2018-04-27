@@ -69,8 +69,8 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
         {
             try
             {
-                _codigo = Convert.ToInt32(codigoOia);
-                var organismo = _organismoRepositorio.BuscarOrganismoPorId(_codigo);
+               
+                var organismo = _organismoRepositorio.BuscarOrganismoPorId(codigoOia);
                 if (organismo.Id <= 0)
                 {
                     return new Inspecao
@@ -85,7 +85,7 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
 
                     };
                 }
-                var inspecoes = _repositorio.ObterInspecaosPorCodigoOia(_codigo);
+                var inspecoes = _repositorio.ObterInspecaosPorCodigoOia(codigoOia);
 
                 foreach (var item in inspecoes)
                 {
@@ -134,8 +134,8 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
     {
         try
         {
-            var codigo = Convert.ToInt32(codigoOia);
-            var organismo = _organismoRepositorio.BuscarOrganismoPorId(codigo);
+           
+            var organismo = _organismoRepositorio.BuscarOrganismoPorId(codigoOia);
             if (organismo.Id <= 0)
                 return new InspecoesGravadas
                 {
@@ -146,7 +146,7 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
                         ExisteExcecao = true
                     }
                 };
-            var resultado = _repositorio.ObterInspecaosPorCodigoOia(codigo);
+            var resultado = _repositorio.ObterInspecaosPorCodigoOia(codigoOia);
 
             if (resultado.Count > 0)
             {

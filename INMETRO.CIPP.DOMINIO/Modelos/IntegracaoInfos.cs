@@ -3,16 +3,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace INMETRO.CIPP.DOMINIO.Modelos
 {
-    [Table("TB_FTP_INFO")]
-    public class FtpInfo
+    [Table("TB_INTEGRACAO_INFO")]
+    public class IntegracaoInfos
     {
-       
+        [Key]
+        [Column("IDT_INTEGRACAO_INFO")]
+        public int Id { get; set; }
+
         [Required]
         [Column("DES_DIRETORIO_CIPP")]  //Inspecao
         public string DiretorioInspecao { get; set; }
 
         [Required]
-        [Column("CDN_TIPO_INTEGRACAO")] //1 ou 2.zip
+        [Column("CDN_TIPO_INTEGRACAO")] 
         public int TipoIntegracao  { get; set; }
 
         [Required]
@@ -22,6 +25,9 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
         [Required]
         [Column("DES_HOST_URI")]  //ftp:///siteftp
         public string HostURI { get; set; }
+
+        [Column("DES_PORTA")]
+        public string Porta { get; set; }
 
         [Required]
         [Column("CDA_LOGIN_FTP")]
@@ -38,11 +44,14 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
         [Column("CDA_PRIVATE_KEY")]
         public string PrivateKey { get; set; }
 
-
-
+        [ForeignKey("Id")]
         public virtual Organismo Organismo { get; set; }
 
-        public FtpInfo(int organismoId, string diretorioInspecao, int tipoIntegracao, string diretorioInspecaoLocal, string host, string usuario, string senha, string chave)
+        public IntegracaoInfos()
+        {
+
+        }
+        public IntegracaoInfos(int organismoId, string diretorioInspecao, int tipoIntegracao, string diretorioInspecaoLocal, string host, string usuario, string senha, string chave, string porta)
         {
             DiretorioInspecao = diretorioInspecao;
             TipoIntegracao = tipoIntegracao;
@@ -52,12 +61,8 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
             Senha = senha;
             OrganismoId = organismoId;
             PrivateKey = chave;
+            Porta = porta; 
 
-        }
-
-        public FtpInfo()
-        {
-          
         }
 
         public bool ExisteArquivoCsv(string extensao)

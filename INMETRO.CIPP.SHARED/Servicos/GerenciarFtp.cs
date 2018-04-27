@@ -10,7 +10,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
 {
     public class GerenciarFtp : IGerenciarFtp
     {
-        public  string[] ObterListaDiretoriosInspecoesFtp(FtpInfo ftp)
+        public  string[] ObterListaDiretoriosInspecoesFtp(IntegracaoInfos ftp)
         {
             var tmpFiles = new List<string>();
             try
@@ -46,7 +46,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
         }
 
-        public bool DownloadInspecaoFtp(string file, string diretorioLocal, FtpInfo ftpInfo)
+        public bool DownloadInspecaoFtp(string file, string diretorioLocal, IntegracaoInfos ftpInfo)
         {
             bool success = true;
             try
@@ -85,7 +85,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
             return success;
         }
 
-        public long ObterTamanhoArquivoInspecao(FtpInfo ftpInfo)
+        public long ObterTamanhoArquivoInspecao(IntegracaoInfos ftpInfo)
         {
             // Get the object used to communicate with the server.
             FtpWebRequest request = (FtpWebRequest)WebRequest.Create(ftpInfo.HostURI + ftpInfo.DiretorioInspecao);
@@ -112,7 +112,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
             }
         }
 
-        public DateTime ObterDataEntradaFtp(FtpInfo ftpInfo, string diretorioInspecaoRemoto)
+        public DateTime ObterDataEntradaFtp(IntegracaoInfos ftpInfo, string diretorioInspecaoRemoto)
         {
             // Get the object used to communicate with the server.
             FtpWebRequest request = (FtpWebRequest)WebRequest.Create(ftpInfo.HostURI + ftpInfo.DiretorioInspecao + diretorioInspecaoRemoto);
@@ -141,7 +141,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
             }
         }
 
-        public bool ExcluirInspecao(FtpInfo ftp, string inspecao)
+        public bool ExcluirInspecao(IntegracaoInfos ftp, string inspecao)
         {
             bool success = true;
             try

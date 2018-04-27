@@ -11,13 +11,13 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
 {
     public class OrganismoRepositorio : IOrganismoRepositorio
     {
-        public Organismo BuscarOrganismoPorId(int codigoOia)
+        public Organismo BuscarOrganismoPorId(string codigoOia)
         {
             using (var contexto = new CippContexto())
             {
                 try
                 {
-                    var consulta = contexto.Organismos.Include(ftp => ftp.FtpInfo).FirstOrDefault(x => x.CodigoOIA == codigoOia);
+                    var consulta = contexto.Organismos.Include(f => f.IntegracaoInfo).FirstOrDefault(x => x.CodigoOIA.Equals(codigoOia));
 
                     return consulta ?? new Organismo();
 
@@ -39,7 +39,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                 try
                 {
                     
-                    var consulta = await contexto.Organismos.Include(ftp => ftp.FtpInfo).Where(s => s.EhAtivo && s.FtpInfo.OrganismoId > 0).ToListAsync();
+                    var consulta = await contexto.Organismos.Include(ftp => ftp.IntegracaoInfo).Where(s => s.EhAtivo && s.IntegracaoInfo.OrganismoId > 0).ToListAsync();
 
                     return consulta.Select(item => new Organismo
                     {
@@ -47,17 +47,19 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                         Id = item.Id,
                         CodigoOIA = item.CodigoOIA,
                         Nome = item.Nome,
+                        Nivel_Li = item.Nivel_Li,
                         EhAtivo = item.EhAtivo,
-                        FtpInfo = item.FtpInfo == null ? null : new FtpInfo
+                        IntegracaoInfo = item.IntegracaoInfo == null ? null : new IntegracaoInfos
                         {
-                            DiretorioInspecao = item.FtpInfo.DiretorioInspecao,
-                            OrganismoId = item.FtpInfo.OrganismoId,
-                            DiretorioInspecaoLocal = item.FtpInfo.DiretorioInspecaoLocal,
-                            HostURI = item.FtpInfo.HostURI,
-                            Usuario = item.FtpInfo.Usuario,
-                            Senha = item.FtpInfo.Senha,
-                            TipoIntegracao = item.FtpInfo.TipoIntegracao,
-                            PrivateKey = item.FtpInfo.PrivateKey
+                            DiretorioInspecao = item.IntegracaoInfo.DiretorioInspecao,
+                            OrganismoId = item.IntegracaoInfo.OrganismoId,
+                            DiretorioInspecaoLocal = item.IntegracaoInfo.DiretorioInspecaoLocal,
+                            HostURI = item.IntegracaoInfo.HostURI,
+                            Usuario = item.IntegracaoInfo.Usuario,
+                            Senha = item.IntegracaoInfo.Senha,
+                            TipoIntegracao = item.IntegracaoInfo.TipoIntegracao,
+                            PrivateKey = item.IntegracaoInfo.PrivateKey,
+                            Porta = item.IntegracaoInfo.Porta
                         }
                     }).ToList();
 
