@@ -19,13 +19,6 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
         [Column("CDA_CODIGO_OIA")]
         public string CodigoOIA { get; set; }
 
-        [Required]
-        [Column("CDA_LI")]
-        public string Nivel_Li { get; set; }
-
-        [NotMapped]
-        public string CodigoOiaLi { get; set; }
-
         [Column("CDA_ATIVO")]
         public bool EhAtivo { get; set; }
 
@@ -41,10 +34,20 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
             
         }
 
-        public Organismo(string nome, int codigoOia, string nivel)
+        public Organismo(int id, string nome, string codigoOia, IntegracaoInfos integracaoInfo)
         {
             Nome = nome;
-            CodigoOiaLi = codigoOia.ToString() + "-" + nivel; 
+            CodigoOIA = codigoOia;
+            IntegracaoInfo  = new IntegracaoInfos
+            {
+                HostURI = integracaoInfo.HostURI+":"+integracaoInfo.Porta+"//"+integracaoInfo.DiretorioInspecao,
+                DiretorioInspecaoLocal = integracaoInfo.DiretorioInspecaoLocal,
+                TipoIntegracao = integracaoInfo.TipoIntegracao,
+                Usuario = integracaoInfo.Usuario,
+                Senha = integracaoInfo.Senha,
+                PrivateKey = integracaoInfo.PrivateKey
+
+            };
         }
 
 

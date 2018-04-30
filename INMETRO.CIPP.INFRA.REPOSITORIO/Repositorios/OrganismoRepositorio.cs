@@ -17,12 +17,10 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
             {
                 try
                 {
-                    var consulta = contexto.Organismos.Include(f => f.IntegracaoInfo).FirstOrDefault(x => x.CodigoOIA.Equals(codigoOia));
+                    var consulta = contexto.Organismos.Include(f => f.IntegracaoInfo).FirstOrDefault(x => x.CodigoOIA.Contains(codigoOia) && x.EhAtivo);
 
-                    return consulta ?? new Organismo();
-
-
-                    //todo: Criar exceção() 
+                    return consulta ;
+ 
                 }
                 catch (Exception e)
                 {
@@ -39,7 +37,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                 try
                 {
                     
-                    var consulta = await contexto.Organismos.Include(ftp => ftp.IntegracaoInfo).Where(s => s.EhAtivo && s.IntegracaoInfo.OrganismoId > 0).ToListAsync();
+                    var consulta = await contexto.Organismos.Include(ftp => ftp.IntegracaoInfo).Where(s => s.EhAtivo ).ToListAsync();
 
                     return consulta.Select(item => new Organismo
                     {
@@ -47,12 +45,10 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                         Id = item.Id,
                         CodigoOIA = item.CodigoOIA,
                         Nome = item.Nome,
-                        Nivel_Li = item.Nivel_Li,
                         EhAtivo = item.EhAtivo,
                         IntegracaoInfo = item.IntegracaoInfo == null ? null : new IntegracaoInfos
                         {
                             DiretorioInspecao = item.IntegracaoInfo.DiretorioInspecao,
-                            OrganismoId = item.IntegracaoInfo.OrganismoId,
                             DiretorioInspecaoLocal = item.IntegracaoInfo.DiretorioInspecaoLocal,
                             HostURI = item.IntegracaoInfo.HostURI,
                             Usuario = item.IntegracaoInfo.Usuario,
@@ -71,5 +67,22 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
             }
         }
 
+        public IList<Organismo> BuscarOrganismosPorParteDoCodigo(string valor)
+        {
+            using (var contexto = new CippContexto())
+            {
+                try
+                {
+                    var resultado = contexto.Organismos.Where(s => s.CodigoOIA.StartsWith(valor)).ToList();
+
+                    return resultado;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
+        }
     }
 }

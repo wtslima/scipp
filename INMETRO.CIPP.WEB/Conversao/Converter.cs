@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using INMETRO.CIPP.SERVICOS.ModelService;
@@ -21,8 +22,8 @@ namespace INMETRO.CIPP.WEB.Conversao
                     CodigoOia = s.CodigoOia,
                     CodigoCipp = s.CodigoCipp,
                     DataInspecao = s.DataInspecao.ToString("d"),
-                    Equipamento = s.Equipamento,
-                    Placa = s.Placa
+                    Equipamento = !string.Equals(s.Equipamento, null, StringComparison.Ordinal) ? s.Equipamento : String.Empty,
+                    Placa = !string.Equals(s.Placa, null, StringComparison.Ordinal) ? s.Placa : String.Empty
 
                 }),
                 Mensagem = new MensagemModel

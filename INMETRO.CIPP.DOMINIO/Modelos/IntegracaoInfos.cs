@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 
 namespace INMETRO.CIPP.DOMINIO.Modelos
 {
@@ -10,6 +11,11 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
         [Column("IDT_INTEGRACAO_INFO")]
         public int Id { get; set; }
 
+        //[ForeignKey("Organismo")]
+        //[Required]
+        //[Column("IDT_ORGANISMO")]
+        //public int OrganismoId { get; set; }
+        
         [Required]
         [Column("DES_DIRETORIO_CIPP")]  //Inspecao
         public string DiretorioInspecao { get; set; }
@@ -37,21 +43,16 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
         [Column("DES_SENHA_FTP")]
         public string Senha { get; set; }
 
-        [Required]
-        [Column("IDT_ORGANISMO")]
-        public int OrganismoId { get; set; }
-
         [Column("CDA_PRIVATE_KEY")]
         public string PrivateKey { get; set; }
-
-        [ForeignKey("Id")]
+        
         public virtual Organismo Organismo { get; set; }
 
         public IntegracaoInfos()
         {
 
         }
-        public IntegracaoInfos(int organismoId, string diretorioInspecao, int tipoIntegracao, string diretorioInspecaoLocal, string host, string usuario, string senha, string chave, string porta)
+        public IntegracaoInfos( string diretorioInspecao, int tipoIntegracao, string diretorioInspecaoLocal, string host, string usuario, string senha, string chave, string porta)
         {
             DiretorioInspecao = diretorioInspecao;
             TipoIntegracao = tipoIntegracao;
@@ -59,7 +60,6 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
             HostURI = host;
             Usuario = usuario;
             Senha = senha;
-            OrganismoId = organismoId;
             PrivateKey = chave;
             Porta = porta; 
 

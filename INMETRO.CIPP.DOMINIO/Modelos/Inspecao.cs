@@ -15,13 +15,13 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
         [StringLength(20)]
         [Required]
         [Column("CDN_CIPP")]
-        public string CodigoCIPP { get; set; }
+        public string CodigoCipp { get; set; }
         
-        [Required]
+       
         [Column("DES_PLACA_LICENCA")]
         public string PlacaLicenca { get; set; }
 
-        [Required]
+        
         [Column("NUM_EQUIPAMENTO")]
         public string NumeroEquipamento { get; set; }
 
@@ -41,7 +41,7 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
 
         public Inspecao(string codigoCipp, string placa, string equipamento, DateTime dataInspecao,  string codigoOIA)
         {
-            CodigoCIPP = codigoCipp;
+            CodigoCipp = codigoCipp;
             PlacaLicenca = placa;
             NumeroEquipamento = equipamento;
             DataInspecao = dataInspecao;

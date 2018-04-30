@@ -23,6 +23,13 @@
         #region Mensagens Placa
         public const string NenhumaInspecaoPlcaInformada = "Nenhuma inspeção foi encontrada para placa de licença {0} informado.";
         #endregion
+        #region Mensagens ArquivoCSV
+        public const string CodigoOiaNaoInformado = "Campo Codigo OIA-PP não preenchido no arquivo CSV.";
+        public const string CodidoCippNaoInformado = "Campo CIPP não preenchido no arquivo CSV.";
+        public const string PlacaNaoInformada = "Campo PLACA não preenchido no arquivo CSV.";
+        public const string NumeroDoEquipamentoNaoInformado = "Campo Nº do Equipamento não preenchido no arquivo CSV.";
+        public const string DataNaoInformada = "Campo Data da Inspecao não preenchido no arquivo CSV.";
+        #endregion
 
     }
 }

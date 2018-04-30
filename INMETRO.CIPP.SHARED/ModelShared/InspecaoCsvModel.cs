@@ -10,6 +10,7 @@ namespace INMETRO.CIPP.SHARED.ModelShared
         public string PlacaLicenca { get; set; }
         public string NumeroEquipamento { get; set; }
         public DateTime DataInspecao { get; set; }
+        public ExcecaoCsv Excecao { get; set; }
        
 
         public InspecaoCsvModel()

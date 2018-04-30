@@ -4,6 +4,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Web.UI.WebControls;
+using INMETRO.CIPP.DOMINIO.Mensagens;
 using INMETRO.CIPP.DOMINIO.Modelos;
 using INMETRO.CIPP.SHARED.Email;
 using INMETRO.CIPP.SHARED.Helper;
@@ -70,10 +72,10 @@ namespace INMETRO.CIPP.SHARED.Servicos
                     foreach (var item in erros)
                     {
                         sw.WriteLine("Log criado {0}", DateTime.Now.ToString("yyyy-MM-dd_HH-mm", CultureInfo.InvariantCulture));
-                        sw.WriteLine("Erro: {0}", item );
+                        sw.WriteLine("Erro: {0}", item);
                     }
-                   
-                   
+
+
                 }
             }
             catch (Exception e)
@@ -89,8 +91,8 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
         public string CriarArquivoInspecoesAnexo(IList<InspecaoCsvModel> inspecoes)
         {
-           // string physicalPathToDirectory = Environment.GetEnvironmentVariable("CIPP");
-            string fileName =  ".csv";
+            // string physicalPathToDirectory = Environment.GetEnvironmentVariable("CIPP");
+            string fileName = ".csv";
             var date = DateTime.Now.ToString("yyyy-MM-dd_HH-mm", CultureInfo.InvariantCulture);
             ExportarCSV inspecaoCsv = new ExportarCSV();
             Notificacao email = new Notificacao();
@@ -104,10 +106,10 @@ namespace INMETRO.CIPP.SHARED.Servicos
                 inspecaoCsv["Data da Inspecao"] = item.DataInspecao.Date;
             }
             var path = "CIPP -" + date + fileName;
-           
+
 
             inspecaoCsv.ExportToFile(path);
-            
+
             //todo:Informar emails que irão receber emails da rotina automática
             //email.EnviarEmailComAnexo("wtslima@gmail.com", path);
             email.EnviarEmailComAnexo("wslima@colaborador.inmetro.gov.br", path);
@@ -138,30 +140,92 @@ namespace INMETRO.CIPP.SHARED.Servicos
             {
                 string format;
                 CultureInfo provider = CultureInfo.InvariantCulture;
-                format = "yyyyMMdd";
+                format = "ddMMyyyy";
                 string inputLineWithoutExtraCommas = ReplaceDelimitersWithinQuotes(inputLine);
                 _inputColumns = inputLineWithoutExtraCommas.Split(',').ToList();
-
-
+                
                 var inspecao = new InspecaoCsvModel();
 
                 for (var i = 0; i < _inputColumns.Count;)
                 {
-                    inspecao.CodigoOia = !string.IsNullOrEmpty(_inputColumns[0]) ? _inputColumns[0] : ftpInfo.Organismo.CodigoOIA.ToString();
-                    inspecao.CodigoCipp = _inputColumns[1];
-                    inspecao.PlacaLicenca = _inputColumns[2];
-                    inspecao.NumeroEquipamento = _inputColumns[3];
-                    inspecao.DataInspecao = DateTime.ParseExact(_inputColumns[4], format, provider);
+                    if (!string.IsNullOrEmpty(_inputColumns[0]))
+                    {
+                        inspecao.CodigoOia = ftpInfo.Organismo.CodigoOIA;
+                    }
+                    else
+                    {
+                        return new InspecaoCsvModel
+                        {
+                            Excecao = new ExcecaoCsv()
+                            {
+                                ExisteExcecao = true,
+                                Mensagem = string.Format(MensagemNegocio.CodigoOiaNaoInformado)
+                            }
+                        };
+                    }
+
+                    if (!string.IsNullOrEmpty(_inputColumns[1]))
+                    {
+                        inspecao.CodigoCipp = _inputColumns[1];
+                    }
+                    else
+                    {
+                        return new InspecaoCsvModel
+                        {
+                            Excecao = new ExcecaoCsv()
+                            {
+                                ExisteExcecao = true,
+                                Mensagem = string.Format(MensagemNegocio.CodidoCippNaoInformado)
+                            }
+                        };
+                    }
+
+                    if (!string.IsNullOrEmpty(_inputColumns[2]))
+                    {
+                        inspecao.PlacaLicenca = _inputColumns[2];
+                    }
+                    else
+                    {
+                        return new InspecaoCsvModel
+                        {
+                            Excecao = new ExcecaoCsv()
+                            {
+                                ExisteExcecao = true,
+                                Mensagem = string.Format(MensagemNegocio.PlacaNaoInformada)
+                            }
+                        };
+                    }
+                    if (!string.IsNullOrEmpty(_inputColumns[3]))
+                    {
+                        inspecao.NumeroEquipamento = _inputColumns[3];
+                    }
+                    
+                    if (!string.IsNullOrEmpty(_inputColumns[4]))
+                    {
+                        inspecao.DataInspecao = DateTime.ParseExact(_inputColumns[4], format, provider);
+                    }
+                    else
+                    {
+                        return new InspecaoCsvModel
+                        {
+                            Excecao = new ExcecaoCsv()
+                            {
+                                ExisteExcecao = true,
+                                Mensagem = string.Format(MensagemNegocio.CodigoOiaNaoInformado)
+                            }
+                        };
+                    }
+                    
                     break;
                 }
-                
+
                 return inspecao;
             }
-            catch (Exception e)
+            catch (ExcecaoCsv e)
             {
-                throw new Exception($"Erro ao obter dados da Inspeção. Exceção {e}");
+                throw new Exception($"Erro ao obter dados da Inspeção. Exceção {e.Mensagem}");
             }
-            
+
         }
 
         private static string ReplaceDelimitersWithinQuotes(string inputLine)
@@ -175,7 +239,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                 {
                     inQuotes = !inQuotes;
                 }
-                if (c == ',' || c==';')
+                if (c == ',' || c == ';')
                 {
                     sb.Append(inQuotes ? commaReplacement : "" + ",");
                 }

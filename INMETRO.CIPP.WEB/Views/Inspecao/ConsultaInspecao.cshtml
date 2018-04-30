@@ -91,7 +91,7 @@
     
             <div id="idCodigoOia" class="form-group campo-insp" style="margin-left: 25px">
                 @Html.Label("CÓDIGO OIA-PP")
-                @Html.TextBoxFor(m => m.DownloadModel.CodigoOia, null, new {@class = "num form-control", maxlength = "4", id = "codigoId" })
+                @Html.TextBoxFor(m => m.DownloadModel.CodigoOia, null, new {@class = "form-control", maxlength = "7", id = "codigoId" })
                 @Html.ValidationMessage("CodigoOia")
             </div>
             <div id="idCipp" class="form-group campo-insp" style="margin-left: 25px" hidden>

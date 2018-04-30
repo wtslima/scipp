@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using FluentFTP;
 using INMETRO.CIPP.DOMINIO.Modelos;
 using INMETRO.CIPP.SHARED.Interfaces;
 
@@ -15,12 +16,11 @@ namespace INMETRO.CIPP.SHARED.Servicos
             var tmpFiles = new List<string>();
             try
             {
-                var request = (FtpWebRequest)WebRequest.Create(ftp.HostURI + ftp.DiretorioInspecao);
+                var request = (FtpWebRequest)WebRequest.Create(ftp.HostURI.Trim()+":"+ftp.Porta.Trim()+"//"+ftp.DiretorioInspecao.Trim()+"//");
 
                 request.Method = WebRequestMethods.Ftp.ListDirectory; 
                 request.Credentials = new NetworkCredential(ftp.Usuario, ftp.Senha);
-                request.UsePassive = false;
-
+               
                 using (var response = (FtpWebResponse)request.GetResponse())
                 {
                     using (var stream = response.GetResponseStream())
@@ -38,9 +38,8 @@ namespace INMETRO.CIPP.SHARED.Servicos
                 }
                 return tmpFiles.Count > 0 ? tmpFiles.ToArray() : new string[] { };
             }
-            catch (Exception e)
+            catch (FtpException e)
             {
-                
                 throw e;
             }
 
@@ -52,10 +51,11 @@ namespace INMETRO.CIPP.SHARED.Servicos
             try
             {
                 string localPath = diretorioLocal + file;
-                FtpWebRequest request = (FtpWebRequest)WebRequest.Create(ftpInfo.HostURI + ftpInfo.DiretorioInspecao + file);
+                var host = ftpInfo.HostURI.Trim() + ":" + ftpInfo.Porta.Trim() +"//" +ftpInfo.DiretorioInspecao.Trim() + "//"+file;
+                FtpWebRequest request = (FtpWebRequest)WebRequest.Create(host.Trim());
                 request.Method = WebRequestMethods.Ftp.DownloadFile;
                 request.Credentials = new NetworkCredential(ftpInfo.Usuario, ftpInfo.Senha);
-                request.UseBinary = true;
+               
                 
                 using (FtpWebResponse response = (FtpWebResponse)request.GetResponse())
                 {
@@ -63,7 +63,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                     using (Stream rs = response.GetResponseStream())
                     {
                         //todo:Colocar Local Inspecao
-                        using (FileStream ws = new FileStream(localPath, FileMode.Create))
+                        using (FileStream ws = new FileStream(localPath.Trim(), FileMode.Create))
                         {
                             byte[] buffer = new byte[2048];
                             int bytesRead = rs.Read(buffer, 0, buffer.Length);

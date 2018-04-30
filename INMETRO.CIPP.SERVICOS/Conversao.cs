@@ -14,7 +14,7 @@ namespace INMETRO.CIPP.SERVICOS
 
             return new Inspecao
             {
-                CodigoCIPP = value.CodigoCipp,
+                CodigoCipp = value.CodigoCipp,
                 CodigoOIA = value.CodigoOia,
                 PlacaLicenca = value.PlacaLicenca,
                 NumeroEquipamento = value.NumeroEquipamento,
@@ -29,7 +29,7 @@ namespace INMETRO.CIPP.SERVICOS
 
             return new InspecaoCsvModel()
             {
-                CodigoCipp = value.CodigoCIPP,
+                CodigoCipp = value.CodigoCipp,
                 CodigoOia = value.CodigoOIA.ToString(),
                 PlacaLicenca = value.PlacaLicenca,
                 NumeroEquipamento = value.NumeroEquipamento.ToString(),
@@ -110,7 +110,7 @@ namespace INMETRO.CIPP.SERVICOS
                     new InspecaoModelServico
                     {
                         CodigoOia = value.CodigoOIA.ToString(),
-                        CodigoCipp = value.CodigoCIPP,
+                        CodigoCipp = value.CodigoCipp,
                         Equipamento = value.NumeroEquipamento,
                         Placa = value.PlacaLicenca,
                         DataInspecao = value.DataInspecao.Date
@@ -131,7 +131,7 @@ namespace INMETRO.CIPP.SERVICOS
 
             return new Inspecao
             {
-                CodigoCIPP = value.CodigoCipp,
+                CodigoCipp = value.CodigoCipp,
                 CodigoOIA = value.CodigoOia,
                 PlacaLicenca = value.Placa,
                 NumeroEquipamento = value.Equipamento,
@@ -178,7 +178,7 @@ namespace INMETRO.CIPP.SERVICOS
                 var inspecao = new InspecaoModelServico
                 {
                     CodigoOia = item.CodigoOIA.ToString(),
-                    CodigoCipp = item.CodigoCIPP,
+                    CodigoCipp = item.CodigoCipp,
                     Placa = item.PlacaLicenca,
                     Equipamento = item.NumeroEquipamento.ToString(),
                     DataInspecao = item.DataInspecao.Date
@@ -239,7 +239,7 @@ namespace INMETRO.CIPP.SERVICOS
                 InspecoesGravadas = value.Inspecoes.Select(s => new InspecaoModelServico()
                 {
                     CodigoOia = s.CodigoOIA.ToString(),
-                    CodigoCipp = s.CodigoCIPP,
+                    CodigoCipp = s.CodigoCipp,
                     DataInspecao = s.DataInspecao.Date,
                     Equipamento = s.NumeroEquipamento.ToString(),
                     Placa = s.PlacaLicenca

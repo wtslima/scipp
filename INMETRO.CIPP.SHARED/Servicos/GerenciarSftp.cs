@@ -60,7 +60,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
             catch (Exception e)
             {
 
-                throw new Exception($"Erro ao Obter Inspeções no servidor SFTP para o Organismo {sftp.OrganismoId}, Exceção :" + e.Message);
+                throw new Exception($"Erro ao Obter Inspeções no servidor SFTP para o Organismo , Exceção :" + e.Message);
             }
 
         }
@@ -98,7 +98,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
             }
             catch (Exception e)
             {
-                throw new Exception($"Erro ao fazer Download das Inspeções no servidor FTP para o Organismo {sftpInfo.OrganismoId}, Exceção :" + e.Message);
+                throw new Exception($"Erro ao fazer Download das Inspeções no servidor FTP para o Organismo, Exceção :" + e.Message);
 
             }
             return success;

@@ -89,7 +89,7 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
 
                 foreach (var item in inspecoes)
                 {
-                    if (item.CodigoCIPP.Equals(cipp))
+                    if (item.CodigoCipp.Equals(cipp))
                     {
                         item.ExcecaoDominio = new ExcecaoDominio
                         {
@@ -155,7 +155,7 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
                     Inspecoes = resultado.Select(d => new Inspecao
                     {
                         CodigoOIA = d.CodigoOIA,
-                        CodigoCIPP = d.CodigoCIPP,
+                        CodigoCipp = d.CodigoCipp,
                         PlacaLicenca = d.PlacaLicenca,
                         NumeroEquipamento = d.NumeroEquipamento,
                         DataInspecao = d.DataInspecao
@@ -198,7 +198,7 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
                         Inspecoes = resultado.Select(d => new Inspecao
                         {
                             CodigoOIA = d.CodigoOIA,
-                            CodigoCIPP = d.CodigoCIPP,
+                            CodigoCipp = d.CodigoCipp,
                             PlacaLicenca = d.PlacaLicenca,
                             NumeroEquipamento = d.NumeroEquipamento,
                             DataInspecao = d.DataInspecao
@@ -253,7 +253,7 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
                     Inspecoes = resultado.Select(d => new Inspecao
                     {
                         CodigoOIA = d.CodigoOIA,
-                        CodigoCIPP = d.CodigoCIPP,
+                        CodigoCipp = d.CodigoCipp,
                         PlacaLicenca = d.PlacaLicenca,
                         NumeroEquipamento = d.NumeroEquipamento,
                         DataInspecao = d.DataInspecao
@@ -297,7 +297,7 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
                 Inspecoes = resultado.Select(d => new Inspecao
                 {
                     CodigoOIA = d.CodigoOIA,
-                    CodigoCIPP = d.CodigoCIPP,
+                    CodigoCipp = d.CodigoCipp,
                     PlacaLicenca = d.PlacaLicenca,
                     NumeroEquipamento = d.NumeroEquipamento,
                     DataInspecao = d.DataInspecao

@@ -19,29 +19,26 @@ namespace INMETRO.CIPP.INFRA.ENTITYFRAMEWORK
 
             modelBuilder.Configurations.Add(new OrganismoMap());
 
-            modelBuilder.Entity<Organismo>().HasIndex(o => o.CodigoOIA)
-                .IsUnique();
+            //modelBuilder.Entity<Organismo>().HasIndex(o => o.CodigoOIA)
+            //    .IsUnique();
 
-            modelBuilder.Entity<Inspecao>().HasIndex(o => o.CodigoCIPP)
+            modelBuilder.Entity<Inspecao>().HasIndex(o => o.CodigoCipp)
                 .IsUnique();
 
             modelBuilder.Entity<HistoricoExclusao>().HasIndex(o => o.Cipp)
                 .IsUnique();
 
 
-            // Configura OrganismoId como PK para FTPInfo
-            //modelBuilder.Entity<IntegracaoInfos>()
-            //    .HasKey(e => e.OrganismoId);
+            //Configura OrganismoId como PK para FTPInfo
+            modelBuilder.Entity<IntegracaoInfos>()
+                .HasKey(e => e.Id);
+
+            modelBuilder.Entity<Organismo>()
+                .HasOptional(s => s.IntegracaoInfo) // Mark Address property optional in Student entity
+                .WithRequired(ad => ad.Organismo);
 
 
-
-            //Configura OrganismoId como FK for Ftpinfo
-
-           modelBuilder.Entity<Organismo>()
-               .HasRequired(s => s.IntegracaoInfo)
-               .WithRequiredPrincipal(ad => ad.Organismo);
-
-           modelBuilder.Entity<Historico>()
+            modelBuilder.Entity<Historico>()
                 .HasKey(e => e.InspecaoId);
 
             modelBuilder.Entity<Inspecao>()

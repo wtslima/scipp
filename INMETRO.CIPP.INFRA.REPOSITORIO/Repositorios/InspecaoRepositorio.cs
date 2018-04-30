@@ -36,7 +36,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
             {
                 using (var contexto = new CippContexto())
                 {
-                    var consulta = contexto.Inspecoes.FirstOrDefault(s => s.CodigoCIPP.Equals(cipp));
+                    var consulta = contexto.Inspecoes.FirstOrDefault(s => s.CodigoCipp.Equals(cipp));
 
                     return consulta ?? new Inspecao();
                 }
@@ -55,7 +55,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                 {
                     if (string.IsNullOrEmpty(cipp)) return false;
 
-                    var resultado = contexto.Inspecoes.FirstOrDefault(s => s.CodigoCIPP.Equals(cipp));
+                    var resultado = contexto.Inspecoes.FirstOrDefault(s => s.CodigoCipp.Equals(cipp));
 
                     return resultado != null;
                 }
@@ -75,14 +75,14 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                 {
 
                     var resultado = ctx.Inspecoes
-                        .Where(s => s.CodigoOIA.Equals(Convert.ToString(codigoOia)))
+                        .Where(s => s.CodigoOIA.Contains(codigoOia))
                         .ToList()
                         .Select(
                             item => new Inspecao
                             {
                                 Id = item.Id,
                                 CodigoOIA = item.CodigoOIA,
-                                CodigoCIPP = item.CodigoCIPP,
+                                CodigoCipp = item.CodigoCipp,
                                 NumeroEquipamento = item.NumeroEquipamento,
                                 PlacaLicenca = item.PlacaLicenca,
                                 DataInspecao = item.DataInspecao
@@ -115,7 +115,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                             {
                                 Id = item.Id,
                                 CodigoOIA = item.CodigoOIA,
-                                CodigoCIPP = item.CodigoCIPP,
+                                CodigoCipp = item.CodigoCipp,
                                 NumeroEquipamento = item.NumeroEquipamento,
                                 PlacaLicenca = item.PlacaLicenca,
                                 DataInspecao = item.DataInspecao.Date
@@ -166,7 +166,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                     return consulta.Select(i => new Inspecao
                     {
                         Id = i.Id,
-                        CodigoCIPP = i.CodigoCIPP,
+                        CodigoCipp = i.CodigoCipp,
                         CodigoOIA = i.CodigoOIA,
                         NumeroEquipamento = i.NumeroEquipamento,
                         PlacaLicenca = i.PlacaLicenca,
@@ -207,7 +207,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                         var inspecao = new Inspecao
                         {
                             Id = (int) result["IDT_INSPECAO"],
-                            CodigoCIPP = result["CDN_CIPP"].ToString(),
+                            CodigoCipp = result["CDN_CIPP"].ToString(),
                             CodigoOIA = result["CDA_CODIGO_OIA"].ToString(),
                             NumeroEquipamento =  result["NUM_EQUIPAMENTO"].ToString(),
                             PlacaLicenca = result["DES_PLACA_LICENCA"].ToString(),

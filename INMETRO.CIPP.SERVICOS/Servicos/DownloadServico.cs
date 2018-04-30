@@ -158,13 +158,15 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 var diretorioLocal = ObterDiretorioLocal(organismo.IntegracaoInfo.DiretorioInspecaoLocal,
                     diretorioRemoto);
                 DownloadInspecao(organismo.IntegracaoInfo, diretorioLocal, diretorioRemoto, usuario);
-                var listaErros = _listExcecao;
-                if (listaErros.Count > 0)
-                {
-                    _enviar.EnviarEmail(Configurations.EmailAdministrador(), _listExcecao, organismo.CodigoOIA.ToString());
-                }
-
+               
+                
             }
+            if (_listExcecao.Count > 0)
+            {
+                _enviar.EnviarEmail(Configurations.EmailAdministrador(), _listExcecao, organismo.CodigoOIA);
+            }
+
+          
             return new InspecoesGravadasModelServico
             {
                 InspecoesGravadas = _listaInspecoesParaEnvio,
