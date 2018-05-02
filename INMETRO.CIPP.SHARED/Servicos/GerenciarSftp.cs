@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Net;
 using INMETRO.CIPP.DOMINIO.Modelos;
 using INMETRO.CIPP.SHARED.Interfaces;
 using INMETRO.CIPP.SHARED.ModelShared;
@@ -15,17 +17,21 @@ namespace INMETRO.CIPP.SHARED.Servicos
         public string[] ObterArquivosNoDiretorioRemotoSftp(IntegracaoInfos sftp)
         {
             var tmpFiles = new List<string>();
-            int Port = 22;
+            var porta = Convert.ToInt32(sftp.Porta);
             try
             {
+                IPAddress ips;
 
+                ips = Dns.GetHostAddresses(sftp.HostURI).FirstOrDefault();
+
+                var host = ips;
 
                 SftpClient tmpClient;
 
 
                 if (!string.IsNullOrEmpty(sftp.Senha))
                 {
-                    tmpClient = new SftpClient(sftp.HostURI, Port, sftp.Usuario, sftp.Senha);
+                    tmpClient = new SftpClient(sftp.HostURI, porta, sftp.Usuario, sftp.Senha);
 
                 }
                 else
@@ -33,7 +39,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
                     var sftpModelShared = new SftpModel(sftp.DiretorioInspecaoLocal, sftp.HostURI, sftp.Usuario,
                         sftp.PrivateKey, sftp.Senha);
-                    tmpClient = new SftpClient(sftpModelShared.HostURI, Port, sftp.Usuario, sftpModelShared.PrivateKey);
+                    tmpClient = new SftpClient(sftpModelShared.HostURI, porta, sftp.Usuario, sftpModelShared.PrivateKey);
 
                 }
 
@@ -43,7 +49,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                     client.Connect();
 
                     // was "/out"
-                    IEnumerable<SftpFile> results = client.ListDirectory(sftp.DiretorioInspecao);
+                    IEnumerable<SftpFile> results = client.ListDirectory("//"+sftp.DiretorioInspecao+"//");
                     foreach (var file in results)
                     {
                         if (!file.IsDirectory)
@@ -68,19 +74,19 @@ namespace INMETRO.CIPP.SHARED.Servicos
         public bool DownloadArquivo(string file, string diretorioLocal, IntegracaoInfos sftpInfo)
         {
             bool success = true;
-            int Port = 22;
+            var port = Convert.ToInt32(sftpInfo.Porta);
             try
             {
                 SftpClient tmpClient;
                 if (!string.IsNullOrEmpty(sftpInfo.Senha))
                 {
-                    tmpClient = new SftpClient(sftpInfo.HostURI, Port, sftpInfo.Usuario, sftpInfo.Senha);
+                    tmpClient = new SftpClient(sftpInfo.HostURI, port, sftpInfo.Usuario, sftpInfo.Senha);
                 }
                 else
                 {
                     var sftpModelShared = new SftpModel(sftpInfo.DiretorioInspecaoLocal, sftpInfo.HostURI, sftpInfo.Usuario,
                         sftpInfo.PrivateKey, sftpInfo.Senha);
-                    tmpClient = new SftpClient(sftpModelShared.HostURI, Port, sftpModelShared.Usuario, sftpModelShared.PrivateKey);
+                    tmpClient = new SftpClient(sftpModelShared.HostURI, port, sftpModelShared.Usuario, sftpModelShared.PrivateKey);
                 }
 
                 // was new SftpClient(this.HostURI, this.UserName, this.PrivateKey)
@@ -90,7 +96,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
                     using (FileStream outputStream = new FileStream(diretorioLocal, FileMode.Create))
                     {
-                        client.DownloadFile(sftpInfo.DiretorioInspecao + file, outputStream);
+                        client.DownloadFile("/"+sftpInfo.DiretorioInspecao+"/"+ file, outputStream);
                     }
 
                     client.Disconnect();

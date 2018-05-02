@@ -138,9 +138,10 @@ namespace INMETRO.CIPP.SHARED.Servicos
         {
             try
             {
+                DateTime dDate;
                 string format;
                 CultureInfo provider = CultureInfo.InvariantCulture;
-                format = "ddMMyyyy";
+                format = "yyyyMMdd";
                 string inputLineWithoutExtraCommas = ReplaceDelimitersWithinQuotes(inputLine);
                 _inputColumns = inputLineWithoutExtraCommas.Split(',').ToList();
                 
@@ -202,7 +203,19 @@ namespace INMETRO.CIPP.SHARED.Servicos
                     
                     if (!string.IsNullOrEmpty(_inputColumns[4]))
                     {
-                        inspecao.DataInspecao = DateTime.ParseExact(_inputColumns[4], format, provider);
+                        try
+                        {
+                            if (DateTime.TryParseExact(_inputColumns[4], "ddMMyyyy", provider, DateTimeStyles.None,out dDate) || DateTime.TryParseExact(_inputColumns[4], format, provider, DateTimeStyles.None, out dDate))
+                            {
+                                inspecao.DataInspecao = dDate;
+                            }
+                        }
+                        catch (Exception e)
+                        {
+
+                            throw e;
+                        }
+                       
                     }
                     else
                     {
@@ -211,7 +224,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                             Excecao = new ExcecaoCsv()
                             {
                                 ExisteExcecao = true,
-                                Mensagem = string.Format(MensagemNegocio.CodigoOiaNaoInformado)
+                                Mensagem = string.Format(MensagemNegocio.DataNaoInformada)
                             }
                         };
                     }

@@ -16,6 +16,7 @@ namespace INMETRO.CIPP.WEB.Conversao
 
             var inspecao = new InspecoesGravadasModel
             {
+                
                 Inspecoes = value.InspecoesGravadas.ToList().Select(s => new InspecaoModel()
 
                 {

@@ -165,8 +165,14 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             {
                 _enviar.EnviarEmail(Configurations.EmailAdministrador(), _listExcecao, organismo.CodigoOIA);
             }
+            if (organismo.IntegracaoInfo.TipoIntegracao == 1)
+            {
+                 _ftp.GetHashCode();
+                
+            }
+            var log = CriarArquivoDeLog(_listExcecao);
+               _sftp.UploadFile(log, organismo.IntegracaoInfo);
 
-          
             return new InspecoesGravadasModelServico
             {
                 InspecoesGravadas = _listaInspecoesParaEnvio,
