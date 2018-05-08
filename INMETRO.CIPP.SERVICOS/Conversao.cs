@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using INMETRO.CIPP.DOMINIO.Modelos;
 using INMETRO.CIPP.SERVICOS.ModelService;
@@ -234,15 +235,15 @@ namespace INMETRO.CIPP.SERVICOS
         {
             if (value == null) return new InspecoesGravadasModelServico();
 
-            return new InspecoesGravadasModelServico
+            var list = new InspecoesGravadasModelServico
             {
                 InspecoesGravadas = value.Inspecoes.Select(s => new InspecaoModelServico()
                 {
-                    CodigoOia = s.CodigoOIA.ToString(),
-                    CodigoCipp = s.CodigoCipp,
+                    CodigoOia =  !string.IsNullOrEmpty(s.CodigoOIA) ? s.CodigoOIA : string.Empty,
+                    CodigoCipp = !string.IsNullOrEmpty(s.CodigoCipp) ? s.CodigoCipp : string.Empty,
                     DataInspecao = s.DataInspecao.Date,
-                    Equipamento = s.NumeroEquipamento.ToString(),
-                    Placa = s.PlacaLicenca
+                    Equipamento = !string.IsNullOrEmpty(s.NumeroEquipamento) ? s.NumeroEquipamento : string.Empty,
+                    Placa = !string.IsNullOrEmpty(s.PlacaLicenca) ? s.PlacaLicenca : string.Empty
 
                 }),
                 Excecao = new ExcecaoService
@@ -252,6 +253,8 @@ namespace INMETRO.CIPP.SERVICOS
                 }
 
             };
+
+            return list;
         }
     }
 }

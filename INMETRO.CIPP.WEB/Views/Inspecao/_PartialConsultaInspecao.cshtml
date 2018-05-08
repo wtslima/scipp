@@ -29,7 +29,7 @@
             {
                 foreach (var item in Model.Inspecoes)
                 {
-                    
+
                     <tr>
                         <td align="center">
                             @Html.DisplayFor(modelItem => item.CodigoOia)
@@ -46,7 +46,7 @@
                         <td align="center">
                             @Html.DisplayFor(modelItem => item.DataInspecao)
                         </td>
-                       
+
                     </tr>
                 }
             }
@@ -54,79 +54,102 @@
     </table>
 
     <br />
-    
+
     @if (Model.Pager.TotalPages > 1)
     {
-        <ul id="idPagination" class="pagination">
-            @for (int i = 1; i <= Model.Pager.TotalPages; i++)
-            {
-                if (i != Model.Pager.CurrentPage)
+        
+            <ul id="idPagination" class="pagination">
+                @for (int i = 1; i <= Model.Pager.TotalPages; i++)
                 {
-                    <li><a href="javascript:PagerClick(@i);">@i</a></li>
+                    if (i != Model.Pager.CurrentPage)
+                    {
+                        <li><a href="javascript:PagerClick(@i);">@i</a></li>
+                    }
+                    else
+                    {
+                        <li class="active"><span>@i</span></li>
+                    }
                 }
-                else
-                {
-                    <li class="active"><span>@i</span></li>
-                }
-            }
-        </ul>
+            </ul>
 
-        <input type="hidden" id="hfCurrentPageIndex" name="Page"/>
-        @Html.HiddenFor(s => s.Page, new {id = "hfCurrentPageIndex"})
+        <input type="hidden" id="hfCurrentPageIndex" name="Page" />
+        @Html.HiddenFor(s => s.Page, new { id = "hfCurrentPageIndex" })
     }
+    
+
 </form>
 <script type="text/javascript">
+
+    @*$('#dPagination').twbsPagination({
+        totalPages: @Model.Pager.TotalPages,
+        visiblePages: 6,
+        next: 'Next',
+        prev: 'Prev',
+        onPageClick: function (event, page) {
+            //fetch content and render here
+            $('#page-content').text('Page ' + page) + ' content here';
+        }
+    });*@
 
     function PagerClick(index) {
 
         document.getElementById('hfCurrentPageIndex').value = index;
         document.forms[0].submit();
-       
+
 
     }
 
 </script>
 <style type="text/css">
-    body
-    {
+    body {
         font-family: Arial;
         font-size: 10pt;
     }
- 
-    table
-    {
+
+    table {
         border: 1px solid #ccc;
         border-collapse: collapse;
         background-color: #fff;
     }
- 
-    table th
-    {
-        background-color: #B8DBFD;
-        color: #333;
-        font-weight: bold;
+
+        table th {
+            background-color: #B8DBFD;
+            color: #333;
+            font-weight: bold;
+        }
+
+        table th, table td {
+            padding: 5px;
+            border: 1px solid #ccc;
+        }
+
+        table, table table td {
+            border: 0px solid# ccc;
+        }
+
+    .wrapper {
+        margin: 60px auto;
+        text-align: center;
     }
- 
-    table th, table td
-    {
-        padding: 5px;
-        border: 1px solid #ccc;
+
+    h1 {
+        margin-bottom: 1.25em;
     }
- 
-    table, table table td
-    {
-        border: 0px solid# ccc;
+
+    #pagination-demo {
+        display: inline-block;
+        margin-bottom: 1.75em;
+    }
+
+        #pagination-demo li {
+            display: inline-block;
+        }
+
+    .page-content {
+        background: #eee;
+        display: inline-block;
+        padding: 10px;
+        width: 100%;
+        max-width: 660px;
     }
 </style>
-
-
-  
-
-
-
-
-
-
-
-
-
