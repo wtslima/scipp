@@ -17,7 +17,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         private readonly IHistoricoExclusao _historicoInspecaoExcluida;
         private readonly IOrganismoRepositorio _organismoRepositorio;
         private readonly IGerenciarFtp _ftp;
-        List<Exception> _listExcecao = new List<Exception>();
+        List<String> _listExcecao = new List<string>();
 
 
         public InspecaoExcluidaService(IHistoricoExclusao hIstoricoInspecaoExcluida, IOrganismoRepositorio organismoRepositorio, IGerenciarFtp ftp)
@@ -50,7 +50,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             catch (Exception e)
             {
 
-                enviar.EnviarEmail("wslima@colaborador.inmetro.gov.br", _listExcecao, "");
+                enviar.EnviarEmailErroDownloadAutomátivo("wslima@colaborador.inmetro.gov.br", _listExcecao);
              
             }
             return false;
@@ -75,7 +75,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             }
             catch (Exception e)
             {
-                _listExcecao.Add(e);
+                _listExcecao.Add(e.Message);
                 throw;
             }
             

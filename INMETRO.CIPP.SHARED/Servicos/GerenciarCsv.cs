@@ -119,9 +119,14 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
         private string LerLinhasCsv(string diretorio)
         {
+           
             var files = Directory.GetFiles(diretorio, "*.csv");
 
-            if (files.Length <= 0) return string.Empty;
+            if (files.Length <= 0)
+            {
+                DeletarDiretorioLocalInspecao(diretorio);
+                return string.Empty;
+            }
             var inspecaoLinha = string.Empty;
 
             Linhas = File.ReadAllLines(files[0]).Where(l => !string.IsNullOrWhiteSpace(l) && !l.StartsWith("//")).ToList();
@@ -133,6 +138,8 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
             return string.IsNullOrWhiteSpace(inspecaoLinha) ? string.Empty : inspecaoLinha;
         }
+
+
 
         private InspecaoCsvModel ObterInspecao(string inputLine, IntegracaoInfos ftpInfo)
         {
@@ -149,22 +156,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
                 for (var i = 0; i < _inputColumns.Count;)
                 {
-                    if (!string.IsNullOrEmpty(_inputColumns[0]))
-                    {
-                        inspecao.CodigoOia = ftpInfo.Organismo.CodigoOIA;
-                    }
-                    else
-                    {
-                        return new InspecaoCsvModel
-                        {
-                            Excecao = new ExcecaoCsv()
-                            {
-                                ExisteExcecao = true,
-                                Mensagem = string.Format(MensagemNegocio.CodigoOiaNaoInformado)
-                            }
-                        };
-                    }
-
+                    inspecao.CodigoOia = ftpInfo.DiretorioInspecaoLocal;
                     if (!string.IsNullOrEmpty(_inputColumns[1]))
                     {
                         inspecao.CodigoCipp = _inputColumns[1];
@@ -173,7 +165,8 @@ namespace INMETRO.CIPP.SHARED.Servicos
                     {
                         return new InspecaoCsvModel
                         {
-                            Excecao = new ExcecaoCsv()
+                            
+                            Excecao = new ExcecaoCsv
                             {
                                 ExisteExcecao = true,
                                 Mensagem = string.Format(MensagemNegocio.CodidoCippNaoInformado)
@@ -189,23 +182,38 @@ namespace INMETRO.CIPP.SHARED.Servicos
                     {
                         return new InspecaoCsvModel
                         {
-                            Excecao = new ExcecaoCsv()
+
+                            Excecao = new ExcecaoCsv
                             {
                                 ExisteExcecao = true,
                                 Mensagem = string.Format(MensagemNegocio.PlacaNaoInformada)
                             }
                         };
                     }
+
                     if (!string.IsNullOrEmpty(_inputColumns[3]))
                     {
                         inspecao.NumeroEquipamento = _inputColumns[3];
                     }
-                    
+                    else
+                    {
+                        return new InspecaoCsvModel
+                        {
+                            Excecao = new ExcecaoCsv
+                            {
+                                ExisteExcecao = true,
+                                Mensagem = string.Format(MensagemNegocio.NumeroDoEquipamentoNaoInformado)
+                            }
+                        };
+                    }
+
                     if (!string.IsNullOrEmpty(_inputColumns[4]))
                     {
                         try
                         {
-                            if (DateTime.TryParseExact(_inputColumns[4], "ddMMyyyy", provider, DateTimeStyles.None,out dDate) || DateTime.TryParseExact(_inputColumns[4], format, provider, DateTimeStyles.None, out dDate))
+                            if (DateTime.TryParseExact(_inputColumns[4], "ddMMyyyy", provider, DateTimeStyles.None,
+                                    out dDate) || DateTime.TryParseExact(_inputColumns[4], format, provider,
+                                    DateTimeStyles.None, out dDate))
                             {
                                 inspecao.DataInspecao = dDate;
                             }
@@ -215,13 +223,13 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
                             throw e;
                         }
-                       
+
                     }
                     else
                     {
                         return new InspecaoCsvModel
                         {
-                            Excecao = new ExcecaoCsv()
+                            Excecao = new ExcecaoCsv
                             {
                                 ExisteExcecao = true,
                                 Mensagem = string.Format(MensagemNegocio.DataNaoInformada)
@@ -262,6 +270,24 @@ namespace INMETRO.CIPP.SHARED.Servicos
                 }
             }
             return sb.ToString();
+        }
+
+        private void DeletarDiretorioLocalInspecao(string diretorioLocal)
+        {
+            var di = new DirectoryInfo(diretorioLocal);
+
+            foreach (FileInfo file in di.GetFiles())
+            {
+                file.Delete();
+            }
+            DirectoryInfo parentDir = Directory.GetParent(diretorioLocal.EndsWith("\\") ? diretorioLocal : string.Concat(diretorioLocal, "\\"));
+
+            foreach (DirectoryInfo dir in parentDir.Parent.GetDirectories())
+            {
+                var d = dir;
+                dir.Delete(true);
+            }
+
         }
     }
 }

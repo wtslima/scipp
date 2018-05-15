@@ -80,23 +80,10 @@
 </form>
 <script type="text/javascript">
 
-    @*$('#dPagination').twbsPagination({
-        totalPages: @Model.Pager.TotalPages,
-        visiblePages: 6,
-        next: 'Next',
-        prev: 'Prev',
-        onPageClick: function (event, page) {
-            //fetch content and render here
-            $('#page-content').text('Page ' + page) + ' content here';
-        }
-    });*@
-
     function PagerClick(index) {
 
         document.getElementById('hfCurrentPageIndex').value = index;
         document.forms[0].submit();
-
-
     }
 
 </script>
