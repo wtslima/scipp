@@ -4,7 +4,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Web.UI.WebControls;
 using INMETRO.CIPP.DOMINIO.Mensagens;
 using INMETRO.CIPP.DOMINIO.Modelos;
 using INMETRO.CIPP.SHARED.Email;
@@ -50,45 +49,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
         }
 
-        public string CriarArquivoDeLogParaOrganismo(List<string> erros, string[] cipps)
-        {
-            string diretorioTemporario = Environment.GetEnvironmentVariable("TEMP");
-            var log = "Log" + ".txt";
-            var date = DateTime.Now.ToString("yyyy-MM-dd_HH-mm", CultureInfo.InvariantCulture);
-            var path = diretorioTemporario + log + date;
-
-            FileInfo arquivo = new FileInfo(path);
-
-
-            try
-            {
-                if (arquivo.Exists)
-                {
-                    arquivo.Delete();
-                }
-
-                using (StreamWriter sw = arquivo.CreateText())
-                {
-                    foreach (var item in erros)
-                    {
-                        sw.WriteLine("Log criado {0}", DateTime.Now.ToString("yyyy-MM-dd_HH-mm", CultureInfo.InvariantCulture));
-                        sw.WriteLine("Erro: {0}", item);
-                    }
-
-
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-
-
-            return string.Empty;
-        }
-
-
+        
         public string CriarArquivoInspecoesAnexo(IList<InspecaoCsvModel> inspecoes)
         {
             // string physicalPathToDirectory = Environment.GetEnvironmentVariable("CIPP");
@@ -109,11 +70,9 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
 
             inspecaoCsv.ExportToFile(path);
-
-            //todo:Informar emails que irão receber emails da rotina automática
-            //email.EnviarEmailComAnexo("wtslima@gmail.com", path);
+            
             email.EnviarEmailComAnexo("wslima@colaborador.inmetro.gov.br", path);
-            email.EnviarEmailComAnexo("scipp-recebe@.inmetro.gov.br", path);
+            email.EnviarEmailComAnexo("scipp-recebe@inmetro.gov.br", path);
             return path;
         }
 
@@ -138,9 +97,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
             return string.IsNullOrWhiteSpace(inspecaoLinha) ? string.Empty : inspecaoLinha;
         }
-
-
-
+        
         private InspecaoCsvModel ObterInspecao(string inputLine, IntegracaoInfos ftpInfo)
         {
             try
@@ -180,15 +137,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                     }
                     else
                     {
-                        return new InspecaoCsvModel
-                        {
-
-                            Excecao = new ExcecaoCsv
-                            {
-                                ExisteExcecao = true,
-                                Mensagem = string.Format(MensagemNegocio.PlacaNaoInformada)
-                            }
-                        };
+                        inspecao.PlacaLicenca = "ADG-0000";
                     }
 
                     if (!string.IsNullOrEmpty(_inputColumns[3]))
@@ -284,7 +233,6 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
             foreach (DirectoryInfo dir in parentDir.Parent.GetDirectories())
             {
-                var d = dir;
                 dir.Delete(true);
             }
 

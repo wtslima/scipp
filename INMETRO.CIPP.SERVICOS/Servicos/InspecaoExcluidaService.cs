@@ -50,7 +50,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             catch (Exception e)
             {
 
-                enviar.EnviarEmailErroDownloadAutomátivo("wslima@colaborador.inmetro.gov.br", _listExcecao);
+                enviar.EnviarEmailErroDownloadAutomatico("wslima@colaborador.inmetro.gov.br", _listExcecao);
              
             }
             return false;

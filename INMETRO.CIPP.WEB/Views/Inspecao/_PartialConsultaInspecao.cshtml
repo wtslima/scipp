@@ -46,7 +46,6 @@
                         <td align="center">
                             @Html.DisplayFor(modelItem => item.DataInspecao)
                         </td>
-
                     </tr>
                 }
             }
@@ -55,27 +54,114 @@
 
     <br />
 
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            if (@Model.Pager.CurrentPage == 1) {
+                $("#pag_ant").hide();
+            } else {
+                $("#pag_ant").show();
+            }
+            if (@Model.Pager.EndPage == @Model.Pager.CurrentPage){
+                $("#pag_prox").hide();
+            } else {
+                $("#pag_prox").show();
+            }
+
+        });
+
+    </script>
+
+
     @if (Model.Pager.TotalPages > 1)
     {
-        
-            <ul id="idPagination" class="pagination">
-                @for (int i = 1; i <= Model.Pager.TotalPages; i++)
+        <ul id="idPagination" class="pagination">
+            <li id="pag_ant"><a href="javascript:PagerClick(@Model.Pager.CurrentPage - 1)"><</a></li>
+
+            @if (Model.Pager.TotalPages > 3)
+            {
+
+                if (Model.Pager.CurrentPage >= 3)
                 {
-                    if (i != Model.Pager.CurrentPage)
+                    for (int i = Model.Pager.CurrentPage - 2; i != Model.Pager.CurrentPage; i++)
                     {
+
+
                         <li><a href="javascript:PagerClick(@i);">@i</a></li>
-                    }
-                    else
-                    {
-                        <li class="active"><span>@i</span></li>
+
                     }
                 }
-            </ul>
+
+                if (Model.Pager.CurrentPage == 2)
+                {
+                    for (int i = Model.Pager.CurrentPage - 1; i != Model.Pager.CurrentPage; i++)
+                    {
+
+                        <li><a href="javascript:PagerClick(@i);">@i</a></li>
+
+                    }
+                }
+
+                int caso_pag = Model.Pager.TotalPages - Model.Pager.CurrentPage;
+                switch (caso_pag)
+                {
+                    case 0:
+                        <li class="active"><span>@Model.Pager.CurrentPage</span></li>
+
+                        break;
+                    case 1:
+
+                        <li class="active"><span>@Model.Pager.CurrentPage</span></li>
+                        <li><a href="javascript:PagerClick(@Model.Pager.CurrentPage + 1);">@(Model.Pager.CurrentPage + 1)</a></li>
+
+                        break;
+
+                    case 2:
+                        <li class="active"><span>@Model.Pager.CurrentPage</span></li>
+                        <li><a href="javascript:PagerClick(@Model.Pager.CurrentPage + 1);">@(Model.Pager.CurrentPage + 1)</a></li>
+                        <li><a href="javascript:PagerClick(@Model.Pager.CurrentPage + 1);">@(Model.Pager.CurrentPage + 2)</a></li>
+
+                        break;
+
+
+                    default:
+
+                        for (int i = Model.Pager.CurrentPage; i <= Model.Pager.CurrentPage + 2; i++)
+                        {
+
+                            if (i != Model.Pager.CurrentPage)
+                            {
+                                <li><a href="javascript:PagerClick(@i);">@i</a></li>
+                            }
+                            else
+                            {
+                                <li class="active"><span>@i</span></li>
+                            }
+                        }
+
+                        break;
+
+
+                }
+
+
+
+
+            }
+
+            <li id="pag_prox"><a href="javascript:PagerClick(@Model.Pager.CurrentPage + 1)">></a></li>
+        </ul>
+
+
+        <p id="Registros">Registros: @Model.Pager.TotalItems</p>
+
+
 
         <input type="hidden" id="hfCurrentPageIndex" name="Page" />
         @Html.HiddenFor(s => s.Page, new { id = "hfCurrentPageIndex" })
     }
-    
+
 
 </form>
 <script type="text/javascript">

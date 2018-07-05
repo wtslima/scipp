@@ -34,6 +34,7 @@
 
             $("document").ready(function () {
 
+                $("#btn_carregando").hide();
                 $(".campo-insp").hide();
 
                 var comboAnterior = "";
@@ -56,6 +57,9 @@
                     $("#idConsultaInspecao").find("table").remove();
 
                     limparImputs();
+
+                    $("#Registros").hide();
+
                 });
 
                 $("#Cancelar").click(function () {
@@ -73,7 +77,13 @@
                 $("#idPagination").hide();
             }
 
-            
+            function CarregandoBtn() { 
+                
+                $("#btnBuscar").hide();
+                $("#btn_carregando").show();
+                
+            };
+
         </script>
       
     
@@ -108,11 +118,12 @@
             </div>
             <div id="idPlaca" class="form-group campo-insp" style="margin-left: 25px" hidden>
                 @Html.Label("PLACA DE LICENÇA")
-                @Html.TextBoxFor(model => model.DownloadModel.PlacaLicenca, new {@class = "num form-control", maxlength = "10" })
+                @Html.TextBoxFor(model => model.DownloadModel.PlacaLicenca, new {@class = "form-control", maxlength = "7" })
                 @Html.ValidationMessage("PlacaLicenca")
             </div>
            @Html.HiddenFor(s => s.Page, new {id="hfCurrentPageIndex" })
-            <input type="submit" class="btn btn-primary bg-primary campo-insp" value="Buscar" title="Download"  id="btnBuscar" hidden>
+            <input type="submit" class="btn btn-primary bg-primary campo-insp" value="Buscar" title="Download" onclick="CarregandoBtn()" id="btnBuscar" hidden>
+            <input type="submit" id="btn_carregando" class="btn btn-primary" value="Carregando" disabled/>            
             <input type="reset" class="btn btn-basic campo-insp" value="Limpar" title="Cancelar" id="Cancelar" hidden>
         </form>
     

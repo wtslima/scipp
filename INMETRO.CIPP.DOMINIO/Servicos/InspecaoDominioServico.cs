@@ -12,19 +12,19 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
     {
         private readonly IInspecaoRepositorio _repositorio;
         private readonly IOrganismoRepositorio _organismoRepositorio;
-        private int _codigo = 0;
+       
         public InspecaoDominioServico(IInspecaoRepositorio repositorio, IOrganismoRepositorio organismoRepositorio)
         {
             _repositorio = repositorio;
             _organismoRepositorio = organismoRepositorio;
-           
+
         }
         public bool AdicionarDadosInspecao(Inspecao inspecao)
         {
             try
             {
                 var resultado = _repositorio.AdicionarDadosInspecao(inspecao);
-               
+
                 return resultado;
             }
             catch (Exception e)
@@ -64,12 +64,12 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
 
         }
 
-
+        
         public Inspecao ObterInspecaoParaCippECodigoOiaInformado(string codigoOia, string cipp)
         {
             try
             {
-               
+
                 var organismo = _organismoRepositorio.BuscarOrganismoPorId(codigoOia);
                 if (organismo.Id <= 0)
                 {
@@ -91,33 +91,26 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
                 {
                     if (item.CodigoCipp.Equals(cipp))
                     {
-                        item.ExcecaoDominio = new ExcecaoDominio
-                        {
-                            Mensagem = string.Empty,
-                            ExisteExcecao = false
-                        };
                         return new Inspecao
                         {
-
                             ExcecaoDominio = new ExcecaoDominio
                             {
                                 ExisteExcecao = true,
                                 Mensagem = string.Format(MensagemNegocio.InspecaoJaGravadaParaCippEOia)
 
                             }
-
+                           
                         };
+
                     }
                 }
 
                 return new Inspecao
                 {
-
                     ExcecaoDominio = new ExcecaoDominio
                     {
-                        ExisteExcecao = false,
-                        Mensagem = string.Empty
-
+                        Mensagem = string.Empty,
+                        ExisteExcecao = false
                     }
 
                 };
@@ -126,65 +119,65 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
             {
                 throw e;
             }
-           
-        
-    }
 
-    public InspecoesGravadas ObterInspecaoPorCodigoOia(string codigoOia)
-    {
-        try
+
+        }
+
+        public InspecoesGravadas ObterInspecaoPorCodigoOia(string codigoOia)
         {
-           
-            var organismo = _organismoRepositorio.BuscarOrganismoPorId(codigoOia);
-            if (organismo.Id <= 0)
+            try
+            {
+
+                var organismo = _organismoRepositorio.BuscarOrganismoPorId(codigoOia);
+                if (organismo.Id <= 0)
+                    return new InspecoesGravadas
+                    {
+                        Inspecoes = new List<Inspecao>(),
+                        ExcecaoDominio = new ExcecaoDominio
+                        {
+                            Mensagem = string.Format(MensagemNegocio.NaoExisteCodigoOia, codigoOia),
+                            ExisteExcecao = true
+                        }
+                    };
+                var resultado = _repositorio.ObterInspecaosPorCodigoOia(codigoOia);
+
+                if (resultado.Count > 0)
+                {
+                    return new InspecoesGravadas
+                    {
+                        Inspecoes = resultado.Select(d => new Inspecao
+                        {
+                            CodigoOIA = d.CodigoOIA,
+                            CodigoCipp = d.CodigoCipp,
+                            PlacaLicenca = d.PlacaLicenca,
+                            NumeroEquipamento = d.NumeroEquipamento,
+                            DataInspecao = d.DataInspecao
+
+                        }),
+                        ExcecaoDominio = new ExcecaoDominio
+                        {
+                            ExisteExcecao = false,
+                            Mensagem = string.Empty
+                        }
+                    };
+                }
+
                 return new InspecoesGravadas
                 {
                     Inspecoes = new List<Inspecao>(),
                     ExcecaoDominio = new ExcecaoDominio
                     {
-                        Mensagem = string.Format(MensagemNegocio.NaoExisteCodigoOia, codigoOia),
+                        Mensagem = string.Format(MensagemNegocio.NenhumInspecaoEncontradoParaCodigoOia, codigoOia),
                         ExisteExcecao = true
                     }
                 };
-            var resultado = _repositorio.ObterInspecaosPorCodigoOia(codigoOia);
-
-            if (resultado.Count > 0)
+            }
+            catch (Exception e)
             {
-                return new InspecoesGravadas
-                {
-                    Inspecoes = resultado.Select(d => new Inspecao
-                    {
-                        CodigoOIA = d.CodigoOIA,
-                        CodigoCipp = d.CodigoCipp,
-                        PlacaLicenca = d.PlacaLicenca,
-                        NumeroEquipamento = d.NumeroEquipamento,
-                        DataInspecao = d.DataInspecao
-                      
-                    }),
-                    ExcecaoDominio = new ExcecaoDominio
-                    {
-                        ExisteExcecao = false,
-                        Mensagem = string.Empty
-                    }
-                };
+                throw e;
             }
 
-            return new InspecoesGravadas
-            {
-                Inspecoes = new List<Inspecao>(),
-                ExcecaoDominio = new ExcecaoDominio
-                {
-                    Mensagem = string.Format(MensagemNegocio.NenhumInspecaoEncontradoParaCodigoOia, codigoOia),
-                    ExisteExcecao = true
-                }
-            };
         }
-        catch (Exception e)
-        {
-            throw e;
-        }
-
-    }
 
         public InspecoesGravadas ObterInspecaoPorPlacaLicenca(string placa)
         {
@@ -202,7 +195,7 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
                             PlacaLicenca = d.PlacaLicenca,
                             NumeroEquipamento = d.NumeroEquipamento,
                             DataInspecao = d.DataInspecao
-                           
+
                         }),
                         ExcecaoDominio = new ExcecaoDominio
                         {
@@ -224,7 +217,7 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
             }
             catch (Exception e)
             {
-                
+
                 throw e;
             }
         }
@@ -257,7 +250,7 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
                         PlacaLicenca = d.PlacaLicenca,
                         NumeroEquipamento = d.NumeroEquipamento,
                         DataInspecao = d.DataInspecao
-                      
+
                     }),
                     ExcecaoDominio = new ExcecaoDominio
                     {
@@ -268,69 +261,69 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
             }
             catch (Exception e)
             {
-                
+
                 throw e;
             }
-            
+
         }
 
         public InspecoesGravadas ObterTodasInspecoes()
-    {
-        try
         {
-            var resultado = _repositorio.ObterTodasInspecoes().ToList();
-
-            if (resultado.Count == 0)
+            try
             {
+                var resultado = _repositorio.ObterTodasInspecoes().ToList();
+
+                if (resultado.Count == 0)
+                {
+                    return new InspecoesGravadas
+                    {
+                        Inspecoes = new List<Inspecao>(),
+                        ExcecaoDominio = new ExcecaoDominio
+                        {
+                            ExisteExcecao = true,
+                            Mensagem = string.Format(MensagemNegocio.NenhumaInspecaoEncontrada)
+                        }
+                    };
+                }
                 return new InspecoesGravadas
                 {
-                    Inspecoes = new List<Inspecao>(),
+                    Inspecoes = resultado.Select(d => new Inspecao
+                    {
+                        CodigoOIA = d.CodigoOIA,
+                        CodigoCipp = d.CodigoCipp,
+                        PlacaLicenca = d.PlacaLicenca,
+                        NumeroEquipamento = d.NumeroEquipamento,
+                        DataInspecao = d.DataInspecao
+
+                    }),
                     ExcecaoDominio = new ExcecaoDominio
                     {
-                        ExisteExcecao = true,
-                        Mensagem = string.Format(MensagemNegocio.NenhumaInspecaoEncontrada)
+                        ExisteExcecao = false,
+                        Mensagem = string.Empty
                     }
                 };
             }
-            return new InspecoesGravadas
+            catch (Exception e)
             {
-                Inspecoes = resultado.Select(d => new Inspecao
-                {
-                    CodigoOIA = d.CodigoOIA,
-                    CodigoCipp = d.CodigoCipp,
-                    PlacaLicenca = d.PlacaLicenca,
-                    NumeroEquipamento = d.NumeroEquipamento,
-                    DataInspecao = d.DataInspecao
-                   
-                }),
-                ExcecaoDominio = new ExcecaoDominio
-                {
-                    ExisteExcecao = false,
-                    Mensagem = string.Empty
-                }
-            };
+                throw e;
+            }
         }
-        catch (Exception e)
-        {
-            throw e;
-        }
-    }
 
-    public bool TemInspecao(string cipp)
-    {
-        try
+        public bool TemInspecao(string cipp)
         {
-            var resultado = _repositorio.BuscarInspecaoPorCodigoCipp(cipp);
+            try
+            {
+                var resultado = _repositorio.BuscarInspecaoPorCodigoCipp(cipp);
 
-            return resultado;
+                return resultado;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
         }
-        catch (Exception e)
-        {
-            throw e;
-        }
+
 
     }
-
-
-}
 }

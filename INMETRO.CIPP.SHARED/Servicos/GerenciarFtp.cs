@@ -20,6 +20,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
                 request.Method = WebRequestMethods.Ftp.ListDirectory; 
                 request.Credentials = new NetworkCredential(ftp.Usuario, ftp.Senha);
+              
                
                 using (var response = (FtpWebResponse)request.GetResponse())
                 {

@@ -71,7 +71,6 @@ namespace INMETRO.CIPP.WEB.Controllers
             }
 
         }
-       
 
         private InspecoesGravadasModel RetornarInspecoes(DownloadModel model)
         {
@@ -84,7 +83,6 @@ namespace INMETRO.CIPP.WEB.Controllers
                 if (!string.IsNullOrEmpty(model.CodigoOia) || !string.IsNullOrEmpty(model.CodigoCipp))
                     return ObterInspecaoPorCodigoInformado(model.CodigoOia, model.CodigoCipp);
             }
-          
 
             return ObterInspecoes();
 

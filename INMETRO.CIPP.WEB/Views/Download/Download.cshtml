@@ -44,7 +44,8 @@
                     @Html.ValidationMessageFor(x => x.DownloadModel.CodigoCipp)
                 </div>
                
-                <input type="submit" class="btn btn-success" value="Download" title="Download" id="btnDownload">
+                <input type="submit" class="btn btn-success" value="Download" title="Download" id="btnDownload" onclick="CarregandoBtn()">
+                <input type="submit" id="btn_carregando" class="btn btn-success" value="Baixando..." disabled />
                 <input type="reset" class="btn btn-basic" value="Limpar" title="Cancelar" id="Cancelar">
             </form>
             <br/>
@@ -94,7 +95,18 @@
         return false;
     });
 
-   
+    function CarregandoBtn() {
+
+        $("#btnDownload").hide();
+        $("#btn_carregando").show();
+
+    };
+
+    $("document").ready(function () {
+        $("#btn_carregando").hide();
+    });
+
+
     //$(function () {
     //    $("#btnDownload").click(function() {
 

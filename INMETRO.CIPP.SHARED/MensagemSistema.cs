@@ -19,6 +19,7 @@
 
         public const string ErroIntegracaoObterArquivoc = "Nenhum Inspeção foi encontrado ao realizar a Rotina Automática";
 
-        public const string DiretoriosInvalidos = "Não existem diretórios válidos disponíveis para o CÓDIGO-OI-PP{0}.";
+        public const string DiretoriosInvalidos = "Não existem diretórios válidos disponíveis para o CÓDIGO-OIA-PP{0}.";
+        public const string ErroDescompactarTipoRar = "Erro ao descompactar arquivo INSPEÇÃO {0} para CÓDIGO-OIA-PP{1}. Falha {2}.";
     }
 }

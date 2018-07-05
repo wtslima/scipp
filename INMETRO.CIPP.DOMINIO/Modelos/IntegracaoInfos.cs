@@ -22,7 +22,7 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
 
         [Required]
         [Column("CDN_TIPO_INTEGRACAO")] 
-        public int TipoIntegracao  { get; set; }
+        public int TipoIntegracao  { get; set; } 
 
         [Required]
         [Column("DES_DIRETORIO_LOCAL_CIPP")]  //c:\Inspecao\NomeOraganismo

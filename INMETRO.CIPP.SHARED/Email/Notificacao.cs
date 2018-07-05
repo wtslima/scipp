@@ -11,8 +11,7 @@ namespace INMETRO.CIPP.SHARED.Email
         {
 
             var fromAddress = new MailAddress(Configurations.EmailSCIPPAdministrativo(), "CIPP");
-            //var fromAddress = new MailAddress("aloha@deliveryhawaii.com", "Scipp");
-            var toAddress = new MailAddress("wtslima@gmail.com");
+            var toAddress = new MailAddress(email);
             Attachment attachment = null;
 
 
@@ -23,12 +22,7 @@ namespace INMETRO.CIPP.SHARED.Email
 
             var smtp = new SmtpClient
             {
-                //Host = "email-smtp.us-west-2.amazonaws.com",
-                //Port = 587,
-                //EnableSsl = true,
-                //DeliveryMethod = SmtpDeliveryMethod.Network,
-                //UseDefaultCredentials = true,
-                //Credentials = new NetworkCredential("AKIAIGUPGKU4GQT54OAA", "Ag5K6uLwkbbypqGFdvPWWA3MYhUYY0vJVOqD05deT568")
+               
                 Host = Configurations.HostEmail(),
                 Port = 25,
                 EnableSsl = true,
@@ -68,26 +62,22 @@ namespace INMETRO.CIPP.SHARED.Email
 
             var smtp = new SmtpClient
             {
-                //Host = "email-smtp.us-west-2.amazonaws.com",
-                //Port = 587,
-                //EnableSsl = true,
-                //DeliveryMethod = SmtpDeliveryMethod.Network,
-                //UseDefaultCredentials = true,
-                //Credentials = new NetworkCredential("AKIAIGUPGKU4GQT54OAA", "Ag5K6uLwkbbypqGFdvPWWA3MYhUYY0vJVOqD05deT568")
+                
                 Host = Configurations.HostEmail(),
                 Port = 25,
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = true,
-                Credentials = new NetworkCredential(Configurations.CredentialMailUsername(), Configurations.CredentialMailUsername())
+                Credentials = new NetworkCredential(Configurations.CredentialMailUsername(), Configurations.CredentialMailPassword())
 
             };
 
             var messageErro = new MailMessage();
 
-            messageErro.To.Add("wtslima@gmail.com");
-            messageErro.Subject = "Erro na realização da inspeções automáticas ";
-            //messageErro.From = new MailAddress("aloha@deliveryhawaii.com", "Scipp");
+            messageErro.To.Add(email);
+            messageErro.Bcc.Add("scipp-recebe@inmetro.gov.br");
+            messageErro.Subject = "Erro na realização da inspeções automáticas";
+          
             messageErro.From = new MailAddress(Configurations.EmailSCIPPAdministrativo(), "CIPP");
             messageErro.IsBodyHtml = true;
 
@@ -111,31 +101,25 @@ namespace INMETRO.CIPP.SHARED.Email
 
 
 
-        public void EnviarEmailErroDownloadAutomátivo(string email, List<string> erros)
+        public void EnviarEmailErroDownloadAutomatico(string email, List<string> erros)
         {
 
             var smtp = new SmtpClient
             {
-                //Host = "email-smtp.us-west-2.amazonaws.com",
-                //Port = 587,
-                //EnableSsl = true,
-                //DeliveryMethod = SmtpDeliveryMethod.Network,
-                //UseDefaultCredentials = true,
-                //Credentials = new NetworkCredential("AKIAIGUPGKU4GQT54OAA", "Ag5K6uLwkbbypqGFdvPWWA3MYhUYY0vJVOqD05deT568")
                 Host = Configurations.HostEmail(),
                 Port = 25,
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = true,
-                Credentials = new NetworkCredential(Configurations.CredentialMailUsername(), Configurations.CredentialMailUsername())
+                Credentials = new NetworkCredential(Configurations.CredentialMailUsername(), Configurations.CredentialMailPassword())
 
             };
 
             var messageErro = new MailMessage();
 
-            messageErro.To.Add("wtslima@gmail.com");
+            messageErro.To.Add(email);
+            messageErro.Bcc.Add("scipp-recebe@inmetro.gov.br");
             messageErro.Subject = "Erro na realização da inspeções automáticas ";
-            //messageErro.From = new MailAddress("aloha@deliveryhawaii.com", "Scipp");
             messageErro.From = new MailAddress(Configurations.EmailSCIPPAdministrativo(), "CIPP");
             messageErro.IsBodyHtml = true;
 

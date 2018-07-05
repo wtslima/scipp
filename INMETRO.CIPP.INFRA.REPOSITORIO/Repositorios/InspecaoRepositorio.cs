@@ -66,6 +66,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
             }
 
         }
+        
 
         public IList<Inspecao> ObterInspecaosPorCodigoOia(string codigoOia)
         {
@@ -75,7 +76,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                 {
 
                     var resultado = ctx.Inspecoes
-                        .Where(s => s.CodigoOIA.Contains(codigoOia))
+                        .Where(s => s.CodigoOIA.Contains(codigoOia)).OrderBy(s => s.DataInspecao)
                         .ToList()
                         .Select(
                             item => new Inspecao
@@ -138,9 +139,6 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
 
                 try
                 {
-
-                    
-           
                     var data = $"{dataInspecao:yyyy-MM-dd}";
 
                     return  BuscarInspecaoPorData(data);
@@ -189,7 +187,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
         {
             string sql = string.Empty;
             sql =
-                "SELECT *  FROM [cipp].[dbo].[TB_INSPECAO_CIPP] where DAT_INSPECAO ='" + data + "'";
+                "SELECT *  FROM [scipp].[dbo].[TB_INSPECAO_CIPP] where DAT_INSPECAO ='" + data + "' ORDER BY CDN_CIPP";
             var connectionString = ConfigurationManager.ConnectionStrings["CIPP_CONTEXTO"].ConnectionString;
 
             var list = new List<Inspecao>();

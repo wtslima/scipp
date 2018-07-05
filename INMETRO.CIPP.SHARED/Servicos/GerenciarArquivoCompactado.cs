@@ -56,6 +56,29 @@ namespace INMETRO.CIPP.SHARED.Servicos
             return false;
         }
 
+        public void ExcluirArquivoCasoExista(string diretorio, string file)
+        {
+            try
+            {
+                string fileExtensao = Path.GetExtension(file);
+                if (fileExtensao != null)
+                {
+                    string fileNamePath = diretorio + file;
+                    if (File.Exists(fileNamePath))
+                    {
+                        File.Delete(fileNamePath);
+                       
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+        }
+
         private static void ExtrairZip(string diretorio, string file)
         {
 
@@ -89,7 +112,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
             catch (Exception e)
             {
 
-                throw e;
+
             }
 
 
@@ -102,13 +125,13 @@ namespace INMETRO.CIPP.SHARED.Servicos
             var fileNamePath = diretorio + file;
 
 
-                RarArchive archiveRar = RarArchive.Open(fileNamePath);
-            
+                 RarArchive archiveRar = RarArchive.Open(fileNamePath);
+           
+
                 foreach (RarArchiveEntry entry in archiveRar.Entries)
                 {
                     try
                     {
-
                         var fileName = Path.GetFileName(entry.FilePath);
                         var rootToFile = Path.GetFullPath(entry.FilePath).Replace(fileName ?? throw new InvalidOperationException(), fileNamePath);
 
@@ -117,19 +140,18 @@ namespace INMETRO.CIPP.SHARED.Servicos
                             Directory.CreateDirectory(rootToFile);
                         }
                         entry.WriteToFile(diretorio + fileName, ExtractOptions.ExtractFullPath | ExtractOptions.Overwrite);
-                    
+
 
                     }
                     catch (Exception e)
                     {
-
-                        throw e;
+                        throw new Exception(string.Format(MensagemSistema.ErroDescompactarTipoRar, diretorio, file, e.Message));
                     }
 
 
                 }
-          
+
         }
-        
+
     }
 }

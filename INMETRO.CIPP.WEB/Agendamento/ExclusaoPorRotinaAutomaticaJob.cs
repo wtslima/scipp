@@ -24,8 +24,8 @@ namespace INMETRO.CIPP.WEB.Agendamento
 
         public void Execute(IJobExecutionContext context)
         {
-            var servico = new InspecaoExcluidaService(HistoricoInspecao, _repositorio, _ftp);
-            servico.ExcluirInspecaoPorRotinaAutomatica().ConfigureAwait(true);
+            //var servico = new InspecaoExcluidaService(HistoricoInspecao, _repositorio, _ftp);
+            //servico.ExcluirInspecaoPorRotinaAutomatica().ConfigureAwait(true);
         }
     }
 }
