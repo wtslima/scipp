@@ -22,7 +22,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
             {
                 IPAddress ips;
 
-                ips = Dns.GetHostAddresses(sftp.HostURI).FirstOrDefault();
+                ips = Dns.GetHostAddresses(sftp.HostURI.Trim()).FirstOrDefault();
 
                 var host = ips;
 
@@ -31,7 +31,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
                 if (!string.IsNullOrEmpty(sftp.Senha))
                 {
-                    tmpClient = new SftpClient(sftp.HostURI, porta, sftp.Usuario, sftp.Senha);
+                    tmpClient = new SftpClient(sftp.HostURI.Trim(), porta, sftp.Usuario.Trim(), sftp.Senha.Trim());
 
                 }
                 else
@@ -80,7 +80,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                 SftpClient tmpClient;
                 if (!string.IsNullOrEmpty(sftpInfo.Senha))
                 {
-                    tmpClient = new SftpClient(sftpInfo.HostURI, port, sftpInfo.Usuario, sftpInfo.Senha);
+                    tmpClient = new SftpClient(sftpInfo.HostURI.Trim(), port, sftpInfo.Usuario.Trim(), sftpInfo.Senha.Trim());
                 }
                 else
                 {

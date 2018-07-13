@@ -11,12 +11,18 @@
                 {
                     <div id="idConsultaInspecao" class="alert alert-success alert-dismissable">
                         @Html.Partial("_DownloadResposta", Model)
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                 }
                 if (Model.Mensagem.ExisteExcecao)
                 {
-                    <div id="idConsultaInspecao" class="alert alert-danger alert-dismissable">
+                    <div id="idConsultaInspecao" class="alert alert-warning alert-dismissable">
                         @Html.Partial("_DownloadError", Model)
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                 }
             }
@@ -49,21 +55,24 @@
                 <input type="reset" class="btn btn-basic" value="Limpar" title="Cancelar" id="Cancelar">
             </form>
             <br/>
-            @if(IsPost && Model.DownloadModel.CodigoOia != null)
-            {
-                <div class="jumbotron">
-                   
-                        
-                        @if (Model.Inspecoes != null)
-                        {
-                            @Html.Label("CIPP(s) gravado(s):") <label>@Model.Inspecoes.Count()</label>
+           
+                @if(IsPost && Model.DownloadModel.CodigoOia != null)
+                 {
+                     <div id="resultado" class="alert alert-info alert-dismissible fade show">
+                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                             <span aria-hidden="true">&times;</span>
+                         </button>
+                         @if (Model.Inspecoes != null)
+                         {
+                             @Html.Label("CIPP(s) gravado(s):") <label>@Model.Inspecoes.Count()</label>
                            
-                            <p>@String.Join(", ", Model.Inspecoes.Select(p => p.CodigoCipp).ToArray())</p> 
-                        }
-
-                    
-                </div>
-            }
+                             <p>@String.Join(", ", Model.Inspecoes.Select(p => p.CodigoCipp).ToArray())</p> 
+                         }
+                   
+                     </div>
+                 }
+            
+           
         </div>
     
 </div>
@@ -106,6 +115,12 @@
         $("#btn_carregando").hide();
     });
 
+    $("#btnDownload").click(function() {
+        $("#resultado").hide();
+    });
+        
+    
+    
 
     //$(function () {
     //    $("#btnDownload").click(function() {

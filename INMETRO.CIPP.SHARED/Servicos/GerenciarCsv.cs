@@ -151,7 +151,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                             Excecao = new ExcecaoCsv
                             {
                                 ExisteExcecao = true,
-                                Mensagem = string.Format(MensagemNegocio.NumeroDoEquipamentoNaoInformado)
+                                Mensagem = string.Format(MensagemNegocio.NumeroDoEquipamentoNaoInformado, inspecao.CodigoCipp)
                             }
                         };
                     }
@@ -166,6 +166,8 @@ namespace INMETRO.CIPP.SHARED.Servicos
                             {
                                 inspecao.DataInspecao = dDate;
                             }
+
+                            
                         }
                         catch (Exception e)
                         {
@@ -181,7 +183,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                             Excecao = new ExcecaoCsv
                             {
                                 ExisteExcecao = true,
-                                Mensagem = string.Format(MensagemNegocio.DataNaoInformada)
+                                Mensagem = string.Format(MensagemNegocio.DataNaoInformada, inspecao.CodigoCipp)
                             }
                         };
                     }

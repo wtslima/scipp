@@ -19,7 +19,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                 var request = (FtpWebRequest)WebRequest.Create(ftp.HostURI.Trim()+":"+ftp.Porta.Trim()+"//"+ftp.DiretorioInspecao.Trim()+"//");
 
                 request.Method = WebRequestMethods.Ftp.ListDirectory; 
-                request.Credentials = new NetworkCredential(ftp.Usuario, ftp.Senha);
+                request.Credentials = new NetworkCredential(ftp.Usuario.Trim(), ftp.Senha.Trim());
               
                
                 using (var response = (FtpWebResponse)request.GetResponse())
@@ -37,6 +37,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                         }
                     }
                 }
+
                 return tmpFiles.Count > 0 ? tmpFiles.ToArray() : new string[] { };
             }
             catch (FtpException e)
@@ -55,7 +56,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                 var host = ftpInfo.HostURI.Trim() + ":" + ftpInfo.Porta.Trim() +"//" +ftpInfo.DiretorioInspecao.Trim() + "//"+file;
                 FtpWebRequest request = (FtpWebRequest)WebRequest.Create(host.Trim());
                 request.Method = WebRequestMethods.Ftp.DownloadFile;
-                request.Credentials = new NetworkCredential(ftpInfo.Usuario, ftpInfo.Senha);
+                request.Credentials = new NetworkCredential(ftpInfo.Usuario.Trim(), ftpInfo.Senha.Trim());
                
                 
                 using (FtpWebResponse response = (FtpWebResponse)request.GetResponse())
@@ -93,7 +94,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
             request.Method = WebRequestMethods.Ftp.GetFileSize;
 
             // Get network credentials.
-            request.Credentials = new NetworkCredential(ftpInfo.Usuario, ftpInfo.Senha);
+            request.Credentials = new NetworkCredential(ftpInfo.Usuario.Trim(), ftpInfo.Senha.Trim());
 
             try
             {
@@ -121,7 +122,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
             // Get network credentials.
             request.Credentials =
-                new NetworkCredential(ftpInfo.Usuario, ftpInfo.Senha);
+                new NetworkCredential(ftpInfo.Usuario.Trim(), ftpInfo.Senha.Trim());
 
             try
             {
