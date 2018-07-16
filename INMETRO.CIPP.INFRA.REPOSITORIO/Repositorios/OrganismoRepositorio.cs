@@ -17,7 +17,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
             {
                 try
                 {
-                    var consulta = contexto.Organismos.Include(f => f.IntegracaoInfo).FirstOrDefault(x => x.CodigoOIA.Contains(codigoOia) && x.EhAtivo);
+                    var consulta = contexto.Organismos.Include(f => f.IntegracaoInfo).FirstOrDefault(x => x.CodigoOIA.Trim().Contains(codigoOia) && x.EhAtivo);
 
                     return consulta ;
  

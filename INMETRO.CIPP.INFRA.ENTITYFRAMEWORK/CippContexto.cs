@@ -31,7 +31,7 @@ namespace INMETRO.CIPP.INFRA.ENTITYFRAMEWORK
 
             //Configura OrganismoId como PK para FTPInfo
             modelBuilder.Entity<IntegracaoInfos>()
-                .HasKey(e => e.Id);
+                .HasKey(e => e.OrganismoId);
 
             modelBuilder.Entity<Organismo>()
                 .HasOptional(s => s.IntegracaoInfo) // Mark Address property optional in Student entity

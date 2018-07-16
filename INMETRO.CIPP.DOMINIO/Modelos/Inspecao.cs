@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace INMETRO.CIPP.DOMINIO.Modelos
 {
-    [Table("TB_INSPECAO_CIPP")]
+    [Table("TB_INSPECAO")]
     public class Inspecao
     {
         [Key]
@@ -16,9 +16,12 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
         [Required]
         [Column("CDN_CIPP")]
         public string CodigoCipp { get; set; }
-        
-       
-        [Column("DES_PLACA_LICENCA")]
+
+        [Required]
+        [Column("CDA_CODIGO_OIA_PP")]
+        public string CodigoOIA { get; set; }
+
+        [Column("DES_PLACA")]
         public string PlacaLicenca { get; set; }
 
         
@@ -29,10 +32,11 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
         [Column("DAT_INSPECAO")]
         [DataType(DataType.Date)]
         public DateTime DataInspecao { get; set; }
-       
+
         [Required]
-        [Column("CDA_CODIGO_OIA")]
-        public string CodigoOIA { get; set; }
+        [Column("DAT_ALTERACAO")]
+        [DataType(DataType.Date)]
+        public DateTime DataAlteracao { get; set; }
 
         public virtual Historico Historico { get; set; }
 
@@ -46,6 +50,7 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
             NumeroEquipamento = equipamento;
             DataInspecao = dataInspecao;
             CodigoOIA = codigoOIA;
+            DataAlteracao = DateTime.Now;
         }
 
         public Inspecao()

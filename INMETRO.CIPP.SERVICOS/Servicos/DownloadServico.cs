@@ -309,7 +309,8 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 }
                
                 ExcluirArquivoCompactadoECsv(diretorioLocal, diretorioRemoto);
-
+                DeletarDiretorioLocalInspecao(diretorioLocal);
+                _listExcecao.Add(inspecao.Excecao.Mensagem);
             }
             catch (Exception e)
             {

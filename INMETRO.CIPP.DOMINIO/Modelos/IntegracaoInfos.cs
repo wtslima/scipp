@@ -8,16 +8,17 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
     public class IntegracaoInfos
     {
         [Key]
-        [Column("IDT_INTEGRACAO_INFO")]
+        //[Column("IDT_INTEGRACAO_INFO")]
+        [Column("IDT_INTEGRACAO")]
         public int Id { get; set; }
 
-        //[ForeignKey("Organismo")]
-        //[Required]
-        //[Column("IDT_ORGANISMO")]
-        //public int OrganismoId { get; set; }
-        
+        [ForeignKey("Organismo")]
         [Required]
-        [Column("DES_DIRETORIO_CIPP")]  //Inspecao
+        [Column("IDT_ORGANISMO")]
+        public int OrganismoId { get; set; }
+
+        [Required]
+        [Column("DES_DIRETORIO_REMOTO")]  //Inspecao
         public string DiretorioInspecao { get; set; }
 
         [Required]
@@ -25,14 +26,14 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
         public int TipoIntegracao  { get; set; } 
 
         [Required]
-        [Column("DES_DIRETORIO_LOCAL_CIPP")]  //c:\Inspecao\NomeOraganismo
+        [Column("DES_DIRETORIO_LOCAL")]  //c:\Inspecao\NomeOraganismo
         public string DiretorioInspecaoLocal { get; set; }
 
         [Required]
         [Column("DES_HOST_URI")]  //ftp:///siteftp
         public string HostURI { get; set; }
 
-        [Column("DES_PORTA")]
+        [Column("CDN_PORTA")]
         public string Porta { get; set; }
 
         [Required]
