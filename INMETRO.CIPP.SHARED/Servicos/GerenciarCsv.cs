@@ -22,9 +22,20 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
         public InspecaoCsvModel ObterDadosInspecao(string diretorio, IntegracaoInfos ftpInfo)
         {
-            var inspecaoLine = LerLinhasCsv(diretorio);
-            var inspecaoModel = ObterInspecao(inspecaoLine, ftpInfo);
-            return inspecaoModel ?? new InspecaoCsvModel();
+            if(ExisteArquivoCsv(diretorio))
+            {
+                var inspecaoLine = LerLinhasCsv(diretorio);
+                var inspecaoModel = ObterInspecao(inspecaoLine, ftpInfo);
+                return inspecaoModel ?? new InspecaoCsvModel();
+            }
+            return new InspecaoCsvModel
+            {
+                Excecao = new ExcecaoCsv
+                {
+                    ExisteExcecao = true,
+                    Mensagem = string.Format(MensagemNegocio.ArquivoCSVNaoEncontrado," ",ftpInfo.Organismo.CodigoOIA)
+                }
+            };
         }
 
         public bool ExcluirArquivoCippCsv(string diretorio)
@@ -110,88 +121,117 @@ namespace INMETRO.CIPP.SHARED.Servicos
                 _inputColumns = inputLineWithoutExtraCommas.Split(',').ToList();
                 
                 var inspecao = new InspecaoCsvModel();
-
-                for (var i = 0; i < _inputColumns.Count;)
+                if (_inputColumns.Count > 5)
                 {
-                    inspecao.CodigoOia = ftpInfo.DiretorioInspecaoLocal;
-                    if (!string.IsNullOrEmpty(_inputColumns[1]))
+                    for (var i = 0; i < _inputColumns.Count;)
                     {
-                        inspecao.CodigoCipp = _inputColumns[1];
-                    }
-                    else
-                    {
-                        return new InspecaoCsvModel
+                        inspecao.CodigoOia = ftpInfo.DiretorioInspecaoLocal;
+                        if (!string.IsNullOrEmpty(_inputColumns[1]))
                         {
-                            
-                            Excecao = new ExcecaoCsv
-                            {
-                                ExisteExcecao = true,
-                                Mensagem = string.Format(MensagemNegocio.CodidoCippNaoInformado)
-                            }
-                        };
-                    }
-
-                    if (!string.IsNullOrEmpty(_inputColumns[2]))
-                    {
-                        inspecao.PlacaLicenca = _inputColumns[2];
-                    }
-                    else
-                    {
-                        inspecao.PlacaLicenca = "ADG-0000";
-                    }
-
-                    if (!string.IsNullOrEmpty(_inputColumns[3]))
-                    {
-                        inspecao.NumeroEquipamento = _inputColumns[3];
-                    }
-                    else
-                    {
-                        return new InspecaoCsvModel
-                        {
-                            Excecao = new ExcecaoCsv
-                            {
-                                ExisteExcecao = true,
-                                Mensagem = string.Format(MensagemNegocio.NumeroDoEquipamentoNaoInformado, inspecao.CodigoCipp)
-                            }
-                        };
-                    }
-
-                    if (!string.IsNullOrEmpty(_inputColumns[4]))
-                    {
-                        try
-                        {
-                            if (DateTime.TryParseExact(_inputColumns[4], "ddMMyyyy", provider, DateTimeStyles.None,
-                                    out dDate) || DateTime.TryParseExact(_inputColumns[4], format, provider,
-                                    DateTimeStyles.None, out dDate))
-                            {
-                                inspecao.DataInspecao = dDate;
-                            }
-
-                            
+                            inspecao.CodigoCipp = _inputColumns[1];
                         }
-                        catch (Exception e)
+                        else
                         {
+                            return new InspecaoCsvModel
+                            {
 
-                            throw e;
+                                Excecao = new ExcecaoCsv
+                                {
+                                    ExisteExcecao = true,
+                                    Mensagem = string.Format(MensagemNegocio.CodidoCippNaoInformado)
+                                }
+                            };
                         }
 
-                    }
-                    else
-                    {
-                        return new InspecaoCsvModel
+                        if (!string.IsNullOrEmpty(_inputColumns[2]))
                         {
-                            Excecao = new ExcecaoCsv
+                            if (_inputColumns[2].Length > 4)
                             {
-                                ExisteExcecao = true,
-                                Mensagem = string.Format(MensagemNegocio.DataNaoInformada, inspecao.CodigoCipp)
+                                inspecao.PlacaLicenca = _inputColumns[2];
                             }
-                        };
+                            else
+                            {
+                                inspecao.PlacaLicenca = _inputColumns[2].ToString();
+                                return new InspecaoCsvModel
+                                {
+                                    Excecao = new ExcecaoCsv
+                                    {
+                                        ExisteExcecao = true,
+                                        Mensagem = string.Format(MensagemNegocio.PlacaNaoExiste, inspecao.PlacaLicenca, inspecao.CodigoCipp)
+                                    }
+                                };
+                            }
+
+                        }
+                        else
+                        {
+                            inspecao.PlacaLicenca = "ADG-0000";
+                        }
+
+                        if (!string.IsNullOrEmpty(_inputColumns[3]))
+                        {
+                            inspecao.NumeroEquipamento = _inputColumns[3];
+                        }
+                        else
+                        {
+
+                            return new InspecaoCsvModel
+                            {
+                                Excecao = new ExcecaoCsv
+                                {
+                                    ExisteExcecao = true,
+                                    Mensagem = string.Format(MensagemNegocio.NumeroDoEquipamentoNaoInformado, inspecao.CodigoCipp)
+                                }
+                            };
+                        }
+
+                        if (!string.IsNullOrEmpty(_inputColumns[4]))
+                        {
+                            try
+                            {
+                                if (DateTime.TryParseExact(_inputColumns[4], "ddMMyyyy", provider, DateTimeStyles.None,
+                                        out dDate) || DateTime.TryParseExact(_inputColumns[4], format, provider,
+                                        DateTimeStyles.None, out dDate))
+                                {
+                                    inspecao.DataInspecao = dDate;
+                                }
+
+
+                            }
+                            catch (Exception e)
+                            {
+
+                                throw e;
+                            }
+
+                        }
+                        else
+                        {
+                            return new InspecaoCsvModel
+                            {
+                                Excecao = new ExcecaoCsv
+                                {
+                                    ExisteExcecao = true,
+                                    Mensagem = string.Format(MensagemNegocio.DataNaoInformada, inspecao.CodigoCipp)
+                                }
+                            };
+                        }
+
+                        break;
                     }
-                    
-                    break;
+
+                    return inspecao;
                 }
 
-                return inspecao;
+                return new InspecaoCsvModel
+                {
+                    Excecao = new ExcecaoCsv
+                    {
+                        ExisteExcecao = true,
+                        Mensagem = string.Format(MensagemNegocio.ArquivoCSVForaDeFormatacao, ftpInfo.Organismo.CodigoOIA, "")
+                    }
+                };
+
             }
             catch (ExcecaoCsv e)
             {
@@ -239,5 +279,18 @@ namespace INMETRO.CIPP.SHARED.Servicos
             }
 
         }
+
+        public bool ExisteArquivoCsv(string diretorio)
+        {
+             var files = Directory.GetFiles(diretorio, "*.csv");
+                var fileNamePath = files[0];
+                if (File.Exists(fileNamePath))
+                {
+                    return true;
+                }
+             return false;
+
+        }
+
     }
 }

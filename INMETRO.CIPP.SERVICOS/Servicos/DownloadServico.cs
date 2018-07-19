@@ -296,12 +296,13 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
         private void DownloadInspecao(IntegracaoInfos ftpInfo, string diretorioLocal, string diretorioRemoto, string usuario)
         {
+            var inspecao = new InspecaoCsvModel();
             try
             {
                 _descompactar.ExcluirArquivoCasoExista(diretorioLocal, diretorioRemoto);
                 if (!DownloadArquivo(diretorioRemoto, diretorioLocal, ftpInfo)) return;
                 if (!_descompactar.DescompactarArquivo(diretorioLocal, diretorioRemoto)) return;
-                var inspecao = _csv.ObterDadosInspecao(diretorioLocal, ftpInfo);
+                 inspecao = _csv.ObterDadosInspecao(diretorioLocal, ftpInfo);
                 if (inspecao.Excecao == null)
                 {
                     if (!GravarInspecaoObtidaNoArquivoCsv(inspecao, diretorioLocal)) return;
@@ -309,11 +310,14 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 }
                
                 ExcluirArquivoCompactadoECsv(diretorioLocal, diretorioRemoto);
-                DeletarDiretorioLocalInspecao(diretorioLocal);
+                
                 _listExcecao.Add(inspecao.Excecao.Mensagem);
             }
             catch (Exception e)
             {
+                 ExcluirArquivoCompactadoECsv(diretorioLocal, diretorioRemoto);
+                 DeletarDiretorioLocalInspecao(diretorioLocal);
+                _listExcecao.Add(inspecao.Excecao.Mensagem);
                 _listExcecao.Add(e.InnerException.ToString());
                 
             }

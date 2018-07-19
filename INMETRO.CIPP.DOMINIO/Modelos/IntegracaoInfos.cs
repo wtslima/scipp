@@ -8,7 +8,7 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
     public class IntegracaoInfos
     {
         [Key]
-        //[Column("IDT_INTEGRACAO_INFO")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("IDT_INTEGRACAO")]
         public int Id { get; set; }
 

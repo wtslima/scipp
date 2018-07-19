@@ -9,34 +9,6 @@
 <br />
 <p>Houve um erro na aplicação. Por favor, entre em contato com o administrador do sistema.</p>
 
+<p style="margin-top: 30px"><a href="#" onclick="javascript: window.history.back(); return false;" class="btn btn-default">Voltar</a></p>
 
 
-@if (Request.UrlReferrer != null)
-{
-    <a class="btn-default" onclick="history.get(0).reset(); return false;" href="#">Back</a><br />
-}
-
-
-@*<p style="margin-top: 30px"><a href="#" onclick="javascript: window.history.back(); return false;" class="btn btn-default">Voltar</a></p>*@
-
-
-<script>
-    $('#adelete').click(function () {
-        var dataToSend = { ID: ID, MethodName: 'DeleteR', UserID: UserID };
-
-        var options =
-            {
-                url: '<%=ResolveUrl("~/Test.aspx") %>?x=' +
-                new Date().getTime(),
-                data: dataToSend,
-                dataType: 'JSON',
-                type: 'POST',
-                success: function (response) {
-                    window.location.href = '<%=ResolveUrl("~/Test1.aspx")%>
-                        / '+ID;//after sucess will redirect to new page
-
-                }
-            }
-        $.ajax(options);
-    });
-    </script>

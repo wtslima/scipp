@@ -42,8 +42,8 @@ namespace INMETRO.CIPP.INFRA.ENTITYFRAMEWORK
                 .HasKey(e => e.InspecaoId);
 
             modelBuilder.Entity<Inspecao>()
-                .HasRequired(s => s.Historico)
-                .WithRequiredPrincipal(s => s.Inspecao);
+                .HasOptional(s => s.Historico)
+                .WithRequired(s => s.Inspecao);
 
             base.OnModelCreating(modelBuilder);
         }

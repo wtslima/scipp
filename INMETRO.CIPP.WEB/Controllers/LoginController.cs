@@ -40,25 +40,25 @@ namespace INMETRO.CIPP.WEB.Controllers
                 try
                 {
 
-                    //var usuario = autenticacao.Autenticar(token,
-                    //    new Login { UserName = model.Usuario, Senha = model.Senha });
+                    var usuario = autenticacao.Autenticar(token,
+                        new Login { UserName = model.Usuario, Senha = model.Senha });
 
-                    //if (usuario != null)
-                    //{
-                    //    CriarCookie(usuario.Nome.Substring(0, usuario.Nome.IndexOf(" ")),
-                    //        usuario.Perfis.Select(p => p.CodigoPerfil.Trim()).ToList());
-                    //    Session["userLogin"] = model.Usuario;
-                    //    Session["Usuario"] = usuario.Nome;
+                    if (usuario != null)
+                    {
+                        CriarCookie(usuario.Nome.Substring(0, usuario.Nome.IndexOf(" ")),
+                            usuario.Perfis.Select(p => p.CodigoPerfil.Trim()).ToList());
+                        Session["userLogin"] = model.Usuario;
+                        Session["Usuario"] = usuario.Nome;
 
 
-                    //    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/") &&
-                    //        !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
-                    //    {
-                    //        return RedirectToAction(returnUrl);
-                    //    }
-                    //}
+                        if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/") &&
+                            !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                        {
+                            return RedirectToAction(returnUrl);
+                        }
+                    }
 
-                    Session["Usuario"] = "Wellington";
+                    //Session["Usuario"] = "Wellington";
                     usuarioCorrente = Session["Usuario"].ToString();
                     return RedirectToAction("Download", "Download", usuarioCorrente);
 
@@ -77,7 +77,7 @@ namespace INMETRO.CIPP.WEB.Controllers
         private void CriarCookie(string nomeUsuario, IEnumerable<string> perfis)
         {
             var minutesTime = ConfigurationManager.AppSettings.Get("TempoConexao");
-            if (!int.TryParse(minutesTime, out var connecttime)) connecttime = 240;
+            if (!int.TryParse(minutesTime, out var connecttime)) connecttime = 1040;
             var ticket = new FormsAuthenticationTicket(
                 1, nomeUsuario, DateTime.Now, DateTime.Now.AddMinutes(connecttime), true,
                 string.Join(",", perfis), FormsAuthentication.FormsCookiePath);

@@ -27,8 +27,11 @@
         public const string CodigoOiaNaoInformado = "Campo Codigo OIA-PP não preenchido no arquivo CSV.";
         public const string CodidoCippNaoInformado = "Campo CIPP não preenchido no arquivo CSV.";
         public const string PlacaNaoInformada = "Campo PLACA não preenchido no arquivo CSV.";
+        public const string PlacaNaoExiste = "O valor {0} para campo PLACA na INSPEÇÃO {1} não é válido.";
         public const string NumeroDoEquipamentoNaoInformado = "Número do equipamento da inspeção nº{0} não preenchido no arquivo CSV. Inspeção nº{0}";
         public const string DataNaoInformada = "Data da inspecao nº{0} não preenchida no arquivo CSV.";
+        public const string ArquivoCSVNaoEncontrado = "Não há arquivo CSV para Inspeção {0} e CÓDIGO-OIA-PP{1}";
+        public const string ArquivoCSVForaDeFormatacao = "O arquivo CSV de CODIGO-OIA-PP {0} e INSPEÇÃO {1} está com a formatação errada. ";
         #endregion
 
     }
