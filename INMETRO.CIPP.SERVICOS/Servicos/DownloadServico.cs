@@ -300,6 +300,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             try
             {
                 _descompactar.ExcluirArquivoCasoExista(diretorioLocal, diretorioRemoto);
+               
                 if (!DownloadArquivo(diretorioRemoto, diretorioLocal, ftpInfo)) return;
                 if (!_descompactar.DescompactarArquivo(diretorioLocal, diretorioRemoto)) return;
                  inspecao = _csv.ObterDadosInspecao(diretorioLocal, ftpInfo);
@@ -309,14 +310,13 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                     if (!GravarHistoricoDownload(diretorioRemoto, usuario)) return;
                 }
                
-                ExcluirArquivoCompactadoECsv(diretorioLocal, diretorioRemoto);
+                 ExcluirArquivoCompactadoECsv(diretorioLocal, diretorioRemoto);
                 
                 _listExcecao.Add(inspecao.Excecao.Mensagem);
             }
             catch (Exception e)
             {
-                 ExcluirArquivoCompactadoECsv(diretorioLocal, diretorioRemoto);
-                 DeletarDiretorioLocalInspecao(diretorioLocal);
+                
                 _listExcecao.Add(inspecao.Excecao.Mensagem);
                 _listExcecao.Add(e.InnerException.ToString());
                 
@@ -359,8 +359,6 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             return DownloadExcecaoService.ObterInspecaoValidaParaCippInformado(inspecoes, cipp, codigo);
 
         }
-
-
 
         private static InspecoesGravadasModelServico VerificarFtpValido(IntegracaoInfos ftpInfos, string codigo)
         {

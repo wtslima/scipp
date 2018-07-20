@@ -64,6 +64,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
         public string CriarArquivoInspecoesAnexo(IList<InspecaoCsvModel> inspecoes)
         {
             // string physicalPathToDirectory = Environment.GetEnvironmentVariable("CIPP");
+            string filePhisical = @"d:\temp\";
             string fileName = ".csv";
             var date = DateTime.Now.ToString("yyyy-MM-dd_HH-mm", CultureInfo.InvariantCulture);
             ExportarCSV inspecaoCsv = new ExportarCSV();
@@ -77,7 +78,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                 inspecaoCsv["Equipamento"] = item.NumeroEquipamento;
                 inspecaoCsv["Data da Inspecao"] = item.DataInspecao.Date;
             }
-            var path = "CIPP -" + date + fileName;
+            var path = filePhisical+"CIPP -" +date+fileName;
 
 
             inspecaoCsv.ExportToFile(path);
@@ -121,7 +122,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                 _inputColumns = inputLineWithoutExtraCommas.Split(',').ToList();
                 
                 var inspecao = new InspecaoCsvModel();
-                if (_inputColumns.Count > 5)
+                if (_inputColumns.Count == 5)
                 {
                     for (var i = 0; i < _inputColumns.Count;)
                     {
@@ -145,7 +146,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
                         if (!string.IsNullOrEmpty(_inputColumns[2]))
                         {
-                            if (_inputColumns[2].Length > 4)
+                            if (_inputColumns[2].Length > 6)
                             {
                                 inspecao.PlacaLicenca = _inputColumns[2];
                             }
