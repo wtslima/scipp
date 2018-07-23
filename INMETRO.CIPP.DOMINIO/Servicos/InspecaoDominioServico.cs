@@ -29,7 +29,7 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
             }
             catch (Exception e)
             {
-                throw e;
+                throw new Exception(string.Format(MensagemNegocio.FalhaAoInserirInspecao, inspecao.CodigoCipp, inspecao.CodigoOIA));
             }
 
         }

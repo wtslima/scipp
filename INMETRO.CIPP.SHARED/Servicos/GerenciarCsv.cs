@@ -22,7 +22,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
         public InspecaoCsvModel ObterDadosInspecao(string diretorio, IntegracaoInfos ftpInfo)
         {
-            if(ExisteArquivoCsv(diretorio))
+            if (ExisteArquivoCsv(diretorio))
             {
                 var inspecaoLine = LerLinhasCsv(diretorio);
                 var inspecaoModel = ObterInspecao(inspecaoLine, ftpInfo);
@@ -33,7 +33,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                 Excecao = new ExcecaoCsv
                 {
                     ExisteExcecao = true,
-                    Mensagem = string.Format(MensagemNegocio.ArquivoCSVNaoEncontrado," ",ftpInfo.Organismo.CodigoOIA)
+                    Mensagem = string.Format(MensagemNegocio.ArquivoCSVNaoEncontrado, " ", ftpInfo.Organismo.CodigoOIA)
                 }
             };
         }
@@ -60,11 +60,11 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
         }
 
-        
+
         public string CriarArquivoInspecoesAnexo(IList<InspecaoCsvModel> inspecoes)
         {
             // string physicalPathToDirectory = Environment.GetEnvironmentVariable("CIPP");
-            string filePhisical = @"d:\temp\";
+            string filePhisical = Configurations.DiretorioRaiz();
             string fileName = ".csv";
             var date = DateTime.Now.ToString("yyyy-MM-dd_HH-mm", CultureInfo.InvariantCulture);
             ExportarCSV inspecaoCsv = new ExportarCSV();
@@ -78,11 +78,11 @@ namespace INMETRO.CIPP.SHARED.Servicos
                 inspecaoCsv["Equipamento"] = item.NumeroEquipamento;
                 inspecaoCsv["Data da Inspecao"] = item.DataInspecao.Date;
             }
-            var path = filePhisical+"CIPP -" +date+fileName;
+            var path = filePhisical + "CIPP -" + date + fileName;
 
 
             inspecaoCsv.ExportToFile(path);
-            
+
             email.EnviarEmailComAnexo("wslima@colaborador.inmetro.gov.br", path);
             email.EnviarEmailComAnexo("scipp-recebe@inmetro.gov.br", path);
             return path;
@@ -90,7 +90,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
         private string LerLinhasCsv(string diretorio)
         {
-           
+
             var files = Directory.GetFiles(diretorio, "*.csv");
 
             if (files.Length <= 0)
@@ -109,7 +109,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
             return string.IsNullOrWhiteSpace(inspecaoLinha) ? string.Empty : inspecaoLinha;
         }
-        
+
         private InspecaoCsvModel ObterInspecao(string inputLine, IntegracaoInfos ftpInfo)
         {
             try
@@ -120,7 +120,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                 format = "yyyyMMdd";
                 string inputLineWithoutExtraCommas = ReplaceDelimitersWithinQuotes(inputLine);
                 _inputColumns = inputLineWithoutExtraCommas.Split(',').ToList();
-                
+
                 var inspecao = new InspecaoCsvModel();
                 if (_inputColumns.Count == 5)
                 {
@@ -158,7 +158,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                                     Excecao = new ExcecaoCsv
                                     {
                                         ExisteExcecao = true,
-                                        Mensagem = string.Format(MensagemNegocio.PlacaNaoExiste, inspecao.PlacaLicenca, inspecao.CodigoCipp)
+                                        Mensagem = string.Format(MensagemNegocio.PlacaNaoExiste, inspecao.PlacaLicenca, inspecao.CodigoCipp, inspecao.CodigoOia)
                                     }
                                 };
                             }
@@ -166,7 +166,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                         }
                         else
                         {
-                            inspecao.PlacaLicenca = "ADG-0000";
+                            inspecao.PlacaLicenca = "ADG0000";
                         }
 
                         if (!string.IsNullOrEmpty(_inputColumns[3]))
@@ -181,7 +181,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                                 Excecao = new ExcecaoCsv
                                 {
                                     ExisteExcecao = true,
-                                    Mensagem = string.Format(MensagemNegocio.NumeroDoEquipamentoNaoInformado, inspecao.CodigoCipp)
+                                    Mensagem = string.Format(MensagemNegocio.NumeroDoEquipamentoNaoInformado, inspecao.CodigoCipp, ftpInfo.Organismo.CodigoOIA)
                                 }
                             };
                         }
@@ -190,19 +190,29 @@ namespace INMETRO.CIPP.SHARED.Servicos
                         {
                             try
                             {
+                               
                                 if (DateTime.TryParseExact(_inputColumns[4], "ddMMyyyy", provider, DateTimeStyles.None,
-                                        out dDate) || DateTime.TryParseExact(_inputColumns[4], format, provider,
-                                        DateTimeStyles.None, out dDate))
+                                    out dDate) || DateTime.TryParseExact(_inputColumns[4], format, provider, DateTimeStyles.None, out dDate))
                                 {
                                     inspecao.DataInspecao = dDate;
                                 }
-
-
+                                else
+                                {
+                                    DateTime dt = DateTime.Parse(_inputColumns[4]);
+                                }
+                                
                             }
-                            catch (Exception e)
+                            catch 
                             {
 
-                                throw e;
+                                return new InspecaoCsvModel
+                                {
+                                    Excecao = new ExcecaoCsv
+                                    {
+                                        ExisteExcecao = true,
+                                        Mensagem = string.Format(MensagemNegocio.DataComFormatoInvalido, inspecao.CodigoCipp, inspecao.CodigoOia)
+                                    }
+                                };
                             }
 
                         }
@@ -229,7 +239,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                     Excecao = new ExcecaoCsv
                     {
                         ExisteExcecao = true,
-                        Mensagem = string.Format(MensagemNegocio.ArquivoCSVForaDeFormatacao, ftpInfo.Organismo.CodigoOIA, "")
+                        Mensagem = string.Format(MensagemNegocio.ArquivoCSVForaDeFormatacao, ftpInfo.Organismo.CodigoOIA)
                     }
                 };
 
@@ -283,13 +293,13 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
         public bool ExisteArquivoCsv(string diretorio)
         {
-             var files = Directory.GetFiles(diretorio, "*.csv");
-                var fileNamePath = files[0];
-                if (File.Exists(fileNamePath))
-                {
-                    return true;
-                }
-             return false;
+            var files = Directory.GetFiles(diretorio, "*.csv");
+            var fileNamePath = files[0];
+            if (File.Exists(fileNamePath))
+            {
+                return true;
+            }
+            return false;
 
         }
 

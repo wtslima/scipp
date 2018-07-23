@@ -31,14 +31,14 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         private readonly IInspecaoDominioService _inspecaoServico;
         private readonly IHistorico _historicoServico;
         private readonly IGerenciarSftp _sftp;
-      
+
 
         private readonly List<InspecaoModelServico> _listaInspecoesParaEnvio = new List<InspecaoModelServico>();
 
         readonly Notificacao _enviar = new Notificacao();
         readonly List<string> _listExcecao = new List<string>();
 
-      
+
         public DownloadServico(IOrganismoDominioService organismoDomainService, IGerenciarFtp ftp, IGerenciarArquivoCompactado descompactar, IGerenciarCsv csv, IInspecaoDominioService inspecaoServico, IGerenciarSftp sftp)
         {
             _organismoDomainService = organismoDomainService;
@@ -89,7 +89,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
                     return DownloadInspecoaPorCippInformado(organismo,
                         existeExcecaoInspecao.DiretoriosValidos.FirstOrDefault(s => s.Contains(cipp)), usuario);
-                    
+
                 }
 
                 return DownloadInspecoaPorCodigoOiaInformado(organismo, existeExcecaoInspecao.DiretoriosValidos,
@@ -102,7 +102,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
                 _enviar.EnviarEmail(Configurations.EmailAdministrador(), _listExcecao, codigoOia);
 
-                throw new Exception($"Erro ao fazer download nos arquivos de inspeção. Exceção {exec.Message}");
+                throw new Exception($"Erro ao fazer download. {_listExcecao[0]}");
             }
 
         }
@@ -118,8 +118,19 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             if (listaErros.Count > 0)
             {
                 _enviar.EnviarEmail(Configurations.EmailAdministrador(), _listExcecao, organismo.CodigoOIA);
-            }
+                return new InspecoesGravadasModelServico
+                {
+                    InspecoesGravadas = _listaInspecoesParaEnvio,
+                    Excecao = new ExcecaoService
+                    {
+                        ExisteExcecao = true,
+                        Mensagem = string.Format(_listExcecao[0],
+                       organismo.CodigoOIA, diretorioRemoto)
+                    }
 
+                };
+
+            }
 
             return new InspecoesGravadasModelServico
             {
@@ -180,7 +191,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         {
             try
             {
-               // Logger.Trace("Trace Agendamento Funcionando ...");
+                // Logger.Trace("Trace Agendamento Funcionando ...");
                 var organismos = await _organismoDomainService.BuscarTodosOrganismos();
 
                 if (!organismos.GroupBy(f => f.IntegracaoInfo).Any()) return false;
@@ -211,7 +222,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             }
             catch (Exception e)
             {
-                 EnviarInspecoes(_listaInspecoesParaEnvio);
+                EnviarInspecoes(_listaInspecoesParaEnvio);
                 _listExcecao.Add($"Erro Download durante Inspeção automática. Exceção: {e.Message}");
                 _enviar.EnviarEmailErroDownloadAutomatico(Configurations.EmailAdministrador(), _listExcecao);
                 return false;
@@ -264,6 +275,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         {
             var diretorioLocal = string.Empty;
             var diretoriosValidos = new List<string>();
+            var inspecao = new InspecaoCsvModel();
             if (diretorios != null)
             {
                 diretoriosValidos = ObterSomenteDiretoriosValidos(diretorios);
@@ -275,20 +287,43 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                     diretorioLocal = ObterDiretorioLocal(ftpInfo.DiretorioInspecaoLocal, item);
 
                     _descompactar.ExcluirArquivoCasoExista(diretorioLocal, item);
-                   
+                    DeletarDiretorioLocalInspecao(diretorioLocal);
                     if (!DownloadArquivo(item, diretorioLocal, ftpInfo)) continue;
                     if (!_descompactar.DescompactarArquivo(diretorioLocal, item)) continue;
-                    var inspecao = _csv.ObterDadosInspecao(diretorioLocal, ftpInfo);
-                    if (!GravarInspecaoObtidaNoArquivoCsv(inspecao, diretorioLocal)) 
-                    if (!GravarHistoricoDownload(item, "Rotina Automática")) continue;
+                    inspecao = _csv.ObterDadosInspecao(diretorioLocal, ftpInfo);
+                    if (inspecao.Excecao == null)
+                    {
+                        if (!GravarInspecaoObtidaNoArquivoCsv(inspecao, diretorioLocal))
+
+                        if (!GravarHistoricoDownload(item, "Rotina Automática")) continue;
+                    }
+
                     ExcluirArquivoCompactadoECsv(diretorioLocal, item);
 
+                    _listExcecao.Add(inspecao.Excecao.Mensagem);
                 }
                 catch (Exception e)
                 {
-                   
+                    if (inspecao.Excecao == null)
+                    {
+                        var erro = new InspecoesGravadasModelServico
+                        {
+
+                            Excecao = new ExcecaoService
+                            {
+                                ExisteExcecao = true,
+                                Mensagem = string.Format(e.Message)
+                            }
+
+                        };
+
+                        _listExcecao.Add(erro.Excecao.Mensagem);
+                    }
+
                     _listExcecao.Add(e.Message);
-                   // EnviarLogParaOrganismo(CriarArquivoDeLog(_listExcecao), ftpInfo);
+
+
+                    // EnviarLogParaOrganismo(CriarArquivoDeLog(_listExcecao), ftpInfo);
                 }
             }
 
@@ -300,26 +335,41 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             try
             {
                 _descompactar.ExcluirArquivoCasoExista(diretorioLocal, diretorioRemoto);
-               
+                DeletarDiretorioLocalInspecao(diretorioLocal);
                 if (!DownloadArquivo(diretorioRemoto, diretorioLocal, ftpInfo)) return;
                 if (!_descompactar.DescompactarArquivo(diretorioLocal, diretorioRemoto)) return;
-                 inspecao = _csv.ObterDadosInspecao(diretorioLocal, ftpInfo);
+                inspecao = _csv.ObterDadosInspecao(diretorioLocal, ftpInfo);
                 if (inspecao.Excecao == null)
                 {
                     if (!GravarInspecaoObtidaNoArquivoCsv(inspecao, diretorioLocal)) return;
                     if (!GravarHistoricoDownload(diretorioRemoto, usuario)) return;
                 }
-               
-                 ExcluirArquivoCompactadoECsv(diretorioLocal, diretorioRemoto);
-                
-                _listExcecao.Add(inspecao.Excecao.Mensagem);
+
+                ExcluirArquivoCompactadoECsv(diretorioLocal, diretorioRemoto);
+                if(inspecao.Excecao != null)
+                    _listExcecao.Add(inspecao.Excecao.Mensagem);
+
             }
             catch (Exception e)
             {
-                
-                _listExcecao.Add(inspecao.Excecao.Mensagem);
+                if (inspecao.Excecao == null)
+                {
+                    var erro = new InspecoesGravadasModelServico
+                    {
+
+                        Excecao = new ExcecaoService
+                        {
+                            ExisteExcecao = true,
+                            Mensagem = string.Format(e.Message)
+                        }
+
+                    };
+
+                    _listExcecao.Add(erro.Excecao.Mensagem);
+                }
+
                 _listExcecao.Add(e.InnerException.ToString());
-                
+
             }
 
         }
@@ -412,7 +462,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             }
             catch (Exception e)
             {
-                throw new Exception($"Erro ao gravar Inspeção. Exceção {e}");
+                throw e;
             }
 
         }
@@ -488,7 +538,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             }
 
         }
-       
+
 
         private string ObterDiretorioLocal(string localDiretorio, string fileCipp)
         {
@@ -496,8 +546,8 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             try
             {
                 var cippServe = Path.GetFileNameWithoutExtension(fileCipp);
-              
-                 path = Configurations.DiretorioRaiz() + localDiretorio + "\\" + cippServe + "\\";
+
+                path = Configurations.DiretorioRaiz() + localDiretorio + "\\" + cippServe + "\\";
                 bool folderExists = Directory.Exists(path);
 
                 if (!folderExists)
@@ -510,9 +560,9 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             catch (Exception e)
             {
                 throw new Exception($"Erro ao criar diretório no servidor {path} arquivo. Exceção {e.InnerException}");
-               
+
             }
-            
+
         }
 
 
@@ -631,28 +681,39 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             var diretoriosValidos = new List<string>();
             foreach (var item in diretorios)
             {
-                var extension = Path.GetExtension(item);
-                if (extension != null && (extension.Equals(".zip") || extension.Equals(".rar")))
-                {
+                var value = Path.GetFileNameWithoutExtension(item);
+                int checkNum;
+                
+                if (int.TryParse(value, out checkNum))
+                { 
 
-                    diretoriosValidos.Add(item);
+                    var extension = Path.GetExtension(item);
+                    if (extension != null && (extension.Equals(".zip") || extension.Equals(".rar")))
+                    {
+
+                        diretoriosValidos.Add(item);
+                    }
                 }
+
             }
 
             return diretoriosValidos;
 
         }
 
-        private void DeletarDiretorioLocalInspecao(string  diretorioLocal)
+        private void DeletarDiretorioLocalInspecao(string diretorioLocal)
         {
             var di = new DirectoryInfo(diretorioLocal);
 
             foreach (FileInfo file in di.GetFiles())
             {
                 file.Delete();
+
             }
 
         }
+
+
 
 
 

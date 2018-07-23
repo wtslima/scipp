@@ -15,6 +15,7 @@
         public const string NenhumaInspecaoExcluidaEncontrada = "Não foi encontrada registro de inspeção excluída";
         public const string NenhumaInspecaoEncontrada = "Nenhum resultado encontrado";
         public const string InspecaoJaGravadaParaCippEOia = "A inspeção já está gravada na base de dados do Inmetro.";
+        public const string FalhaAoInserirInspecao = "Falha ao gravar Inspeção {0}. Código-OIA-PP {1}.";
 
         #region Mensagens Data
         public const string NenhumaInspecaoParaPeriodoInformado = "Nenhuma inspeção foi encontrada para o período informado.";
@@ -27,11 +28,12 @@
         public const string CodigoOiaNaoInformado = "Campo Codigo OIA-PP não preenchido no arquivo CSV.";
         public const string CodidoCippNaoInformado = "Campo CIPP não preenchido no arquivo CSV.";
         public const string PlacaNaoInformada = "Campo PLACA não preenchido no arquivo CSV.";
-        public const string PlacaNaoExiste = "O valor {0} para campo PLACA na INSPEÇÃO {1} não é válido.";
-        public const string NumeroDoEquipamentoNaoInformado = "Número do equipamento da inspeção nº{0} não preenchido no arquivo CSV. Inspeção nº{0}";
+        public const string PlacaNaoExiste = "O valor {0} para campo PLACA na INSPEÇÃO {1} não é válido. Código-OIA-PP{2}.";
+        public const string NumeroDoEquipamentoNaoInformado = "Número do equipamento da inspeção nº{0} não preenchido no arquivo CSV. Codigo-OIA-PP{1}.";
         public const string DataNaoInformada = "Data da inspecao nº{0} não preenchida no arquivo CSV.";
-        public const string ArquivoCSVNaoEncontrado = "Não há arquivo CSV para Inspeção {0} e CÓDIGO-OIA-PP{1}";
-        public const string ArquivoCSVForaDeFormatacao = "O arquivo CSV de CODIGO-OIA-PP {0} e INSPEÇÃO {1} está com a formatação errada. ";
+        public const string DataComFormatoInvalido = "Data da inspecao nº{0} não está no formato correto. Código-OIA-PP{1}";
+        public const string ArquivoCSVNaoEncontrado = "Não há arquivo CSV para Inspeção {0} e CÓDIGO-OIA-PP{1}.";
+        public const string ArquivoCSVForaDeFormatacao = "O arquivo CSV de CODIGO-OIA-PP {0} está com a formatação errada.";
         #endregion
 
     }
