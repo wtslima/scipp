@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using INMETRO.CIPP.SHARED.Email;
 using Quartz;
 using Quartz.Impl;
 
@@ -10,7 +8,8 @@ namespace INMETRO.CIPP.WEB.Agendamento
     public class TarefasAgendadas
     {
 
-        protected static ISchedulerFactory Factory;
+        public static ISchedulerFactory Factory;
+       
 
         public static void TarefasRegistradas()
         {
@@ -18,9 +17,8 @@ namespace INMETRO.CIPP.WEB.Agendamento
 
             var sched = factory.GetScheduler();
             sched.Start();
-           
+
             DownloadPorRotinaAutomaticaScheduled(sched);
-            //ExclusaoPorRotinaAutomaticaScheduled(sched);
 
         }
 
@@ -45,28 +43,9 @@ namespace INMETRO.CIPP.WEB.Agendamento
                             .Build();
 
             scheduler.ScheduleJob(jobDownloadPorRotinaAutomatica, triggerDownloadPorRotinaAutomatica);
-            
+
         }
 
-        //private static void ExclusaoPorRotinaAutomaticaScheduled(IScheduler scheduler)
-        //{
-
-        //    var jobExclusaoPorRotinaAutomatica = JobBuilder.Create<ExclusaoPorRotinaAutomaticaJob>()
-        //        .WithIdentity("jobExclusaoPorRotinaAutomatica", "group1")
-        //        .Build();
-
-
-        //    var triggerjobExclusaoPorRotinaAutomatica = TriggerBuilder.Create()
-        //        .WithIdentity("triggerExclusaoPorRotinaAutomatica", "group1")
-        //        .WithDailyTimeIntervalSchedule
-        //        (s => s.WithIntervalInHours(24)
-        //            .OnEveryDay()
-        //            .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(23, 0)))
-        //        .ForJob(jobExclusaoPorRotinaAutomatica)
-        //        .Build();
-
-        //    scheduler.ScheduleJob(jobExclusaoPorRotinaAutomatica, triggerjobExclusaoPorRotinaAutomatica);
-        //}
 
 
     }

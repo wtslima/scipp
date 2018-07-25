@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace INMETRO.DIOIS.INSPECAO.WEB
+namespace INMETRO.CIPP.WEB
 {
     public class FilterConfig
     {

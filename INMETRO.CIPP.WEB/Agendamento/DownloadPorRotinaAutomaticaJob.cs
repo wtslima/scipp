@@ -11,7 +11,7 @@ namespace INMETRO.CIPP.WEB.Agendamento
 {
     public class DownloadPorRotinaAutomaticaJob : IJob
     {
-
+        Notificacao _enviar = new Notificacao();
         private readonly OrganismoRepositorio _repositorio;
         private readonly OrganismoDominioServico _domainService;
         private readonly GerenciarArquivoCompactado _descompactar;
@@ -24,6 +24,7 @@ namespace INMETRO.CIPP.WEB.Agendamento
 
         public DownloadPorRotinaAutomaticaJob()
         {
+          
             var inspecaoRepositorio = new InspecaoRepositorio();
             _repositorio = new OrganismoRepositorio();
             _domainService = new OrganismoDominioServico(_repositorio);
@@ -37,8 +38,6 @@ namespace INMETRO.CIPP.WEB.Agendamento
 
         public void Execute(IJobExecutionContext context)
         {
-            
-             Notificacao _enviar = new Notificacao();
             _enviar.EnviarEmailErroDownloadAutomatico("wslima@colaborador.inmetro.gov.br",new List<string>());
             var servico = new DownloadServico(_domainService, _ftp, _descompactar, _csv, _inspecao, _sftp);
             servico.DownloadInspecoesPorRotinaAutomatica().ConfigureAwait(true);

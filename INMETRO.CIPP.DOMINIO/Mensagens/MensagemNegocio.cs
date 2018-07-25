@@ -16,7 +16,7 @@
         public const string NenhumaInspecaoEncontrada = "Nenhum resultado encontrado";
         public const string InspecaoJaGravadaParaCippEOia = "A inspeção já está gravada na base de dados do Inmetro.";
         public const string FalhaAoInserirInspecao = "Falha ao gravar Inspeção {0}. Código-OIA-PP {1}.";
-
+       
         #region Mensagens Data
         public const string NenhumaInspecaoParaPeriodoInformado = "Nenhuma inspeção foi encontrada para o período informado.";
         #endregion
@@ -27,7 +27,7 @@
         #region Mensagens ArquivoCSV
         public const string CodigoOiaNaoInformado = "Campo Codigo OIA-PP não preenchido no arquivo CSV.";
         public const string CodidoCippNaoInformado = "Campo CIPP não preenchido no arquivo CSV.";
-        public const string PlacaNaoInformada = "Campo PLACA não preenchido no arquivo CSV.";
+        public const string PlacaNaoInformada = "Campo PLACA não foi preenchido no arquivo CSV da Inspecao {0} e Código-OIA-PP {1}.";
         public const string PlacaNaoExiste = "O valor {0} para campo PLACA na INSPEÇÃO {1} não é válido. Código-OIA-PP{2}.";
         public const string NumeroDoEquipamentoNaoInformado = "Número do equipamento da inspeção nº{0} não preenchido no arquivo CSV. Codigo-OIA-PP{1}.";
         public const string DataNaoInformada = "Data da inspecao nº{0} não preenchida no arquivo CSV.";

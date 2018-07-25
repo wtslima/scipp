@@ -166,8 +166,16 @@ namespace INMETRO.CIPP.SHARED.Servicos
                         }
                         else
                         {
-                            inspecao.PlacaLicenca = "ADG0000";
+                            return new InspecaoCsvModel
+                            {
+                                Excecao = new ExcecaoCsv
+                                {
+                                    ExisteExcecao = true,
+                                    Mensagem = string.Format(MensagemNegocio.PlacaNaoInformada,  inspecao.CodigoCipp, inspecao.CodigoOia)
+                                }
+                            };
                         }
+                        
 
                         if (!string.IsNullOrEmpty(_inputColumns[3]))
                         {
