@@ -306,14 +306,21 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 {
                     if (!GravarInspecaoObtidaNoArquivoCsv(inspecao, diretorioLocal)) return;
                     if (!GravarHistoricoDownload(diretorioRemoto, usuario)) return;
+                    ExcluirArquivoCompactadoECsv(diretorioLocal, diretorioRemoto);
+                }
+                else
+                {
+                    ExcluirArquivoCompactadoECsv(diretorioLocal, diretorioRemoto);
+                    DeletarDiretorioLocalInspecao(diretorioLocal);
+                    _listExcecao.Add(inspecao.Excecao.Mensagem);
                 }
                
-                ExcluirArquivoCompactadoECsv(diretorioLocal, diretorioRemoto);
-                DeletarDiretorioLocalInspecao(diretorioLocal);
-                _listExcecao.Add(inspecao.Excecao.Mensagem);
+                
             }
             catch (Exception e)
             {
+                ExcluirArquivoCompactadoECsv(diretorioLocal, diretorioRemoto);
+                DeletarDiretorioLocalInspecao(diretorioLocal);
                 _listExcecao.Add(e.InnerException.ToString());
                 
             }
