@@ -110,10 +110,10 @@ namespace INMETRO.CIPP.SERVICOS
                 {
                     new InspecaoModelServico
                     {
-                        CodigoOia = value.CodigoOIA.ToString(),
-                        CodigoCipp = value.CodigoCipp,
-                        Equipamento = value.NumeroEquipamento,
-                        Placa = value.PlacaLicenca,
+                        CodigoOia = !string.IsNullOrWhiteSpace(value.CodigoOIA.ToString()) ? value.CodigoOIA.ToString() : string.Empty,
+                        CodigoCipp =!string.IsNullOrWhiteSpace(value.CodigoCipp) ? value.CodigoCipp : string.Empty,
+                        Equipamento = !string.IsNullOrWhiteSpace(value.NumeroEquipamento)? value.NumeroEquipamento : string.Empty,
+                        Placa = !string.IsNullOrWhiteSpace(value.PlacaLicenca)? value.PlacaLicenca : string.Empty,
                         DataInspecao = value.DataInspecao.Date
                         
                     }

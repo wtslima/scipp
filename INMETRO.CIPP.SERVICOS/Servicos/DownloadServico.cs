@@ -497,7 +497,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             string fileName = ".txt";
             var date = DateTime.Now.ToString("yyyy-MM-dd_HH-mm", CultureInfo.InvariantCulture);
 
-            var path = filePhisical + "Log-SCIPP -"+info.DiretorioInspecaoLocal+"-"+ date + fileName;
+            var path = filePhisical+"/"+"LOGS"+"/"+ "Log-SCIPP -"+info.DiretorioInspecaoLocal+"-"+ date + fileName;
             using (System.IO.StreamWriter file =
                 new System.IO.StreamWriter(path))
             {

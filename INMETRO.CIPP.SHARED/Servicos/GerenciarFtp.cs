@@ -170,7 +170,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
             {
 
 
-                var result = ObterDiretoriosRemotos(ftp);
+                var result = ObterListaDiretoriosInspecoesFtp(ftp);
 
                 if (result.Length > 0)
                 {
@@ -178,7 +178,8 @@ namespace INMETRO.CIPP.SHARED.Servicos
                     {
                         if (item.Contains("LOG")) return;
                     }
-                    FtpWebRequest request = (FtpWebRequest) WebRequest.Create(ftp.HostURI +"//"+"LOG");
+                    var path ="/"+ftp.DiretorioInspecao +"/"+"LOG";
+                    FtpWebRequest request = (FtpWebRequest) WebRequest.Create(ftp.HostURI+path);
                     request.Credentials = new NetworkCredential(ftp.Usuario.Trim(), ftp.Senha.Trim());
                     request.Method = WebRequestMethods.Ftp.MakeDirectory;
                     using (var resp = (FtpWebResponse)request.GetResponse())
@@ -200,8 +201,9 @@ namespace INMETRO.CIPP.SHARED.Servicos
             bool success = true;
             try
             {
+                var pathRemote = "/"+ftp.DiretorioInspecao+"/"+"LOG"+"/";
                 var filename = Path.GetFileName(path);
-                FtpWebRequest request = (FtpWebRequest)WebRequest.Create(ftp.HostURI +"/"+"LOG"+"/"+filename);
+                FtpWebRequest request = (FtpWebRequest)WebRequest.Create(ftp.HostURI+pathRemote+ filename);
                 request.Method = WebRequestMethods.Ftp.UploadFile;
 
                 request.Credentials = new NetworkCredential(ftp.Usuario.Trim(), ftp.Senha.Trim());

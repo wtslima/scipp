@@ -168,10 +168,13 @@ namespace INMETRO.CIPP.SHARED.Servicos
                 using (SftpClient client = tmpClient)
                 {
                     client.Connect();
-
+                    string current = "/"+sftp.DiretorioInspecao+"/"+"LOG"+"/";
+                 
                     using (FileStream localFile = new FileStream(localFilePath, FileMode.Open))
                     {
-                        client.UploadFile(localFile, "//"+"LOG"+"//", true);
+                        client.BufferSize = 4 * 1024;
+                        client.UploadFile(localFile, current+Path.GetFileName(localFilePath), null);
+                        
                     }
 
                     client.Disconnect();
@@ -205,7 +208,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                     sftpModelShared.PrivateKey);
             }
 
-            string current = "/" + "LOG";
+            string current = "//" + sftpInfo.DiretorioInspecao + "//" + "LOG" + "//";
             using (SftpClient client = tmpClient)
             {
                 try
@@ -213,7 +216,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
                     client.Connect();
 
-                    var d = client.Exists("//" + "LOG" + "//");
+                    var d = client.Exists(current);
                     if (!d)
                     {
                         client.CreateDirectory(current);
