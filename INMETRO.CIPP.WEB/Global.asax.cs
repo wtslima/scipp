@@ -12,20 +12,21 @@ namespace INMETRO.CIPP.WEB
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+       
         protected void Application_Start()
         {
+            TarefasAgendadas.TarefasRegistradas();
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
-            TarefasAgendadas.TarefasRegistradas();
-
+           
             var container = new IoC().Register();
            
             container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
             container.Verify();
             DependencyResolver.SetResolver(new SimpleInjectorDependencyResolver(container));
+           
         }
     }
 }

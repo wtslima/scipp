@@ -49,7 +49,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                     client.Connect();
 
                     // was "/out"
-                    IEnumerable<SftpFile> results = client.ListDirectory("//"+sftp.DiretorioInspecao+"//");
+                    IEnumerable<SftpFile> results = client.ListDirectory("//" + sftp.DiretorioInspecao + "//");
                     foreach (var file in results)
                     {
                         if (!file.IsDirectory)
@@ -96,7 +96,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
                     using (FileStream outputStream = new FileStream(diretorioLocal, FileMode.Create))
                     {
-                        client.DownloadFile("/"+sftpInfo.DiretorioInspecao+"/"+ file, outputStream);
+                        client.DownloadFile("/" + sftpInfo.DiretorioInspecao + "/" + file, outputStream);
                     }
 
                     client.Disconnect();
@@ -152,11 +152,11 @@ namespace INMETRO.CIPP.SHARED.Servicos
             bool success = true;
             try
             {
-
+                var port = Convert.ToInt32(sftp.Porta);
                 SftpClient tmpClient;
                 if (sftp.Senha != "")
                 {
-                    tmpClient = new SftpClient(sftp.HostURI, sftp.Usuario, sftp.Senha);
+                    tmpClient = new SftpClient(sftp.HostURI.Trim(), port, sftp.Usuario.Trim(), sftp.Senha.Trim());
                 }
                 else
                 {
@@ -171,13 +171,13 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
                     using (FileStream localFile = new FileStream(localFilePath, FileMode.Open))
                     {
-                        client.UploadFile(localFile, sftp.DiretorioInspecao + "Log", true);
+                        client.UploadFile(localFile, "//"+"LOG"+"//", true);
                     }
 
                     client.Disconnect();
                 }
             }
-            catch
+            catch(Exception e)
             {
                 success = false;
             }
@@ -192,46 +192,43 @@ namespace INMETRO.CIPP.SHARED.Servicos
             string path = "Log";
 
             SftpClient tmpClient;
-                if (!string.IsNullOrEmpty(sftpInfo.Senha))
+            if (!string.IsNullOrEmpty(sftpInfo.Senha))
+            {
+                tmpClient = new SftpClient(sftpInfo.HostURI, Port, sftpInfo.Usuario, sftpInfo.Senha);
+            }
+            else
+            {
+                var sftpModelShared = new SftpModel(sftpInfo.DiretorioInspecaoLocal, sftpInfo.HostURI,
+                    sftpInfo.Usuario,
+                    sftpInfo.PrivateKey, sftpInfo.Senha);
+                tmpClient = new SftpClient(sftpModelShared.HostURI, Port, sftpModelShared.Usuario,
+                    sftpModelShared.PrivateKey);
+            }
+
+            string current = "/" + "LOG";
+            using (SftpClient client = tmpClient)
+            {
+                try
                 {
-                    tmpClient = new SftpClient(sftpInfo.HostURI, Port, sftpInfo.Usuario, sftpInfo.Senha);
-                }
-                else
-                {
-                    var sftpModelShared = new SftpModel(sftpInfo.DiretorioInspecaoLocal, sftpInfo.HostURI,
-                        sftpInfo.Usuario,
-                        sftpInfo.PrivateKey, sftpInfo.Senha);
-                    tmpClient = new SftpClient(sftpModelShared.HostURI, Port, sftpModelShared.Usuario,
-                        sftpModelShared.PrivateKey);
-                }
 
-                string current = sftpInfo.DiretorioInspecao + path;
-                using (SftpClient client = tmpClient)
-                {
-                    try
-                    {
+                    client.Connect();
 
-                        client.Connect();
-
-                        SftpFileAttributes attrs = client.GetAttributes(current);
-                        if (!attrs.IsDirectory)
-                        {
-                            throw new Exception("not directory");
-                        }
-                        client.CreateDirectory(current);
-
-
-                      
-                    }
-
-                    catch (SftpPathNotFoundException)
+                    var d = client.Exists("//" + "LOG" + "//");
+                    if (!d)
                     {
                         client.CreateDirectory(current);
                     }
-
-                    client.Disconnect();
+                    
                 }
-            
+
+                catch (SftpPathNotFoundException)
+                {
+                    client.CreateDirectory(current);
+                }
+
+                client.Disconnect();
+            }
+
         }
 
         //public bool UploadFiles(string[] localFilePaths, string remoteFilePath)

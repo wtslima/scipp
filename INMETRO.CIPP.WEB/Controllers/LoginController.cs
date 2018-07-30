@@ -77,7 +77,7 @@ namespace INMETRO.CIPP.WEB.Controllers
         private void CriarCookie(string nomeUsuario, IEnumerable<string> perfis)
         {
             var minutesTime = ConfigurationManager.AppSettings.Get("TempoConexao");
-            if (!int.TryParse(minutesTime, out var connecttime)) connecttime = 240;
+            if (!int.TryParse(minutesTime, out var connecttime)) connecttime = 1040;
             var ticket = new FormsAuthenticationTicket(
                 1, nomeUsuario, DateTime.Now, DateTime.Now.AddMinutes(connecttime), true,
                 string.Join(",", perfis), FormsAuthentication.FormsCookiePath);

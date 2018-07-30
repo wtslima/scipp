@@ -14,5 +14,8 @@ namespace INMETRO.CIPP.SHARED.Interfaces
         DateTime ObterDataEntradaFtp(IntegracaoInfos ftpInfo, string diretorioInspecaoRemoto);
 
         bool ExcluirInspecao(IntegracaoInfos ftpInfo, string inspecao);
+
+        void CreateDirectory(IntegracaoInfos ftpInfo);
+        bool UploadFile(string path, IntegracaoInfos ftp);
     }
 }

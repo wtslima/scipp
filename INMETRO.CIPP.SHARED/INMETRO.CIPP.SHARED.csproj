@@ -102,7 +102,6 @@
     <Compile Include="Servicos\GerenciarArquivoCompactado.cs" />
     <Compile Include="Servicos\GerenciarCsv.cs" />
     <Compile Include="Servicos\GerenciarFtp.cs" />
-    <Compile Include="Servicos\GerenciarFtps.cs" />
     <Compile Include="Servicos\GerenciarSftp.cs" />
   </ItemGroup>
   <ItemGroup>

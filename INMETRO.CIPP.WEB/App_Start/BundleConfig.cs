@@ -1,6 +1,6 @@
 ﻿using System.Web.Optimization;
 
-namespace INMETRO.DIOIS.INSPECAO.WEB
+namespace INMETRO.CIPP.WEB
 {
     public class BundleConfig
     {

@@ -13,6 +13,7 @@
         public const string NenhumInspecaoEncontradoParaCodigoOia = "Nenhum resultado encontrado para Código OIA-PP {0}";
         public const string NenhumInspecaoEncontradoParaCodigoCipp = "Nenhum resultado encontrado para Nº Cipp {0}";
         public const string NenhumInspecaoEncontradoParaCodigoOiAeCipp = "Nenhum resultado encontrado para Código OIA-PP {0} e Nº Cipp {1}";
+        public const string DownloadComSucessoEErros = "Alguns erros aconteceram durante o download. Confira o Email de Log";
 
         public const string ErroDownloadRepositorioRemoto = "Não foi possível fazer download do Repositorio Remoto do Codigo-Oia {0}";
 
@@ -21,6 +22,7 @@
         public const string ErroIntegracaoObterArquivoc = "Nenhum Inspeção foi encontrado ao realizar a Rotina Automática";
 
         public const string DiretoriosInvalidos = "Não existem diretórios válidos disponíveis para o CÓDIGO-OIA-PP{0}.";
-        public const string ErroDescompactarTipoRar = "Erro ao descompactar arquivo INSPEÇÃO {0} para CÓDIGO-OIA-PP{1}. Falha {2}.";
+        public const string ErroDescompactarTipoRar = "Erro ao descompactar arquivo INSPEÇÃO {0}. Checar o arquivo se está corrompido ou está fora da Norma.";
+        public const string ErroNoArquivoCompactadoTipoRar = "Erro ao descompactar arquivo INSPEÇÃO {0} para CÓDIGO-OIA-PP{1}.";
     }
 }

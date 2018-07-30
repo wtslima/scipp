@@ -18,16 +18,20 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
             {
                 using (var ctx = new CippContexto())
                 {
-                    inspecao.DataAlteracao = DateTime.Now;
-                    if (inspecao == null) return false;
-                    ctx.Inspecoes.AddOrUpdate(inspecao);
-                    ctx.SaveChanges();
-                    return true;
+                    var existe = ObterDadosInspecao(inspecao.CodigoCipp).Id;
+                    if (existe > 0)
+                    {
+                        //inspecao.DataAlteracao = DateTime.Now;
+                        ctx.Inspecoes.AddOrUpdate(inspecao);
+                        ctx.SaveChanges();
+                        return true;
+                    }
+                    return false;
                 }
             }
             catch (Exception e)
             {
-                throw e;
+                throw  new Exception(string.Format("Erro ao gravar inspeção {0}. Código-OIA-PP {1}", inspecao.CodigoCipp, inspecao.CodigoOIA));
             }
         }
 
@@ -188,7 +192,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
         {
             string sql = string.Empty;
             sql =
-                "SELECT *  FROM [scipp].[dbo].[TB_INSPECAO_CIPP] where DAT_INSPECAO ='" + data + "' ORDER BY CDN_CIPP";
+                "SELECT *  FROM [scipp].[dbo].[TB_INSPECAO] where DAT_INSPECAO ='" + data + "' ORDER BY CDN_CIPP";
             var connectionString = ConfigurationManager.ConnectionStrings["CIPP_CONTEXTO"].ConnectionString;
 
             var list = new List<Inspecao>();
@@ -207,9 +211,9 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                         {
                             Id = (int) result["IDT_INSPECAO"],
                             CodigoCipp = result["CDN_CIPP"].ToString(),
-                            CodigoOIA = result["CDA_CODIGO_OIA_PP"].ToString(),
+                            CodigoOIA = result["CDA_CODIGO_OIA"].ToString(),
                             NumeroEquipamento =  result["NUM_EQUIPAMENTO"].ToString(),
-                            PlacaLicenca = result["DES_PLACA"].ToString(),
+                            PlacaLicenca = result["DES_PLACA_LICENCA"].ToString(),
                             DataInspecao = Convert.ToDateTime(result["DAT_INSPECAO"])
                         };
                         list.Add(inspecao);

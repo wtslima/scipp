@@ -111,7 +111,8 @@ namespace INMETRO.CIPP.SHARED.Servicos
             }
             catch (Exception e)
             {
-
+                var arquivo = Path.GetFileNameWithoutExtension(file);
+                throw new Exception(string.Format("Erro ao descompactar o arquivo {0} Zip. Arquivo corrompido.", arquivo));
 
             }
 
@@ -126,31 +127,48 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
 
                  RarArchive archiveRar = RarArchive.Open(fileNamePath);
-           
 
-                foreach (RarArchiveEntry entry in archiveRar.Entries)
+            try
+            {
+                if (archiveRar.Entries.Count > 0)
                 {
-                    try
+                    foreach (RarArchiveEntry entry in archiveRar.Entries)
                     {
-                        var fileName = Path.GetFileName(entry.FilePath);
-                        var rootToFile = Path.GetFullPath(entry.FilePath).Replace(fileName ?? throw new InvalidOperationException(), fileNamePath);
-
-                        if (!Directory.Exists(diretorio))
+                        try
                         {
-                            Directory.CreateDirectory(rootToFile);
+                            var fileName = Path.GetFileName(entry.FilePath);
+                            var rootToFile = Path.GetFullPath(entry.FilePath)
+                                .Replace(fileName ?? throw new InvalidOperationException(), fileNamePath);
+
+                            if (!Directory.Exists(diretorio))
+                            {
+                                Directory.CreateDirectory(rootToFile);
+                            }
+                            entry.WriteToFile(diretorio + fileName,
+                                ExtractOptions.ExtractFullPath | ExtractOptions.Overwrite);
+
+
                         }
-                        entry.WriteToFile(diretorio + fileName, ExtractOptions.ExtractFullPath | ExtractOptions.Overwrite);
+                        catch (Exception e)
+                        {
+                            throw new Exception(string.Format(MensagemSistema.ErroDescompactarTipoRar, diretorio, file,
+                                e.Message));
+                        }
 
 
                     }
-                    catch (Exception e)
-                    {
-                        throw new Exception(string.Format(MensagemSistema.ErroDescompactarTipoRar, diretorio, file, e.Message));
-                    }
-
-
                 }
-
+                else
+                {
+                    throw new Exception(string.Format(MensagemSistema.ErroNoArquivoCompactadoTipoRar, diretorio, file));
+                }
+               
+            }
+            catch(Exception e)
+            {
+                var arquivo = Path.GetFileNameWithoutExtension(file);
+                throw new Exception(string.Format(MensagemSistema.ErroDescompactarTipoRar, arquivo, e.Message));
+            }
         }
 
     }

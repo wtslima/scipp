@@ -4,11 +4,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace INMETRO.CIPP.DOMINIO.Modelos
 {
-    [Table("TB_HISTORICO_DOWNLOAD")]
+    [Table("TB_HISTORICO_DOWNLOAD_INSPECAO")]
     public class Historico
     {
         [Key]
-        [Column("IDT_HISTORICO_DOWNLOAD")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column("IDT_HISTORICO_DOWNLOAD_INSPECAO")]
         public int Id { get; set; }
 
         [Required]
@@ -16,7 +17,7 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
         public int InspecaoId { get; set; }
 
         [Required]
-        [Column("NOM_USUARIO")]
+        [Column("NOM_RESPONSAVEL")]
         public string Usuario { get; set; }
 
         [Required]

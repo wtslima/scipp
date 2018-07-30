@@ -37,12 +37,18 @@ namespace INMETRO.CIPP.WEB.Controllers
 
                 var usuario = HttpContext.Session["Usuario"].ToString();
 
-                var resultado = _servico.DownloadInspecaoPorUsuario(model.DownloadModel.CodigoOia, model.DownloadModel.CodigoCipp, usuario);
-                
-                var resultModel = Conversao.Converter.ConverterParaModelo(resultado);
-                resultModel.DownloadModel = new DownloadModel{CodigoOia = model.DownloadModel.CodigoOia};
-                return View(resultModel);
-               
+                if (!string.IsNullOrEmpty(usuario))
+                {
+
+
+
+                    var resultado = _servico.DownloadInspecaoPorUsuario(model.DownloadModel.CodigoOia, model.DownloadModel.CodigoCipp, usuario);
+
+                    var resultModel = Conversao.Converter.ConverterParaModelo(resultado);
+                    resultModel.DownloadModel = new DownloadModel { CodigoOia = model.DownloadModel.CodigoOia };
+                    return View(resultModel);
+                }
+                return RedirectToAction("Login", "Login");
             }
             catch (Exception e)
             {

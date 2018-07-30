@@ -58,10 +58,8 @@
            
                 @if(IsPost && Model.DownloadModel.CodigoOia != null)
                  {
-                     <div id="resultado" class="alert alert-info alert-dismissible fade show">
-                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                             <span aria-hidden="true">&times;</span>
-                         </button>
+                     <div class="jumbotron">
+                       
                          @if (Model.Inspecoes != null)
                          {
                              @Html.Label("CIPP(s) gravado(s):") <label>@Model.Inspecoes.Count()</label>

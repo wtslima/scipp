@@ -163,19 +163,50 @@ namespace INMETRO.CIPP.SHARED.Servicos
             return success;
         }
 
-        public bool UploadFile(string path)
+        public void CreateDirectory(IntegracaoInfos ftp)
+        {
+
+            try
+            {
+
+
+                var result = ObterDiretoriosRemotos(ftp);
+
+                if (result.Length > 0)
+                {
+                    foreach (var item in result)
+                    {
+                        if (item.Contains("LOG")) return;
+                    }
+                    FtpWebRequest request = (FtpWebRequest) WebRequest.Create(ftp.HostURI +"//"+"LOG");
+                    request.Credentials = new NetworkCredential(ftp.Usuario.Trim(), ftp.Senha.Trim());
+                    request.Method = WebRequestMethods.Ftp.MakeDirectory;
+                    using (var resp = (FtpWebResponse)request.GetResponse())
+                    {
+                        var status = resp.StatusCode;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+
+
+            }
+
+        }
+
+        public bool UploadFile(string path, IntegracaoInfos ftp)
         {
             bool success = true;
             try
             {
                 var filename = Path.GetFileName(path);
-                FtpWebRequest request = (FtpWebRequest)WebRequest.Create("ftp://184.168.109.66:2121/update/" + filename);
+                FtpWebRequest request = (FtpWebRequest)WebRequest.Create(ftp.HostURI +"/"+"LOG"+"/"+filename);
                 request.Method = WebRequestMethods.Ftp.UploadFile;
 
-                // This example assumes the FTP site uses anonymous logon.
-                request.Credentials = new NetworkCredential("zervita_ftp", "zvt@22F1");
+                request.Credentials = new NetworkCredential(ftp.Usuario.Trim(), ftp.Senha.Trim());
 
-                //Copy the contents of the file to the request stream.
+               
 
                 StreamReader sourceStream = new StreamReader(path);
                 byte[] fileContents = Encoding.UTF8.GetBytes(sourceStream.ReadToEnd());
@@ -188,15 +219,51 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
                 FtpWebResponse response = (FtpWebResponse)request.GetResponse();
 
-                Console.WriteLine("Upload File Complete, status {0}", response.StatusDescription);
+                var status = response.StatusDescription;
 
                 response.Close();
             }
-            catch
+            catch(Exception e)
             {
                 success = false;
             }
             return success;
+        }
+
+        private string[] ObterDiretoriosRemotos(IntegracaoInfos ftp)
+        {
+            var tmpFiles = new List<string>();
+            try
+            {
+                var request = (FtpWebRequest)WebRequest.Create(ftp.HostURI.Trim() + ":" + ftp.Porta.Trim()+"//");
+
+                request.Method = WebRequestMethods.Ftp.ListDirectory;
+                request.Credentials = new NetworkCredential(ftp.Usuario.Trim(), ftp.Senha.Trim());
+
+
+                using (var response = (FtpWebResponse)request.GetResponse())
+                {
+                    using (var stream = response.GetResponseStream())
+                    {
+
+                        using (var reader = new StreamReader(stream, true))
+                        {
+                            while (!reader.EndOfStream)
+                            {
+
+                                tmpFiles.Add(reader.ReadLine());
+                            }
+                        }
+                    }
+                    response.Close();
+                }
+              
+                return tmpFiles.Count > 0 ? tmpFiles.ToArray() : new string[] { };
+            }
+            catch (FtpException e)
+            {
+                throw e;
+            }
         }
 
 

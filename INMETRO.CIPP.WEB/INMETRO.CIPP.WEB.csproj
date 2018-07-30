@@ -141,6 +141,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Connected Services\ControleAcesso\AutenticacaoServico.disco" />
     <None Include="Connected Services\ControleAcesso\configuration91.svcinfo" />
     <None Include="Connected Services\ControleAcesso\configuration.svcinfo" />
@@ -299,9 +302,25 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Web.config">
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
-    </Content>
+    </None>
+    <None Include="Web.Hologacao.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Local.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web.Producao.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Agendamento\ExclusaoPorRotinaAutomaticaJob.cs" />
@@ -362,25 +381,6 @@
     <Content Include="Views\HistoricoInspecaoExcluida\ConsultaInspecoesExcluida.cshtml" />
     <Content Include="Views\HistoricoInspecaoExcluida\_PartialConsultaInspecaoExcluida.cshtml" />
     <Content Include="Views\HistoricoInspecaoExcluida\_HistoricoExclusaoErro.cshtml" />
-    <None Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Web.Hologacao.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.Local.config">
-      <DependentUpon>Web.config</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Web.Producao.config">
-      <DependentUpon>Web.config</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
