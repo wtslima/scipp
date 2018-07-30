@@ -60,7 +60,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             {
                
                 var organismo = _organismoDomainService.BuscarOrganismoPorId(codigoOia);
-               
+              
                 var existeExcecaoInspecao = TemOrganismo(organismo);
                 if (existeExcecaoInspecao.Excecao.ExisteExcecao)
                     return existeExcecaoInspecao;
@@ -194,8 +194,9 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             {
                 // Logger.Trace("Trace Agendamento Funcionando ...");
                 var organismos = await _organismoDomainService.BuscarTodosOrganismos();
-
+               
                 if (!organismos.GroupBy(f => f.IntegracaoInfo).Any()) return false;
+               
                 foreach (var item in organismos.GroupBy(c => c.IntegracaoInfo))
                 {
                     var cod = item.Key.DiretorioInspecaoLocal.Replace("\\", "");
