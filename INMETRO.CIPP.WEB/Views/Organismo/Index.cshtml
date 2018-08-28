@@ -1,0 +1,45 @@
+﻿@model IEnumerable<INMETRO.CIPP.DOMINIO.Modelos.Organismo>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Organismos</h2>
+
+<p>
+    @Html.ActionLink("Adicionar Organismo", "Adicionar")
+</p>
+<table class="table">
+    <tr>
+        <th>
+           NOME
+        </th>
+        <th>
+           CÓDIGO-OIA-PP
+        </th>
+        <th>
+           ATIVO
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nome)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CodigoOIA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EhAtivo)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Editar", new { id=item.Id }) |
+            @Html.ActionLink("Detalhar", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Remover", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

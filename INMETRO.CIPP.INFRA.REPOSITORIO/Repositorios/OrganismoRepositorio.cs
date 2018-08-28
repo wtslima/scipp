@@ -37,14 +37,14 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                 try
                 {
                     
-                    var consulta = await contexto.Organismos.Include(ftp => ftp.IntegracaoInfo).Where(s => s.EhAtivo && s.IntegracaoInfo != null ).ToListAsync();
+                    var consulta = await contexto.Organismos.Include(ftp => ftp.IntegracaoInfo).Where(s => s.EhAtivo && s.IntegracaoInfo != null ).OrderBy(s=> s.Nome).ToListAsync();
 
                     return consulta.Select(item => new Organismo
                     {
 
                         Id = item.Id,
                         CodigoOIA = item.CodigoOIA,
-                        Nome = item.Nome,
+                        Nome = item.Nome.ToUpper(),
                         EhAtivo = item.EhAtivo,
                         IntegracaoInfo = item.IntegracaoInfo == null ? null : new IntegracaoInfos
                         {
@@ -81,6 +81,99 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                 {
                     Console.WriteLine(e);
                     throw;
+                }
+            }
+        }
+
+        public Organismo ObterPorId(int id)
+        {
+            using(var ctx = new CippContexto())
+            {
+                try
+                {
+                    var resultado = ctx.Organismos.FirstOrDefault(s => s.Id == id);
+
+                    return resultado;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+        }
+
+        public bool Atualizar(Organismo organismo)
+        {
+            using (var ctx = new CippContexto())
+            {
+                try
+                {
+                     ctx.Entry(organismo).State = EntityState.Modified;
+                     var resultado = ctx.SaveChanges();
+
+                    if (resultado <= 0) return false;
+
+                    return true;
+
+                }
+                catch (Exception e)
+                {
+
+                    throw;
+                }
+            }
+        }
+
+        public bool Adicionar(Organismo organismo)
+        {
+            using (var ctx = new CippContexto())
+            {
+                try
+                {
+                    ctx.Organismos.Add(organismo);
+                    var resultado = ctx.SaveChanges();
+
+                    if (resultado <= 0) return false;
+
+                    return true;
+
+                }
+                catch (Exception e)
+                {
+
+                    throw;
+                }
+            }
+        }
+
+        public bool Excluir(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IList<Organismo> BuscarTodos()
+        {
+            using (var contexto = new CippContexto())
+            {
+                try
+                {
+                    var consulta =  contexto.Organismos.Where(s => s.EhAtivo).OrderBy(s => s.Nome).ToList();
+
+                    return consulta.Select(item => new Organismo
+                    {
+
+                        Id = item.Id,
+                        CodigoOIA = item.CodigoOIA,
+                        Nome = item.Nome.ToUpper(),
+                        EhAtivo = item.EhAtivo
+                       
+                    }).ToList();
+
+                }
+                catch (Exception e)
+                {
+                    throw e;
                 }
             }
         }

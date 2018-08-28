@@ -14,6 +14,21 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
         {
             _repositorio = repositorio;
         }
+
+        public bool Adicionar(Organismo organismo)
+        {
+            var resultado = _repositorio.Adicionar(organismo);
+
+            return resultado;
+        }
+
+        public bool Atualizar(Organismo organismo)
+        {
+            var resultado =  _repositorio.Atualizar(organismo);
+
+            return resultado;
+        }
+
         public  Organismo BuscarOrganismoPorId(string codigoOia)
         {
            
@@ -38,9 +53,28 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
             return resultado;
         }
 
+        public IList<Organismo> BuscarTodos()
+        {
+            var resultado =  _repositorio.BuscarTodos();
+
+            return resultado;
+        }
+
         public async Task<IList<Organismo>> BuscarTodosOrganismos()
         {
             var resultado = await _repositorio.BuscarTodosOrganismos();
+
+            return resultado;
+        }
+
+        public bool Excluir(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Organismo ObetrPorId(int id)
+        {
+            var resultado = _repositorio.ObterPorId(id);
 
             return resultado;
         }

@@ -188,10 +188,9 @@ namespace INMETRO.CIPP.SHARED.Servicos
                     }
                 }
             }
-            catch(Exception e)
+            catch
             {
-
-
+                 throw new Exception(string.Format("Erro ao criar pasta LOG para o organismo {0}", ftp.DiretorioInspecaoLocal));
             }
 
         }

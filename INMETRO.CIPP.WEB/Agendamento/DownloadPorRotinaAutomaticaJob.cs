@@ -38,7 +38,7 @@ namespace INMETRO.CIPP.WEB.Agendamento
 
         public void Execute(IJobExecutionContext context)
         {
-            //_enviar.EnviarEmailErroDownloadAutomatico("wslima@colaborador.inmetro.gov.br",new List<string>());
+            _enviar.EnviarEmailErroDownloadAutomatico("wslima@colaborador.inmetro.gov.br", new List<string>());
             var servico = new DownloadServico(_domainService, _ftp, _descompactar, _csv, _inspecao, _sftp);
             servico.DownloadInspecoesPorRotinaAutomatica().ConfigureAwait(true);
         }

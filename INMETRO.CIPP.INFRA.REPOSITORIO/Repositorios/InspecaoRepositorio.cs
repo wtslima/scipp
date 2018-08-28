@@ -25,8 +25,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                         ctx.Inspecoes.AddOrUpdate(inspecao);
                         ctx.SaveChanges();
                         return true;
-                    
-                    
+
                 }
             }
             catch (Exception e)
@@ -192,7 +191,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
         {
             string sql = string.Empty;
             sql =
-                "SELECT *  FROM [scipp].[dbo].[TB_INSPECAO] where DAT_INSPECAO ='" + data + "' ORDER BY CDN_CIPP";
+                "SELECT *  FROM [scipp].[dbo].[TB_INSPECAO_CIPP] where DAT_INSPECAO ='" + data + "' ORDER BY CDN_CIPP";
             var connectionString = ConfigurationManager.ConnectionStrings["CIPP_CONTEXTO"].ConnectionString;
 
             var list = new List<Inspecao>();

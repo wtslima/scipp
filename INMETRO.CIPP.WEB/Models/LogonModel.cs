@@ -13,5 +13,7 @@ namespace INMETRO.CIPP.WEB.Models
         [Display(Name = "Senha")]
         [DataType(DataType.Password)]
         public string Senha { get; set; }
+
     }
+   
 }

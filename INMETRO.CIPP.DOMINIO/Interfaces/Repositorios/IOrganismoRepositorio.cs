@@ -9,5 +9,11 @@ namespace INMETRO.CIPP.DOMINIO.Interfaces.Repositorios
         Organismo BuscarOrganismoPorId(string codigoOIA);
         Task<IList<Organismo>> BuscarTodosOrganismos();
         IList<Organismo> BuscarOrganismosPorParteDoCodigo(string valor);
+        Organismo ObterPorId(int id);
+        bool Atualizar(Organismo organismo);
+        bool Adicionar(Organismo organismo);
+        bool Excluir(int id);
+        IList<Organismo> BuscarTodos();
+
     }
 }

@@ -37,6 +37,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
         readonly Notificacao _enviar = new Notificacao();
         readonly List<string> _listExcecao = new List<string>();
+        readonly List<string> _listLog = new List<string>();
 
 
         public DownloadServico(IOrganismoDominioService organismoDomainService, IGerenciarFtp ftp, IGerenciarArquivoCompactado descompactar, IGerenciarCsv csv, IInspecaoDominioService inspecaoServico, IGerenciarSftp sftp)
@@ -158,18 +159,40 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             {
                 _enviar.EnviarEmail(Configurations.EmailAdministrador(), _listExcecao, organismo.CodigoOIA);
             }
-            //if (organismo.IntegracaoInfo.TipoIntegracao == 1)
-            //{
-            //    _ftp.GetHashCode();
 
-            //}
-            //var log = CriarArquivoDeLog(_listExcecao);
-            //_sftp.UploadFile(log, organismo.IntegracaoInfo);
 
-            //if (_listaInspecoesParaEnvio.Count > 0)
-            //{
-            //    EnviarInspecoes(_listaInspecoesParaEnvio);
-            //}
+            if (_listExcecao.Count > 0 && _listaInspecoesParaEnvio.Count > 0)
+            {
+                _enviar.EnviarEmail(Configurations.EmailAdministrador(), _listExcecao, organismo.CodigoOIA);
+                return new InspecoesGravadasModelServico
+                {
+                    InspecoesGravadas = _listaInspecoesParaEnvio,
+                    Excecao = new ExcecaoService
+                    {
+                        ExisteExcecao = true,
+                        Mensagem = string.Format(MensagemSistema.ErroUmaOuMaisInspecoes)
+                    }
+
+                };
+
+            }
+
+            if (_listExcecao.Count > 0)
+            {
+                _enviar.EnviarEmail(Configurations.EmailAdministrador(), _listExcecao, organismo.CodigoOIA);
+                return new InspecoesGravadasModelServico
+                {
+                    InspecoesGravadas = _listaInspecoesParaEnvio,
+                    Excecao = new ExcecaoService
+                    {
+                        ExisteExcecao = true,
+                        Mensagem = string.Format(_listExcecao[0],
+                       organismo.CodigoOIA)
+                    }
+
+                };
+
+            }
 
             return new InspecoesGravadasModelServico
             {
@@ -199,6 +222,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
                 foreach (var item in organismos.GroupBy(c => c.IntegracaoInfo))
                 {
+                    _listLog.Clear();
                     var cod = item.Key.DiretorioInspecaoLocal.Replace("\\", "");
                     var name = _organismoDomainService.BuscarOrganismoPorId(cod).Nome;
                     try
@@ -302,6 +326,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                     ExcluirArquivoCompactadoECsv(diretorioLocal, item);
                     if (inspecao.Excecao != null)
                     {
+                        _listLog.Add(inspecao.Excecao.Mensagem);
                         _listExcecao.Add(inspecao.Excecao.Mensagem);
                     }
 
@@ -320,28 +345,40 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                             }
 
                         };
-
+                        _listLog.Add(inspecao.Excecao.Mensagem);
                         _listExcecao.Add(erro.Excecao.Mensagem);
                     }
                     else
                     {
+                        _listLog.Add(e.Message);
                         _listExcecao.Add(e.Message);
                     }
 
                 }
             }
 
-            if (_listExcecao.Any())
+            if (_listLog.Any())
             {
-                if (ftpInfo.TipoIntegracao == 1)
+                try
                 {
-                    _ftp.CreateDirectory(ftpInfo);
+                    if (ftpInfo.TipoIntegracao == 1)
+                    {
+                        _ftp.CreateDirectory(ftpInfo);
+                    }
+                    else
+                    {
+                        _sftp.CreateDirectory(ftpInfo);
+                    }
+
+                    EscreverArquivoDeLog(_listLog, ftpInfo);
+                    _listLog.Clear();
                 }
-                else
+                catch (Exception e)
                 {
-                    _sftp.CreateDirectory(ftpInfo);
+                    _listExcecao.Add(e.Message);
+                    _listLog.Clear();
                 }
-                EscreverArquivoDeLog(_listExcecao, ftpInfo);
+
 
             }
 
@@ -359,8 +396,8 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 inspecao = _csv.ObterDadosInspecao(diretorioLocal, ftpInfo);
                 if (inspecao.Excecao == null)
                 {
-                    if (GravarInspecaoObtidaNoArquivoCsv(inspecao, diretorioLocal)) 
-                         if (!GravarHistoricoDownload(diretorioRemoto, usuario)) return;
+                    if (GravarInspecaoObtidaNoArquivoCsv(inspecao, diretorioLocal))
+                        if (!GravarHistoricoDownload(diretorioRemoto, usuario)) return;
                     ExcluirArquivoCompactadoECsv(diretorioLocal, diretorioRemoto);
                 }
 
@@ -401,378 +438,379 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         }
 
         private InspecoesGravadasModelServico VerificarDiretorios(IReadOnlyCollection<string> diretorios, string codigo, string cipp)
-        {
-            if (diretorios.Count == 0)
-                return new InspecoesGravadasModelServico
-                {
-                    InspecoesGravadas = new List<InspecaoModelServico>(),
-                    Excecao = new ExcecaoService
-                    {
-                        ExisteExcecao = true,
-                        Mensagem = string.Format(MensagemSistema.SemNovosDiretorios, codigo)
-                    }
-                };
-            var diretoriosValidos = ObterSomenteDiretoriosValidos(diretorios);
-            if (diretoriosValidos.Count <= 0)
-                return new InspecoesGravadasModelServico
-                {
-                    InspecoesGravadas = new List<InspecaoModelServico>(),
-                    Excecao = new ExcecaoService
-                    {
-                        ExisteExcecao = true,
-                        Mensagem = string.Format(MensagemSistema.DiretoriosInvalidos, codigo)
-                    }
-                };
-
-
-            var inspecoes = ObterInspecoesNaoGravadas(diretoriosValidos).ToList();
-
-            if (string.IsNullOrEmpty(cipp))
-            {
-                return DownloadExcecaoService.ObterInspecaoValidaParaCodigoOiaInformado(inspecoes, codigo);
-            }
-
-            return DownloadExcecaoService.ObterInspecaoValidaParaCippInformado(inspecoes, cipp, codigo);
-
-        }
-
-        private static InspecoesGravadasModelServico VerificarFtpValido(IntegracaoInfos ftpInfos, string codigo)
-        {
-
-
-            if (ftpInfos != null) return new InspecoesGravadasModelServico
-            {
-                InspecoesGravadas = new List<InspecaoModelServico>(),
-                Excecao = new ExcecaoService
-                {
-                    ExisteExcecao = false,
-                    Mensagem = string.Empty
-                }
-            };
+    {
+        if (diretorios.Count == 0)
             return new InspecoesGravadasModelServico
             {
                 InspecoesGravadas = new List<InspecaoModelServico>(),
                 Excecao = new ExcecaoService
                 {
                     ExisteExcecao = true,
-                    Mensagem = string.Format(MensagemSistema.FtpInvalido, codigo)
+                    Mensagem = string.Format(MensagemSistema.SemNovosDiretorios, codigo)
                 }
             };
-        }
-
-        private bool GravarInspecaoObtidaNoArquivoCsv(InspecaoCsvModel inspecaoCsv, string diretorioLocal)
-        {
-            if (inspecaoCsv.Excecao != null && inspecaoCsv.Excecao.ExisteExcecao)
+        var diretoriosValidos = ObterSomenteDiretoriosValidos(diretorios);
+        if (diretoriosValidos.Count <= 0)
+            return new InspecoesGravadasModelServico
             {
-                _listExcecao.Add(inspecaoCsv.Excecao.Mensagem);
-                DeletarDiretorioLocalInspecao(diretorioLocal);
-                return false;
-            }
-            var inspecao = Conversao.ConverterParaModeloServico(inspecaoCsv);
-
-            var result = AddInspecao(Conversao.ConverterParaDominio(inspecao));
-
-            if (result)
-            {
-                _listaInspecoesParaEnvio.Add(inspecao);
-            }
-
-            return result;
-        }
-
-        private bool AddInspecao(Inspecao inspecao)
-        {
-            try
-            {
-                return _inspecaoServico.AdicionarDadosInspecao(inspecao);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-
-        }
-
-        private void EscreverArquivoDeLog(List<string> excecoes, IntegracaoInfos info)
-        {
-            string filePhisical = Configurations.DiretorioRaiz();
-            string fileName = ".txt";
-            var date = DateTime.Now.ToString("yyyy-MM-dd_HH-mm", CultureInfo.InvariantCulture);
-
-            var path = filePhisical + "\\" + "LOGS" + "\\" + "Log-SCIPP -" + info.DiretorioInspecaoLocal + "-" + date + fileName;
-            using (System.IO.StreamWriter file =
-                new System.IO.StreamWriter(path))
-            {
-                foreach (string line in excecoes)
+                InspecoesGravadas = new List<InspecaoModelServico>(),
+                Excecao = new ExcecaoService
                 {
-
-                    file.WriteLine(line);
-
+                    ExisteExcecao = true,
+                    Mensagem = string.Format(MensagemSistema.DiretoriosInvalidos, codigo)
                 }
-                file.Close();
-                if (info.TipoIntegracao == 1)
-                {
-                    _ftp.UploadFile(path, info);
-                }
-                else
-                {
-                    _sftp.UploadFile(path, info);
-                }
+            };
 
-            }
+
+        var inspecoes = ObterInspecoesNaoGravadas(diretoriosValidos).ToList();
+
+        if (string.IsNullOrEmpty(cipp))
+        {
+            return DownloadExcecaoService.ObterInspecaoValidaParaCodigoOiaInformado(inspecoes, codigo);
         }
 
+        return DownloadExcecaoService.ObterInspecaoValidaParaCippInformado(inspecoes, cipp, codigo);
 
-        private bool GravarHistoricoDownload(string cipp, string usuario)
+    }
+
+    private static InspecoesGravadasModelServico VerificarFtpValido(IntegracaoInfos ftpInfos, string codigo)
+    {
+
+
+        if (ftpInfos != null) return new InspecoesGravadasModelServico
         {
-            try
+            InspecoesGravadas = new List<InspecaoModelServico>(),
+            Excecao = new ExcecaoService
             {
-                var cippGravado = Path.GetFileNameWithoutExtension(cipp);
-                var inspecao = _inspecaoServico.ObterDadosInspecaoPorCipp(cippGravado);
-                if (inspecao.Id <= 0) return false;
-                var historicoModel = new HistoricoServiceModel
-                {
-                    IdInspecao = inspecao.Id,
-                    Usuario = usuario,
-                    DataEntrada = DateTime.Now
-                };
-
-                return _historicoServico.AdicionarInspecao(Conversao.ConverterParaDominio(historicoModel));
+                ExisteExcecao = false,
+                Mensagem = string.Empty
             }
-            catch (Exception e)
+        };
+        return new InspecoesGravadasModelServico
+        {
+            InspecoesGravadas = new List<InspecaoModelServico>(),
+            Excecao = new ExcecaoService
             {
-                throw new Exception($"Erro ao gravar Historico. Exceção {e}");
+                ExisteExcecao = true,
+                Mensagem = string.Format(MensagemSistema.FtpInvalido, codigo)
             }
+        };
+    }
 
+    private bool GravarInspecaoObtidaNoArquivoCsv(InspecaoCsvModel inspecaoCsv, string diretorioLocal)
+    {
+        if (inspecaoCsv.Excecao != null && inspecaoCsv.Excecao.ExisteExcecao)
+        {
+            _listExcecao.Add(inspecaoCsv.Excecao.Mensagem);
+            DeletarDiretorioLocalInspecao(diretorioLocal);
+            return false;
+        }
+        var inspecao = Conversao.ConverterParaModeloServico(inspecaoCsv);
 
+        var result = AddInspecao(Conversao.ConverterParaDominio(inspecao));
+
+        if (result)
+        {
+            _listaInspecoesParaEnvio.Add(inspecao);
         }
 
-        private string CriarArquivoDeLog(List<string> erros)
+        return result;
+    }
+
+    private bool AddInspecao(Inspecao inspecao)
+    {
+        try
         {
-            var dataLog = DateTime.Now.ToString("yyyy-MM-dd_HH-mm", CultureInfo.InvariantCulture);
-            string diretorioTemporario = "D:\\LOG_Aplicacao\\SCIPP\\";
-            string fileName = diretorioTemporario + "Log" + dataLog + ".txt";
-
-            FileInfo file = new FileInfo(fileName);
-
-            if (file.Exists)
-            {
-                file.Delete();
-            }
-
-            using (StreamWriter sw = new StreamWriter(fileName, true))
-            {
-                foreach (var item in erros)
-                {
-                    sw.WriteLine("Data e hora {0}", DateTime.Now.ToString("yyyy-MM-dd_HH-mm", CultureInfo.InvariantCulture));
-                }
-
-            }
-
-            return fileName;
+            return _inspecaoServico.AdicionarDadosInspecao(inspecao);
+        }
+        catch (Exception e)
+        {
+            throw e;
         }
 
-        private void EnviarLogParaOrganismo(string fileName, IntegracaoInfos sftp)
+    }
+
+    private void EscreverArquivoDeLog(List<string> excecoes, IntegracaoInfos info)
+    {
+        string filePhisical = Configurations.DiretorioRaiz();
+        string fileName = ".txt";
+        var date = DateTime.Now.ToString("yyyy-MM-dd_HH-mm", CultureInfo.InvariantCulture);
+
+        var path = filePhisical + "\\" + "LOGS" + "\\" + "Log-SCIPP -" + info.DiretorioInspecaoLocal + "-" + date + fileName;
+        using (System.IO.StreamWriter file =
+            new System.IO.StreamWriter(path))
         {
-            if (sftp.TipoIntegracao != 1)
+            foreach (string line in excecoes)
             {
-                _sftp.CreateDirectory(sftp);
-                _sftp.UploadFile(fileName, sftp);
-            }
-        }
 
-        private void ExcluirArquivoCompactadoECsv(string diretorioLocal, string file)
-        {
-            try
-            {
-                _csv.ExcluirArquivoCippCsv(diretorioLocal);
-                if (!_descompactar.ExcluirArquivoLocal(diretorioLocal, file)) return;
-            }
-            catch (Exception e)
-            {
-                throw new Exception($"Erro ao Excluir arquivo. Exceção {e}");
-            }
-
-        }
-
-
-        private string ObterDiretorioLocal(string localDiretorio, string fileCipp)
-        {
-            var path = string.Empty;
-            try
-            {
-                var cippServe = Path.GetFileNameWithoutExtension(fileCipp);
-
-                path = Configurations.DiretorioRaiz() + localDiretorio + "\\" + cippServe + "\\";
-                bool folderExists = Directory.Exists(path);
-
-                if (!folderExists)
-                {
-                    Directory.CreateDirectory(path);
-                    return path;
-                }
-                return path;
-            }
-            catch (Exception e)
-            {
-                throw new Exception($"Erro ao criar diretório no servidor {path} arquivo. Exceção {e.InnerException}");
+                file.WriteLine(line);
 
             }
-
-        }
-
-
-        private bool TemInspecaoValida(string cipp)
-        {
-            var inspecao = Path.GetFileNameWithoutExtension(cipp);
-
-            return _inspecaoServico.TemInspecao(inspecao);
-
-        }
-
-        private void EnviarInspecoes(IEnumerable<InspecaoModelServico> inspecoes)
-        {
-            var lista = new List<InspecaoCsvModel>();
-
-            foreach (var item in inspecoes)
+            file.Close();
+            if (info.TipoIntegracao == 1)
             {
-                var inspecaoModelServico = new InspecaoCsvModel
-                {
-                    CodigoCipp = item.CodigoCipp,
-                    CodigoOia = item.CodigoOia,
-                    PlacaLicenca = item.Placa,
-                    NumeroEquipamento = item.Equipamento,
-                    DataInspecao = item.DataInspecao
-
-                };
-
-                lista.Add(inspecaoModelServico);
-            }
-            if (lista.Count > 0)
-            {
-                _csv.CriarArquivoInspecoesAnexo(lista);
+                _ftp.UploadFile(path, info);
             }
             else
             {
-                _enviar.EnviarEmail(Configurations.EmailAdministrador(), _listExcecao, "");
+                _sftp.UploadFile(path, info);
             }
 
         }
 
-        private IEnumerable<string> ObterInspecoesNaoGravadas(IEnumerable<string> listaInspecao)
+    }
+
+
+    private bool GravarHistoricoDownload(string cipp, string usuario)
+    {
+        try
         {
-            var inspecoesNaoGravadas = new List<string>();
-            foreach (var item in listaInspecao)
+            var cippGravado = Path.GetFileNameWithoutExtension(cipp);
+            var inspecao = _inspecaoServico.ObterDadosInspecaoPorCipp(cippGravado);
+            if (inspecao.Id <= 0) return false;
+            var historicoModel = new HistoricoServiceModel
             {
-                if (!TemInspecaoValida(item))
-                {
-                    inspecoesNaoGravadas.Add(item);
-                }
-            }
-
-            return inspecoesNaoGravadas.ToList();
-        }
-
-        private InspecoesGravadasModelServico TemOrganismo(Organismo organismo)
-        {
-            if (organismo.ExcecaoDominio.ExisteExcecao)
-            {
-                return new InspecoesGravadasModelServico
-                {
-                    InspecoesGravadas = new List<InspecaoModelServico>(),
-                    Excecao = new ExcecaoService
-                    {
-                        ExisteExcecao = organismo.ExcecaoDominio.ExisteExcecao,
-                        Mensagem = organismo.ExcecaoDominio.Mensagem
-                    }
-                };
-
-            }
-
-            return new InspecoesGravadasModelServico
-            {
-                InspecoesGravadas = new List<InspecaoModelServico>(),
-                Excecao = new ExcecaoService
-                {
-                    ExisteExcecao = false,
-                    Mensagem = string.Empty
-                }
+                IdInspecao = inspecao.Id,
+                Usuario = usuario,
+                DataEntrada = DateTime.Now
             };
-        }
 
-        private InspecoesGravadasModelServico TemCippParaOrganismoInformado(Inspecao inspecao)
+            return _historicoServico.AdicionarInspecao(Conversao.ConverterParaDominio(historicoModel));
+        }
+        catch (Exception e)
         {
-            if (inspecao.ExcecaoDominio.ExisteExcecao)
-            {
-                return new InspecoesGravadasModelServico
-                {
-                    InspecoesGravadas = new List<InspecaoModelServico>(),
-                    Excecao = new ExcecaoService
-                    {
-                        ExisteExcecao = true,
-                        Mensagem = string.Format(MensagemNegocio.InspecaoJaGravadaParaCippEOia)
-                    }
-                };
-            }
-
-            return new InspecoesGravadasModelServico
-            {
-                InspecoesGravadas = new List<InspecaoModelServico>(),
-                Excecao = new ExcecaoService
-                {
-                    ExisteExcecao = false,
-                    Mensagem = string.Empty
-                }
-            };
+            throw new Exception($"Erro ao gravar Historico. Exceção {e}");
         }
-
-        private bool DownloadArquivo(string file, string diretorioLocal, IntegracaoInfos integracao)
-        {
-            if (integracao.TipoIntegracao != 1) return _sftp.DownloadArquivo(file, diretorioLocal + file, integracao);
-            return _ftp.DownloadInspecaoFtp(file, diretorioLocal, integracao);
-        }
-
-        private List<string> ObterSomenteDiretoriosValidos(IEnumerable<string> diretorios)
-        {
-            var diretoriosValidos = new List<string>();
-            foreach (var item in diretorios)
-            {
-                var value = Path.GetFileNameWithoutExtension(item);
-                int checkNum;
-
-                if (int.TryParse(value, out checkNum))
-                {
-
-                    var extension = Path.GetExtension(item);
-                    if (extension != null && (extension.Equals(".zip") || extension.Equals(".rar")))
-                    {
-
-                        diretoriosValidos.Add(item);
-                    }
-                }
-
-            }
-
-            return diretoriosValidos;
-
-        }
-
-        private void DeletarDiretorioLocalInspecao(string diretorioLocal)
-        {
-            var di = new DirectoryInfo(diretorioLocal);
-
-            foreach (FileInfo file in di.GetFiles())
-            {
-                file.Delete();
-
-            }
-
-        }
-
-
-
 
 
     }
+
+    private string CriarArquivoDeLog(List<string> erros)
+    {
+        var dataLog = DateTime.Now.ToString("yyyy-MM-dd_HH-mm", CultureInfo.InvariantCulture);
+        string diretorioTemporario = "D:\\LOG_Aplicacao\\SCIPP\\";
+        string fileName = diretorioTemporario + "Log" + dataLog + ".txt";
+
+        FileInfo file = new FileInfo(fileName);
+
+        if (file.Exists)
+        {
+            file.Delete();
+        }
+
+        using (StreamWriter sw = new StreamWriter(fileName, true))
+        {
+            foreach (var item in erros)
+            {
+                sw.WriteLine("Data e hora {0}", DateTime.Now.ToString("yyyy-MM-dd_HH-mm", CultureInfo.InvariantCulture));
+            }
+
+        }
+
+        return fileName;
+    }
+
+    private void EnviarLogParaOrganismo(string fileName, IntegracaoInfos sftp)
+    {
+        if (sftp.TipoIntegracao != 1)
+        {
+            _sftp.CreateDirectory(sftp);
+            _sftp.UploadFile(fileName, sftp);
+        }
+    }
+
+    private void ExcluirArquivoCompactadoECsv(string diretorioLocal, string file)
+    {
+        try
+        {
+            _csv.ExcluirArquivoCippCsv(diretorioLocal);
+            if (!_descompactar.ExcluirArquivoLocal(diretorioLocal, file)) return;
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"Erro ao Excluir arquivo. Exceção {e}");
+        }
+
+    }
+
+
+    private string ObterDiretorioLocal(string localDiretorio, string fileCipp)
+    {
+        var path = string.Empty;
+        try
+        {
+            var cippServe = Path.GetFileNameWithoutExtension(fileCipp);
+
+            path = Configurations.DiretorioRaiz() + localDiretorio + "\\" + cippServe + "\\";
+            bool folderExists = Directory.Exists(path);
+
+            if (!folderExists)
+            {
+                Directory.CreateDirectory(path);
+                return path;
+            }
+            return path;
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"Erro ao criar diretório no servidor {path} arquivo. Exceção {e.InnerException}");
+
+        }
+
+    }
+
+
+    private bool TemInspecaoValida(string cipp)
+    {
+        var inspecao = Path.GetFileNameWithoutExtension(cipp);
+
+        return _inspecaoServico.TemInspecao(inspecao);
+
+    }
+
+    private void EnviarInspecoes(IEnumerable<InspecaoModelServico> inspecoes)
+    {
+        var lista = new List<InspecaoCsvModel>();
+
+        foreach (var item in inspecoes)
+        {
+            var inspecaoModelServico = new InspecaoCsvModel
+            {
+                CodigoCipp = item.CodigoCipp,
+                CodigoOia = item.CodigoOia,
+                PlacaLicenca = item.Placa,
+                NumeroEquipamento = item.Equipamento,
+                DataInspecao = item.DataInspecao
+
+            };
+
+            lista.Add(inspecaoModelServico);
+        }
+        if (lista.Count > 0)
+        {
+            _csv.CriarArquivoInspecoesAnexo(lista);
+        }
+        else
+        {
+            _enviar.EnviarEmail(Configurations.EmailAdministrador(), _listExcecao, "");
+        }
+
+    }
+
+    private IEnumerable<string> ObterInspecoesNaoGravadas(IEnumerable<string> listaInspecao)
+    {
+        var inspecoesNaoGravadas = new List<string>();
+        foreach (var item in listaInspecao)
+        {
+            if (!TemInspecaoValida(item))
+            {
+                inspecoesNaoGravadas.Add(item);
+            }
+        }
+
+        return inspecoesNaoGravadas.ToList();
+    }
+
+    private InspecoesGravadasModelServico TemOrganismo(Organismo organismo)
+    {
+        if (organismo.ExcecaoDominio.ExisteExcecao)
+        {
+            return new InspecoesGravadasModelServico
+            {
+                InspecoesGravadas = new List<InspecaoModelServico>(),
+                Excecao = new ExcecaoService
+                {
+                    ExisteExcecao = organismo.ExcecaoDominio.ExisteExcecao,
+                    Mensagem = organismo.ExcecaoDominio.Mensagem
+                }
+            };
+
+        }
+
+        return new InspecoesGravadasModelServico
+        {
+            InspecoesGravadas = new List<InspecaoModelServico>(),
+            Excecao = new ExcecaoService
+            {
+                ExisteExcecao = false,
+                Mensagem = string.Empty
+            }
+        };
+    }
+
+    private InspecoesGravadasModelServico TemCippParaOrganismoInformado(Inspecao inspecao)
+    {
+        if (inspecao.ExcecaoDominio.ExisteExcecao)
+        {
+            return new InspecoesGravadasModelServico
+            {
+                InspecoesGravadas = new List<InspecaoModelServico>(),
+                Excecao = new ExcecaoService
+                {
+                    ExisteExcecao = true,
+                    Mensagem = string.Format(MensagemNegocio.InspecaoJaGravadaParaCippEOia)
+                }
+            };
+        }
+
+        return new InspecoesGravadasModelServico
+        {
+            InspecoesGravadas = new List<InspecaoModelServico>(),
+            Excecao = new ExcecaoService
+            {
+                ExisteExcecao = false,
+                Mensagem = string.Empty
+            }
+        };
+    }
+
+    private bool DownloadArquivo(string file, string diretorioLocal, IntegracaoInfos integracao)
+    {
+        if (integracao.TipoIntegracao != 1) return _sftp.DownloadArquivo(file, diretorioLocal + file, integracao);
+        return _ftp.DownloadInspecaoFtp(file, diretorioLocal, integracao);
+    }
+
+    private List<string> ObterSomenteDiretoriosValidos(IEnumerable<string> diretorios)
+    {
+        var diretoriosValidos = new List<string>();
+        foreach (var item in diretorios)
+        {
+            var value = Path.GetFileNameWithoutExtension(item);
+            int checkNum;
+
+            if (int.TryParse(value, out checkNum))
+            {
+
+                var extension = Path.GetExtension(item);
+                if (extension != null && (extension.Equals(".zip") || extension.Equals(".rar")))
+                {
+
+                    diretoriosValidos.Add(item);
+                }
+            }
+
+        }
+
+        return diretoriosValidos;
+
+    }
+
+    private void DeletarDiretorioLocalInspecao(string diretorioLocal)
+    {
+        var di = new DirectoryInfo(diretorioLocal);
+
+        foreach (FileInfo file in di.GetFiles())
+        {
+            file.Delete();
+
+        }
+
+    }
+
+
+
+
+
+}
 
 }

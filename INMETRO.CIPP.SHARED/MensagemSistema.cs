@@ -3,6 +3,7 @@
     public class MensagemSistema
     {
         public const string ErroObterDiretorios = "Erro ao obter novas inspeções. Mensagem: {0}";
+        public const string ErroUmaOuMaisInspecoes = "Houve erros em uma ou mais inspeções. Verificar email de log.";
         public const string SucessoDownloadCodigoOiaeCipp = "O download para CÓDIGO-OIA-PP {0} e o CIPP {1} foi feito com sucesso!";
         public const string SucessoDownloadCodigoOia = "O download para CÓDIGO-OIA-PP {0} foi feito com sucesso!";
         public const string CampoObrigatorio = "Campo obrigatório.";
