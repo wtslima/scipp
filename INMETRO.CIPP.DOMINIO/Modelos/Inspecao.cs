@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace INMETRO.CIPP.DOMINIO.Modelos
 {
-    [Table("TB_INSPECAO_CIPP")]
+    [Table("TB_INSPECAO")]
     public class Inspecao
     {
         [Key]
@@ -18,10 +18,10 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
         public string CodigoCipp { get; set; }
 
         [Required]
-        [Column("CDA_CODIGO_OIA")]
+        [Column("CDA_CODIGO_OIA_PP")]
         public string CodigoOIA { get; set; }
 
-        [Column("DES_PLACA_LICENCA")]
+        [Column("DES_PLACA")]
         public string PlacaLicenca { get; set; }
 
         

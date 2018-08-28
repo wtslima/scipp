@@ -19,14 +19,14 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                 using (var ctx = new CippContexto())
                 {
                     var existe = ObterDadosInspecao(inspecao.CodigoCipp).Id;
-                    if (existe > 0)
-                    {
+                    if (existe > 0) return false;
+                    
                         //inspecao.DataAlteracao = DateTime.Now;
                         ctx.Inspecoes.AddOrUpdate(inspecao);
                         ctx.SaveChanges();
                         return true;
-                    }
-                    return false;
+                    
+                    
                 }
             }
             catch (Exception e)
@@ -211,9 +211,9 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                         {
                             Id = (int) result["IDT_INSPECAO"],
                             CodigoCipp = result["CDN_CIPP"].ToString(),
-                            CodigoOIA = result["CDA_CODIGO_OIA"].ToString(),
+                            CodigoOIA = result["CDA_CODIGO_OIA_PP"].ToString(),
                             NumeroEquipamento =  result["NUM_EQUIPAMENTO"].ToString(),
-                            PlacaLicenca = result["DES_PLACA_LICENCA"].ToString(),
+                            PlacaLicenca = result["DES_PLACA"].ToString(),
                             DataInspecao = Convert.ToDateTime(result["DAT_INSPECAO"])
                         };
                         list.Add(inspecao);
