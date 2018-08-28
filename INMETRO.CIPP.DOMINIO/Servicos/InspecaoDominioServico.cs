@@ -129,7 +129,8 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
             {
 
                 var organismo = _organismoRepositorio.BuscarOrganismoPorId(codigoOia);
-                if (organismo.Id <= 0)
+                
+                if (organismo == null)
                     return new InspecoesGravadas
                     {
                         Inspecoes = new List<Inspecao>(),

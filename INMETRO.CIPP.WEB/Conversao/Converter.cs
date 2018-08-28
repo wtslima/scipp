@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
+using INMETRO.CIPP.DOMINIO.Modelos;
 using INMETRO.CIPP.SERVICOS.ModelService;
 using INMETRO.CIPP.WEB.Models;
 
@@ -9,6 +11,8 @@ namespace INMETRO.CIPP.WEB.Conversao
 {
     public class Converter
     {
+        private static IEnumerable<object> list;
+
         public static InspecoesGravadasModel  ConverterParaModelo(InspecoesGravadasModelServico value)
         {
 
@@ -63,6 +67,26 @@ namespace INMETRO.CIPP.WEB.Conversao
             return lista.ToList();
         }
 
+        internal static IList<OrganismoModel> ConverterParaModelo(IList<Organismo> organismos)
+        {
+            var lista = new List<OrganismoModel>();
+
+
+            foreach (var item in organismos)
+            {
+                var organismo = new OrganismoModel
+                {
+                    Id = item.Id,
+                    Nome = item.Nome,
+                    Codigo = item.CodigoOIA,
+                    Ativo = item.EhAtivo
+
+                };
+                lista.Add(organismo);
+            }
+
+            return lista;
+        }
 
         public static InspecaoExcluidaModel ConverterParaModelo(HistoricoDeExclusaoModelService value)
         {
@@ -84,6 +108,27 @@ namespace INMETRO.CIPP.WEB.Conversao
 
             };
            
+        }
+
+        public static List<OrganismoModel> ConverterParaModelo(List<Organismo> list)
+        {
+            var lista = new List<OrganismoModel>();
+
+
+            foreach (var item in list)
+            {
+                var organismo = new OrganismoModel
+                {
+                    Id = item.Id,
+                    Nome = item.Nome,
+                    Codigo = item.CodigoOIA,
+                    Ativo = item.EhAtivo
+
+                };
+                lista.Add(organismo);
+            }
+
+            return lista;
         }
     }
 }

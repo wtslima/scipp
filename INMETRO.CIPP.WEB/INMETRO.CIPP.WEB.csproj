@@ -302,6 +302,8 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Views\Organismo\Index.cshtml" />
+    <Content Include="Views\Organismo\Adicionar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -338,7 +340,9 @@
     <Compile Include="Controllers\HistoricoInspecaoExcluidaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InspecaoController.cs" />
+    <Compile Include="Controllers\IntegracaoController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\OrganismoController.cs" />
     <Compile Include="Conversao\Converter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -350,8 +354,10 @@
     <Compile Include="Models\InspecaoExcluidaModel.cs" />
     <Compile Include="Models\InspecaoModel.cs" />
     <Compile Include="Models\InspecoesGravadasModel.cs" />
+    <Compile Include="Models\IntegracaoInfoModel.cs" />
     <Compile Include="Models\LogonModel.cs" />
     <Compile Include="Models\MensagemModel.cs" />
+    <Compile Include="Models\OrganismoModel.cs" />
     <Compile Include="Models\Pager.cs" />
     <Compile Include="Models\RetornoListaInspecoesViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -384,6 +390,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Integracao\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\INMETRO.CIPP.DOMINIO\INMETRO.CIPP.DOMINIO.csproj">

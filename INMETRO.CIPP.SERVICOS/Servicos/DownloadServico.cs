@@ -37,6 +37,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
         readonly Notificacao _enviar = new Notificacao();
         readonly List<string> _listExcecao = new List<string>();
+        readonly List<string> _listLog = new List<string>();
 
 
         public DownloadServico(IOrganismoDominioService organismoDomainService, IGerenciarFtp ftp, IGerenciarArquivoCompactado descompactar, IGerenciarCsv csv, IInspecaoDominioService inspecaoServico, IGerenciarSftp sftp)
@@ -58,9 +59,9 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         {
             try
             {
-               
+
                 var organismo = _organismoDomainService.BuscarOrganismoPorId(codigoOia);
-               
+
                 var existeExcecaoInspecao = TemOrganismo(organismo);
                 if (existeExcecaoInspecao.Excecao.ExisteExcecao)
                     return existeExcecaoInspecao;
@@ -92,7 +93,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                         existeExcecaoInspecao.DiretoriosValidos.FirstOrDefault(s => s.Contains(cipp)), usuario);
 
                 }
-              
+
                 return DownloadInspecoaPorCodigoOiaInformado(organismo, existeExcecaoInspecao.DiretoriosValidos,
                     usuario);
 
@@ -158,18 +159,40 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             {
                 _enviar.EnviarEmail(Configurations.EmailAdministrador(), _listExcecao, organismo.CodigoOIA);
             }
-            //if (organismo.IntegracaoInfo.TipoIntegracao == 1)
-            //{
-            //    _ftp.GetHashCode();
 
-            //}
-            //var log = CriarArquivoDeLog(_listExcecao);
-            //_sftp.UploadFile(log, organismo.IntegracaoInfo);
 
-            //if (_listaInspecoesParaEnvio.Count > 0)
-            //{
-            //    EnviarInspecoes(_listaInspecoesParaEnvio);
-            //}
+            if (_listExcecao.Count > 0 && _listaInspecoesParaEnvio.Count > 0)
+            {
+                _enviar.EnviarEmail(Configurations.EmailAdministrador(), _listExcecao, organismo.CodigoOIA);
+                return new InspecoesGravadasModelServico
+                {
+                    InspecoesGravadas = _listaInspecoesParaEnvio,
+                    Excecao = new ExcecaoService
+                    {
+                        ExisteExcecao = true,
+                        Mensagem = string.Format(MensagemSistema.ErroUmaOuMaisInspecoes)
+                    }
+
+                };
+
+            }
+
+            if (_listExcecao.Count > 0)
+            {
+                _enviar.EnviarEmail(Configurations.EmailAdministrador(), _listExcecao, organismo.CodigoOIA);
+                return new InspecoesGravadasModelServico
+                {
+                    InspecoesGravadas = _listaInspecoesParaEnvio,
+                    Excecao = new ExcecaoService
+                    {
+                        ExisteExcecao = true,
+                        Mensagem = string.Format(_listExcecao[0],
+                       organismo.CodigoOIA)
+                    }
+
+                };
+
+            }
 
             return new InspecoesGravadasModelServico
             {
@@ -198,6 +221,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 if (!organismos.GroupBy(f => f.IntegracaoInfo).Any()) return false;
                 foreach (var item in organismos.GroupBy(c => c.IntegracaoInfo))
                 {
+                    _listLog.Clear();
                     var cod = item.Key.DiretorioInspecaoLocal.Replace("\\", "");
                     var name = _organismoDomainService.BuscarOrganismoPorId(cod).Nome;
                     try
@@ -295,15 +319,16 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                     if (inspecao.Excecao == null)
                     {
                         if (GravarInspecaoObtidaNoArquivoCsv(inspecao, diretorioLocal))
-                             if (!GravarHistoricoDownload(item, "Rotina Automática")) continue;
+                            if (!GravarHistoricoDownload(item, "Rotina Automática")) continue;
                     }
 
                     ExcluirArquivoCompactadoECsv(diretorioLocal, item);
                     if (inspecao.Excecao != null)
                     {
+                        _listLog.Add(inspecao.Excecao.Mensagem);
                         _listExcecao.Add(inspecao.Excecao.Mensagem);
                     }
-                    
+
                 }
                 catch (Exception e)
                 {
@@ -319,29 +344,41 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                             }
 
                         };
-
+                        _listLog.Add(inspecao.Excecao.Mensagem);
                         _listExcecao.Add(erro.Excecao.Mensagem);
                     }
                     else
                     {
+                        _listLog.Add(e.Message);
                         _listExcecao.Add(e.Message);
                     }
-                  
+
                 }
             }
 
-            if (_listExcecao.Any())
+            if (_listLog.Any())
             {
-                if (ftpInfo.TipoIntegracao == 1)
+                try
                 {
-                    _ftp.CreateDirectory(ftpInfo);
-                 }
-                else
-                {
-                    _sftp.CreateDirectory(ftpInfo);
-                }
-                EscreverArquivoDeLog(_listExcecao, ftpInfo);
+                    if (ftpInfo.TipoIntegracao == 1)
+                    {
+                        _ftp.CreateDirectory(ftpInfo);
+                    }
+                    else
+                    {
+                        _sftp.CreateDirectory(ftpInfo);
+                    }
 
+                    EscreverArquivoDeLog(_listLog, ftpInfo);
+                    _listLog.Clear();
+                }
+                catch (Exception e)
+                {
+                    _listExcecao.Add(e.Message);
+                    _listLog.Clear();
+                }
+
+               
             }
 
         }
@@ -358,19 +395,20 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 inspecao = _csv.ObterDadosInspecao(diretorioLocal, ftpInfo);
                 if (inspecao.Excecao == null)
                 {
-                    if (!GravarInspecaoObtidaNoArquivoCsv(inspecao, diretorioLocal)) return;
-                    if (!GravarHistoricoDownload(diretorioRemoto, usuario)) return;
+                    if (GravarInspecaoObtidaNoArquivoCsv(inspecao, diretorioLocal))
+                        if (!GravarHistoricoDownload(diretorioRemoto, usuario)) return;
                     ExcluirArquivoCompactadoECsv(diretorioLocal, diretorioRemoto);
                 }
-                else
+
+
+                ExcluirArquivoCompactadoECsv(diretorioLocal, diretorioRemoto);
+                if (inspecao.Excecao != null)
                 {
-                    ExcluirArquivoCompactadoECsv(diretorioLocal, diretorioRemoto);
-                    DeletarDiretorioLocalInspecao(diretorioLocal);
                     _listExcecao.Add(inspecao.Excecao.Mensagem);
                 }
 
-               
-                
+
+
             }
             catch (Exception e)
             {
@@ -389,10 +427,10 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
                     _listExcecao.Add(erro.Excecao.Mensagem);
                 }
-
-
-
-                _listExcecao.Add(e.InnerException.ToString());
+                else
+                {
+                    _listExcecao.Add(e.Message);
+                }
 
             }
 
@@ -497,15 +535,15 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             string fileName = ".txt";
             var date = DateTime.Now.ToString("yyyy-MM-dd_HH-mm", CultureInfo.InvariantCulture);
 
-            var path = filePhisical+"/"+"LOGS"+"/"+ "Log-SCIPP -"+info.DiretorioInspecaoLocal+"-"+ date + fileName;
+            var path = filePhisical + "\\" + "LOGS" + "\\" + "Log-SCIPP -" + info.DiretorioInspecaoLocal + "-" + date + fileName;
             using (System.IO.StreamWriter file =
                 new System.IO.StreamWriter(path))
             {
                 foreach (string line in excecoes)
                 {
-                    
-                        file.WriteLine(line);
-                    
+
+                    file.WriteLine(line);
+
                 }
                 file.Close();
                 if (info.TipoIntegracao == 1)
@@ -516,8 +554,9 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
                 {
                     _sftp.UploadFile(path, info);
                 }
-               
+
             }
+
         }
 
 
@@ -737,9 +776,9 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             {
                 var value = Path.GetFileNameWithoutExtension(item);
                 int checkNum;
-                
+
                 if (int.TryParse(value, out checkNum))
-                { 
+                {
 
                     var extension = Path.GetExtension(item);
                     if (extension != null && (extension.Equals(".zip") || extension.Equals(".rar")))

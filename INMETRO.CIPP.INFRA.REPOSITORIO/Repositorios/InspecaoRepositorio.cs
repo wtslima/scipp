@@ -19,14 +19,13 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                 using (var ctx = new CippContexto())
                 {
                     var existe = ObterDadosInspecao(inspecao.CodigoCipp).Id;
-                    if (existe > 0)
-                    {
+                    if (existe > 0) return false;
+                    
                         //inspecao.DataAlteracao = DateTime.Now;
                         ctx.Inspecoes.AddOrUpdate(inspecao);
                         ctx.SaveChanges();
                         return true;
-                    }
-                    return false;
+                   
                 }
             }
             catch (Exception e)
@@ -192,7 +191,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
         {
             string sql = string.Empty;
             sql =
-                "SELECT *  FROM [scipp].[dbo].[TB_INSPECAO] where DAT_INSPECAO ='" + data + "' ORDER BY CDN_CIPP";
+                "SELECT *  FROM [scipp].[dbo].[TB_INSPECAO_CIPP] where DAT_INSPECAO ='" + data + "' ORDER BY CDN_CIPP";
             var connectionString = ConfigurationManager.ConnectionStrings["CIPP_CONTEXTO"].ConnectionString;
 
             var list = new List<Inspecao>();
@@ -213,7 +212,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                             CodigoCipp = result["CDN_CIPP"].ToString(),
                             CodigoOIA = result["CDA_CODIGO_OIA"].ToString(),
                             NumeroEquipamento =  result["NUM_EQUIPAMENTO"].ToString(),
-                            PlacaLicenca = result["DES_PLACA_LICENCA"].ToString(),
+                            PlacaLicenca = result["DES_PLACA"].ToString(),
                             DataInspecao = Convert.ToDateTime(result["DAT_INSPECAO"])
                         };
                         list.Add(inspecao);

@@ -224,9 +224,9 @@ namespace INMETRO.CIPP.SHARED.Servicos
                     
                 }
 
-                catch (SftpPathNotFoundException)
+                catch 
                 {
-                    client.CreateDirectory(current);
+                    throw new Exception(string.Format("Erro ao criar pasta LOG para o organismo {0}", sftpInfo.DiretorioInspecaoLocal));
                 }
 
                 client.Disconnect();

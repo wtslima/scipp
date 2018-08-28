@@ -21,7 +21,7 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
         [Column("CDA_CODIGO_OIA")]
         public string CodigoOIA { get; set; }
 
-        [Column("DES_PLACA_LICENCA")]
+        [Column("DES_PLACA")]
         public string PlacaLicenca { get; set; }
 
         
