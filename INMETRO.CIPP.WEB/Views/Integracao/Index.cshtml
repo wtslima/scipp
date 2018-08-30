@@ -1,0 +1,64 @@
+﻿@model IEnumerable<INMETRO.CIPP.DOMINIO.Modelos.IntegracaoInfos>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Integracões</h2>
+
+<p>
+    @Html.ActionLink("Adicionar Integracão", "Adicionar")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("CÓDIGO-OIA-PP")
+        </th>
+        <th>
+            @Html.DisplayName("TIPO")
+        </th>
+        <th>
+            @Html.DisplayName("ENDEREÇO(Host)")
+        </th>
+        <th>
+            @Html.DisplayName("PORTA")
+        </th>
+        <th>
+            @Html.DisplayName("USUÁRIO")
+        </th>
+        <th>
+            @Html.DisplayName("SENHA")
+        </th>
+    
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DiretorioInspecaoLocal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TipoIntegracao)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HostURI)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Porta)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Usuario)
+        </td>
+        <td>
+            @Html.Raw("\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022")
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Editar", new { id = item.Id }) |
+            @Html.ActionLink("Detalhar", "Details", new { id = item.Id }) |
+            @Html.ActionLink("Remover", "Delete", new { id = item.Id })
+        </td>
+    </tr>
+}
+
+</table>

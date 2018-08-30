@@ -48,6 +48,8 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                         EhAtivo = item.EhAtivo,
                         IntegracaoInfo = item.IntegracaoInfo == null ? null : new IntegracaoInfos
                         {
+                            Id = item.IntegracaoInfo.Id,
+                            OrganismoId = item.IntegracaoInfo.OrganismoId,
                             DiretorioInspecao = item.IntegracaoInfo.DiretorioInspecao,
                             DiretorioInspecaoLocal = item.IntegracaoInfo.DiretorioInspecaoLocal,
                             HostURI = item.IntegracaoInfo.HostURI,
@@ -163,12 +165,27 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                     return consulta.Select(item => new Organismo
                     {
 
+
                         Id = item.Id,
                         CodigoOIA = item.CodigoOIA,
                         Nome = item.Nome.ToUpper(),
-                        EhAtivo = item.EhAtivo
-                       
-                    }).ToList();
+                        EhAtivo = item.EhAtivo,
+                        IntegracaoInfo = item.IntegracaoInfo == null ? null : new IntegracaoInfos
+                        {
+                            Id = item.IntegracaoInfo.Id,
+                            OrganismoId = item.IntegracaoInfo.OrganismoId,
+                            DiretorioInspecao = item.IntegracaoInfo.DiretorioInspecao,
+                            DiretorioInspecaoLocal = item.IntegracaoInfo.DiretorioInspecaoLocal,
+                            HostURI = item.IntegracaoInfo.HostURI,
+                            Usuario = item.IntegracaoInfo.Usuario,
+                            Senha = item.IntegracaoInfo.Senha,
+                            TipoIntegracao = item.IntegracaoInfo.TipoIntegracao,
+                            PrivateKey = item.IntegracaoInfo.PrivateKey,
+                            Porta = item.IntegracaoInfo.Porta
+                        }
+                   
+
+                }).ToList();
 
                 }
                 catch (Exception e)

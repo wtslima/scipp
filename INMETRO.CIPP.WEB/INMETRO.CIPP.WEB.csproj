@@ -305,6 +305,9 @@
     <Content Include="Views\Organismo\Index.cshtml" />
     <Content Include="Views\Organismo\Adicionar.cshtml" />
     <Content Include="Views\Organismo\Editar.cshtml" />
+    <Content Include="Views\Integracao\Index.cshtml" />
+    <Content Include="Views\Integracao\Adicionar.cshtml" />
+    <Content Include="Views\Integracao\Editar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -391,7 +394,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Integracao\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\INMETRO.CIPP.DOMINIO\INMETRO.CIPP.DOMINIO.csproj">

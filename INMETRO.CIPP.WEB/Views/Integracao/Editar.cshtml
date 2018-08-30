@@ -1,0 +1,81 @@
+﻿@model INMETRO.CIPP.DOMINIO.Modelos.IntegracaoInfos
+
+@{
+    ViewBag.Title = "Editar";
+}
+
+<h2>Editar</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    <h4>IntegracaoInfos</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.OrganismoId)
+
+    <div class="form-group row">
+        <div class="col-md-2">
+            @Html.Label("Código OIA-PP")
+            @Html.DropDownList("Id", (SelectList)ViewBag.Organismos, new { @class = "form-control" })
+            @*@Html.DropDownListFor(model => model.OrganismoId,
+                new SelectList(ViewBag.Organismos))*@
+            @Html.ValidationMessageFor(model => model.DiretorioInspecao, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="col-md-2">
+            @Html.Label("Tipo")
+            @Html.DropDownList("Tipo", (SelectList)ViewBag.Tipo, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.TipoIntegracao, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-4">
+            @Html.Label("Endereço(host)")
+            @Html.EditorFor(model => model.HostURI, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.HostURI, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="col-md-1">
+            @Html.Label("Porta")
+            @Html.EditorFor(model => model.Porta, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Porta, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-3">
+            @Html.Label("Usuário")
+            @Html.EditorFor(model => model.Usuario, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Usuario, "", new { @class = "text-danger" })
+        </div>
+
+
+        <div class="col-md-2">
+            @Html.Label("Senha")
+            @Html.PasswordFor(model => model.Senha, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Senha, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    @*<div class="form-group">
+        @Html.LabelFor(model => model.PrivateKey, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.PrivateKey, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.PrivateKey, "", new { @class = "text-danger" })
+        </div>
+    </div>*@
+
+    <div class="form-group">
+        <div class=" col-md-10">
+            <input type="submit" value="Adicionar" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
