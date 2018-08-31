@@ -97,7 +97,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
 
                     return resultado;
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
 
                     throw;
@@ -151,7 +151,26 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
 
         public bool Excluir(int id)
         {
-            throw new NotImplementedException();
+            using(var ctx = new CippContexto())
+            {
+                try
+                {
+                    var resultado = ctx.Organismos.FirstOrDefault(s => s.Id == id);
+                    ctx.Organismos.Attach(resultado);
+                    ctx.Organismos.Remove(resultado);
+                    var retorno = ctx.SaveChanges();
+
+                    if (retorno <= 0) return false;
+
+                    return true;
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
         }
 
         public IList<Organismo> BuscarTodos()

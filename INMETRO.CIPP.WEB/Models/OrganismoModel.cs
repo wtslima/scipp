@@ -10,13 +10,19 @@ namespace INMETRO.CIPP.WEB.Models
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "O nome do organismo é obrigatório")]
-        [Display(Name = "NOME ORGANISMO")]
+        [Display(Name = "NOME")]
         public string  Nome { get; set; }
         [Required(ErrorMessage = "O código é obrigatório")]
         [Display(Name = "CÓDIGO-OIA-PP")]
         public string Codigo { get; set; }
+        [Required(ErrorMessage = "Por favor informe o LI do CÓDIGO-OIA-PP")]
+        [Display(Name = "LI")]
+        public string LI { get; set; }
+
         public bool Ativo { get; set; }
         public IntegracaoInfoModel Integracao { get; set; }
+
+        public  MensagemModel Mensagem { get; set; }
 
     }
 }

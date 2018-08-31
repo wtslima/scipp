@@ -1,9 +1,6 @@
 ﻿using INMETRO.CIPP.DOMINIO.Interfaces;
-using INMETRO.CIPP.DOMINIO.Interfaces.Repositorios;
 using INMETRO.CIPP.DOMINIO.Modelos;
 using INMETRO.CIPP.WEB.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace INMETRO.CIPP.WEB.Controllers
@@ -32,16 +29,31 @@ namespace INMETRO.CIPP.WEB.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Adicionar(Organismo organismo)
+        public ActionResult Adicionar(OrganismoModel organismo)
         {
             if (organismo == null) return HttpNotFound();
 
-            var resultado = _servico.Adicionar(organismo);
-            if (resultado)
-                return RedirectToAction("Index");
 
+            var o = new Organismo
+            {
+                Nome = organismo.Nome,
+                CodigoOIA = organismo.Codigo+"-"+organismo.LI,
+                EhAtivo = true
+
+            };
+
+            var resultado = _servico.Adicionar(o);
+            //if (resultado)
+            //    return RedirectToAction("Index");
+            if (resultado)
+            {
+                organismo.Mensagem = new MensagemModel { ExisteExcecao = resultado, Mensagem = "Organismo gravado com sucesso." };
+                return View(organismo);
+            }
+
+            organismo.Mensagem = new MensagemModel { ExisteExcecao = resultado, Mensagem = "Um erro ocorreu ao gravar organismo." };
             return View(organismo);
-            
+
         }
 
         public ActionResult Editar(int id)
@@ -49,30 +61,70 @@ namespace INMETRO.CIPP.WEB.Controllers
             if (id == null) { return HttpNotFound(); }
 
             var organismo = _servico.ObetrPorId(id);
-            return View(organismo);
+
+            var result = organismo.CodigoOIA.Substring(organismo.CodigoOIA.LastIndexOf('-') + 1);
+            
+            var  input = organismo.CodigoOIA.Substring(0, organismo.CodigoOIA.IndexOf("-") + 1);
+            var chare = input.Replace("-","");
+            var o = new OrganismoModel
+            {
+                Id = organismo.Id,
+                Nome = organismo.Nome,
+                Codigo = chare,
+                LI = result, 
+                Ativo = organismo.EhAtivo
+
+            };
+
+
+            return View(o);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Editar(Organismo organismo)
+        public ActionResult Editar(OrganismoModel organismo)
         {
             if (organismo.Id <= 0) return HttpNotFound();
 
-            var resultado = _servico.Atualizar(organismo);
-            if(resultado)
-                return RedirectToAction("Index");
 
+            var o = new Organismo
+            {
+                Id = organismo.Id,
+                Nome = organismo.Nome,
+                CodigoOIA = organismo.Codigo + "-" + organismo.LI,
+                EhAtivo = organismo.Ativo
+
+            };
+
+            var resultado = _servico.Atualizar(o);
+            if (resultado)
+            {
+                organismo.Mensagem = new MensagemModel { ExisteExcecao = resultado, Mensagem = "Organismo alterado com sucesso." };
+                return View(organismo);
+            }
+
+            organismo.Mensagem = new MensagemModel { ExisteExcecao = resultado, Mensagem = "Um erro ocorreu ao alterar organismo." };
             return View(organismo);
         }
 
-        public ActionResult Excluir()
+        public ActionResult Excluir(Organismo model)
         {
-            return View();
+            var x = _servico.ObetrPorId(model.Id);
+            var o = new OrganismoModel
+            {
+                Id = x.Id,
+                Nome = x.Nome,
+                Codigo = x.CodigoOIA
+            };
+
+            return View(o);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Excluir(OrganismoModel model)
         {
+            var o = _servico.Excluir(model.Id);
+
             return View(model);
         }
 

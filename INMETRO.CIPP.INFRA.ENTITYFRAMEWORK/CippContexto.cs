@@ -59,5 +59,6 @@ namespace INMETRO.CIPP.INFRA.ENTITYFRAMEWORK
         public DbSet<Usuario> Usuario { get; set; }
 
         public DbSet<HistoricoExclusao> HistoricoExclusoes { get; set; }
+
     }
 }

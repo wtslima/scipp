@@ -69,7 +69,9 @@ namespace INMETRO.CIPP.DOMINIO.Servicos
 
         public bool Excluir(int id)
         {
-            throw new NotImplementedException();
+            var resultado = _repositorio.Excluir(id);
+
+            return resultado;
         }
 
         public Organismo ObetrPorId(int id)

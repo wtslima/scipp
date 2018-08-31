@@ -1,57 +1,139 @@
-﻿@model INMETRO.CIPP.DOMINIO.Modelos.Organismo
+﻿@model INMETRO.CIPP.WEB.Models.OrganismoModel
 
 @{
     ViewBag.Title = "Adicionar";
 }
 
-<h2>Novo Organismo</h2><br />
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <div class="form-group">
-            <div class="col-md-10">
-                <input type="submit" value="Adicionar Integração" class="btn btn-default" />
-            </div>
-        </div>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            <div class="col-md-7">
-                @* @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-5" })*@
-                <label>Nome do Organismo</label>
-                @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-md-3">
-                <label>Código-OIA-PP</label>
-                @Html.EditorFor(model => model.CodigoOIA, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.CodigoOIA, "", new { @class = "text-danger" })
 
-            </div>
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+       
 
-            <div class="col-md-5">
-                @Html.Label("Ativo")
-
-            </div>
-            <div class="col-md-5">
-                @Html.CheckBoxFor(model => model.EhAtivo, new { @checked = "checked" })
-                @Html.ValidationMessageFor(model => model.EhAtivo, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-10">
-                <input type="submit" value="Adicionar" class="btn btn-primary" />
-            </div>
-        </div>
+        @if (IsPost)
+        {
+            if (Model.Codigo != null)
+            {
+                if (Model.Mensagem.ExisteExcecao)
+                {
+                    <div class="alert alert-success alert-dismissable">
+                        @Html.Partial("_AdicionarSucesso", Model)
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                }
+                if (!Model.Mensagem.ExisteExcecao)
+                {
+                    <div class="alert alert-warning alert-dismissable">
+                        @Html.Partial("_AdicionarError", Model)
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                }
+            }
+        }
     </div>
-}
-
-<div>
-    @Html.ActionLink("Voltar", "Index")
 </div>
+<div class="col-md-10 col-md-offset-1">
+    <h2>Novo Organismo</h2><br />
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input class="btn btn-default" type='button' value='Adicionar Integração' onclick='window.location = "@Url.Action("Adicionar", "Integracao")";'/>
+                </div>
+            </div>
+            
+
+            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+            <div class="form-group">
+                <div class="col-md-6">
+                    @* @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-5" })*@
+                    <label>Nome do Organismo</label>
+                    @Html.TextBoxFor(model => model.Nome, new {@class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.Nome, "", new {@class = "text-danger"})
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-2">
+                    <label>Código-OIA-PP</label>
+                    @Html.TextBoxFor(model => model.Codigo, new {@class = "form-control", maxlength = "4", onkeypress = "return onlyNos(event,this);", id = "idCodigo"})
+                    @Html.ValidationMessageFor(model => model.Codigo, "", new {@class = "text-danger"})
+
+                </div>
+                <div class="col-md-1">
+                    <label>LI</label>
+                    @Html.TextBoxFor(model => model.LI, new {@class = "form-control", maxlength = "2", onkeypress = "return onlyNos(event,this);", id = "idLI"})
+                    @Html.ValidationMessageFor(model => model.LI, "", new {@class = "text-danger"})
+                </div>
+
+                @*<div class="col-md-5">
+                        @Html.Label("Ativo")
+
+                    </div>*@
+                @*<div class="col-md-5">
+                        @Html.CheckBoxFor(model => model.Ativo, new { @checked = "checked" })
+                        @Html.ValidationMessageFor(model => model.Ativo, "", new { @class = "text-danger" })
+                    </div>*@
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input type="submit" value="Adicionar" class="btn btn-primary"/>
+                </div>
+            </div>
+        </div>
+    }
+    <div>
+        @Html.ActionLink("Voltar", "Index")
+    </div>
+</div>
+   
+    <script>
+        function onlyNos(e) {
+
+            var charCode;
+            if (window.event) {
+                charCode = window.event.keyCode;
+            } else if (e) {
+                charCode = e.which;
+            } else { return true; }
+
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+
+                return false;
+            }
+            return true;
+        }
+
+
+        $("#Cancelar").click(function () {
+            $("#idCodigoOia").val("");
+            $("#idCipp").val("");
+            $('.field-validation-error').text("");
+            return false;
+        });
+
+        function CarregandoBtn() {
+
+            $("#btnDownload").hide();
+            $("#btn_carregando").show();
+
+        };
+
+        $("document").ready(function () {
+            $("#btn_carregando").hide();
+        });
+
+        $("#btnDownload").click(function () {
+            $("#resultado").hide();
+        });
+
+
+    </script>

@@ -308,6 +308,9 @@
     <Content Include="Views\Integracao\Index.cshtml" />
     <Content Include="Views\Integracao\Adicionar.cshtml" />
     <Content Include="Views\Integracao\Editar.cshtml" />
+    <Content Include="Views\Organismo\_AdicionarError.cshtml" />
+    <Content Include="Views\Organismo\_AdicionarSucesso.cshtml" />
+    <Content Include="Views\Organismo\Excluir.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
