@@ -99,7 +99,7 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
 
             }
 
-            catch (Exception exec)
+            catch 
             {
 
                 _enviar.EnviarEmail(Configurations.EmailAdministrador(), _listExcecao, codigoOia);
@@ -290,7 +290,6 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
             }
             catch (Exception e)
             {
-                // string mensagem = string.Format(MensagemSistema.DiretoriosInvalidos, e.Message);
                 _listExcecao.Add(e.Message);
                 throw e;
             }
@@ -537,8 +536,8 @@ namespace INMETRO.CIPP.SERVICOS.Servicos
         var date = DateTime.Now.ToString("yyyy-MM-dd_HH-mm", CultureInfo.InvariantCulture);
 
         var path = filePhisical + "\\" + "LOGS" + "\\" + "Log-SCIPP -" + info.DiretorioInspecaoLocal + "-" + date + fileName;
-        using (System.IO.StreamWriter file =
-            new System.IO.StreamWriter(path))
+        using (StreamWriter file =
+            new StreamWriter(path))
         {
             foreach (string line in excecoes)
             {

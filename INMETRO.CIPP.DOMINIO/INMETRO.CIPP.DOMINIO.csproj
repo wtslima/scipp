@@ -69,12 +69,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\IInspecaoDominioService.cs" />
+    <Compile Include="Interfaces\IIntegracaoInfo.cs" />
     <Compile Include="Interfaces\IOrganismoDominioService.cs" />
     <Compile Include="Interfaces\IHistorico.cs" />
     <Compile Include="Interfaces\IHistoricoExclusao.cs" />
     <Compile Include="Interfaces\Repositorios\IHistoricoExclusaoRepositorio.cs" />
     <Compile Include="Interfaces\Repositorios\IHistoricoRepositorio.cs" />
     <Compile Include="Interfaces\Repositorios\IInspecaoRepositorio.cs" />
+    <Compile Include="Interfaces\Repositorios\IIntegracaoInfoRepositorio.cs" />
     <Compile Include="Interfaces\Repositorios\IOrganismoRepositorio.cs" />
     <Compile Include="Mensagens\MensagemNegocio.cs" />
     <Compile Include="Modelos\ExcecaoDominio.cs" />
@@ -90,6 +92,7 @@
     <Compile Include="Servicos\HistoricoExclusaoServico.cs" />
     <Compile Include="Servicos\HistoricoServico.cs" />
     <Compile Include="Servicos\InspecaoDominioServico.cs" />
+    <Compile Include="Servicos\IntegracaoDominioServico.cs" />
     <Compile Include="Servicos\OrganismoDominioServico.cs" />
   </ItemGroup>
   <ItemGroup />

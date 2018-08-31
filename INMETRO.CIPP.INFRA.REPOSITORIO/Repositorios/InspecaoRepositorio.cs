@@ -28,7 +28,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
 
                 }
             }
-            catch (Exception e)
+            catch 
             {
                 throw  new Exception(string.Format("Erro ao gravar inspeção {0}. Código-OIA-PP {1}", inspecao.CodigoCipp, inspecao.CodigoOIA));
             }

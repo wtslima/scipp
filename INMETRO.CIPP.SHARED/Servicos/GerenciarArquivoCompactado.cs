@@ -109,7 +109,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                     }
                 }
             }
-            catch (Exception e)
+            catch
             {
                 var arquivo = Path.GetFileNameWithoutExtension(file);
                 throw new Exception(string.Format("Erro ao descompactar o arquivo {0} Zip. Arquivo corrompido.", arquivo));

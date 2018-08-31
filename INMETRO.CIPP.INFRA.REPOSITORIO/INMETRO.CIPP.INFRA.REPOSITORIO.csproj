@@ -79,6 +79,7 @@
     <Compile Include="Repositorios\HistoricoDownloadRepositorio.cs" />
     <Compile Include="Repositorios\HistoricoExclusaoRepositorio.cs" />
     <Compile Include="Repositorios\InspecaoRepositorio.cs" />
+    <Compile Include="Repositorios\IntergracaoInfosRepositorio.cs" />
     <Compile Include="Repositorios\OrganismoRepositorio.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -48,7 +48,7 @@ namespace INMETRO.CIPP.SHARED.Email
                     smtp.Send(message);
 
                 }
-                catch (Exception ex)
+                catch 
                 {
                     // ignored
                 }
@@ -93,7 +93,7 @@ namespace INMETRO.CIPP.SHARED.Email
                 smtp.Send(messageErro);
 
             }
-            catch (Exception ex)
+            catch
             {
                 // ignored
             }
@@ -134,7 +134,7 @@ namespace INMETRO.CIPP.SHARED.Email
                 smtp.Send(messageErro);
 
             }
-            catch (Exception ex)
+            catch 
             {
                 // ignored
             }

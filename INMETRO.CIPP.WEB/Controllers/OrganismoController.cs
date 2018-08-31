@@ -16,6 +16,7 @@ namespace INMETRO.CIPP.WEB.Controllers
         // GET: Organismo
         public ActionResult Index()
         {
+          
             var organismos =  _servico.BuscarTodos();
             //var convertido = Conversao.Converter.ConverterParaModelo(organismos);
             return View(organismos);
@@ -58,7 +59,7 @@ namespace INMETRO.CIPP.WEB.Controllers
 
         public ActionResult Editar(int id)
         {
-            if (id == null) { return HttpNotFound(); }
+            if (id <= 0) { return HttpNotFound(); }
 
             var organismo = _servico.ObetrPorId(id);
 
@@ -132,12 +133,6 @@ namespace INMETRO.CIPP.WEB.Controllers
         {
             return View();
         }
-
-        //private async Task<List<OrganismoModel>> ObterOrganismos()
-        //{
-        //    var organismos = await _servico.BuscarTodosOrganismos();
-            
-        //    return  Conversao.Converter.ConverterParaModelo(organismos);
-        //}
+              
     }
 }

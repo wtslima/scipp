@@ -4,84 +4,135 @@
     ViewBag.Title = "Nova Integração";
 }
 
-<h2>Nova Integracão</h2>
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-       
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.OrganismoId, "OrganismoId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("OrganismoId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.OrganismoId, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
+<div class="col-md-10 col-md-offset-1">
+    <h2>Nova Integração</h2>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
-        <div class="form-group row">
-            <div class="col-md-2">
-                @Html.Label("Código OIA-PP")
-                @Html.DropDownList("Id", (SelectList)ViewBag.Organismos, new { @class = "form-control" })
-                @*@Html.DropDownListFor(model => model.OrganismoId,
-                     new SelectList(ViewBag.Organismos))*@
-                @Html.ValidationMessageFor(model => model.DiretorioInspecao, "", new { @class = "text-danger" })
+        <div class="form-horizontal">
+
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.OrganismoId, "OrganismoId", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("OrganismoId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.OrganismoId, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+            <div class="form-group row">
+                <div class="col-md-2">
+                    @Html.Label("CÓDIGO OIA-PP")
+                    @Html.DropDownList("OrganismoId", (SelectList)ViewBag.Organismos, new { @class = "form-control" })
+                </div>
+
+                <div class="col-md-5" style="padding-top:25px";>
+                    
+                    <div class="radio-inline">
+                        @Html.RadioButtonFor(model => model.TipoIntegracao,  1)
+                        @Html.Label("FTP")
+                    </div>
+                    <div class="radio-inline">
+                        @Html.RadioButtonFor(model => model.TipoIntegracao, 2, new { @checked = "checked" })
+                        @Html.Label("SFTP")
+                    </div>
+
+                </div>
             </div>
-        
-            <div class="col-md-2">
-                @Html.Label("Tipo")
-                @Html.DropDownList("Tipo", (SelectList)ViewBag.Tipo,  new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.TipoIntegracao, "", new { @class = "text-danger" })
+            <div class="form-group row">
+                <div class="col-md-4">
+                    @Html.Label("ENDEREÇO(host)")
+                    @Html.EditorFor(model => model.HostURI, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.HostURI, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-2">
+                    @Html.Label("PORTA")
+                    @Html.EditorFor(model => model.Porta, new { htmlAttributes = new { @class = "form-control", onkeypress = "return onlyNos(event,this);" } })
+                    @Html.ValidationMessageFor(model => model.Porta, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-3">
+                    @Html.Label("USUÁRIO")
+                    @Html.EditorFor(model => model.Usuario, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Usuario, "", new { @class = "text-danger" })
+                </div>
+
+
+                <div class="col-md-3">
+                    @Html.Label("SENHA")
+                    @Html.PasswordFor(model => model.Senha, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Senha, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.PrivateKey, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.PrivateKey, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PrivateKey, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input type="submit" value="Adicionar" class="btn btn-primary" />
+                </div>
             </div>
         </div>
-        <div class="form-group row">
-            <div class="col-md-4">
-                @Html.Label("Endereço(host)")
-                @Html.EditorFor(model => model.HostURI, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.HostURI, "", new { @class = "text-danger" })
-            </div>
-       
-            <div class="col-md-1">
-                @Html.Label("Porta")
-                @Html.EditorFor(model => model.Porta, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Porta, "", new { @class = "text-danger" })
-            </div>
-        </div>
+    }
 
-        <div class="form-group row">
-            <div class="col-md-3">
-                @Html.Label("Usuário")
-                @Html.EditorFor(model => model.Usuario, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Usuario, "", new { @class = "text-danger" })
-            </div>
-       
-           
-            <div class="col-md-2">
-                @Html.Label("Senha")
-                @Html.PasswordFor(model => model.Senha, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Senha, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.PrivateKey, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.PrivateKey, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.PrivateKey, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
-
-        <div class="form-group">
-            <div class="col-md-10">
-                <input type="submit" value="Adicionar" class="btn btn-primary" />
-            </div>
-        </div>
+    <div>
+        @Html.ActionLink("Voltar", "Index")
     </div>
-}
 
-<div>
-    @Html.ActionLink("Voltar", "Index")
 </div>
+
+
+<script>
+        function onlyNos(e) {
+
+            var charCode;
+            if (window.event) {
+                charCode = window.event.keyCode;
+            } else if (e) {
+                charCode = e.which;
+            } else { return true; }
+
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+
+                return false;
+            }
+            return true;
+        }
+
+
+        $("#Cancelar").click(function () {
+            $("#idCodigoOia").val("");
+            $("#idCipp").val("");
+            $('.field-validation-error').text("");
+            return false;
+        });
+
+        function CarregandoBtn() {
+
+            $("#btnDownload").hide();
+            $("#btn_carregando").show();
+
+        };
+
+        $("document").ready(function () {
+            $("#btn_carregando").hide();
+        });
+
+        $("#btnDownload").click(function () {
+            $("#resultado").hide();
+        });
+
+
+</script>

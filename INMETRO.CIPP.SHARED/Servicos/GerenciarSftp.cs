@@ -179,7 +179,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                     client.Disconnect();
                 }
             }
-            catch(Exception e)
+            catch
             {
                 success = false;
             }
@@ -189,9 +189,9 @@ namespace INMETRO.CIPP.SHARED.Servicos
         public void CreateDirectory(IntegracaoInfos sftpInfo)
         {
 
-            bool success = true;
+            
             int Port = 22;
-            string path = "Log";
+            
 
             SftpClient tmpClient;
             if (!string.IsNullOrEmpty(sftpInfo.Senha))

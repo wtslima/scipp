@@ -79,7 +79,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                     }
                 }
             }
-            catch (Exception ex)
+            catch 
             {
                 success = false;
             }
@@ -156,7 +156,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
                 //Console.WriteLine("Delete status: {0}", response.StatusDescription);
                 response.Close();
             }
-            catch (Exception e)
+            catch
             {
                 success = false;
             }
@@ -224,7 +224,7 @@ namespace INMETRO.CIPP.SHARED.Servicos
 
                 response.Close();
             }
-            catch(Exception e)
+            catch
             {
                 success = false;
             }

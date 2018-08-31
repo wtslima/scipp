@@ -10,6 +10,7 @@ namespace INMETRO.CIPP.INFRA.IoC.Modulos
         public Container Register(Container container)
         {
             container.Register<IOrganismoDominioService, OrganismoDominioServico>(Lifestyle.Scoped);
+            container.Register<IIntegracaoInfo, IntegracaoDominioServico>(Lifestyle.Scoped);
             container.Register<IInspecaoDominioService, InspecaoDominioServico>(Lifestyle.Scoped);
             container.Register<IHistorico, HistoricoServico>(Lifestyle.Scoped);
             container.Register<IHistoricoExclusao, HistoricoExclusaoServico>(Lifestyle.Scoped);

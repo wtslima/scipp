@@ -2,22 +2,21 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 using INMETRO.CIPP.DOMINIO.Interfaces.Repositorios;
 using INMETRO.CIPP.DOMINIO.Modelos;
 using INMETRO.CIPP.INFRA.ENTITYFRAMEWORK;
 
 namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
 {
-    public class OrganismoRepositorio : IOrganismoRepositorio
+    public class IntegracaoInfosRepositorio : IIntegracaoInfoRepositorio
     {
-        public Organismo BuscarOrganismoPorId(string codigoOia)
+        public IntegracaoInfos ObterPorId(int id)
         {
             using (var contexto = new CippContexto())
             {
                 try
                 {
-                    var consulta = contexto.Organismos.Include(f => f.IntegracaoInfo).FirstOrDefault(x => x.CodigoOIA.Trim().Contains(codigoOia) && x.EhAtivo);
+                    var consulta = contexto.IntegracaoInfo.FirstOrDefault(x => x.Id == id);
 
                     return consulta ;
  
@@ -30,35 +29,28 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
             }
         }
 
-        public async Task<IList<Organismo>> BuscarTodosOrganismos()
+        public IList<IntegracaoInfos> ObterTodos()
         {
             using (var contexto = new CippContexto())
             {
                 try
                 {
                     
-                    var consulta = await contexto.Organismos.Include(ftp => ftp.IntegracaoInfo).Where(s => s.EhAtivo && s.IntegracaoInfo != null ).OrderBy(s=> s.Nome).ToListAsync();
+                    var consulta =  contexto.IntegracaoInfo.OrderBy(s=> s.DiretorioInspecaoLocal).ToList();
 
-                    return consulta.Select(item => new Organismo
+                    return consulta.Select(item => new IntegracaoInfos
                     {
-
-                        Id = item.Id,
-                        CodigoOIA = item.CodigoOIA,
-                        Nome = item.Nome.ToUpper(),
-                        EhAtivo = item.EhAtivo,
-                        IntegracaoInfo = item.IntegracaoInfo == null ? null : new IntegracaoInfos
-                        {
-                            Id = item.IntegracaoInfo.Id,
-                            OrganismoId = item.IntegracaoInfo.OrganismoId,
-                            DiretorioInspecao = item.IntegracaoInfo.DiretorioInspecao,
-                            DiretorioInspecaoLocal = item.IntegracaoInfo.DiretorioInspecaoLocal,
-                            HostURI = item.IntegracaoInfo.HostURI,
-                            Usuario = item.IntegracaoInfo.Usuario,
-                            Senha = item.IntegracaoInfo.Senha,
-                            TipoIntegracao = item.IntegracaoInfo.TipoIntegracao,
-                            PrivateKey = item.IntegracaoInfo.PrivateKey,
-                            Porta = item.IntegracaoInfo.Porta
-                        }
+                                                    Id = item.Id,
+                            OrganismoId = item.OrganismoId,
+                            DiretorioInspecao = item.DiretorioInspecao,
+                            DiretorioInspecaoLocal = item.DiretorioInspecaoLocal,
+                            HostURI = item.HostURI,
+                            Usuario = item.Usuario,
+                            Senha = item.Senha,
+                            TipoIntegracao = item.TipoIntegracao,
+                            PrivateKey = item.PrivateKey,
+                            Porta = item.Porta
+                        
                     }).ToList();
 
                 }
@@ -68,50 +60,15 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                 }
             }
         }
+        
 
-        public IList<Organismo> BuscarOrganismosPorParteDoCodigo(string valor)
-        {
-            using (var contexto = new CippContexto())
-            {
-                try
-                {
-                    var resultado = contexto.Organismos.Where(s => s.CodigoOIA.StartsWith(valor)).ToList();
-
-                    return resultado;
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
-            }
-        }
-
-        public Organismo ObterPorId(int id)
-        {
-            using(var ctx = new CippContexto())
-            {
-                try
-                {
-                    var resultado = ctx.Organismos.FirstOrDefault(s => s.Id == id);
-
-                    return resultado;
-                }
-                catch 
-                {
-
-                    throw;
-                }
-            }
-        }
-
-        public bool Atualizar(Organismo organismo)
+        public bool Atualizar(IntegracaoInfos obj)
         {
             using (var ctx = new CippContexto())
             {
                 try
                 {
-                     ctx.Entry(organismo).State = EntityState.Modified;
+                     ctx.Entry(obj).State = EntityState.Modified;
                      var resultado = ctx.SaveChanges();
 
                     if (resultado <= 0) return false;
@@ -127,13 +84,13 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
             }
         }
 
-        public bool Adicionar(Organismo organismo)
+        public bool Adicionar(IntegracaoInfos obj)
         {
             using (var ctx = new CippContexto())
             {
                 try
                 {
-                    ctx.Organismos.Add(organismo);
+                    ctx.IntegracaoInfo.Add(obj);
                     var resultado = ctx.SaveChanges();
 
                     if (resultado <= 0) return false;
@@ -149,7 +106,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
             }
         }
 
-        public bool Excluir(int id)
+        public bool Desativar(int id)
         {
             using(var ctx = new CippContexto())
             {

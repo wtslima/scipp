@@ -1,10 +1,7 @@
 ﻿using INMETRO.CIPP.DOMINIO.Interfaces;
 using INMETRO.CIPP.DOMINIO.Modelos;
-using INMETRO.CIPP.WEB.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace INMETRO.CIPP.WEB.Controllers
@@ -12,9 +9,11 @@ namespace INMETRO.CIPP.WEB.Controllers
     public class IntegracaoController : Controller
     {
         private readonly IOrganismoDominioService _servico;
-        public IntegracaoController(IOrganismoDominioService servico)
+        private readonly IIntegracaoInfo _integracaoServico;
+        public IntegracaoController(IOrganismoDominioService servico, IIntegracaoInfo integracao)
         {
             _servico = servico;
+            _integracaoServico = integracao;
         }
         // GET: Integracao
         public ActionResult Index()
@@ -24,7 +23,7 @@ namespace INMETRO.CIPP.WEB.Controllers
                 Select(s => s.IntegracaoInfo).
                 OrderBy(s => s.DiretorioInspecaoLocal).
                 ToList();
-           
+
             return View(organismos);
         }
 
@@ -38,43 +37,48 @@ namespace INMETRO.CIPP.WEB.Controllers
                 CodigoOIA = "- Selecione -"
             });
             ViewBag.Organismos = new SelectList(organismos, "Id", "CodigoOIA");
-            var t = TipoLista();
-            t.Insert(0,  new Tipo()
-            {
-                Id = 0,
-                TipoIntegracao = "- Selecione -"
-            });
-            ViewBag.Tipo = new SelectList(t, "Id", "TipoIntegracao");
-            // ViewBag.Organismos = o;
+
             return View();
         }
         [HttpPost]
         public ActionResult Adicionar(IntegracaoInfos model)
         {
+            //todo: corrigir retorno do codigo oia 
+            var c = _servico.ObetrPorId(model.OrganismoId);
+            model.DiretorioInspecaoLocal = c.CodigoOIA.Trim();
+            model.DiretorioInspecao = "INSPECOES";
+
+
+            var resultado = _integracaoServico.Adicionar(model);
+
+            if (resultado)
+            {
+                var organismos = _servico.BuscarTodos().Where(s => s.IntegracaoInfo == null).OrderBy(s => s.Id).ToList();
+                organismos.Insert(0, new Organismo()
+                {
+                    Id = model.OrganismoId,
+                    CodigoOIA = model.DiretorioInspecaoLocal
+                });
+                ViewBag.Organismos = new SelectList(organismos, "Id", "CodigoOIA");
+                return View(model);
+            }
+
             return View(model);
         }
 
         public ActionResult Editar(int id)
         {
-            if (id == null) { return HttpNotFound(); }
-            var organismo = _servico.ObetrPorId(id).IntegracaoInfo;
-
-            var x =new Organismo()
+            if (id <= 0) { return HttpNotFound(); }
+             var organismos = _servico.BuscarTodos().Where(s => s.IntegracaoInfo == null).OrderBy(s => s.Id).ToList();
+            var i = _integracaoServico.ObterPorId(id);
+            var x = new Organismo()
             {
-                Id = organismo.OrganismoId,
-                CodigoOIA = organismo.DiretorioInspecaoLocal
+                Id = i.OrganismoId,
+                CodigoOIA = i.DiretorioInspecaoLocal
             };
-            ViewBag.Organismos = new SelectList("Id", "CodigoOIA");
-            
-            var t = new Tipo()
-            {
-                Id = organismo.TipoIntegracao,
-                TipoIntegracao = ""
-            };
-            ViewBag.Tipo = new SelectList( "Id", "TipoIntegracao");
+            ViewBag.Organismos = new SelectList(organismos,"Id", "CodigoOIA");
 
-            
-            return View(organismo);
+            return View(i);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -89,14 +93,14 @@ namespace INMETRO.CIPP.WEB.Controllers
             return View(organismo);
         }
 
-      
+
 
         public ActionResult Excluir()
         {
             return View();
         }
         [HttpPut]
-        public ActionResult Excluir(int  id)
+        public ActionResult Excluir(int id)
         {
             return View();
         }
