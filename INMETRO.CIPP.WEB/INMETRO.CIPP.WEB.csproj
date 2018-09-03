@@ -311,6 +311,9 @@
     <Content Include="Views\Organismo\_AdicionarError.cshtml" />
     <Content Include="Views\Organismo\_AdicionarSucesso.cshtml" />
     <Content Include="Views\Organismo\Excluir.cshtml" />
+    <Content Include="Views\Integracao\Excluir.cshtml" />
+    <Content Include="Views\Integracao\_AdicionarError.cshtml" />
+    <Content Include="Views\Integracao\_AdicionarSucesso.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

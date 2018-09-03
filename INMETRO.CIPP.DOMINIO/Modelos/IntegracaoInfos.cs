@@ -53,7 +53,7 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
         {
 
         }
-        public IntegracaoInfos( string diretorioInspecao, int tipoIntegracao, string diretorioInspecaoLocal, string host, string usuario, string senha, string chave, string porta)
+        public IntegracaoInfos( string diretorioInspecao, int tipoIntegracao, string diretorioInspecaoLocal, string host, string usuario, string senha,  string porta, int organismoId)
         {
             DiretorioInspecao = diretorioInspecao;
             TipoIntegracao = tipoIntegracao;
@@ -61,8 +61,8 @@ namespace INMETRO.CIPP.DOMINIO.Modelos
             HostURI = host;
             Usuario = usuario;
             Senha = senha;
-            PrivateKey = chave;
-            Porta = porta; 
+            Porta = porta;
+            OrganismoId = organismoId;
 
         }
 

@@ -16,7 +16,9 @@ namespace INMETRO.CIPP.WEB.Controllers
         // GET: Organismo
         public ActionResult Index()
         {
-          
+            var user = HttpContext.Session["Usuario"];
+            if (user == null)
+                return RedirectToAction("Login", "Login");
             var organismos =  _servico.BuscarTodos();
             //var convertido = Conversao.Converter.ConverterParaModelo(organismos);
             return View(organismos);
@@ -25,6 +27,10 @@ namespace INMETRO.CIPP.WEB.Controllers
        
         public ActionResult Adicionar()
         {
+            var user = HttpContext.Session["Usuario"];
+            if (user == null)
+                return RedirectToAction("Login", "Login");
+
             return View();
         }
 
@@ -59,6 +65,10 @@ namespace INMETRO.CIPP.WEB.Controllers
 
         public ActionResult Editar(int id)
         {
+            var user = HttpContext.Session["Usuario"];
+            if (user == null)
+                return RedirectToAction("Login", "Login");
+
             if (id <= 0) { return HttpNotFound(); }
 
             var organismo = _servico.ObetrPorId(id);
@@ -84,6 +94,9 @@ namespace INMETRO.CIPP.WEB.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Editar(OrganismoModel organismo)
         {
+
+          
+
             if (organismo.Id <= 0) return HttpNotFound();
 
 
@@ -109,6 +122,11 @@ namespace INMETRO.CIPP.WEB.Controllers
 
         public ActionResult Excluir(Organismo model)
         {
+
+            var user = HttpContext.Session["Usuario"];
+            if (user == null)
+                return RedirectToAction("Login", "Login");
+
             var x = _servico.ObetrPorId(model.Id);
             var o = new OrganismoModel
             {

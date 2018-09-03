@@ -3,6 +3,7 @@ using INMETRO.CIPP.DOMINIO.Modelos;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using INMETRO.CIPP.WEB.Models;
 
 namespace INMETRO.CIPP.WEB.Controllers
 {
@@ -18,6 +19,11 @@ namespace INMETRO.CIPP.WEB.Controllers
         // GET: Integracao
         public ActionResult Index()
         {
+
+            var user = HttpContext.Session["Usuario"];
+            if (user == null)
+                return RedirectToAction("Login", "Login");
+
             var organismos = _servico.BuscarTodos().
                 Where(s => s.IntegracaoInfo != null).
                 Select(s => s.IntegracaoInfo).
@@ -29,6 +35,11 @@ namespace INMETRO.CIPP.WEB.Controllers
 
         public ActionResult Adicionar()
         {
+
+            var user = HttpContext.Session["Usuario"];
+            if (user == null)
+                return RedirectToAction("Login", "Login");
+
             var organismos = _servico.BuscarTodos().Where(s => s.IntegracaoInfo == null).OrderBy(s => s.Id).ToList();
 
             organismos.Insert(0, new Organismo()
@@ -68,40 +79,107 @@ namespace INMETRO.CIPP.WEB.Controllers
 
         public ActionResult Editar(int id)
         {
+
+            var user = HttpContext.Session["Usuario"];
+            if (user == null)
+                return RedirectToAction("Login", "Login");
+
             if (id <= 0) { return HttpNotFound(); }
-             var organismos = _servico.BuscarTodos().Where(s => s.IntegracaoInfo == null).OrderBy(s => s.Id).ToList();
+            var organismos = _servico.BuscarTodos().Where(s => s.IntegracaoInfo == null).OrderBy(s => s.Id).ToList();
             var i = _integracaoServico.ObterPorId(id);
-            var x = new Organismo()
+
+            var model = new IntegracaoInfoModel
+            {
+
+                Id = i.Id,
+                DiretorioInspecao = i.DiretorioInspecao,
+                DiretorioInspecaoLocal = i.DiretorioInspecaoLocal,
+                HostURI = i.HostURI,
+                Porta = i.Porta,
+                TipoIntegracao = i.TipoIntegracao,
+                Usuario = i.Usuario,
+                Senha = i.Senha,
+                OrganismoId = i.OrganismoId
+
+            };
+
+
+
+            organismos.Insert(0,new Organismo()
             {
                 Id = i.OrganismoId,
                 CodigoOIA = i.DiretorioInspecaoLocal
-            };
-            ViewBag.Organismos = new SelectList(organismos,"Id", "CodigoOIA");
+            });
+            ViewBag.Organismos = new SelectList(organismos, "Id", "CodigoOIA");
 
-            return View(i);
+            return View(model);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Editar(Organismo organismo)
+        public ActionResult Editar(IntegracaoInfoModel i)
         {
-            if (organismo.Id <= 0) return HttpNotFound();
+            if (i.Id <= 0) return HttpNotFound();
 
-            var resultado = _servico.Atualizar(organismo);
+          
+
+            var dominio = new IntegracaoInfos
+            {
+
+                Id = i.Id,
+                DiretorioInspecao = i.DiretorioInspecao,
+                HostURI = i.HostURI,
+                Porta = i.Porta,
+                TipoIntegracao = i.TipoIntegracao,
+                Usuario = i.Usuario,
+                Senha = i.Senha,
+
+            };
+            var c = _servico.ObetrPorId(i.OrganismoId);
+            dominio.DiretorioInspecaoLocal = c.CodigoOIA.Trim();
+            dominio.OrganismoId = c.Id;
+
+            var resultado = _integracaoServico.Atualizar(dominio);
+
             if (resultado)
-                return RedirectToAction("Index");
+            {
+                var organismos = _servico.BuscarTodos().Where(s => s.IntegracaoInfo == null).OrderBy(s => s.Id).ToList();
+                organismos.Insert(0, new Organismo()
+                {
+                    Id = dominio.OrganismoId,
+                    CodigoOIA = dominio.DiretorioInspecaoLocal
+                });
+                ViewBag.Organismos = new SelectList(organismos, "Id", "CodigoOIA");
+                i.Mensagem = new MensagemModel { ExisteExcecao = resultado, Mensagem = "A integração foi alterada com sucesso." };
+                return View(i);
+            }
 
-            return View(organismo);
+            i.Mensagem = new MensagemModel { ExisteExcecao = resultado, Mensagem = "Houve um erro durante a alteração." };
+            return View(i);
+
+
         }
 
-
-
-        public ActionResult Excluir()
-        {
-            return View();
-        }
-        [HttpPut]
         public ActionResult Excluir(int id)
         {
+            var user = HttpContext.Session["Usuario"];
+            if (user == null)
+                return RedirectToAction("Login", "Login");
+
+            var x = _integracaoServico.ObterPorId(id);
+            var o = new IntegracaoInfos
+            {
+                Id = x.Id,
+                DiretorioInspecaoLocal = x.DiretorioInspecaoLocal,
+                HostURI = x.HostURI
+            };
+
+            return View(o);
+        }
+
+        [HttpPost]
+        public ActionResult Excluir(IntegracaoInfos model)
+        {
+            var x = _integracaoServico.Desativar(model.Id);
             return View();
         }
 
@@ -110,29 +188,9 @@ namespace INMETRO.CIPP.WEB.Controllers
             return View();
         }
 
-        private List<Tipo> TipoLista()
-        {
-            var item = new List<Tipo>();
+       
 
-            item.Add(new Tipo { Id = 1, TipoIntegracao = "FTP" });
-
-            item.Add(new Tipo { Id = 2, TipoIntegracao = "SFTP" });
-
-            return item;
-
-        }
-
-
-        public class Tipo
-        {
-            public Tipo()
-            {
-
-            }
-
-            public int Id { get; set; }
-            public string TipoIntegracao { get; set; }
-        }
+       
 
     }
 }

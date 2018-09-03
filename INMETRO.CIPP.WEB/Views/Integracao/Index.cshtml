@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Integracões</h2>
+<h2>Organismo Integrações</h2>
 
 <p>
     @Html.ActionLink("Adicionar Integracão", "Adicionar")
@@ -13,9 +13,6 @@
     <tr>
         <th>
             @Html.DisplayName("CÓDIGO-OIA-PP")
-        </th>
-        <th>
-            @Html.DisplayName("TIPO")
         </th>
         <th>
             @Html.DisplayName("ENDEREÇO(Host)")
@@ -33,32 +30,74 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.DiretorioInspecaoLocal)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TipoIntegracao)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HostURI)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Porta)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Usuario)
-        </td>
-        <td>
-            @Html.Raw("\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022")
-        </td>
-        <td>
-            @Html.ActionLink("Editar", "Editar", new { id = item.Id }) |
-            @Html.ActionLink("Detalhar", "Details", new { id = item.Id }) |
-            @Html.ActionLink("Remover", "Delete", new { id = item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiretorioInspecaoLocal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HostURI)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Porta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Usuario)
+            </td>
+            <td>
+                @Html.Raw("\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022")
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Editar", new { id = item.Id }) |
+                @Html.ActionLink("Remover", "Excluir", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>
+
+<script>
+    function onlyNos(e) {
+
+        var charCode;
+        if (window.event) {
+            charCode = window.event.keyCode;
+        } else if (e) {
+            charCode = e.which;
+        } else { return true; }
+
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+
+            return false;
+        }
+        return true;
+    }
+
+
+    $("#Cancelar").click(function () {
+        $("#idCodigoOia").val("");
+        $("#idCipp").val("");
+        $('.field-validation-error').text("");
+        return false;
+    });
+
+    function CarregandoBtn() {
+
+        $("#btnDownload").hide();
+        $("#btn_carregando").show();
+
+    };
+
+    $("document").ready(function () {
+        $("#btn_carregando").hide();
+
+    });
+
+    $("#btnDownload").click(function () {
+        $("#resultado").hide();
+    });
+
+
+
+
+</script>

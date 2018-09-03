@@ -156,6 +156,14 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                 try
                 {
                     var resultado = ctx.Organismos.FirstOrDefault(s => s.Id == id);
+                    var info = ctx.IntegracaoInfo.FirstOrDefault(s => s.OrganismoId == id);
+
+                    if (info != null)
+                    {
+                        ctx.IntegracaoInfo.Attach(info);
+                        ctx.IntegracaoInfo.Remove(info);
+                        ctx.SaveChanges();
+                    }
                     ctx.Organismos.Attach(resultado);
                     ctx.Organismos.Remove(resultado);
                     var retorno = ctx.SaveChanges();

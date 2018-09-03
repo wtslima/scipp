@@ -11,7 +11,7 @@
 @using (Html.BeginForm())
 {
     <div class="col-md-3 col-md-offset-1 boxLogin">
-        <form action="@Url.Action("Login", "Login")" class="form" method="post" novalidate="novalidate">
+      <form action="@Url.Action("Login", "Login")" class="form" method="post" novalidate="novalidate">
             <div id="divDetalhe">
                 <div class="form-group">
                     @Html.Label("Login*")
@@ -31,7 +31,7 @@
                 <input type="submit"  class="btn btn-primary" value="Entrar" title="Entrar" id="Entrar">
                @* <a id="EsqueciMinhaSenha"><span class="glyphicon glyphicon-lock"></span>&nbsp;Esqueci minha senha</a>*@
             </div>
-        </form>
+       </form>
     </div>
 }
     

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Runtime.InteropServices;
 using INMETRO.CIPP.DOMINIO.Interfaces.Repositorios;
 using INMETRO.CIPP.DOMINIO.Modelos;
 using INMETRO.CIPP.INFRA.ENTITYFRAMEWORK;
@@ -18,8 +20,8 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                 {
                     var consulta = contexto.IntegracaoInfo.FirstOrDefault(x => x.Id == id);
 
-                    return consulta ;
- 
+                    return consulta;
+
                 }
                 catch (Exception e)
                 {
@@ -35,22 +37,22 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
             {
                 try
                 {
-                    
-                    var consulta =  contexto.IntegracaoInfo.OrderBy(s=> s.DiretorioInspecaoLocal).ToList();
+
+                    var consulta = contexto.IntegracaoInfo.OrderBy(s => s.DiretorioInspecaoLocal).ToList();
 
                     return consulta.Select(item => new IntegracaoInfos
                     {
-                                                    Id = item.Id,
-                            OrganismoId = item.OrganismoId,
-                            DiretorioInspecao = item.DiretorioInspecao,
-                            DiretorioInspecaoLocal = item.DiretorioInspecaoLocal,
-                            HostURI = item.HostURI,
-                            Usuario = item.Usuario,
-                            Senha = item.Senha,
-                            TipoIntegracao = item.TipoIntegracao,
-                            PrivateKey = item.PrivateKey,
-                            Porta = item.Porta
-                        
+                        Id = item.Id,
+                        OrganismoId = item.OrganismoId,
+                        DiretorioInspecao = item.DiretorioInspecao,
+                        DiretorioInspecaoLocal = item.DiretorioInspecaoLocal,
+                        HostURI = item.HostURI,
+                        Usuario = item.Usuario,
+                        Senha = item.Senha,
+                        TipoIntegracao = item.TipoIntegracao,
+                        PrivateKey = item.PrivateKey,
+                        Porta = item.Porta
+
                     }).ToList();
 
                 }
@@ -60,28 +62,32 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                 }
             }
         }
-        
+
 
         public bool Atualizar(IntegracaoInfos obj)
         {
-            using (var ctx = new CippContexto())
+            try
             {
-                try
+
+                using (var context = new CippContexto())
                 {
-                     ctx.Entry(obj).State = EntityState.Modified;
-                     var resultado = ctx.SaveChanges();
+                    context.Entry(obj).State = obj.Id == 0 ? EntityState.Added : EntityState.Modified;
+
+                    var resultado = context.SaveChanges();
 
                     if (resultado <= 0) return false;
 
                     return true;
-
                 }
-                catch 
-                {
 
-                    throw;
-                }
             }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+
+
         }
 
         public bool Adicionar(IntegracaoInfos obj)
@@ -98,7 +104,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                     return true;
 
                 }
-                catch 
+                catch
                 {
 
                     throw;
@@ -108,13 +114,13 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
 
         public bool Desativar(int id)
         {
-            using(var ctx = new CippContexto())
+            using (var ctx = new CippContexto())
             {
                 try
                 {
-                    var resultado = ctx.Organismos.FirstOrDefault(s => s.Id == id);
-                    ctx.Organismos.Attach(resultado);
-                    ctx.Organismos.Remove(resultado);
+                    var resultado = ctx.IntegracaoInfo.FirstOrDefault(s => s.Id == id);
+                    ctx.IntegracaoInfo.Attach(resultado);
+                    ctx.IntegracaoInfo.Remove(resultado);
                     var retorno = ctx.SaveChanges();
 
                     if (retorno <= 0) return false;
@@ -136,7 +142,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
             {
                 try
                 {
-                    var consulta =  contexto.Organismos.Where(s => s.EhAtivo).OrderBy(s => s.Nome).ToList();
+                    var consulta = contexto.Organismos.Where(s => s.EhAtivo).OrderBy(s => s.Nome).ToList();
 
                     return consulta.Select(item => new Organismo
                     {
@@ -159,9 +165,9 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                             PrivateKey = item.IntegracaoInfo.PrivateKey,
                             Porta = item.IntegracaoInfo.Porta
                         }
-                   
 
-                }).ToList();
+
+                    }).ToList();
 
                 }
                 catch (Exception e)

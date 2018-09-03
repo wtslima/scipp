@@ -1,4 +1,4 @@
-﻿@model INMETRO.CIPP.DOMINIO.Modelos.IntegracaoInfos
+﻿@model INMETRO.CIPP.WEB.Models.IntegracaoInfoModel
 
 @{
     ViewBag.Title = "Editar";
@@ -11,14 +11,16 @@
         @Html.AntiForgeryToken()
 
         <div class="form-horizontal">
-           
+
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.DiretorioInspecao)
+            @Html.HiddenFor(model => model.DiretorioInspecaoLocal)
             @Html.HiddenFor(model => model.OrganismoId)
 
             <div class="form-group row">
                 <div class="col-md-2">
                     @Html.Label("CÓDIGO OIA-PP")
-                    @Html.DropDownList("OrganismoId", (SelectList)ViewBag.Organismos, new { @class = "form-control" })
+                    @Html.DropDownList("OrganismoId", (SelectList)ViewBag.Organismos, new { @class = "form-control", @disabled = "disabled" })
                 </div>
 
                 <div class="col-md-5" style="padding-top:25px" ;>
@@ -55,16 +57,16 @@
                     @Html.ValidationMessageFor(model => model.Usuario, "", new { @class = "text-danger" })
                 </div>
 
-                <div class="col-md-2">
+                <div class="col-md-3">
                     @Html.Label("SENHA")
-                    @Html.PasswordFor(model => model.Senha, new { @class = "form-control" })
+                    @Html.TextBoxFor(model => model.Senha, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.Senha, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
                 <div class=" col-md-10">
-                    <input type="submit" value="Adicionar" class="btn btn-primary" />
+                    <input type="submit" value="Editar" class="btn btn-primary" />
                 </div>
             </div>
         </div>
@@ -77,44 +79,47 @@
 </div>
 
 <script>
-        function onlyNos(e) {
+    function onlyNos(e) {
 
-            var charCode;
-            if (window.event) {
-                charCode = window.event.keyCode;
-            } else if (e) {
-                charCode = e.which;
-            } else { return true; }
+        var charCode;
+        if (window.event) {
+            charCode = window.event.keyCode;
+        } else if (e) {
+            charCode = e.which;
+        } else { return true; }
 
-            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
 
-                return false;
-            }
-            return true;
-        }
-
-
-        $("#Cancelar").click(function () {
-            $("#idCodigoOia").val("");
-            $("#idCipp").val("");
-            $('.field-validation-error').text("");
             return false;
-        });
+        }
+        return true;
+    }
 
-        function CarregandoBtn() {
 
-            $("#btnDownload").hide();
-            $("#btn_carregando").show();
+    $("#Cancelar").click(function () {
+        $("#idCodigoOia").val("");
+        $("#idCipp").val("");
+        $('.field-validation-error').text("");
+        return false;
+    });
 
-        };
+    function CarregandoBtn() {
 
-        $("document").ready(function () {
-            $("#btn_carregando").hide();
-        });
+        $("#btnDownload").hide();
+        $("#btn_carregando").show();
 
-        $("#btnDownload").click(function () {
-            $("#resultado").hide();
-        });
+    };
+
+    $("document").ready(function () {
+        $("#btn_carregando").hide();
+       
+    });
+
+    $("#btnDownload").click(function () {
+        $("#resultado").hide();
+    });
+
+  
 
 
 </script>
