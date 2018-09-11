@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace INMETRO.CIPP.WEB.Models
@@ -7,14 +9,13 @@ namespace INMETRO.CIPP.WEB.Models
     {
         [Required(ErrorMessage = "O campo Usuário é obrigatório")]
         [Display(Name = "Usuário")]
-        public string Usuario { get; private set; }
+        public string Usuario { get;  set; }
 
         [Required(ErrorMessage = "O campo Senha é obrigatório")]
         [Display(Name = "Senha")]
         [DataType(DataType.Password)]
-        public string Senha { get; private set; }
+        public string Senha { get;  set; }
 
-       
 
     }
   

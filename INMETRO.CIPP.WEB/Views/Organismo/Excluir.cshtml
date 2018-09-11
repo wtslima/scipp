@@ -4,10 +4,9 @@
     ViewBag.Title = "Excluir";
 }
 
+<div id="idExcluirTela" class="col-md-10 col-md-offset-1">
 
-<div class="col-md-10 col-md-offset-1">
-
-    <h2>Excluir</h2>
+    <h2  class="tituloSistema">Excluir</h2>
 
     <h3>Você tem certeza que deseja excluir este Organismo?</h3>
 
@@ -16,7 +15,7 @@
             @Html.DisplayName("Nome")
         </dt>
 
-        <dd>
+        <dd id="idNome">
             @Html.DisplayFor(model => model.Nome)
         </dd>
 
@@ -48,3 +47,13 @@
         </div>
     }
 </div>
+
+<script type="text/javascript">
+
+    //var id = $("#idNome").val();
+    //if (id === "") {
+    //    alert("OI");
+    //    $("#idExcluirTela").hide();
+    //}
+
+</script>

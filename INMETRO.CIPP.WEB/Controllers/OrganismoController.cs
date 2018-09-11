@@ -23,7 +23,6 @@ namespace INMETRO.CIPP.WEB.Controllers
             //var convertido = Conversao.Converter.ConverterParaModelo(organismos);
             return View(organismos);
         }
-
        
         public ActionResult Adicionar()
         {
@@ -38,8 +37,10 @@ namespace INMETRO.CIPP.WEB.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Adicionar(OrganismoModel organismo)
         {
-            if (organismo == null) return HttpNotFound();
-
+            if (!ModelState.IsValid) {
+                organismo.Mensagem = new MensagemModel { ExisteExcecao = false, Mensagem = "Um erro ocorreu ao gravar organismo." };
+            return View(organismo);
+            }
 
             var o = new Organismo
             {
@@ -63,15 +64,13 @@ namespace INMETRO.CIPP.WEB.Controllers
 
         }
 
-        public ActionResult Editar(int id)
+        public ActionResult Editar(Organismo model)
         {
             var user = HttpContext.Session["Usuario"];
             if (user == null)
                 return RedirectToAction("Login", "Login");
 
-            if (id <= 0) { return HttpNotFound(); }
-
-            var organismo = _servico.ObetrPorId(id);
+            var organismo = _servico.ObetrPorId(model.Id);
 
             var result = organismo.CodigoOIA.Substring(organismo.CodigoOIA.LastIndexOf('-') + 1);
             
@@ -94,10 +93,11 @@ namespace INMETRO.CIPP.WEB.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Editar(OrganismoModel organismo)
         {
-
-          
-
-            if (organismo.Id <= 0) return HttpNotFound();
+            if (!ModelState.IsValid)
+            {
+                organismo.Mensagem = new MensagemModel { ExisteExcecao = false, Mensagem = "Um erro ocorreu ao editar organismo." };
+                return View(organismo);
+            }
 
 
             var o = new Organismo
@@ -142,8 +142,14 @@ namespace INMETRO.CIPP.WEB.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Excluir(OrganismoModel model)
         {
-            var o = _servico.Excluir(model.Id);
+            var resultado = _servico.Excluir(model.Id);
 
+            if (resultado)
+            {
+                return RedirectToAction("Index");
+            }
+
+            model.Mensagem = new MensagemModel { ExisteExcecao = resultado, Mensagem = "Um erro ocorreu ao excluir organismo." };
             return View(model);
         }
 

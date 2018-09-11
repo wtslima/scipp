@@ -1,21 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using FluentValidator;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace INMETRO.CIPP.DOMINIO.Modelos
 {
     [Table("TB_ORGANISMO")]
-    public class Organismo
+    public class Organismo 
     {
         [Key]
         [Column("IDT_ORGANISMO")]
         public int Id { get; set; }
 
-        [Required]
+       
         [Column("NOM_ORGANISMO")]
         public string Nome { get; set; }
 
-        [Required]
+        
         [Column("CDA_CODIGO_OIA_PP")]
         public string CodigoOIA { get; set; }
 

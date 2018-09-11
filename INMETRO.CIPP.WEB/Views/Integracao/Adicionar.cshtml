@@ -1,96 +1,123 @@
-﻿@model INMETRO.CIPP.DOMINIO.Modelos.IntegracaoInfos
+﻿@model INMETRO.CIPP.WEB.Models.IntegracaoInfoModel
 
 @{
     ViewBag.Title = "Nova Integração";
 }
 
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+
+
+        @if (IsPost)
+        {
+            if (Model != null)
+            {
+                if (Model.Mensagem.ExisteExcecao)
+                {
+                    <div class="alert alert-success alert-dismissable">
+                        @Html.Partial("_AdicionarSucesso", Model)
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                }
+                if (!Model.Mensagem.ExisteExcecao)
+                {
+                    <div class="alert alert-warning alert-dismissable">
+                        @Html.Partial("_AdicionarError", Model)
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                }
+            }
+        }
+    </div>
+</div>
+
 
 <div class="col-md-10 col-md-offset-1">
-    <h2>Nova Integração</h2>
+    <h2  class="tituloSistema">Nova Integração</h2>
+    <br />
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
 
-        <div class="form-horizontal">
+    <div class="form-horizontal">
 
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            @*<div class="form-group">
-                    @Html.LabelFor(model => model.OrganismoId, "OrganismoId", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownList("OrganismoId", null, htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.OrganismoId, "", new { @class = "text-danger" })
-                    </div>
-                </div>*@
 
-            <div class="form-group row">
-                <div class="col-md-2">
-                    @Html.Label("CÓDIGO OIA-PP")
-                    @Html.DropDownList("OrganismoId", (SelectList)ViewBag.Organismos, new { @class = "form-control" })
-                </div>
-
-                <div class="col-md-5" style="padding-top:25px";>
-                    
-                    <div class="radio-inline">
-                        @Html.RadioButtonFor(model => model.TipoIntegracao,  1)
-                        @Html.Label("FTP")
-                    </div>
-                    <div class="radio-inline">
-                        @Html.RadioButtonFor(model => model.TipoIntegracao, 2, new { @checked = "checked" })
-                        @Html.Label("SFTP")
-                    </div>
-
-                </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.OrganismoId, "OrganismoId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("OrganismoId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.OrganismoId, "", new { @class = "text-danger" })
             </div>
-            <div class="form-group row">
-                <div class="col-md-4">
-                    @Html.Label("ENDEREÇO(host)")
-                    @Html.EditorFor(model => model.HostURI, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.HostURI, "", new { @class = "text-danger" })
-                </div>
+        </div>*@
 
-                <div class="col-md-2">
-                    @Html.Label("PORTA")
-                    @Html.EditorFor(model => model.Porta, new { htmlAttributes = new { @class = "form-control", onkeypress = "return onlyNos(event,this);" } })
-                    @Html.ValidationMessageFor(model => model.Porta, "", new { @class = "text-danger" })
-                </div>
+        <div class="form-group row">
+            <div class="col-md-2">
+                @Html.Label("CÓDIGO OIA-PP")
+                @Html.DropDownList("OrganismoId", (SelectList)ViewBag.Organismos, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.OrganismoId, "", new { @class = "text-danger" })
             </div>
 
-            <div class="form-group row">
-                <div class="col-md-3">
-                    @Html.Label("USUÁRIO")
-                    @Html.EditorFor(model => model.Usuario, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Usuario, "", new { @class = "text-danger" })
+            <div class="col-md-5">
+                <div>
+                    @Html.Label("TIPO DE INTEGRAÇÃO")
+                </div>
+                <div class="radio-inline">
+                    @Html.RadioButtonFor(model => model.TipoIntegracao, 1)
+                    @Html.Label("FTP")
+                </div>
+                <div class="radio-inline">
+                    @Html.RadioButtonFor(model => model.TipoIntegracao, 2, new { @checked = "checked" })
+                    @Html.Label("SFTP")
                 </div>
 
-
-                <div class="col-md-3">
-                    @Html.Label("SENHA")
-                    @Html.PasswordFor(model => model.Senha, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Senha, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            @*<div class="form-group">
-                    @Html.LabelFor(model => model.PrivateKey, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.PrivateKey, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.PrivateKey, "", new { @class = "text-danger" })
-                    </div>
-                </div>*@
-
-            <div class="form-group">
-                <div class="col-md-10">
-                    <input type="submit" value="Adicionar" class="btn btn-primary" />
-                </div>
             </div>
         </div>
-    }
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.Label("ENDEREÇO(host)")
+                @Html.EditorFor(model => model.HostURI, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.HostURI, "", new { @class = "text-danger" })
+            </div>
 
-    <div>
-        @Html.ActionLink("Voltar", "Index")
+            <div class="col-md-2">
+                @Html.Label("PORTA")
+                @Html.EditorFor(model => model.Porta, new { htmlAttributes = new { @class = "form-control", onkeypress = "return onlyNos(event,this);" } })
+                @Html.ValidationMessageFor(model => model.Porta, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-md-4">
+                @Html.Label("USUÁRIO")
+                @Html.EditorFor(model => model.Usuario, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Usuario, "", new { @class = "text-danger" })
+            </div>
+
+
+            <div class="col-md-2">
+                @Html.Label("SENHA")
+                @Html.PasswordFor(model => model.Senha, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Senha, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class=" col-sm-1">
+                <input type="submit" value="Criar" class="btn btn-primary" />
+            </div>
+
+            <div style="margin-left:2px">
+                <input class="btn btn-default" type='button' value='Voltar' onclick='window.location = "@Url.Action("Index","Integracao")";' />
+            </div>
+        </div>
     </div>
-
+    }
+    
 </div>
 
 

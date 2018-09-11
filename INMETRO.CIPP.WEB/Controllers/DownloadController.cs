@@ -39,6 +39,7 @@ namespace INMETRO.CIPP.WEB.Controllers
 
                 if (!string.IsNullOrEmpty(usuario))
                 {
+
                     var resultado = _servico.DownloadInspecaoPorUsuario(model.DownloadModel.CodigoOia, model.DownloadModel.CodigoCipp, usuario);
 
                     var resultModel = Conversao.Converter.ConverterParaModelo(resultado);
@@ -55,27 +56,7 @@ namespace INMETRO.CIPP.WEB.Controllers
             }
         }
 
-        //[HttpPost]
-        //public ActionResult DownloadAutomatico()
-        //{
-        //    try
-        //    {
-
-        //            _servico.DownloadInspecoesPorRotinaAutomatica();
-
-        //            var resultado = _servico.DownloadInspecoesPorRotinaAutomatica();
-                   
-        //            return View();
-               
-               
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        var exception = new ExceptionSystem();
-        //        if (e.Message != null) exception.Mensagem = e.Message;
-        //        return PartialView("_Error", exception);
-        //    }
-        //}
+       
 
     }
 }

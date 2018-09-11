@@ -4,23 +4,25 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Organismos</h2>
-
+<h2  class="tituloSistema">Organismos</h2>
+<br />
 <p>
-    @Html.ActionLink("Adicionar Organismo", "Adicionar")
+    @Html.ActionLink("Adicionar Organismo", "Adicionar")<span style="margin-left:4px">|</span>
+    @Html.ActionLink("Adicionar Integração", "Adicionar", "Integracao")
 </p>
+
 <table class="table">
     <tr>
-        <th>
-           NOME
+        <th style="text-align: center">
+           NOME DO ORGANISMO
         </th>
-        <th>
+        <th style="text-align: center">
            CÓDIGO-OIA-PP
         </th>
-        <th>
+        <th style="text-align: center">
            ATIVO
         </th>
-        <th></th>
+        <th style="text-align: center">AÇÕES</th>
     </tr>
 
 @foreach (var item in Model) {
@@ -28,15 +30,20 @@
         <td>
             @Html.DisplayFor(modelItem => item.Nome)
         </td>
-        <td>
+        <td align="center">
             @Html.DisplayFor(modelItem => item.CodigoOIA)
         </td>
-        <td>
+        <td align="center">
             @Html.DisplayFor(modelItem => item.EhAtivo)
         </td>
-        <td>
-            @Html.ActionLink("Editar", "Editar", new { id=item.Id }) |
-            @Html.ActionLink("Remover", "Excluir", new { id=item.Id })
+        <td align="center">
+            <a href="@Url.Action("Editar", "Organismo", new { id = item.Id })" title="Editar">
+                <img src="~/img/btn_edit.png" />
+            </a> |
+            <a href="@Url.Action("Excluir", "Organismo", new { id = item.Id })" title="Remover">
+                <img src="~/img/btn_delete.png" />
+            </a>
+
         </td>
     </tr>
 }

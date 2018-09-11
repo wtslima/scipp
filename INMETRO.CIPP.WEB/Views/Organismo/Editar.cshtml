@@ -38,62 +38,63 @@
 
 
 <div class="col-md-10 col-md-offset-1">
-<h2>Editar Organismo</h2><br />
+<h2  class="tituloSistema">Editar Organismo</h2><br />
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
-<div class="form-horizontal">
-    
-    
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.Id)
+                         <div class="form-horizontal">
 
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        <div class="col-md-7">
-            @* @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-5" })*@
-            <label>Nome do Organismo</label>
-            @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="col-md-3">
-            <label>Código-OIA-PP</label>
-            @Html.EditorFor(model => model.Codigo, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Codigo, "", new { @class = "text-danger" })
 
-        </div>
-        <div class="col-md-1">
-            <label>LI</label>
-            @Html.TextBoxFor(model => model.LI, new {@class = "form-control", maxlength = "2", onkeypress = "return onlyNos(event,this);", id = "idLI"})
-            @Html.ValidationMessageFor(model => model.LI, "", new {@class = "text-danger"})
-        </div>
+                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                             @Html.HiddenFor(model => model.Id)
 
-        <div class="col-md-5">
-            @Html.Label("Ativo")
+                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                             <div class="form-group">
+                                 <div class="col-md-7">
+                                     @* @Html.LabelFor(model => model.Nome, htmlAttributes: new { @class = "control-label col-md-5" })*@
+                                     <label>Nome do Organismo</label>
+                                     @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                                     @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                                 </div>
+                             </div>
+                             <div class="form-group row">
+                                 <div class="col-md-3">
+                                     <label>Código-OIA-PP</label>
+                                     @Html.EditorFor(model => model.Codigo, new { htmlAttributes = new { @class = "form-control", maxlength = "4", onkeypress = "return onlyNos(event,this);" } })
+                                     @Html.ValidationMessageFor(model => model.Codigo, "", new { @class = "text-danger" })<br />
+                                     @Html.ValidationMessageFor(model => model.LI, "", new { @class = "text-danger" })
 
-        </div>
-        <div class="col-md-5">
-            @Html.CheckBoxFor(model => model.Ativo, new { @checked = "checked" })
-            @Html.ValidationMessageFor(model => model.Ativo, "", new { @class = "text-danger" })
-        </div>
-    </div>
+                                 </div>
+                                 <div class="col-md-1">
+                                     <label>LI</label>
+                                     @Html.TextBoxFor(model => model.LI, new { @class = "form-control", maxlength = "2", onkeypress = "return onlyNos(event,this);", id = "idLI" })
+                                 </div>
 
-    <div class="form-group">
-        <div class="col-md-10">
-            <input type="submit" value="Editar" class="btn btn-primary" />
-        </div>
-    </div>
-</div>
+                                 <div class="col-md-5">
+                                     @Html.Label("Ativo")
+
+                                 </div>
+                                 <div class="col-md-5">
+                                     @Html.CheckBoxFor(model => model.Ativo, new { @checked = "checked" })
+                                     @Html.ValidationMessageFor(model => model.Ativo, "", new { @class = "text-danger" })
+                                 </div>
+                             </div>
+
+                             <div class="form-group">
+                                 <div class=" col-sm-1">
+                                     <input type="submit" value="Editar" class="btn btn-primary" />
+                                 </div>
+
+                                 <div style="margin-left:2px">
+                                     <input class="btn btn-default" type='button' value='Voltar' onclick='window.location = "@Url.Action("Index","Organismo")";' />
+                                 </div>
+                             </div>
+                         </div>
 }
 
-<div>
-    @Html.ActionLink("Voltar", "Index")
-</div>
 </div>
 
 @*@section Scripts {

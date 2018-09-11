@@ -141,6 +141,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="img\btn_delete.png" />
+    <Content Include="img\btn_edit.png" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

@@ -31,8 +31,8 @@ namespace INMETRO.CIPP.WEB.Controllers
         {
 
             var usuarioCorrente = "";
-            //if (ModelState.IsValid)
-            //{
+            if (ModelState.IsValid)
+            {
 
                 var autenticacao = new AutenticacaoServicoClient("BasicHttpBinding_IAutenticacaoServico");
                 var token = ConfigurationManager.AppSettings["accessToken"];
@@ -40,25 +40,25 @@ namespace INMETRO.CIPP.WEB.Controllers
                 try
                 {
 
-                    //var usuario = autenticacao.Autenticar(token,
-                    //    new Login { UserName = logon.Usuario, Senha = logon.Senha });
+                var usuario = autenticacao.Autenticar(token,
+                    new Login { UserName = logon.Usuario, Senha = logon.Senha });
 
-                    //if (usuario != null)
-                    //{
-                    //    CriarCookie(usuario.Nome.Substring(0, usuario.Nome.IndexOf(" ")),
-                    //        usuario.Perfis.Select(p => p.CodigoPerfil.Trim()).ToList());
-                    //    Session["userLogin"] = logon.Usuario;
-                    //    Session["Usuario"] = usuario.Nome;
+                if (usuario != null)
+                {
+                    CriarCookie(usuario.Nome.Substring(0, usuario.Nome.IndexOf(" ")),
+                        usuario.Perfis.Select(p => p.CodigoPerfil.Trim()).ToList());
+                    Session["userLogin"] = logon.Usuario;
+                    Session["Usuario"] = usuario.Nome;
 
 
-                    //    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/") &&
-                    //        !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
-                    //    {
-                    //        return RedirectToAction(returnUrl);
-                    //    }
-                    //}
+                    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/") &&
+                        !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                    {
+                        return RedirectToAction(returnUrl);
+                    }
+                }
 
-                    Session["Usuario"] = "Wellington";
+                //Session["Usuario"] = "Wellington";
                     usuarioCorrente = Session["Usuario"].ToString();
                     return RedirectToAction("Download", "Download", usuarioCorrente);
 
@@ -69,7 +69,7 @@ namespace INMETRO.CIPP.WEB.Controllers
                     if (ex.Message != null) exception.Mensagem = ex.Message;
                     return PartialView("_Error", exception);
                 }
-            //}
+            }
 
             return View("Login", usuarioCorrente);
         }

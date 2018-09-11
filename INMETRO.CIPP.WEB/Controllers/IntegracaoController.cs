@@ -52,29 +52,50 @@ namespace INMETRO.CIPP.WEB.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Adicionar(IntegracaoInfos model)
+        [ValidateAntiForgeryToken]
+        public ActionResult Adicionar(IntegracaoInfoModel model)
         {
             //todo: corrigir retorno do codigo oia 
-            var c = _servico.ObetrPorId(model.OrganismoId);
-            model.DiretorioInspecaoLocal = c.CodigoOIA.Trim();
-            model.DiretorioInspecao = "INSPECOES";
 
-
-            var resultado = _integracaoServico.Adicionar(model);
-
-            if (resultado)
+            if(!ModelState.IsValid)
             {
-                var organismos = _servico.BuscarTodos().Where(s => s.IntegracaoInfo == null).OrderBy(s => s.Id).ToList();
-                organismos.Insert(0, new Organismo()
-                {
-                    Id = model.OrganismoId,
-                    CodigoOIA = model.DiretorioInspecaoLocal
-                });
-                ViewBag.Organismos = new SelectList(organismos, "Id", "CodigoOIA");
-                return View(model);
+                model.Mensagem = new MensagemModel { ExisteExcecao = false, Mensagem = "Um erro ocorreu ao gravar a Integração." };
+                return RedirectToAction("Adicionar");
             }
+           
+                var c = _servico.ObetrPorId(model.OrganismoId);
 
-            return View(model);
+                var dominio = new IntegracaoInfos
+                {
+                    DiretorioInspecao = "INSPECOES",
+                    DiretorioInspecaoLocal = c.CodigoOIA.Trim(),
+                    HostURI = model.HostURI,
+                    Senha = model.Senha,
+                    Porta = model.Porta,
+                    OrganismoId = model.OrganismoId,
+                    TipoIntegracao = model.TipoIntegracao,
+                    Usuario = model.Usuario
+                };
+
+
+                var resultado = _integracaoServico.Adicionar(dominio);
+
+                if (resultado)
+                {
+                    var organismos = _servico.BuscarTodos().Where(s => s.IntegracaoInfo == null).OrderBy(s => s.Id).ToList();
+                    organismos.Insert(0, new Organismo()
+                    {
+                        Id = model.OrganismoId,
+                        CodigoOIA = model.DiretorioInspecaoLocal
+                    });
+                    ViewBag.Organismos = new SelectList(organismos, "Id", "CodigoOIA");
+                    model.Mensagem = new MensagemModel { ExisteExcecao = resultado, Mensagem = "Integração gravada com sucesso." };
+                    return View(model);
+                }
+                model.Mensagem = new MensagemModel { ExisteExcecao = resultado, Mensagem = "Um erro ocorreu ao gravar a Intergração." };
+                return View(model);
+           
+            
         }
 
         public ActionResult Editar(int id)

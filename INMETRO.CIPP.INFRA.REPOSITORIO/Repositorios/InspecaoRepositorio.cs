@@ -210,7 +210,7 @@ namespace INMETRO.CIPP.INFRA.REPOSITORIO.Repositorios
                         {
                             Id = (int) result["IDT_INSPECAO"],
                             CodigoCipp = result["CDN_CIPP"].ToString(),
-                            CodigoOIA = result["CDA_CODIGO_OIA_PP"].ToString(),
+                            CodigoOIA = result["CDA_CODIGO_OIA"].ToString(),
                             NumeroEquipamento =  result["NUM_EQUIPAMENTO"].ToString(),
                             PlacaLicenca = result["DES_PLACA"].ToString(),
                             DataInspecao = Convert.ToDateTime(result["DAT_INSPECAO"])

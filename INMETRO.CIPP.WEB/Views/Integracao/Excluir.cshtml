@@ -3,102 +3,47 @@
 @{
     ViewBag.Title = "Excluir";
 }
+<div class="col-md-10 col-md-offset-1">
+    <h2  class="tituloSistema">Excluir</h2>
 
-<h2>Excluir</h2>
+    <h3>Você tem certeza que deseja remover esta integração?</h3>
+    <br />
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>IntegracaoInfos</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Organismo.Nome)
-        </dt>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.Label("CÓDIGO-OIA-PP:")
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Organismo.Nome)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.DiretorioInspecaoLocal)
+            </dd>
+            <dt>
+                @Html.DisplayName("ENDEREÇO (host):")
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.HostURI)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Id)
-        </dd>
+        </dl>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.DiretorioInspecao)
-        </dt>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <div class="col-md-1">
+                    <div class="form-actions no-color">
+                        <input type="submit" value="Excluir" class="btn btn-primary" />
 
-        <dd>
-            @Html.DisplayFor(model => model.DiretorioInspecao)
-        </dd>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input class="btn btn-default" type='button' value='Voltar' onclick='window.location = "@Url.Action("Index", "Organismo")";' />
+                </div>
+            </div>
+        }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TipoIntegracao)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TipoIntegracao)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DiretorioInspecaoLocal)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DiretorioInspecaoLocal)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.HostURI)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.HostURI)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Porta)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Porta)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Usuario)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Usuario)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Senha)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Senha)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PrivateKey)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PrivateKey)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
-    }
+    
 </div>

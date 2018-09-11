@@ -4,52 +4,54 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Organismo Integrações</h2>
-
+<h2  class="tituloSistema">Integrações</h2>
+ <br />
 <p>
-    @Html.ActionLink("Adicionar Integracão", "Adicionar")
+    @Html.ActionLink("Adicionar Integração", "Adicionar")
 </p>
 <table class="table">
     <tr>
-        <th>
+        <th style="text-align: center">
             @Html.DisplayName("CÓDIGO-OIA-PP")
         </th>
-        <th>
+        <th style="text-align: center">
             @Html.DisplayName("ENDEREÇO(Host)")
         </th>
-        <th>
+        <th style="text-align: center">
             @Html.DisplayName("PORTA")
         </th>
-        <th>
+        <th style="text-align: center">
             @Html.DisplayName("USUÁRIO")
         </th>
-        <th>
+        @*<th style="text-align: center">
             @Html.DisplayName("SENHA")
-        </th>
+        </th>*@
     
-        <th></th>
+        <th style="text-align: center">AÇÕES</th>
     </tr>
 
     @foreach (var item in Model) {
         <tr>
-            <td>
+            <td align="center">
                 @Html.DisplayFor(modelItem => item.DiretorioInspecaoLocal)
             </td>
-            <td>
+            <td >
                 @Html.DisplayFor(modelItem => item.HostURI)
             </td>
-            <td>
+            <td align="center">
                 @Html.DisplayFor(modelItem => item.Porta)
             </td>
-            <td>
+            <td >
                 @Html.DisplayFor(modelItem => item.Usuario)
             </td>
-            <td>
-                @Html.Raw("\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022")
-            </td>
-            <td>
-                @Html.ActionLink("Editar", "Editar", new { id = item.Id }) |
-                @Html.ActionLink("Remover", "Excluir", new { id = item.Id })
+            <td align="center">
+                <a href="@Url.Action("Editar", "Integracao", new { id = item.Id })"title="Editar">
+                    <img src="~/img/btn_edit.png" />
+                </a> |
+                <a href="@Url.Action("Excluir", "Integracao", new { id = item.Id })" title="Remover">
+                    <img src="~/img/btn_delete.png" />
+                </a>
+
             </td>
         </tr>
     }
