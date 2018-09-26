@@ -39,7 +39,6 @@ namespace INMETRO.CIPP.WEB.Controllers
 
                 if (!string.IsNullOrEmpty(usuario))
                 {
-
                     var resultado = _servico.DownloadInspecaoPorUsuario(model.DownloadModel.CodigoOia, model.DownloadModel.CodigoCipp, usuario);
 
                     var resultModel = Conversao.Converter.ConverterParaModelo(resultado);
